@@ -1,0 +1,45 @@
+{
+	"name": "battleship",
+	"version": "1.0.0",
+	"description": "Battleship project made with TS as part of The Odin Project curriculum",
+	"main": "index.js",
+	"source": "src/index.html",
+	"browserslist": "> 0.5%, last 2 versions, not dead",
+	"scripts": {
+		"clean": "rm dist/bundle.js",
+		"start": "parcel",
+		"build-prod": "parcel build src/index.html",
+		"test": "jest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Athma-Vasi/Battleship.git"
+	},
+	"keywords": [
+		"battleship",
+		"the",
+		"odin",
+		"project",
+		"TS"
+	],
+	"author": "Athma Vasi",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Athma-Vasi/Battleship/issues"
+	},
+	"homepage": "https://github.com/Athma-Vasi/Battleship#readme",
+	"devDependencies": {
+		"@types/jest": "^28.1.1",
+		"@typescript-eslint/eslint-plugin": "^5.27.1",
+		"@typescript-eslint/parser": "^5.27.1",
+		"eslint": "^8.17.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-jsx-a11y": "^6.5.1",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-simple-import-sort": "^7.0.0",
+		"jest": "^28.1.0",
+		"parcel": "^2.6.0",
+		"ts-jest": "^28.0.4",
+		"typescript": "^4.7.3"
+	}
+}
