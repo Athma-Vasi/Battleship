@@ -89,17 +89,21 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
 	}
 
-	//update carrier object attributes
-	carrier[0].head = carrierCoords[0]
-	carrier[0].body1 = carrierCoords[1]
-	carrier[0].body2 = carrierCoords[2]
-	carrier[0].tail = carrierCoords[3]
+	isSingleCarrier = JSON.parse(localStorage.getItem('isSingleCarrier') ?? '')
+
+	//to prevent updating after first click
+	if (isSingleCarrier) {
+		//update carrier object attributes
+		carrier[0].head = carrierCoords[0]
+		carrier[0].body1 = carrierCoords[1]
+		carrier[0].body2 = carrierCoords[2]
+		carrier[0].tail = carrierCoords[3]
+	}
 
 	//store carrier
 	localStorage.setItem('carrier', JSON.stringify(carrier))
 
 	//remove event listeners after single carrier has been placed
-	isSingleCarrier = JSON.parse(localStorage.getItem('isSingleCarrier') ?? '')
 	if (isSingleCarrier === true) {
 		playerGameCells.forEach((player) => {
 			player.removeEventListener('click', handleCarrierCellClick)

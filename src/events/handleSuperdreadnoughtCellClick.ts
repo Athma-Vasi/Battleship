@@ -86,21 +86,24 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))
 	}
 
-	//update carrier object attributes
-	superdreadnought[0].head = superdreadnoughtCoords[0]
-	superdreadnought[0].body1 = superdreadnoughtCoords[1]
-	superdreadnought[0].body2 = superdreadnoughtCoords[2]
-	superdreadnought[0].body3 = superdreadnoughtCoords[3]
-	superdreadnought[0].tail = superdreadnoughtCoords[4]
-
-	//store carrier
-	log(superdreadnought)
-	localStorage.setItem('superdreadnought', JSON.stringify(superdreadnought))
-
-	//remove event listeners after single carrier has been placed
 	isSingleSuperdreadnought = JSON.parse(
 		localStorage.getItem('isSingleSuperdreadnought') ?? ''
 	)
+
+	//to prevent updating after first click
+	if (isSingleSuperdreadnought) {
+		//update carrier object attributes
+		superdreadnought[0].head = superdreadnoughtCoords[0]
+		superdreadnought[0].body1 = superdreadnoughtCoords[1]
+		superdreadnought[0].body2 = superdreadnoughtCoords[2]
+		superdreadnought[0].body3 = superdreadnoughtCoords[3]
+		superdreadnought[0].tail = superdreadnoughtCoords[4]
+	}
+
+	//store carrier
+	localStorage.setItem('superdreadnought', JSON.stringify(superdreadnought))
+
+	//remove event listeners after single carrier has been placed
 	if (isSingleSuperdreadnought === true) {
 		playerGameCells.forEach((player) => {
 			player.removeEventListener('click', handleSuperdreadnoughtCellClick)
