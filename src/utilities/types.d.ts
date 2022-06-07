@@ -26,10 +26,10 @@ type Battleship = {
 type Destroyer = {
 	head: string
 	tail: string
-}[]
+}
 
 type Frigate = {
 	body: string
-}[]
+}
 
 export { Form, Div, NodesDiv, Superdreadnought, Carrier, Battleship, Destroyer, Frigate }

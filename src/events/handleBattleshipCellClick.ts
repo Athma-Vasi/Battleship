@@ -28,16 +28,7 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 
 	//initialize the ship object upon first call
 	if (!localStorage.getItem('battleship')) {
-		localStorage.setItem(
-			'battleship',
-			JSON.stringify([
-				{
-					head: '',
-					body: '',
-					tail: '',
-				},
-			])
-		)
+		localStorage.setItem('battleship', JSON.stringify([]))
 	}
 	const battleship: Battleship[] = JSON.parse(localStorage.getItem('battleship') ?? '')
 
@@ -67,16 +58,18 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, 'single')) {
 			//update battleship object attributes
-			battleship[0].head = battleshipCoords[0]
-			battleship[0].body = battleshipCoords[1]
-			battleship[0].tail = battleshipCoords[2]
+			battleship.push({
+				head: battleshipCoords[0],
+				body: battleshipCoords[1],
+				tail: battleshipCoords[2],
+			})
 		}
 
 		localStorage.setItem('isSingleBattleship', JSON.stringify(false))
 	} //for vertical placement
 	else if (currentAxis === 'Axis-Y' && isCorrectNumberOfShips(ship, amount)) {
 		//grid boundary detection
-		if (Number(currentX) > 7) {
+		if (Number(currentY) > 7) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
 			return null
 		}
@@ -93,12 +86,15 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 
 			battleshipCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
+
 		//to prevent updating after first click
-		if (isCorrectNumberOfShips(ship, amount)) {
+		if (isCorrectNumberOfShips(ship, 'single')) {
 			//update battleship object attributes
-			battleship[0].head = battleshipCoords[0]
-			battleship[0].body = battleshipCoords[1]
-			battleship[0].tail = battleshipCoords[2]
+			battleship.push({
+				head: battleshipCoords[0],
+				body: battleshipCoords[1],
+				tail: battleshipCoords[2],
+			})
 		}
 
 		localStorage.setItem('isSingleBattleship', JSON.stringify(false))

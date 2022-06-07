@@ -10,6 +10,8 @@ import {
 	pipe,
 } from '../utilities/elementCreators'
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
+import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
+import { accumulateShipCoords } from '../components/accumulateShipCoords'
 
 const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -30,28 +32,10 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 	//initialize the carrier object upon first call
 	if (!localStorage.getItem('carrier')) {
-		localStorage.setItem(
-			'carrier',
-			JSON.stringify([
-				{
-					head: '',
-					body1: '',
-					body2: '',
-					tail: '',
-				},
-			])
-		)
+		localStorage.setItem('carrier', JSON.stringify([]))
 	}
 
 	const carrier: Carrier[] = JSON.parse(localStorage.getItem('carrier') ?? '')
-
-	//initialize on first call for overlap detection
-	if (!localStorage.getItem('playerShipsCoords')) {
-		localStorage.setItem('playerShipsCoords', JSON.stringify([]))
-	}
-	let playerShipsCoords: string[] = JSON.parse(
-		localStorage.getItem('playerShipsCoords') ?? ''
-	)
 
 	const carrierCoords: string[] = []
 
@@ -63,15 +47,8 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			return null
 		}
 
-		for (let i = 0; i < 4; i++) {
-			//overlap detection
-			if (playerShipsCoords.includes(`${Number(currentX) + i},${currentY}`)) {
-				alert(
-					'A ship is already present at these coordinates. Please choose another area.'
-				)
-				return null
-			}
-		}
+		//overlap detection
+		if (doesShipPlacementOverlap(4, currentAxis, currentX, currentY)) return null
 
 		//to place carrier on grid
 		for (let i = 0; i < 4; i++) {
@@ -86,10 +63,12 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
 			//update carrier object attributes
-			carrier[0].head = carrierCoords[0]
-			carrier[0].body1 = carrierCoords[1]
-			carrier[0].body2 = carrierCoords[2]
-			carrier[0].tail = carrierCoords[3]
+			carrier.push({
+				head: carrierCoords[0],
+				body1: carrierCoords[1],
+				body2: carrierCoords[2],
+				tail: carrierCoords[3],
+			})
 		}
 
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
@@ -101,15 +80,8 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			return null
 		}
 
-		for (let i = 0; i < 4; i++) {
-			//overlap detection
-			if (playerShipsCoords.includes(`${Number(currentX) + i},${currentY}`)) {
-				alert(
-					'A ship is already present at these coordinates. Please choose another area.'
-				)
-				return null
-			}
-		}
+		//overlap detection
+		if (doesShipPlacementOverlap(4, currentAxis, currentX, currentY)) return null
 
 		//to place carrier on grid
 		for (let i = 0; i < 4; i++) {
@@ -124,10 +96,12 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
 			//update carrier object attributes
-			carrier[0].head = carrierCoords[0]
-			carrier[0].body1 = carrierCoords[1]
-			carrier[0].body2 = carrierCoords[2]
-			carrier[0].tail = carrierCoords[3]
+			carrier.push({
+				head: carrierCoords[0],
+				body1: carrierCoords[1],
+				body2: carrierCoords[2],
+				tail: carrierCoords[3],
+			})
 		}
 
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
@@ -136,9 +110,8 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	//store carrier
 	localStorage.setItem('carrier', JSON.stringify(carrier))
 
-	//add battleship coordinate to rest of ships
-	carrierCoords.forEach((coord) => playerShipsCoords.push(coord))
-	localStorage.setItem('playerShipsCoords', JSON.stringify(playerShipsCoords))
+	//store current ship coords to pool of all ship coords
+	accumulateShipCoords(carrierCoords)
 
 	//remove event listeners after single carrier has been placed
 	if (isCorrectNumberOfShips(ship, amount) === true) {
