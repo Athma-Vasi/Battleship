@@ -9,17 +9,15 @@ import {
 	addStyleToElem,
 	pipe,
 } from '../utilities/elementCreators'
+import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 
 const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
 
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	// for persistent state and enforce single carrier
-	if (!localStorage.getItem('isSingleCarrier')) {
-		localStorage.setItem('isSingleCarrier', JSON.stringify(true))
-	}
-	let isSingleCarrier = JSON.parse(localStorage.getItem('isSingleCarrier') ?? '')
+	const ship = 'carrier'
+	const amount = 'single'
 
 	//grab the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
@@ -58,7 +56,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const carrierCoords: string[] = []
 
 	//for horizontal placement
-	if (currentAxis === 'Axis-X' && isSingleCarrier) {
+	if (currentAxis === 'Axis-X' && isCorrectNumberOfShips(ship, amount)) {
 		//grid boundary detection
 		if (Number(currentX) > 6) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
@@ -86,7 +84,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		}
 
 		//to prevent updating after first click
-		if (isSingleCarrier) {
+		if (isCorrectNumberOfShips(ship, amount)) {
 			//update carrier object attributes
 			carrier[0].head = carrierCoords[0]
 			carrier[0].body1 = carrierCoords[1]
@@ -96,7 +94,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
 	} //for vertical placement
-	else if (currentAxis === 'Axis-Y' && isSingleCarrier) {
+	else if (currentAxis === 'Axis-Y' && isCorrectNumberOfShips(ship, amount)) {
 		//grid boundary detection
 		if (Number(currentY) > 6) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
@@ -124,7 +122,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		}
 
 		//to prevent updating after first click
-		if (isSingleCarrier) {
+		if (isCorrectNumberOfShips(ship, amount)) {
 			//update carrier object attributes
 			carrier[0].head = carrierCoords[0]
 			carrier[0].body1 = carrierCoords[1]
@@ -135,8 +133,6 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
 	}
 
-	isSingleCarrier = JSON.parse(localStorage.getItem('isSingleCarrier') ?? '')
-
 	//store carrier
 	localStorage.setItem('carrier', JSON.stringify(carrier))
 
@@ -145,7 +141,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	localStorage.setItem('playerShipsCoords', JSON.stringify(playerShipsCoords))
 
 	//remove event listeners after single carrier has been placed
-	if (isSingleCarrier === true) {
+	if (isCorrectNumberOfShips(ship, amount) === true) {
 		playerGameCells.forEach((player) => {
 			player.removeEventListener('click', handleCarrierCellClick)
 		})

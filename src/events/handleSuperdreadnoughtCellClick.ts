@@ -1,3 +1,4 @@
+import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 import {
 	addStyleToElem,
 	elemCreator,
@@ -13,13 +14,8 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	// for persistent state and enforce single carrier
-	if (!localStorage.getItem('isSingleSuperdreadnought')) {
-		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(true))
-	}
-	let isSingleSuperdreadnought = JSON.parse(
-		localStorage.getItem('isSingleSuperdreadnought') ?? ''
-	)
+	const ship = 'superdreadnought'
+	const amount = 'single'
 
 	//grab the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
@@ -61,7 +57,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 	const superdreadnoughtCoords: string[] = []
 
 	//for horizontal placement
-	if (currentAxis === 'Axis-X' && isSingleSuperdreadnought) {
+	if (currentAxis === 'Axis-X' && isCorrectNumberOfShips(ship, amount)) {
 		//grid boundary detection
 		if (Number(currentX) > 5) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
@@ -89,7 +85,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		}
 
 		//to prevent updating after first click
-		if (isSingleSuperdreadnought) {
+		if (isCorrectNumberOfShips(ship, amount)) {
 			//update superdreadnought object attributes
 			superdreadnought[0].head = superdreadnoughtCoords[0]
 			superdreadnought[0].body1 = superdreadnoughtCoords[1]
@@ -100,7 +96,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))
 	} //for vertical placement
-	else if (currentAxis === 'Axis-Y' && isSingleSuperdreadnought) {
+	else if (currentAxis === 'Axis-Y' && isCorrectNumberOfShips(ship, 'single')) {
 		//grid boundary detection
 		if (Number(currentX) > 5) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
@@ -128,7 +124,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		}
 
 		//to prevent updating after first click
-		if (isSingleSuperdreadnought) {
+		if (isCorrectNumberOfShips(ship, amount)) {
 			//update superdreadnought object attributes
 			superdreadnought[0].head = superdreadnoughtCoords[0]
 			superdreadnought[0].body1 = superdreadnoughtCoords[1]
@@ -140,10 +136,6 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))
 	}
 
-	isSingleSuperdreadnought = JSON.parse(
-		localStorage.getItem('isSingleSuperdreadnought') ?? ''
-	)
-
 	//store superdreadnought
 	localStorage.setItem('superdreadnought', JSON.stringify(superdreadnought))
 
@@ -152,7 +144,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 	localStorage.setItem('playerShipsCoords', JSON.stringify(playerShipsCoords))
 
 	//remove event listeners after single superdreadnought has been placed
-	if (isSingleSuperdreadnought === true) {
+	if (isCorrectNumberOfShips(ship, amount) === true) {
 		playerGameCells.forEach((player) => {
 			player.removeEventListener('click', handleSuperdreadnoughtCellClick)
 		})
