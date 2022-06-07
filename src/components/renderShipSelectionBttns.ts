@@ -1,5 +1,7 @@
 import { handleAxisToggleClick } from '../events/handleAxisToggleClick'
+import { handleBattleshipBttnClick } from '../events/handleBattleshipBttnClick'
 import { handleCarrierBttnClick } from '../events/handleCarrierBttnClick'
+import { handleDestroyerBttnClick } from '../events/handleDestroyerBttnClick'
 import { handleSuperdreadnoughtBttnClick } from '../events/handleSuperdreadnoughtBttnClick'
 import {
 	elemCreator,
@@ -43,6 +45,7 @@ const renderShipSelectionBttns = function () {
 
 	pipe(
 		addTextToElem('Battleship'),
+		addEvtListener('click')(handleBattleshipBttnClick),
 		addAttributeToElem([
 			['type', 'button'],
 			['value', 'battleship'],
@@ -51,13 +54,14 @@ const renderShipSelectionBttns = function () {
 	)(elemCreator('button')(['bttn-battleship']))
 
 	pipe(
-		addTextToElem('Cruiser'),
+		addTextToElem('Destroyer'),
+		addEvtListener('click')(handleDestroyerBttnClick),
 		addAttributeToElem([
 			['type', 'button'],
-			['value', 'cruiser'],
+			['value', 'destroyer'],
 		]),
 		appendElemToParent(shipsBttnContainer)
-	)(elemCreator('button')(['bttn-cruiser']))
+	)(elemCreator('button')(['bttn-destroyer']))
 
 	pipe(
 		addTextToElem('Frigate'),
@@ -68,6 +72,7 @@ const renderShipSelectionBttns = function () {
 		appendElemToParent(shipsBttnContainer)
 	)(elemCreator('button')(['bttn-frigate']))
 
+	//axis selector button
 	pipe(
 		addEvtListener('click')(handleAxisToggleClick),
 		addTextToElem('Axis-X'),

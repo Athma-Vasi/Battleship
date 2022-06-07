@@ -1,4 +1,10 @@
-import { addStyleToElem, elemCreator, pipe } from '../utilities/elementCreators'
+import {
+	addStyleToElem,
+	elemCreator,
+	pipe,
+	addTextToElem,
+	addEvtListener,
+} from '../utilities/elementCreators'
 import { Div, NodesDiv, Superdreadnought } from '../utilities/types'
 
 //TODO:implement background change on mouse hover
@@ -44,6 +50,14 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		localStorage.getItem('superdreadnought') ?? ''
 	)
 
+	//initialize on first call for overlap detection
+	if (!localStorage.getItem('playerShipsCoords')) {
+		localStorage.setItem('playerShipsCoords', JSON.stringify([]))
+	}
+	let playerShipsCoords: string[] = JSON.parse(
+		localStorage.getItem('playerShipsCoords') ?? ''
+	)
+
 	const superdreadnoughtCoords: string[] = []
 
 	//for horizontal placement
@@ -54,14 +68,34 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 			return null
 		}
 
+		for (let i = 0; i < 5; i++) {
+			//overlap detection
+			if (playerShipsCoords.includes(`${Number(currentX) + i},${currentY}`)) {
+				alert(
+					'A ship is already present at these coordinates. Please choose another area.'
+				)
+				return null
+			}
+		}
+
 		//to place superdreadnought on the grid
 		for (let i = 0; i < 5; i++) {
 			const nextCell: Div = document.querySelector(
 				`[data-cell="${Number(currentX) + i},${currentY}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
+			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('S'))(nextCell)
 
 			superdreadnoughtCoords.push(`${Number(currentX) + i},${currentY}`)
+		}
+
+		//to prevent updating after first click
+		if (isSingleSuperdreadnought) {
+			//update superdreadnought object attributes
+			superdreadnought[0].head = superdreadnoughtCoords[0]
+			superdreadnought[0].body1 = superdreadnoughtCoords[1]
+			superdreadnought[0].body2 = superdreadnoughtCoords[2]
+			superdreadnought[0].body3 = superdreadnoughtCoords[3]
+			superdreadnought[0].tail = superdreadnoughtCoords[4]
 		}
 
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))
@@ -73,14 +107,34 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 			return null
 		}
 
+		for (let i = 0; i < 5; i++) {
+			//overlap detection
+			if (playerShipsCoords.includes(`${Number(currentX) + i},${currentY}`)) {
+				alert(
+					'A ship is already present at these coordinates. Please choose another area.'
+				)
+				return null
+			}
+		}
+
 		//to place superdreadnought on the grid
 		for (let i = 0; i < 5; i++) {
 			const nextCell: Div = document.querySelector(
 				`[data-cell="${currentX},${Number(currentY) + i}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
+			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('B'))(nextCell)
 
 			superdreadnoughtCoords.push(`${currentX},${Number(currentY) + i}`)
+		}
+
+		//to prevent updating after first click
+		if (isSingleSuperdreadnought) {
+			//update superdreadnought object attributes
+			superdreadnought[0].head = superdreadnoughtCoords[0]
+			superdreadnought[0].body1 = superdreadnoughtCoords[1]
+			superdreadnought[0].body2 = superdreadnoughtCoords[2]
+			superdreadnought[0].body3 = superdreadnoughtCoords[3]
+			superdreadnought[0].tail = superdreadnoughtCoords[4]
 		}
 
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))
@@ -90,20 +144,14 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		localStorage.getItem('isSingleSuperdreadnought') ?? ''
 	)
 
-	//to prevent updating after first click
-	if (isSingleSuperdreadnought) {
-		//update carrier object attributes
-		superdreadnought[0].head = superdreadnoughtCoords[0]
-		superdreadnought[0].body1 = superdreadnoughtCoords[1]
-		superdreadnought[0].body2 = superdreadnoughtCoords[2]
-		superdreadnought[0].body3 = superdreadnoughtCoords[3]
-		superdreadnought[0].tail = superdreadnoughtCoords[4]
-	}
-
-	//store carrier
+	//store superdreadnought
 	localStorage.setItem('superdreadnought', JSON.stringify(superdreadnought))
 
-	//remove event listeners after single carrier has been placed
+	//add superdreadnought coordinate to rest of ships
+	superdreadnoughtCoords.forEach((coord) => playerShipsCoords.push(coord))
+	localStorage.setItem('playerShipsCoords', JSON.stringify(playerShipsCoords))
+
+	//remove event listeners after single superdreadnought has been placed
 	if (isSingleSuperdreadnought === true) {
 		playerGameCells.forEach((player) => {
 			player.removeEventListener('click', handleSuperdreadnoughtCellClick)

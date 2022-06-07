@@ -23,7 +23,7 @@ type Battleship = {
 	tail: string
 }
 
-type Cruiser = {
+type Destroyer = {
 	head: string
 	tail: string
 }[]
@@ -32,4 +32,4 @@ type Frigate = {
 	body: string
 }[]
 
-export { Form, Div, NodesDiv, Superdreadnought, Carrier, Battleship, Cruiser, Frigate }
+export { Form, Div, NodesDiv, Superdreadnought, Carrier, Battleship, Destroyer, Frigate }
