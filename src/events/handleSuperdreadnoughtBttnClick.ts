@@ -22,7 +22,7 @@ const handleSuperdreadnoughtBttnClick = function (
 
 	const bttnValue = this.value
 
-	//assign event listener to each player game cell after clicking superdreadnought button
+	//assign event listeners to each player game cell after clicking superdreadnought button
 	playerGameCells.forEach((player) =>
 		addEvtListener('click')(handleSuperdreadnoughtCellClick)(player)
 	)

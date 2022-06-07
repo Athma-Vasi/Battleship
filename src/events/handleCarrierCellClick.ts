@@ -1,4 +1,4 @@
-import { Div, NodesDiv } from '../utilities/types'
+import { Carrier, Div, NodesDiv } from '../utilities/types'
 import {
 	elemCreator,
 	appendElemToParent,
@@ -12,7 +12,14 @@ import {
 
 const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
+
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
+
+	// for persistent state and enforce single carrier
+	if (!localStorage.getItem('isSingleCarrier')) {
+		localStorage.setItem('isSingleCarrier', JSON.stringify(true))
+	}
+	let isSingleCarrier = JSON.parse(localStorage.getItem('isSingleCarrier') ?? '')
 
 	//grab the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
@@ -23,51 +30,80 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
-	// if (!localStorage.getItem('superdreadnoughts')) {
-	// 	localStorage.setItem('superdreadnoughts', JSON.stringify([]))
-	// }
+	//initialize the carrier object upon first call
+	if (!localStorage.getItem('carrier')) {
+		localStorage.setItem(
+			'carrier',
+			JSON.stringify([
+				{
+					head: '',
+					body1: '',
+					body2: '',
+					tail: '',
+				},
+			])
+		)
+	}
 
-	// const superdreadnoughts: string[] = JSON.parse(
-	// 	localStorage.getItem('superdreadnoughts') ?? ''
-	// )
+	const carrier: Carrier[] = JSON.parse(localStorage.getItem('carrier') ?? '')
 
-	// const lengthSuperdreadnoughts: number = superdreadnoughts.length
-	// log(lengthSuperdreadnoughts)
+	const carrierCoords: string[] = []
 
-	if (currentAxis === 'Axis-X') {
-		//for horizontal placement
-		if (Number(currentY) > 6) {
-			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
-			return null
-		}
-
-		for (let i = 0; i < 4; i++) {
-			const nextCell: Div = document.querySelector(
-				`[data-cell="${currentX},${Number(currentY) + i}"]`
-			)
-			pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
-
-			// superdreadnoughts.push(`${currentX},${Number(currentY) + i}`)
-			// localStorage.setItem('superdreadnoughts', JSON.stringify(superdreadnoughts))
-		}
-	} else if (currentAxis === 'Axis-Y') {
-		//for vertical placement
+	//for horizontal placement
+	if (currentAxis === 'Axis-X' && isSingleCarrier) {
+		//grid boundary detection
 		if (Number(currentX) > 6) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
 			return null
 		}
 
+		//to place carrier on grid
 		for (let i = 0; i < 4; i++) {
 			const nextCell: Div = document.querySelector(
 				`[data-cell="${Number(currentX) + i},${currentY}"]`
 			)
 			pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
 
-			// superdreadnoughts.push(`${Number(currentX) + i},${currentY}`)
-			// localStorage.setItem('superdreadnoughts', JSON.stringify(superdreadnoughts))
+			carrierCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
+
+		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
+	} //for vertical placement
+	else if (currentAxis === 'Axis-Y' && isSingleCarrier) {
+		//grid boundary detection
+		if (Number(currentY) > 6) {
+			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
+			return null
+		}
+
+		//to place carrier on grid
+		for (let i = 0; i < 4; i++) {
+			const nextCell: Div = document.querySelector(
+				`[data-cell="${currentX},${Number(currentY) + i}"]`
+			)
+			pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
+
+			carrierCoords.push(`${currentX},${Number(currentY) + i}`)
+		}
+
+		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
 	}
 
-	// this.removeEventListener('click', handleSuperdreadnoughtCellClick)
+	//update carrier object attributes
+	carrier[0].head = carrierCoords[0]
+	carrier[0].body1 = carrierCoords[1]
+	carrier[0].body2 = carrierCoords[2]
+	carrier[0].tail = carrierCoords[3]
+
+	//store carrier
+	localStorage.setItem('carrier', JSON.stringify(carrier))
+
+	//remove event listeners after single carrier has been placed
+	isSingleCarrier = JSON.parse(localStorage.getItem('isSingleCarrier') ?? '')
+	if (isSingleCarrier === true) {
+		playerGameCells.forEach((player) => {
+			player.removeEventListener('click', handleCarrierCellClick)
+		})
+	}
 }
 export { handleCarrierCellClick }

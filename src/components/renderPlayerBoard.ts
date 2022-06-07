@@ -22,7 +22,7 @@ const renderPlayerBoard = function () {
 		for (let j = 0; j < 10; j++) {
 			//render a div per iteration of for-loop
 			pipe(
-				addAttributeToElem([['data-cell', `${i},${j}`]]),
+				addAttributeToElem([['data-cell', `${j},${i}`]]),
 				appendElemToParent(playerBoardContainer)
 			)(elemCreator('div')(['player-gameCell']))
 		}
