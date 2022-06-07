@@ -2,6 +2,7 @@ import { Div } from '../utilities/types'
 import { renderCompBoard } from './renderCompBoard'
 import { renderPlayerBoard } from './renderPlayerBoard'
 import { renderShipSelectionBttns } from './renderShipSelectionBttns'
+import { renderStartButton } from './renderStartButton'
 
 const renderGamePage = function () {
 	const log = (i: unknown) => console.log('\n', i, '\n')

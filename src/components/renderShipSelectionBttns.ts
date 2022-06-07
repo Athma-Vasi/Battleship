@@ -2,6 +2,7 @@ import { handleAxisToggleClick } from '../events/handleAxisToggleClick'
 import { handleBattleshipBttnClick } from '../events/handleBattleshipBttnClick'
 import { handleCarrierBttnClick } from '../events/handleCarrierBttnClick'
 import { handleDestroyerBttnClick } from '../events/handleDestroyerBttnClick'
+import { handleFrigateBttnClick } from '../events/handleFrigateBttnClick'
 import { handleSuperdreadnoughtBttnClick } from '../events/handleSuperdreadnoughtBttnClick'
 import {
 	elemCreator,
@@ -65,6 +66,7 @@ const renderShipSelectionBttns = function () {
 
 	pipe(
 		addTextToElem('Frigate'),
+		addEvtListener('click')(handleFrigateBttnClick),
 		addAttributeToElem([
 			['type', 'button'],
 			['value', 'frigate'],
@@ -80,7 +82,7 @@ const renderShipSelectionBttns = function () {
 			['type', 'button'],
 			['value', 'axis-x'],
 		]),
-		appendElemToParent(shipBttnsWrapper)
+		appendElemToParent(shipsBttnContainer)
 	)(elemCreator('button')(['bttn', 'bttn-axisSelector']))
 }
 export { renderShipSelectionBttns }

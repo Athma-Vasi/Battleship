@@ -1,4 +1,5 @@
 import { accumulateShipCoords } from '../components/accumulateShipCoords'
+import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
 import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 import {
@@ -112,6 +113,9 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 			player.removeEventListener('click', handleBattleshipCellClick)
 		})
 	}
+
+	//if all ships placed, render start button
+	checkAllShipsInPlace()
 }
 
 export { handleBattleshipCellClick }
