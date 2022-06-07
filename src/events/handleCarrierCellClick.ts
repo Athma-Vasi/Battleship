@@ -1,8 +1,16 @@
-import { addStyleToElem, elemCreator, pipe } from '../utilities/elementCreators'
 import { Div, NodesDiv } from '../utilities/types'
+import {
+	elemCreator,
+	appendElemToParent,
+	addTextToElem,
+	addAttributeToElem,
+	createImage,
+	addEvtListener,
+	addStyleToElem,
+	pipe,
+} from '../utilities/elementCreators'
 
-//TODO:implement background change on mouse hover
-const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
+const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
@@ -28,12 +36,12 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 
 	if (currentAxis === 'Axis-X') {
 		//for horizontal placement
-		if (Number(currentY) > 5) {
+		if (Number(currentY) > 6) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
 			return null
 		}
 
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < 4; i++) {
 			const nextCell: Div = document.querySelector(
 				`[data-cell="${currentX},${Number(currentY) + i}"]`
 			)
@@ -44,12 +52,12 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		}
 	} else if (currentAxis === 'Axis-Y') {
 		//for vertical placement
-		if (Number(currentX) > 5) {
+		if (Number(currentX) > 6) {
 			alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
 			return null
 		}
 
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < 4; i++) {
 			const nextCell: Div = document.querySelector(
 				`[data-cell="${Number(currentX) + i},${currentY}"]`
 			)
@@ -62,4 +70,4 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 
 	// this.removeEventListener('click', handleSuperdreadnoughtCellClick)
 }
-export { handleSuperdreadnoughtCellClick }
+export { handleCarrierCellClick }
