@@ -25,7 +25,6 @@ module.exports = {
 	rules: {
 		'prettier/prettier': ['error', {}, { usePrettierrc: true }],
 		'@typescript-eslint/ban-ts-comment': 'off',
-		'react/prop-types': 'off',
 		'simple-import-sort/imports': 'warn',
 	},
 }

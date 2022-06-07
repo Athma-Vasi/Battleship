@@ -1,3 +1,4 @@
+import { handleSuperdreadnoughtBttnClick } from '../events/handleSuperdreadnoughtBttnClick'
 import {
 	elemCreator,
 	appendElemToParent,
@@ -20,6 +21,7 @@ const renderShipSelectionBttns = function () {
 
 	pipe(
 		addTextToElem('Superdreadnought'),
+		addEvtListener('click')(handleSuperdreadnoughtBttnClick),
 		addAttributeToElem([
 			['type', 'button'],
 			['value', 'superdreadnought'],
@@ -28,10 +30,10 @@ const renderShipSelectionBttns = function () {
 	)(elemCreator('button')(['bttn-superdreadnought']))
 
 	pipe(
-		addTextToElem('Dreadnought'),
+		addTextToElem('Carrier'),
 		addAttributeToElem([
 			['type', 'button'],
-			['value', 'dreadnought'],
+			['value', 'carrier'],
 		]),
 		appendElemToParent(shipsBttnContainer)
 	)(elemCreator('button')(['bttn-Dreadnought']))
