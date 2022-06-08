@@ -21,7 +21,7 @@ const renderCompBoard = function () {
 	for (let i = 0; i < 10; i++) {
 		for (let j = 0; j < 10; j++) {
 			pipe(
-				addAttributeToElem([['data-cell', `${j},${i}`]]),
+				addAttributeToElem([['data-cellComp', `${j},${i}`]]),
 				appendElemToParent(compBoardContainer)
 			)(elemCreator('div')(['comp-gameCell']))
 		}

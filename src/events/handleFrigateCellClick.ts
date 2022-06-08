@@ -76,7 +76,7 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			const nextCell: Div = document.querySelector(
 				`[data-cell="${currentX},${Number(currentY) + i}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('D'))(nextCell)
+			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('F'))(nextCell)
 
 			frigateCoords.push(`${currentX},${Number(currentY) + i}`)
 		}

@@ -33,6 +33,16 @@ type Frigate = {
 	body: string
 }
 
+type CompShipsPlacementChoice = {
+	superdreadnought: Superdreadnought
+	carrier: Carrier
+	battleship: Battleship
+	destroyers: Destroyer[]
+	frigates: Frigate[]
+}
+
+type CompShipsPlacementChoiceArr = CompShipsPlacementChoice[]
+
 export {
 	Form,
 	Div,
@@ -43,4 +53,6 @@ export {
 	Battleship,
 	Destroyer,
 	Frigate,
+	CompShipsPlacementChoice,
+	CompShipsPlacementChoiceArr,
 }

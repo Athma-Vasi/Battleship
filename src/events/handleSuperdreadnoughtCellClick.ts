@@ -31,10 +31,10 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 
 	//initialize the carrier object upon first call
 	if (!localStorage.getItem('superdreadnought')) {
-		localStorage.setItem('superdreadnought', JSON.stringify([]))
+		localStorage.setItem('superdreadnought', JSON.stringify(''))
 	}
 
-	const superdreadnought: Superdreadnought[] = JSON.parse(
+	let superdreadnought: Superdreadnought = JSON.parse(
 		localStorage.getItem('superdreadnought') ?? ''
 	)
 
@@ -64,13 +64,13 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
 			//update superdreadnought object attributes
-			superdreadnought.push({
+			superdreadnought = {
 				head: superdreadnoughtCoords[0],
 				body1: superdreadnoughtCoords[1],
 				body2: superdreadnoughtCoords[2],
 				body3: superdreadnoughtCoords[3],
 				tail: superdreadnoughtCoords[4],
-			})
+			}
 		}
 
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))
@@ -90,7 +90,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 			const nextCell: Div = document.querySelector(
 				`[data-cell="${currentX},${Number(currentY) + i}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('B'))(nextCell)
+			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('S'))(nextCell)
 
 			superdreadnoughtCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
@@ -98,13 +98,13 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
 			//update superdreadnought object attributes
-			superdreadnought.push({
+			superdreadnought = {
 				head: superdreadnoughtCoords[0],
 				body1: superdreadnoughtCoords[1],
 				body2: superdreadnoughtCoords[2],
 				body3: superdreadnoughtCoords[3],
 				tail: superdreadnoughtCoords[4],
-			})
+			}
 		}
 
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))

@@ -36,7 +36,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		localStorage.setItem('carrier', JSON.stringify([]))
 	}
 
-	const carrier: Carrier[] = JSON.parse(localStorage.getItem('carrier') ?? '')
+	let carrier: Carrier = JSON.parse(localStorage.getItem('carrier') ?? '')
 
 	const carrierCoords: string[] = []
 
@@ -64,12 +64,12 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
 			//update carrier object attributes
-			carrier.push({
+			carrier = {
 				head: carrierCoords[0],
 				body1: carrierCoords[1],
 				body2: carrierCoords[2],
 				tail: carrierCoords[3],
-			})
+			}
 		}
 
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
@@ -97,12 +97,12 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
 			//update carrier object attributes
-			carrier.push({
+			carrier = {
 				head: carrierCoords[0],
 				body1: carrierCoords[1],
 				body2: carrierCoords[2],
 				tail: carrierCoords[3],
-			})
+			}
 		}
 
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))

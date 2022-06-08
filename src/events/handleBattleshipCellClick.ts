@@ -29,9 +29,9 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 
 	//initialize the ship object upon first call
 	if (!localStorage.getItem('battleship')) {
-		localStorage.setItem('battleship', JSON.stringify([]))
+		localStorage.setItem('battleship', JSON.stringify(''))
 	}
-	const battleship: Battleship[] = JSON.parse(localStorage.getItem('battleship') ?? '')
+	let battleship: Battleship = JSON.parse(localStorage.getItem('battleship') ?? '')
 
 	const battleshipCoords: string[] = []
 
@@ -59,11 +59,11 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, 'single')) {
 			//update battleship object attributes
-			battleship.push({
+			battleship = {
 				head: battleshipCoords[0],
 				body: battleshipCoords[1],
 				tail: battleshipCoords[2],
-			})
+			}
 		}
 
 		localStorage.setItem('isSingleBattleship', JSON.stringify(false))
@@ -91,11 +91,11 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 		//to prevent updating after first click
 		if (isCorrectNumberOfShips(ship, 'single')) {
 			//update battleship object attributes
-			battleship.push({
+			battleship = {
 				head: battleshipCoords[0],
 				body: battleshipCoords[1],
 				tail: battleshipCoords[2],
-			})
+			}
 		}
 
 		localStorage.setItem('isSingleBattleship', JSON.stringify(false))
