@@ -24,5 +24,7 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 	playerGameCells.forEach((player) =>
 		addEvtListener('click')(handleBattleshipCellClick)(player)
 	)
+
+	this.disabled = true
 }
 export { handleBattleshipBttnClick }

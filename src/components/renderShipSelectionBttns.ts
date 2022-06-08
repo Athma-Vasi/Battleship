@@ -82,7 +82,7 @@ const renderShipSelectionBttns = function () {
 			['type', 'button'],
 			['value', 'axis-x'],
 		]),
-		appendElemToParent(shipsBttnContainer)
+		appendElemToParent(shipBttnsWrapper)
 	)(elemCreator('button')(['bttn', 'bttn-axisSelector']))
 }
 export { renderShipSelectionBttns }

@@ -26,5 +26,7 @@ const handleSuperdreadnoughtBttnClick = function (
 	playerGameCells.forEach((player) =>
 		addEvtListener('click')(handleSuperdreadnoughtCellClick)(player)
 	)
+
+	this.disabled = true
 }
 export { handleSuperdreadnoughtBttnClick }

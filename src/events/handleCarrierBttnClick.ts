@@ -23,5 +23,7 @@ const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 	playerGameCells.forEach((player) =>
 		addEvtListener('click')(handleCarrierCellClick)(player)
 	)
+
+	this.disabled = true
 }
 export { handleCarrierBttnClick }

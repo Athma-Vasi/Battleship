@@ -1,7 +1,9 @@
+import { placeCompShipsOnBoard } from './placeCompShipsOnBoard'
 import { renderStartButton } from './renderStartButton'
 
 const checkAllShipsInPlace = function () {
-	//if all the ships have been placed, start round
+	placeCompShipsOnBoard()
+	//if all the player ships have been placed
 	if (localStorage.getItem('playerShipsCoords')) {
 		const shipsCoordsArr = JSON.parse(localStorage.getItem('playerShipsCoords') ?? '')
 

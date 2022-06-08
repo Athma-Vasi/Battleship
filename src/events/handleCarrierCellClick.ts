@@ -1,4 +1,4 @@
-import { Carrier, Div, NodesDiv } from '../utilities/types'
+import { Button, Carrier, Div, NodesDiv } from '../utilities/types'
 import {
 	elemCreator,
 	appendElemToParent,

@@ -16,7 +16,7 @@ const isCorrectNumberOfShips = function (
 		const shipObjArr: unknown[] = JSON.parse(localStorage.getItem(`${ship_}`) ?? '')
 
 		if (shipObjArr.length < 2) {
-			// for persistent state and enforce single ship
+			// for persistent state and enforce double ships
 			if (!localStorage.getItem(`is${amount}${ship}`)) {
 				localStorage.setItem(`is${amount}${ship}`, JSON.stringify(true))
 			}

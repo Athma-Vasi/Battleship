@@ -23,5 +23,12 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 	playerGameCells.forEach((player) =>
 		addEvtListener('click')(handleFrigateCellClick)(player)
 	)
+
+	//disable button after two frigates on board
+	if (localStorage.getItem('isDoubleFrigate')) {
+		if (JSON.parse(localStorage.getItem('isDoubleFrigate') ?? '') === false) {
+			this.disabled = true
+		}
+	}
 }
 export { handleFrigateBttnClick }

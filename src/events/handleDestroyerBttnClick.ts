@@ -23,5 +23,12 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 	playerGameCells.forEach((player) =>
 		addEvtListener('click')(handleDestroyerCellClick)(player)
 	)
+
+	//disable button after two destroyers on board
+	if (localStorage.getItem('isDoubleDestroyer')) {
+		if (JSON.parse(localStorage.getItem('isDoubleDestroyer') ?? '') === false) {
+			this.disabled = true
+		}
+	}
 }
 export { handleDestroyerBttnClick }
