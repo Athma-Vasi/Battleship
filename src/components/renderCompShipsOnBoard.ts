@@ -31,6 +31,14 @@ const renderCompShipsOnBoard = function (
 	)
 
 	Object.entries(compShipsPlacementChoice_).forEach(([ship, shipObj]) => {
+		//store the compships obj in camelcase
+		if (!localStorage.getItem(`comp${ship[0].toUpperCase() + ship.slice(1)}`)) {
+			localStorage.setItem(
+				`comp${ship[0].toUpperCase() + ship.slice(1)}`,
+				JSON.stringify(shipObj)
+			)
+		}
+
 		//for superdreadnought, carrier, battleship properties whose attributes do not consist of an array
 		if (!Array.isArray(shipObj)) {
 			Object.entries(shipObj).forEach(([shipSection, sectionCoords]) => {
@@ -39,7 +47,7 @@ const renderCompShipsOnBoard = function (
 
 				pipe(
 					addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
-					addEvtListener('click')(handlePlayerClickOnCompShips),
+					// addEvtListener('click')(handlePlayerClickOnCompShips),
 					addTextToElem(`${ship[0].toUpperCase()}`),
 					addStyleToElem([['background-color', 'lightgray']])
 				)(shipCell)
@@ -58,7 +66,7 @@ const renderCompShipsOnBoard = function (
 
 					pipe(
 						addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
-						addEvtListener('click')(handlePlayerClickOnCompShips),
+						// addEvtListener('click')(handlePlayerClickOnCompShips),
 						addTextToElem(`${Object.keys(ship).length === 2 ? 'D' : 'F'}`),
 						addStyleToElem([['background-color', 'lightgray']])
 					)(shipCell)
@@ -76,7 +84,7 @@ const renderCompShipsOnBoard = function (
 	compGameCells.forEach((cell) => {
 		if (!cell.classList.contains('compShipPresent')) {
 			pipe(
-				addEvtListener('click')(handlePlayerClickOnCompMisses),
+				// addEvtListener('click')(handlePlayerClickOnCompMisses),
 				addAttributeToElem([['class', 'compShipNotPresent comp-gameCell']]),
 				addTextToElem('〰')
 			)(cell)
