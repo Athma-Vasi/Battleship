@@ -10,6 +10,8 @@ import {
 	pipe,
 } from '../utilities/elementCreators'
 import { handleDestroyerCellClick } from './handleDestroyerCellClick'
+import { handleDestroyerMouseEnter } from './handleDestroyerMouseEnter'
+import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave'
 
 const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -21,7 +23,11 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 
 	//assign event listeners to each player game cell after clicking destroyer button
 	playerGameCells.forEach((player) =>
-		addEvtListener('click')(handleDestroyerCellClick)(player)
+		pipe(
+			addEvtListener('click')(handleDestroyerCellClick),
+			addEvtListener('mouseenter')(handleDestroyerMouseEnter),
+			addEvtListener('mouseleave')(handleDestroyerMouseLeave)
+		)(player)
 	)
 
 	//disable button after two destroyers on board

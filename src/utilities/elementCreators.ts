@@ -76,6 +76,25 @@ const addEvtListener =
 		return elem_
 	}
 
+const removeEvtListener =
+	(evt_: string) =>
+	(
+		handleEvt_: (
+			this: any,
+			ev: any,
+			options?: {
+				capture: boolean
+				once: boolean
+				passive: boolean
+				signal: AbortSignal
+			}
+		) => unknown
+	) =>
+	(elem_: HTMLElement | null) => {
+		elem_?.removeEventListener(evt_, handleEvt_)
+		return elem_
+	}
+
 const pipe =
 	<V>(...funcs: Array<(_: V) => any>) =>
 	(value: V) =>
@@ -88,6 +107,7 @@ export {
 	addAttributeToElem,
 	createImage,
 	addEvtListener,
+	removeEvtListener,
 	addStyleToElem,
 	pipe,
 }

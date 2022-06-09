@@ -6,9 +6,13 @@ import {
 	addStyleToElem,
 	addTextToElem,
 	elemCreator,
+	addAttributeToElem,
+	removeEvtListener,
 	pipe,
 } from '../utilities/elementCreators'
 import { Div, NodesDiv, Destroyer } from '../utilities/types'
+import { handleDestroyerMouseEnter } from './handleDestroyerMouseEnter'
+import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave'
 
 const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -23,7 +27,7 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 	const currentAxis = axisSelector?.textContent
 
 	//grab the current cell co-ordinate
-	const currentCell = this.dataset.cell?.split(',')
+	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
@@ -49,9 +53,13 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 		//to place destroyer on the grid
 		for (let i = 0; i < 2; i++) {
 			const nextCell: Div = document.querySelector(
-				`[data-cell="${Number(currentX) + i},${currentY}"]`
+				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('D'))(nextCell)
+			pipe(
+				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
+				addStyleToElem([['background-color', 'grey']]),
+				addTextToElem('D')
+			)(nextCell)
 
 			destroyerCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
@@ -74,9 +82,13 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 		for (let i = 0; i < 2; i++) {
 			//to place destroyer on the grid
 			const nextCell: Div = document.querySelector(
-				`[data-cell="${currentX},${Number(currentY) + i}"]`
+				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('D'))(nextCell)
+			pipe(
+				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
+				addStyleToElem([['background-color', 'grey']]),
+				addTextToElem('D')
+			)(nextCell)
 
 			destroyerCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
@@ -85,7 +97,7 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 		if (isCorrectNumberOfShips(ship, amount)) {
 			destroyer.push({ head: destroyerCoords[0], tail: destroyerCoords[1] })
 		}
-	}
+	} else if (isCorrectNumberOfShips(ship, amount) === false) return null
 
 	//store destroyer
 	localStorage.setItem('destroyer', JSON.stringify(destroyer))
@@ -96,7 +108,11 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 	//remove event listeners after single battleship has been placed
 	if (isCorrectNumberOfShips(ship, amount) === false) {
 		playerGameCells.forEach((player) => {
-			player.removeEventListener('click', handleDestroyerCellClick)
+			pipe(
+				removeEvtListener('click')(handleDestroyerCellClick),
+				removeEvtListener('mouseenter')(handleDestroyerMouseEnter),
+				removeEvtListener('mouseleave')(handleDestroyerMouseLeave)
+			)(player)
 		})
 	}
 

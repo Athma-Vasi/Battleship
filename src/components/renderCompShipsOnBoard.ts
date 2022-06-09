@@ -21,35 +21,50 @@ const renderCompShipsOnBoard = function (
 
 	const compShipsContainer = document.querySelector('.compShips-container')
 
+	//persistent state management
+	if (!localStorage.getItem('compShipsCoords')) {
+		localStorage.setItem('compShipsCoords', JSON.stringify([]))
+	}
+
+	const compShipsCoords: string[] = JSON.parse(
+		localStorage.getItem('compShipsCoords') ?? ''
+	)
+
 	Object.entries(compShipsPlacementChoice_).forEach(([ship, shipObj]) => {
-		//for superdreadnought, carrier, battleship properties which do not have an array attribute
+		//for superdreadnought, carrier, battleship properties whose attributes do not consist of an array
 		if (!Array.isArray(shipObj)) {
 			Object.entries(shipObj).forEach(([shipSection, sectionCoords]) => {
-				//grab the specific game board cell based
+				//grab the corresponding game board cell
 				const shipCell: Div = document.querySelector(`[data-cellComp="${sectionCoords}"]`)
 
 				pipe(
-					addAttributeToElem([['class', 'compShipPresent']]),
+					addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
 					addEvtListener('click')(handlePlayerClickOnCompShips),
 					addTextToElem(`${ship[0].toUpperCase()}`),
 					addStyleToElem([['background-color', 'lightgray']])
 				)(shipCell)
+
+				//store the co-ordinates
+				compShipsCoords.push(sectionCoords)
 			})
 		} else {
-			//for destroyers and frigates properties which have an array attribute
+			//for destroyers and frigates properties whose attributes consist of an array
 			shipObj.forEach((ship) => {
 				Object.entries(ship).forEach(([shipSection, sectionCoords]) => {
-					//grab the specific game board cell based
+					//grab the corresponding game board cell
 					const shipCell: Div = document.querySelector(
 						`[data-cellComp="${sectionCoords}"]`
 					)
 
 					pipe(
-						addAttributeToElem([['class', 'compShipPresent']]),
+						addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
 						addEvtListener('click')(handlePlayerClickOnCompShips),
 						addTextToElem(`${Object.keys(ship).length === 2 ? 'D' : 'F'}`),
 						addStyleToElem([['background-color', 'lightgray']])
 					)(shipCell)
+
+					//store the co-ordinates
+					compShipsCoords.push(sectionCoords)
 				})
 			})
 		}
@@ -62,17 +77,14 @@ const renderCompShipsOnBoard = function (
 		if (!cell.classList.contains('compShipPresent')) {
 			pipe(
 				addEvtListener('click')(handlePlayerClickOnCompMisses),
-				addAttributeToElem([['class', 'compShipNotPresent']]),
-				addTextToElem('*')
+				addAttributeToElem([['class', 'compShipNotPresent comp-gameCell']]),
+				addTextToElem('〰')
 			)(cell)
 		}
 	})
 
-	//persistent state management
-
-	if (!localStorage.getItem('compShipsCoords')) {
-		localStorage.setItem('compShipsCoords', JSON.stringify([]))
-	}
+	//put the coordinates in storage
+	localStorage.setItem('compShipsCoords', JSON.stringify(compShipsCoords))
 }
 
 export { renderCompShipsOnBoard }

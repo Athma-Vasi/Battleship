@@ -10,6 +10,8 @@ import {
 	pipe,
 } from '../utilities/elementCreators'
 import { handleFrigateCellClick } from './handleFrigateCellClick'
+import { handleFrigateMouseEnter } from './handleFrigateMouseEnter'
+import { handleFrigateMouseLeave } from './handleFrigateMouseLeave'
 
 const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -21,7 +23,11 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 
 	//assign event listeners to each player game cell after clicking destroyer button
 	playerGameCells.forEach((player) =>
-		addEvtListener('click')(handleFrigateCellClick)(player)
+		pipe(
+			addEvtListener('click')(handleFrigateCellClick),
+			addEvtListener('mouseenter')(handleFrigateMouseEnter),
+			addEvtListener('mouseleave')(handleFrigateMouseLeave)
+		)(player)
 	)
 
 	//disable button after two frigates on board

@@ -10,6 +10,8 @@ import {
 	pipe,
 } from '../utilities/elementCreators'
 import { handleCarrierCellClick } from './handleCarrierCellClick'
+import { handleCarrierMouseEnter } from './handleCarrierMouseEnter'
+import { handleCarrierMouseLeave } from './handleCarrierMouseLeave'
 
 const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -21,7 +23,11 @@ const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 
 	//assign event listener to each player game cell after clicking superdreadnought button
 	playerGameCells.forEach((player) =>
-		addEvtListener('click')(handleCarrierCellClick)(player)
+		pipe(
+			addEvtListener('click')(handleCarrierCellClick),
+			addEvtListener('mouseenter')(handleCarrierMouseEnter),
+			addEvtListener('mouseleave')(handleCarrierMouseLeave)
+		)(player)
 	)
 
 	this.disabled = true

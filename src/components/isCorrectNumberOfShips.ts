@@ -1,3 +1,5 @@
+//TODO: FIX destroyer and frigate duplicate logic
+
 const isCorrectNumberOfShips = function (
 	ship_: string,
 	amount_: string
@@ -14,6 +16,7 @@ const isCorrectNumberOfShips = function (
 		return true
 	} else if (amount_ === 'double') {
 		const shipObjArr: unknown[] = JSON.parse(localStorage.getItem(`${ship_}`) ?? '')
+		console.log(shipObjArr.length)
 
 		if (shipObjArr.length < 2) {
 			// for persistent state and enforce double ships
@@ -22,6 +25,7 @@ const isCorrectNumberOfShips = function (
 			}
 			return true
 		} else if (shipObjArr.length === 2) {
+			console.log('false')
 			localStorage.setItem(`is${amount}${ship}`, JSON.stringify(false))
 			return false
 		}

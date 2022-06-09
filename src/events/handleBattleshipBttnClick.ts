@@ -11,6 +11,8 @@ import {
 } from '../utilities/elementCreators'
 
 import { handleBattleshipCellClick } from './handleBattleshipCellClick'
+import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter'
+import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave'
 
 const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -22,7 +24,11 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 
 	//assign event listeners to each player game cell after clicking battleship button
 	playerGameCells.forEach((player) =>
-		addEvtListener('click')(handleBattleshipCellClick)(player)
+		pipe(
+			addEvtListener('click')(handleBattleshipCellClick),
+			addEvtListener('mouseenter')(handleBattleshipMouseEnter),
+			addEvtListener('mouseleave')(handleBattleshipMouseLeave)
+		)(player)
 	)
 
 	this.disabled = true

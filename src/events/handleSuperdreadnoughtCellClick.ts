@@ -7,9 +7,13 @@ import {
 	elemCreator,
 	pipe,
 	addTextToElem,
+	addAttributeToElem,
 	addEvtListener,
+	removeEvtListener,
 } from '../utilities/elementCreators'
 import { Div, NodesDiv, Superdreadnought } from '../utilities/types'
+import { handleSuperdreadnoughtMouseEnter } from './handleSuperdreadnoughtMouseEnter'
+import { handleSuperdreadnoughtMouseLeave } from './handleSuperdreadnoughtMouseLeave'
 
 //TODO:implement background change on mouse hover
 const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
@@ -25,7 +29,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 	const currentAxis = axisSelector?.textContent
 
 	//grab the current cell co-ordinate
-	const currentCell = this.dataset.cell?.split(',')
+	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
@@ -54,9 +58,13 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		//to place superdreadnought on the grid
 		for (let i = 0; i < 5; i++) {
 			const nextCell: Div = document.querySelector(
-				`[data-cell="${Number(currentX) + i},${currentY}"]`
+				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('S'))(nextCell)
+			pipe(
+				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
+				addStyleToElem([['background-color', 'grey']]),
+				addTextToElem('S')
+			)(nextCell)
 
 			superdreadnoughtCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
@@ -88,9 +96,13 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		//to place superdreadnought on the grid
 		for (let i = 0; i < 5; i++) {
 			const nextCell: Div = document.querySelector(
-				`[data-cell="${currentX},${Number(currentY) + i}"]`
+				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('S'))(nextCell)
+			pipe(
+				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
+				addStyleToElem([['background-color', 'grey']]),
+				addTextToElem('S')
+			)(nextCell)
 
 			superdreadnoughtCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
@@ -119,7 +131,11 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 	//remove event listeners after single superdreadnought has been placed
 	if (isCorrectNumberOfShips(ship, amount) === true) {
 		playerGameCells.forEach((player) => {
-			player.removeEventListener('click', handleSuperdreadnoughtCellClick)
+			pipe(
+				removeEvtListener('click')(handleSuperdreadnoughtCellClick),
+				removeEvtListener('mouseenter')(handleSuperdreadnoughtMouseEnter),
+				removeEvtListener('mouseleave')(handleSuperdreadnoughtMouseLeave)
+			)(player)
 		})
 	}
 

@@ -8,11 +8,14 @@ import {
 	addEvtListener,
 	addStyleToElem,
 	pipe,
+	removeEvtListener,
 } from '../utilities/elementCreators'
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
 import { accumulateShipCoords } from '../components/accumulateShipCoords'
 import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
+import { handleCarrierMouseEnter } from './handleCarrierMouseEnter'
+import { handleCarrierMouseLeave } from './handleCarrierMouseLeave'
 
 const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -27,7 +30,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const currentAxis = axisSelector?.textContent
 
 	//grab the current cell co-ordinate
-	const currentCell = this.dataset.cell?.split(',')
+	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
@@ -54,9 +57,13 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//to place carrier on grid
 		for (let i = 0; i < 4; i++) {
 			const nextCell: Div = document.querySelector(
-				`[data-cell="${Number(currentX) + i},${currentY}"]`
+				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('C'))(nextCell)
+			pipe(
+				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
+				addStyleToElem([['background-color', 'grey']]),
+				addTextToElem('C')
+			)(nextCell)
 
 			carrierCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
@@ -87,9 +94,13 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//to place carrier on grid
 		for (let i = 0; i < 4; i++) {
 			const nextCell: Div = document.querySelector(
-				`[data-cell="${currentX},${Number(currentY) + i}"]`
+				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
-			pipe(addStyleToElem([['background-color', 'grey']]), addTextToElem('C'))(nextCell)
+			pipe(
+				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
+				addStyleToElem([['background-color', 'grey']]),
+				addTextToElem('C')
+			)(nextCell)
 
 			carrierCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
@@ -117,7 +128,11 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	//remove event listeners after single carrier has been placed
 	if (isCorrectNumberOfShips(ship, amount) === true) {
 		playerGameCells.forEach((player) => {
-			player.removeEventListener('click', handleCarrierCellClick)
+			pipe(
+				removeEvtListener('click')(handleCarrierCellClick),
+				removeEvtListener('mouseenter')(handleCarrierMouseEnter),
+				removeEvtListener('mouseleave')(handleCarrierMouseLeave)
+			)(player)
 		})
 	}
 
