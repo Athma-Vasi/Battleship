@@ -31,6 +31,7 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	if (compShipsCoords.includes(currentCellCoord)) {
 		//check hit counter to see if its the last hit
 		if (totalHitsOnCompShips === 17) {
+			log('player')
 			//call game winner function
 			announceGameWinner('player')
 		}
