@@ -55,14 +55,13 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	if (!localStorage.getItem('compShipsHitCoords')) {
 		localStorage.setItem('compShipsHitCoords', JSON.stringify([]))
 	}
-
 	const compShipsHitCoords: string[] = JSON.parse(
 		localStorage.getItem('compShipsHitCoords') ?? ''
 	)
 
 	//update hit counter only when new hit is not on a previously hit cell, and store
 	if (!compShipsHitCoords.includes(currentCellCoord)) {
-		//store the unique hit co-ordinate in the Set
+		//store the unique hit co-ordinate
 		compShipsHitCoords.push(currentCellCoord)
 		localStorage.setItem('compShipsHitCoords', JSON.stringify(compShipsHitCoords))
 
@@ -71,14 +70,13 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		localStorage.setItem('totalHitsOnCompShips', JSON.stringify(totalHitsOnCompShips))
 	}
 
-	//disable clicking until computer has its turn
-	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
-	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
-
 	//to prevent player clicking while computer's turn
 	//while timer runs, clicks on comp grid cells do not register
 	//after relevant work is done, event listeners are added back on
 	//simulates computer taking time to 'think'
+	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
+	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
+
 	compShipPresent.forEach((cell) => {
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompShips))(cell)
 	})
