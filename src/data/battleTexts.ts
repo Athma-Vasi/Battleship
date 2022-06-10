@@ -17,7 +17,7 @@ const battleTexts = {
 	missesByPlayer: [
 		'The enemy has returned fire!',
 		'Tracking reports sixteen incoming, Sir!',
-		'Enemy jamming primary tracking systems,',
+		'Enemy jamming primary tracking systems!',
 		'Enemy countermeasures active!',
 		'Crossing minefield attack perimeter—now!',
 	],

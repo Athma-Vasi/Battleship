@@ -1,15 +1,10 @@
 import { addEvtListener } from '../utilities/elementCreators'
-import {
-	NodesDiv,
-	HavenShipNames,
-	ManticoreShipNames,
-	ShipNames,
-	BattleTexts,
-} from '../utilities/types'
+import { NodesDiv, BattleTexts } from '../utilities/types'
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses'
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips'
 import { shipNames } from '../data/shipNames'
 import { battleTexts } from '../data/battleTexts'
+import { randomizeAndStoreShipNames } from '../components/randomizeAndStoreShipNames'
 
 const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -33,65 +28,14 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 	)
 
 	//randomize and store ship names for each battle
-	const shipNames_: ShipNames = shipNames
-	if (!localStorage.getItem('playerShipNames')) {
-		localStorage.setItem('playerShipNames', JSON.stringify([]))
-	}
+	randomizeAndStoreShipNames(shipNames)
 
-	//creates a randomized ship name per game session
-	Object.entries(shipNames_).forEach(([polity, shipTypes]) => {
-		if (polity === 'haven') {
-			const havenShipNames = new Map()
+	//remove the info screen
+	const infoScreenContainer = document.querySelector('.infoScreen-container')
+	infoScreenContainer?.remove()
 
-			Object.entries(shipTypes).forEach(([shipType, shipNamesArr]) => {
-				//need two names for destroyers and frigates
-				if (shipType === 'destroyers' || shipType === 'frigates') {
-					const tempShipNamesArr = [
-						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
-						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
-					]
-
-					havenShipNames.set(shipType, tempShipNamesArr)
-				} else {
-					//only one name for superdreadnought, cruiser and battleship
-					havenShipNames.set(
-						shipType,
-						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]
-					)
-				}
-			})
-
-			localStorage.setItem(
-				'havenShipNames',
-				JSON.stringify(Object.fromEntries(havenShipNames))
-			)
-		} else if (polity === 'manticore') {
-			const manticoreShipNames = new Map()
-
-			Object.entries(shipTypes).forEach(([shipType, shipNamesArr]) => {
-				//need two names for destroyers and frigates
-				if (shipType === 'destroyers' || shipType === 'frigates') {
-					const tempShipNamesArr = [
-						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
-						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
-					]
-
-					manticoreShipNames.set(shipType, tempShipNamesArr)
-				} else {
-					//only one name for superdreadnought, cruiser and battleship
-					manticoreShipNames.set(
-						shipType,
-						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]
-					)
-				}
-			})
-
-			localStorage.setItem(
-				'manticoreShipNames',
-				JSON.stringify(Object.fromEntries(manticoreShipNames))
-			)
-		}
-	})
+	//remove the start button
+	this.remove()
 }
 
 export { handleStartButtonClick }

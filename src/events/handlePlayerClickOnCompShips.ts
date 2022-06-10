@@ -3,18 +3,19 @@ import { computersTurn } from '../components/computersTurn'
 import {
 	addEvtListener,
 	addTextToElem,
+	appendElemToParent,
+	elemCreator,
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators'
-import { NodesDiv } from '../utilities/types'
+import { Div, NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses'
 import { shipNames } from '../data/shipNames'
 import { battleTexts } from '../data/battleTexts'
+import { renderBattleMessageElem } from '../components/renderBattleMessage'
 
 const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
-
-	const currentCellCoord = this.dataset.cellcomp ?? ''
 
 	//initialize the hit counter on first hit
 	//when total hits reaches 18, game ends
@@ -29,6 +30,8 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	let totalHitsOnCompShips: number = JSON.parse(
 		localStorage.getItem('totalHitsOnCompShips') ?? ''
 	)
+
+	const currentCellCoord = this.dataset.cellcomp ?? ''
 	//to prevent winner being called when a miss is registered
 	if (compShipsCoords.includes(currentCellCoord)) {
 		//check hit counter to see if its the last hit
@@ -38,17 +41,16 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		}
 	}
 
-	if (this.textContent === 'S') {
-		//call the function to display hit on superdreadnought text
-	} else if (this.textContent === 'C') {
-		//call the function to display hit on carrier text
-	} else if (this.textContent === 'B') {
-		//call the function to display hit on battleship text
-	} else if (this.textContent === 'D') {
-		//call the function to display hit on destroyer text
-	} else if (this.textContent === 'F') {
-		//call the function to display hit on frigate text
-	}
+	const currentShipSymbol = this.textContent ?? ''
+	const towardsCombatant = 'comp'
+	const hitOrMiss = 'hit'
+
+	renderBattleMessageElem(
+		currentCellCoord,
+		currentShipSymbol,
+		towardsCombatant,
+		hitOrMiss
+	)
 
 	this.textContent = ''
 	this.textContent = '💥'

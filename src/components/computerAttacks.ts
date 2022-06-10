@@ -1,4 +1,5 @@
 import { Div, NodesDiv } from '../utilities/types'
+import { renderBattleMessageElem } from './renderBattleMessage'
 
 const computerAttacks = function (compAttackGuess_: string) {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
@@ -17,6 +18,19 @@ const computerAttacks = function (compAttackGuess_: string) {
 			`[data-cellplayer="${compAttackGuess_}"]`
 		)
 
+		//call function to display battle message when computer registers a hit on a player ship
+		const currentCellCoord = compAttackGuess_
+		const currentShipSymbol = playerShipCell?.textContent ?? ''
+		const towardsCombatant = 'player'
+		const hitOrMiss = 'hit'
+
+		renderBattleMessageElem(
+			currentCellCoord,
+			currentShipSymbol,
+			towardsCombatant,
+			hitOrMiss
+		)
+
 		//update playercell to visually indicate hit
 		if (playerShipCell) {
 			playerShipCell.textContent = ''
@@ -30,6 +44,19 @@ const computerAttacks = function (compAttackGuess_: string) {
 		//if its a miss
 		const playerShipCell: Div = document.querySelector(
 			`[data-cellplayer="${compAttackGuess_}"]`
+		)
+
+		//call function to display battle message when computer does not hit a player ship
+		const currentCellCoord = compAttackGuess_
+		const currentShipSymbol = playerShipCell?.textContent ?? ''
+		const towardsCombatant = 'player'
+		const hitOrMiss = 'miss'
+
+		renderBattleMessageElem(
+			currentCellCoord,
+			currentShipSymbol,
+			towardsCombatant,
+			hitOrMiss
 		)
 
 		//update playercell to visually indicate miss

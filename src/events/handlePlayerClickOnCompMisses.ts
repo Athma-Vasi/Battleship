@@ -1,10 +1,23 @@
 import { computersTurn } from '../components/computersTurn'
+import { renderBattleMessageElem } from '../components/renderBattleMessage'
 import { pipe, removeEvtListener } from '../utilities/elementCreators'
 import { NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips'
 
 const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
+
+	const currentCellCoord = this.dataset.cellcomp ?? ''
+	const currentShipSymbol = this.textContent ?? ''
+	const towardsCombatant = 'comp'
+	const hitOrMiss = 'miss'
+
+	renderBattleMessageElem(
+		currentCellCoord,
+		currentShipSymbol,
+		towardsCombatant,
+		hitOrMiss
+	)
 
 	this.textContent == ''
 	this.textContent = '✖'

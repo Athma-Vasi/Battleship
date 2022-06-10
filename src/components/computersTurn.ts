@@ -20,7 +20,7 @@ const computersTurn = function () {
 	const compAttackGuess = genRandCompAttackGuess()
 
 	//if compAttackGuess is on a playerShipCoord, then check the hit counter
-	//to avoid registering a win when the computer misses
+	//avoids registering a win when the computer misses
 	if (playerShipsCoords.includes(compAttackGuess)) {
 		let totalHitsOnPlayerShips: number = JSON.parse(
 			localStorage.getItem('totalHitsOnPlayerShips') ?? ''
