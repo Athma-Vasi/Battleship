@@ -43,6 +43,36 @@ type CompShipsPlacementChoice = {
 
 type CompShipsPlacementChoiceArr = CompShipsPlacementChoice[]
 
+type HavenShipNames = {
+	superdreadnoughts: string[]
+	cruisers: string[]
+	battleships: string[]
+	destroyers: string[]
+	frigates: string[]
+}
+
+type ManticoreShipNames = {
+	superdreadnoughts: string[]
+	cruisers: string[]
+	battleships: string[]
+	destroyers: string[]
+	frigates: string[]
+}
+
+type ShipNames = {
+	haven: HavenShipNames
+	manticore: ManticoreShipNames
+}
+
+type BattleTexts = {
+	hitsOnComp: string[]
+	missesByPlayer: string[]
+	playerShipDestroyed: string[]
+	hitsOnPlayer: string[]
+	missesByComp: string[]
+	compShipDestroyed: string[]
+}
+
 export {
 	Form,
 	Div,
@@ -55,4 +85,8 @@ export {
 	Frigate,
 	CompShipsPlacementChoice,
 	CompShipsPlacementChoiceArr,
+	HavenShipNames,
+	ManticoreShipNames,
+	ShipNames,
+	BattleTexts,
 }

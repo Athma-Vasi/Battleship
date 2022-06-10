@@ -8,6 +8,8 @@ import {
 } from '../utilities/elementCreators'
 import { NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses'
+import { shipNames } from '../data/shipNames'
+import { battleTexts } from '../data/battleTexts'
 
 const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')

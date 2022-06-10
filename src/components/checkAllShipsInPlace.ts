@@ -1,6 +1,6 @@
 import { placeCompShipsOnBoard } from './placeCompShipsOnBoard'
 import { renderStartButton } from './renderStartButton'
-import { compShipsPlacementChoicesArr } from '../utilities/compShipsPlacementChoicesArr'
+import { compShipsPlacementChoicesArr } from '../data/compShipsPlacementChoicesArr'
 import { renderWaterInPlayerBoard } from './renderWaterInPlayerBoard'
 
 const checkAllShipsInPlace = function () {
