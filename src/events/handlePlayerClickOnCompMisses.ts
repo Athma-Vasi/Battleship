@@ -12,7 +12,10 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 
-	//starting prevent clicking
+	//to prevent player clicking while computer's turn
+	//while timer runs, clicks on comp grid cells do not register
+	//after relevant work is done, event listeners are added back on
+	//simulates computer taking time to 'think'
 	compShipNotPresent.forEach((cell) => {
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompMisses))(cell)
 	})

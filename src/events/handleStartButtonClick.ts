@@ -10,13 +10,12 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 		localStorage.setItem('isGameRunning', JSON.stringify(true))
 	}
 
-	let isGameRunning = JSON.parse(localStorage.getItem('isGameRunning') ?? '')
-
 	const compShipPresentCells: NodesDiv = document.querySelectorAll('.compShipPresent')
 
 	const compShipNotPresentCells: NodesDiv =
 		document.querySelectorAll('.compShipNotPresent')
 
+	//add evt listeners to comp game cells
 	compShipPresentCells.forEach((cell) =>
 		addEvtListener('click')(handlePlayerClickOnCompShips)(cell)
 	)
@@ -27,16 +26,3 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 }
 
 export { handleStartButtonClick }
-
-// while (isGameRunning) {
-// 	log('running')
-
-// 	setTimeout(() => {
-// 		//insert a win conditon that changes isGameRunning to false
-// 		log('macrotask running')
-// 		isGameRunning = false
-// 	}, 1000)
-
-// 	isGameRunning = false
-// }
-// log('not running')

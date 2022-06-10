@@ -10,7 +10,6 @@ import {
 import { Div, NodesDiv } from '../utilities/types'
 
 const preventClicksAfterWin = function () {
-	//disable clicking until computer has its turn
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 

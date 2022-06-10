@@ -7,8 +7,8 @@ const receiveFormName = function (this: HTMLFormElement, ev: SubmitEvent) {
 	ev.preventDefault()
 
 	const formData = new FormData(this)
-	const playerName = formData.get('form-name-input')?.toString()
+	const playerName = formData.get('form-name-input')?.toString() ?? ''
 
-	renderGamePage()
+	renderGamePage(playerName)
 }
 export { receiveFormName }

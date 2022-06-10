@@ -11,7 +11,7 @@ const genRandCompAttackGuess = function () {
 	)
 
 	//check if guess is in previous guesses, if so run the random function again
-	//simulates ""intelligent guessing""
+	//avoids guessing the same co-ordinates
 	let isUniqueCoordinate = false
 
 	while (!isUniqueCoordinate) {

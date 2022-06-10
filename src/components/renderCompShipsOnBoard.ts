@@ -43,7 +43,7 @@ const renderCompShipsOnBoard = function (
 		if (!Array.isArray(shipObj)) {
 			Object.entries(shipObj).forEach(([shipSection, sectionCoords]) => {
 				//grab the corresponding game board cell
-				const shipCell: Div = document.querySelector(`[data-cellComp="${sectionCoords}"]`)
+				const shipCell: Div = document.querySelector(`[data-cellcomp="${sectionCoords}"]`)
 
 				pipe(
 					addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
@@ -61,7 +61,7 @@ const renderCompShipsOnBoard = function (
 				Object.entries(ship).forEach(([shipSection, sectionCoords]) => {
 					//grab the corresponding game board cell
 					const shipCell: Div = document.querySelector(
-						`[data-cellComp="${sectionCoords}"]`
+						`[data-cellcomp="${sectionCoords}"]`
 					)
 
 					pipe(

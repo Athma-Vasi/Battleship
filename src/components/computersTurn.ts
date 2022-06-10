@@ -9,8 +9,6 @@ import { genRandCompAttackGuess } from './genRandCompAttackGuess'
 const computersTurn = function () {
 	const log = (i: unknown) => console.log('\n', i, '\n')
 
-	log('starting timeout')
-
 	if (!localStorage.getItem('totalHitsOnPlayerShips')) {
 		localStorage.setItem('totalHitsOnPlayerShips', JSON.stringify(0))
 	}
@@ -39,7 +37,7 @@ const computersTurn = function () {
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 
-	//do something then add evtlisteners back on
+	//add evtlisteners back on after works done
 	compShipPresent.forEach((cell) => {
 		pipe(addEvtListener('click')(handlePlayerClickOnCompShips))(cell)
 	})
@@ -47,7 +45,5 @@ const computersTurn = function () {
 	compShipNotPresent.forEach((cell) => {
 		pipe(addEvtListener('click')(handlePlayerClickOnCompMisses))(cell)
 	})
-
-	log('ending timeout')
 }
 export { computersTurn }

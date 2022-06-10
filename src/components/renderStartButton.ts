@@ -24,7 +24,7 @@ const renderStartButton = function () {
 	const shipBttnsWrapper: Div = document.querySelector('.shipBttns-wrapper')
 
 	pipe(
-		addTextToElem('Start Game'),
+		addTextToElem('ENGAGE'),
 		addAttributeToElem([
 			['type', 'button'],
 			['value', 'start'],

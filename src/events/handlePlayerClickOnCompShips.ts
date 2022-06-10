@@ -31,7 +31,6 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	if (compShipsCoords.includes(currentCellCoord)) {
 		//check hit counter to see if its the last hit
 		if (totalHitsOnCompShips === 17) {
-			log('player')
 			//call game winner function
 			announceGameWinner('player')
 		}
@@ -52,24 +51,40 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	this.textContent = ''
 	this.textContent = '💥'
 
-	//update hit counter and store
-	totalHitsOnCompShips = totalHitsOnCompShips + 1
-	localStorage.setItem('totalHitsOnCompShips', JSON.stringify(totalHitsOnCompShips))
+	//to prevent clicks on previously hit cells counting towards totalHitsOnCompShips
+	if (!localStorage.getItem('compShipsHitCoords')) {
+		localStorage.setItem('compShipsHitCoords', JSON.stringify([]))
+	}
+
+	const compShipsHitCoords: string[] = JSON.parse(
+		localStorage.getItem('compShipsHitCoords') ?? ''
+	)
+
+	//update hit counter only when new hit is not on a previously hit cell, and store
+	if (!compShipsHitCoords.includes(currentCellCoord)) {
+		//store the unique hit co-ordinate in the Set
+		compShipsHitCoords.push(currentCellCoord)
+		localStorage.setItem('compShipsHitCoords', JSON.stringify(compShipsHitCoords))
+
+		//increment the hit counter and store
+		totalHitsOnCompShips = totalHitsOnCompShips + 1
+		localStorage.setItem('totalHitsOnCompShips', JSON.stringify(totalHitsOnCompShips))
+	}
 
 	//disable clicking until computer has its turn
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 
-	//starting prevent clicking
+	//to prevent player clicking while computer's turn
+	//while timer runs, clicks on comp grid cells do not register
+	//after relevant work is done, event listeners are added back on
+	//simulates computer taking time to 'think'
 	compShipPresent.forEach((cell) => {
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompShips))(cell)
 	})
 	compShipNotPresent.forEach((cell) => {
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompMisses))(cell)
 	})
-
-	//
-	//
 
 	setTimeout(computersTurn, 0)
 }
