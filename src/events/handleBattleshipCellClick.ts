@@ -9,10 +9,16 @@ import {
 	removeEvtListener,
 	elemCreator,
 	pipe,
+	addEvtListener,
 } from '../utilities/elementCreators'
-import { Div, NodesDiv, Battleship } from '../utilities/types'
+import { Div, NodesDiv, Battleship, Button } from '../utilities/types'
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
 import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter'
 import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave'
+import { handleCarrierBttnClick } from './handleCarrierBttnClick'
+import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
+import { handleFrigateBttnClick } from './handleFrigateBttnClick'
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -119,8 +125,23 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 	//store current ship coords to pool of all ship coords
 	accumulateShipCoords(battleshipCoords)
 
-	//remove event listeners after single battleship has been placed
 	if (isCorrectNumberOfShips(ship, amount) === true) {
+		//enable events on other shipButtons after both destroyers have been placed
+		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
+		if (superdreadnoughtBttn)
+			pipe(addEvtListener('click')(handleSuperdreadnoughtBttnClick))(superdreadnoughtBttn)
+
+		const carrierBttn: Button = document.querySelector('.bttn-carrier')
+		if (carrierBttn) pipe(addEvtListener('click')(handleCarrierBttnClick))(carrierBttn)
+
+		const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
+		if (destroyerBttn)
+			pipe(addEvtListener('click')(handleDestroyerBttnClick))(destroyerBttn)
+
+		const frigateBttn: Button = document.querySelector('.bttn-frigate')
+		if (frigateBttn) pipe(addEvtListener('click')(handleFrigateBttnClick))(frigateBttn)
+
+		//remove event listeners after battleship has been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleBattleshipCellClick),

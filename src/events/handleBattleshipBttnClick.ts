@@ -1,4 +1,4 @@
-import { Div, NodesDiv } from '../utilities/types'
+import { Button, Div, NodesDiv } from '../utilities/types'
 import {
 	elemCreator,
 	appendElemToParent,
@@ -8,11 +8,16 @@ import {
 	addEvtListener,
 	addStyleToElem,
 	pipe,
+	removeEvtListener,
 } from '../utilities/elementCreators'
 
 import { handleBattleshipCellClick } from './handleBattleshipCellClick'
 import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter'
 import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave'
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
+import { handleCarrierBttnClick } from './handleCarrierBttnClick'
+import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
+import { handleFrigateBttnClick } from './handleFrigateBttnClick'
 
 const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -22,6 +27,26 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 
 	const bttnValue = this.value
 
+	this.disabled = true
+
+	//disable clicking on other shipButtons while selected
+	//prevents double selection
+	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
+	if (superdreadnoughtBttn)
+		pipe(removeEvtListener('click')(handleSuperdreadnoughtBttnClick))(
+			superdreadnoughtBttn
+		)
+
+	const carrierBttn: Button = document.querySelector('.bttn-carrier')
+	if (carrierBttn) pipe(removeEvtListener('click')(handleCarrierBttnClick))(carrierBttn)
+
+	const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
+	if (destroyerBttn)
+		pipe(removeEvtListener('click')(handleDestroyerBttnClick))(destroyerBttn)
+
+	const frigateBttn: Button = document.querySelector('.bttn-frigate')
+	if (frigateBttn) pipe(removeEvtListener('click')(handleFrigateBttnClick))(frigateBttn)
+
 	//assign event listeners to each player game cell after clicking battleship button
 	playerGameCells.forEach((player) =>
 		pipe(
@@ -30,7 +55,5 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 			addEvtListener('mouseleave')(handleBattleshipMouseLeave)
 		)(player)
 	)
-
-	this.disabled = true
 }
 export { handleBattleshipBttnClick }

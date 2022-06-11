@@ -2,6 +2,7 @@ import { announceGameWinner } from '../components/announceGameWinner'
 import { computersTurn } from '../components/computersTurn'
 import {
 	addEvtListener,
+	addStyleToElem,
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,

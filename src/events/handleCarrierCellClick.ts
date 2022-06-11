@@ -16,6 +16,10 @@ import { accumulateShipCoords } from '../components/accumulateShipCoords'
 import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
 import { handleCarrierMouseEnter } from './handleCarrierMouseEnter'
 import { handleCarrierMouseLeave } from './handleCarrierMouseLeave'
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
+import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
+import { handleFrigateBttnClick } from './handleFrigateBttnClick'
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -125,8 +129,24 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	//store current ship coords to pool of all ship coords
 	accumulateShipCoords(carrierCoords)
 
-	//remove event listeners after single carrier has been placed
 	if (isCorrectNumberOfShips(ship, amount) === true) {
+		//enable events on other shipButtons after both destroyers have been placed
+		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
+		if (superdreadnoughtBttn)
+			pipe(addEvtListener('click')(handleSuperdreadnoughtBttnClick))(superdreadnoughtBttn)
+
+		const battleshipBttn: Button = document.querySelector('.bttn-battleship')
+		if (battleshipBttn)
+			pipe(addEvtListener('click')(handleBattleshipBttnClick))(battleshipBttn)
+
+		const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
+		if (destroyerBttn)
+			pipe(addEvtListener('click')(handleDestroyerBttnClick))(destroyerBttn)
+
+		const frigateBttn: Button = document.querySelector('.bttn-frigate')
+		if (frigateBttn) pipe(addEvtListener('click')(handleFrigateBttnClick))(frigateBttn)
+
+		//remove event listeners after single carrier has been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleCarrierCellClick),

@@ -42,7 +42,7 @@ const renderShipSelectionBttns = function () {
 			['value', 'carrier'],
 		]),
 		appendElemToParent(shipsBttnContainer)
-	)(elemCreator('button')(['bttn-Dreadnought']))
+	)(elemCreator('button')(['bttn-carrier']))
 
 	pipe(
 		addTextToElem('Battleship'),

@@ -19,7 +19,7 @@ const renderCompShipsOnBoard = function (
 
 	const compShipsWrapper: Div = document.querySelector('.compShips-wrapper')
 
-	const compShipsContainer = document.querySelector('.compShips-container')
+	const compShipsContainer: Div = document.querySelector('.compShips-container')
 
 	//persistent state management
 	if (!localStorage.getItem('compShipsCoords')) {
@@ -47,9 +47,9 @@ const renderCompShipsOnBoard = function (
 
 				pipe(
 					addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
-					// addEvtListener('click')(handlePlayerClickOnCompShips),
-					addTextToElem(`${ship[0].toUpperCase()}`),
-					addStyleToElem([['background-color', 'lightgray']])
+					addTextToElem('〰'),
+					// addTextToElem(`${ship[0].toUpperCase()}`),
+					addStyleToElem([['border', '1px solid gray']])
 				)(shipCell)
 
 				//store the co-ordinates
@@ -66,9 +66,9 @@ const renderCompShipsOnBoard = function (
 
 					pipe(
 						addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
-						// addEvtListener('click')(handlePlayerClickOnCompShips),
-						addTextToElem(`${Object.keys(ship).length === 2 ? 'D' : 'F'}`),
-						addStyleToElem([['background-color', 'lightgray']])
+						// addTextToElem(`${Object.keys(ship).length === 2 ? 'D' : 'F'}`),
+						addTextToElem('〰'),
+						addStyleToElem([['border', '1px solid gray']])
 					)(shipCell)
 
 					//store the co-ordinates
@@ -84,7 +84,6 @@ const renderCompShipsOnBoard = function (
 	compGameCells.forEach((cell) => {
 		if (!cell.classList.contains('compShipPresent')) {
 			pipe(
-				// addEvtListener('click')(handlePlayerClickOnCompMisses),
 				addAttributeToElem([['class', 'compShipNotPresent comp-gameCell']]),
 				addTextToElem('〰')
 			)(cell)

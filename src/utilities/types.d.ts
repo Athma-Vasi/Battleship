@@ -1,7 +1,9 @@
 type Form = HTMLFormElement | null
 type Div = HTMLDivElement | null
-type NodesDiv = NodeListOf<HTMLDivElement>
 type Button = HTMLButtonElement | null
+
+type NodesDiv = NodeListOf<HTMLDivElement>
+type NodesBttn = NodeListOf<HTMLButtonElement>
 
 type Superdreadnought = {
 	head: string
@@ -93,6 +95,7 @@ export {
 	Form,
 	Div,
 	NodesDiv,
+	NodesBttn,
 	Superdreadnought,
 	Carrier,
 	Button,

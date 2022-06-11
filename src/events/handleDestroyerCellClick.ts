@@ -9,10 +9,15 @@ import {
 	addAttributeToElem,
 	removeEvtListener,
 	pipe,
+	addEvtListener,
 } from '../utilities/elementCreators'
-import { Div, NodesDiv, Destroyer } from '../utilities/types'
+import { Div, NodesDiv, Destroyer, Button } from '../utilities/types'
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
+import { handleCarrierBttnClick } from './handleCarrierBttnClick'
 import { handleDestroyerMouseEnter } from './handleDestroyerMouseEnter'
 import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave'
+import { handleFrigateBttnClick } from './handleFrigateBttnClick'
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -105,8 +110,23 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 	//store current ship coords to pool of all ship coords
 	accumulateShipCoords(destroyerCoords)
 
-	//remove event listeners after single battleship has been placed
 	if (isCorrectNumberOfShips(ship, amount) === false) {
+		//enable events on other shipButtons after both destroyers have been placed
+		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
+		if (superdreadnoughtBttn)
+			pipe(addEvtListener('click')(handleSuperdreadnoughtBttnClick))(superdreadnoughtBttn)
+
+		const carrierBttn: Button = document.querySelector('.bttn-carrier')
+		if (carrierBttn) pipe(addEvtListener('click')(handleCarrierBttnClick))(carrierBttn)
+
+		const battleshipBttn: Button = document.querySelector('.bttn-battleship')
+		if (battleshipBttn)
+			pipe(addEvtListener('click')(handleBattleshipBttnClick))(battleshipBttn)
+
+		const frigateBttn: Button = document.querySelector('.bttn-frigate')
+		if (frigateBttn) pipe(addEvtListener('click')(handleFrigateBttnClick))(frigateBttn)
+
+		//remove event listeners after both destroyers have been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleDestroyerCellClick),

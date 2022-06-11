@@ -1,6 +1,6 @@
 import { computersTurn } from '../components/computersTurn'
 import { renderBattleMessageElem } from '../components/renderBattleMessage'
-import { pipe, removeEvtListener } from '../utilities/elementCreators'
+import { addStyleToElem, pipe, removeEvtListener } from '../utilities/elementCreators'
 import { NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips'
 

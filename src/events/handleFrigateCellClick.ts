@@ -9,12 +9,17 @@ import {
 	elemCreator,
 	removeEvtListener,
 	pipe,
+	addEvtListener,
 } from '../utilities/elementCreators'
-import { Div, NodesDiv, Frigate } from '../utilities/types'
+import { Div, NodesDiv, Frigate, NodesBttn, Button } from '../utilities/types'
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
+import { handleCarrierBttnClick } from './handleCarrierBttnClick'
+import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
 import { handleDestroyerMouseEnter } from './handleDestroyerMouseEnter'
 import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave'
 import { handleFrigateMouseEnter } from './handleFrigateMouseEnter'
 import { handleFrigateMouseLeave } from './handleFrigateMouseLeave'
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
@@ -107,8 +112,24 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	//store current ship coords to pool of all ship coords
 	accumulateShipCoords(frigateCoords)
 
-	//remove event listeners after single battleship has been placed
 	if (isCorrectNumberOfShips(ship, amount) === false) {
+		//enable events on other shipButtons after both frigates have been placed
+		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
+		if (superdreadnoughtBttn)
+			pipe(addEvtListener('click')(handleSuperdreadnoughtBttnClick))(superdreadnoughtBttn)
+
+		const carrierBttn: Button = document.querySelector('.bttn-carrier')
+		if (carrierBttn) pipe(addEvtListener('click')(handleCarrierBttnClick))(carrierBttn)
+
+		const battleshipBttn: Button = document.querySelector('.bttn-battleship')
+		if (battleshipBttn)
+			pipe(addEvtListener('click')(handleBattleshipBttnClick))(battleshipBttn)
+
+		const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
+		if (destroyerBttn)
+			pipe(addEvtListener('click')(handleDestroyerBttnClick))(destroyerBttn)
+
+		//remove event listeners after both frigates have been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleFrigateCellClick),
