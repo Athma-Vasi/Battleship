@@ -63,9 +63,13 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
+
+			//prevents duplicate letters being placed
+			if (nextCell) nextCell.textContent = ''
+
 			pipe(
 				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['background-color', 'grey']]),
+				addStyleToElem([['color', '#f0a400']]),
 				addTextToElem('C')
 			)(nextCell)
 
@@ -100,9 +104,12 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
+			//prevents duplicate letters being placed
+			if (nextCell) nextCell.textContent = ''
+
 			pipe(
 				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['background-color', 'grey']]),
+				addStyleToElem([['color', '#f0a400']]),
 				addTextToElem('C')
 			)(nextCell)
 

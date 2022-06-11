@@ -23,7 +23,8 @@ const handleFrigateMouseLeave = function (this: HTMLDivElement, ev: MouseEvent) 
 
 	//to avoid changing cells of ships already present
 	if (!nextCell?.classList.contains('playerShipPresent')) {
-		pipe(addStyleToElem([['background-color', 'white']]))(nextCell)
+		if (nextCell) nextCell.textContent = ''
+		pipe(addStyleToElem([['color', 'gainsboro']]))(nextCell)
 	}
 }
 export { handleFrigateMouseLeave }

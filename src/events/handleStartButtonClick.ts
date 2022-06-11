@@ -5,16 +5,36 @@ import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips'
 import { shipNames } from '../data/shipNames'
 import { battleTexts } from '../data/battleTexts'
 import { randomizeAndStoreShipNames } from '../components/randomizeAndStoreShipNames'
+import { renderCompBoard } from '../components/renderCompBoard'
+import { placeCompShipsOnBoard } from '../components/placeCompShipsOnBoard'
+import { compShipsPlacementChoicesArr } from '../data/compShipsPlacementChoicesArr'
 
 const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
+
+	//remove the info screen
+	const infoScreenContainer = document.querySelector('.infoScreen-container')
+	infoScreenContainer?.remove()
+
+	//remove the ship bttns wrapper
+	const shipBttnsWrapper = document.querySelector('.shipBttns-wrapper')
+	shipBttnsWrapper?.remove()
+
+	//remove the start button
+	this.remove()
+
+	//render comp board and place the ships
+	renderCompBoard()
+	placeCompShipsOnBoard(compShipsPlacementChoicesArr)
+
+	//randomize and store ship names for each battle
+	randomizeAndStoreShipNames(shipNames)
 
 	if (!localStorage.getItem('isGameRunning')) {
 		localStorage.setItem('isGameRunning', JSON.stringify(true))
 	}
 
 	const compShipPresentCells: NodesDiv = document.querySelectorAll('.compShipPresent')
-
 	const compShipNotPresentCells: NodesDiv =
 		document.querySelectorAll('.compShipNotPresent')
 
@@ -26,16 +46,6 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 	compShipNotPresentCells.forEach((cell) =>
 		addEvtListener('click')(handlePlayerClickOnCompMisses)(cell)
 	)
-
-	//randomize and store ship names for each battle
-	randomizeAndStoreShipNames(shipNames)
-
-	//remove the info screen
-	const infoScreenContainer = document.querySelector('.infoScreen-container')
-	infoScreenContainer?.remove()
-
-	//remove the start button
-	this.remove()
 }
 
 export { handleStartButtonClick }

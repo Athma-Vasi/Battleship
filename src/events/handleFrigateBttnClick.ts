@@ -26,15 +26,6 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 
 	const bttnValue = this.value
 
-	//assign event listeners to each player game cell after clicking destroyer button
-	playerGameCells.forEach((player) =>
-		pipe(
-			addEvtListener('click')(handleFrigateCellClick),
-			addEvtListener('mouseenter')(handleFrigateMouseEnter),
-			addEvtListener('mouseleave')(handleFrigateMouseLeave)
-		)(player)
-	)
-
 	//disable frigate button after one click
 	this.disabled = true
 
@@ -57,16 +48,13 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 	if (destroyerBttn)
 		pipe(removeEvtListener('click')(handleDestroyerBttnClick))(destroyerBttn)
 
-	// const shipButtons: NodesBttn = document.querySelectorAll(
-	// 	'.bttn-superdreadnought .bttn-cruiser .bttn-battleship .bttn-destroyer'
-	// )
-	// shipButtons.forEach((bttn) => (bttn.disabled = true))
-
-	// //disable button after two frigates on board
-	// if (localStorage.getItem('isDoubleFrigate')) {
-	// 	if (JSON.parse(localStorage.getItem('isDoubleFrigate') ?? '') === false) {
-	// 		this.disabled = true
-	// 	}
-	// }
+	//assign event listeners to each player game cell after clicking destroyer button
+	playerGameCells.forEach((player) =>
+		pipe(
+			addEvtListener('click')(handleFrigateCellClick),
+			addEvtListener('mouseenter')(handleFrigateMouseEnter),
+			addEvtListener('mouseleave')(handleFrigateMouseLeave)
+		)(player)
+	)
 }
 export { handleFrigateBttnClick }

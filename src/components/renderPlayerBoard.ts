@@ -13,7 +13,10 @@ import { Div } from '../utilities/types'
 const renderPlayerBoard = function () {
 	const log = (i: unknown) => console.log('\n', i, '\n')
 
-	const playerBoardWrapper: Div = document.querySelector('.playerBoard-wrapper')
+	const main: HTMLElement | null = document.querySelector('.main')
+
+	const playerBoardWrapper = elemCreator('div')(['playerBoard-wrapper'])
+	appendElemToParent(main)(playerBoardWrapper)
 
 	const playerBoardContainer = elemCreator('div')(['playerBoard-container'])
 	appendElemToParent(playerBoardWrapper)(playerBoardContainer)

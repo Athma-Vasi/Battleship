@@ -47,7 +47,7 @@ const renderCompShipsOnBoard = function (
 
 				pipe(
 					addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
-					addTextToElem('〰'),
+					addTextToElem('✴'),
 					// addTextToElem(`${ship[0].toUpperCase()}`),
 					addStyleToElem([['border', '1px solid gray']])
 				)(shipCell)
@@ -67,7 +67,7 @@ const renderCompShipsOnBoard = function (
 					pipe(
 						addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
 						// addTextToElem(`${Object.keys(ship).length === 2 ? 'D' : 'F'}`),
-						addTextToElem('〰'),
+						addTextToElem('✴'),
 						addStyleToElem([['border', '1px solid gray']])
 					)(shipCell)
 
@@ -85,7 +85,7 @@ const renderCompShipsOnBoard = function (
 		if (!cell.classList.contains('compShipPresent')) {
 			pipe(
 				addAttributeToElem([['class', 'compShipNotPresent comp-gameCell']]),
-				addTextToElem('〰')
+				addTextToElem('✴')
 			)(cell)
 		}
 	})

@@ -27,7 +27,9 @@ const handleDestroyerMouseEnter = function (this: HTMLDivElement, ev: MouseEvent
 				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
 
-			pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
+			if (!nextCell?.classList.contains('playerShipPresent')) {
+				pipe(addTextToElem('D'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+			}
 		}
 	} else if (currentAxis === 'Axis-Y') {
 		for (let i = 0; i < 2; i++) {
@@ -35,7 +37,9 @@ const handleDestroyerMouseEnter = function (this: HTMLDivElement, ev: MouseEvent
 				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
 
-			pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
+			if (!nextCell?.classList.contains('playerShipPresent')) {
+				pipe(addTextToElem('D'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+			}
 		}
 	}
 }

@@ -12,6 +12,9 @@ const placeCompShipsOnBoard = function (
 	const compGameCells: NodesDiv = document.querySelectorAll('.comp-gameCell')
 	const compShipsPlacementChoicesArr = compShipsPlacementChoicesArr_
 
+	//TODO: randomize the comp ship placement
+	//
+
 	renderCompShipsOnBoard(compShipsPlacementChoicesArr[0])
 }
 export { placeCompShipsOnBoard }

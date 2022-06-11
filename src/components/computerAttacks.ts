@@ -1,3 +1,4 @@
+import { addStyleToElem, pipe } from '../utilities/elementCreators'
 import { Div, NodesDiv } from '../utilities/types'
 import { renderBattleMessageElem } from './renderBattleMessage'
 
@@ -63,6 +64,7 @@ const computerAttacks = function (compAttackGuess_: string) {
 		if (playerShipCell) {
 			playerShipCell.textContent = ''
 			playerShipCell.textContent = '✖'
+			pipe(addStyleToElem([['color', 'gainsboro']]))(playerShipCell)
 		}
 	}
 }

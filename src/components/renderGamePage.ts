@@ -11,6 +11,8 @@ const renderGamePage = function (playerName_: string) {
 	const playerName = playerName_
 
 	//remove main page content
+	const greetingsContainer = document.querySelector('.greetings-container')
+	greetingsContainer?.remove()
 	const formContainer: Div = document.querySelector('.form-container')
 	formContainer?.remove()
 
@@ -18,6 +20,5 @@ const renderGamePage = function (playerName_: string) {
 	renderPlayerInfoScreen(playerName)
 	renderShipSelectionBttns()
 	renderPlayerBoard()
-	renderCompBoard()
 }
 export { renderGamePage }

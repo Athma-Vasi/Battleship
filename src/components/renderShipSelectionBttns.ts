@@ -19,7 +19,10 @@ import { Div } from '../utilities/types'
 const renderShipSelectionBttns = function () {
 	const log = (i: unknown) => console.log('\n', i, '\n')
 
-	const shipBttnsWrapper: Div = document.querySelector('.shipBttns-wrapper')
+	const main: HTMLElement | null = document.querySelector('.main')
+
+	const shipBttnsWrapper = elemCreator('div')(['shipBttns-wrapper'])
+	appendElemToParent(main)(shipBttnsWrapper)
 
 	const shipsBttnContainer = elemCreator('div')(['shipsBttn-container'])
 	appendElemToParent(shipBttnsWrapper)(shipsBttnContainer)

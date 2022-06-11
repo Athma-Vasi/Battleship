@@ -13,7 +13,10 @@ import {
 const renderCompBoard = function () {
 	const log = (i: unknown) => console.log('\n', i, '\n')
 
-	const compBoardWrapper: Div = document.querySelector('.compBoard-wrapper')
+	const main: HTMLElement | null = document.querySelector('.main')
+
+	const compBoardWrapper = elemCreator('div')(['compBoard-wrapper'])
+	appendElemToParent(main)(compBoardWrapper)
 
 	const compBoardContainer = elemCreator('div')(['compBoard-container'])
 	appendElemToParent(compBoardWrapper)(compBoardContainer)

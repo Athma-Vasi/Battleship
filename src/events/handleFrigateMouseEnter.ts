@@ -21,6 +21,8 @@ const handleFrigateMouseEnter = function (this: HTMLDivElement, ev: MouseEvent) 
 		`[data-cellplayer="${currentX},${currentY}"]`
 	)
 
-	pipe(addStyleToElem([['background-color', 'grey']]))(nextCell)
+	if (!nextCell?.classList.contains('playerShipPresent')) {
+		pipe(addTextToElem('F'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+	}
 }
 export { handleFrigateMouseEnter }

@@ -21,6 +21,7 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 
 	this.textContent == ''
 	this.textContent = '✖'
+	pipe(addStyleToElem([['color', 'gainsboro']]))(this)
 
 	//to prevent player clicking while computer's turn
 	//while timer runs, clicks on comp grid cells do not register

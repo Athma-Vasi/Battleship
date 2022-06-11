@@ -1,7 +1,8 @@
 import { placeCompShipsOnBoard } from './placeCompShipsOnBoard'
 import { renderStartButton } from './renderStartButton'
 import { compShipsPlacementChoicesArr } from '../data/compShipsPlacementChoicesArr'
-import { renderWaterInPlayerBoard } from './renderWaterInPlayerBoard'
+import { renderStarsInPlayerBoard } from './renderStarsInPlayerBoard'
+import { renderCompBoard } from './renderCompBoard'
 
 const checkAllShipsInPlace = function () {
 	//if all the player ships have been placed
@@ -9,9 +10,8 @@ const checkAllShipsInPlace = function () {
 		const shipsCoordsArr = JSON.parse(localStorage.getItem('playerShipsCoords') ?? '')
 
 		if (shipsCoordsArr.length === 18) {
-			placeCompShipsOnBoard(compShipsPlacementChoicesArr)
-			//add water to player board
-			renderWaterInPlayerBoard()
+			//add Stars to player board
+			renderStarsInPlayerBoard()
 			//START GAME
 			renderStartButton()
 		}

@@ -28,7 +28,6 @@ const renderBattleMessageElem = function (
 		'Direct hit on',
 		'Shields weak on',
 		'Hull integrity is weakening on',
-		'Lost communication with',
 		'Impellers damaged on',
 	]
 	const hitsPrecursorString =
@@ -41,7 +40,11 @@ const renderBattleMessageElem = function (
 		localStorage.getItem('manticoreShipNames') ?? ''
 	)
 
-	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
+	const main: HTMLElement | null = document.querySelector('.main')
+
+	const infoScreenWrapper = elemCreator('div')(['infoScreen-wrapper'])
+	appendElemToParent(main)(infoScreenWrapper)
+
 	const battleMessageElem = elemCreator('p')(['battleMessageElem'])
 	appendElemToParent(infoScreenWrapper)(battleMessageElem)
 
