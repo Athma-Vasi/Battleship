@@ -1,7 +1,7 @@
 import { computersTurn } from '../components/computersTurn'
 import { renderBattleMessageElem } from '../components/renderBattleMessage'
 import { addStyleToElem, pipe, removeEvtListener } from '../utilities/elementCreators'
-import { NodesDiv } from '../utilities/types'
+import { Div, NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips'
 
 const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseEvent) {
@@ -19,9 +19,27 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 		hitOrMiss
 	)
 
+	//assigns '✖' to currently missed co-ordinate and colors it Apple amber
 	this.textContent == ''
 	this.textContent = '✖'
-	pipe(addStyleToElem([['color', 'gainsboro']]))(this)
+	pipe(addStyleToElem([['color', '#f0a400']]))(this)
+
+	//initialize storage for previously missed co-ordinates
+	if (!localStorage.getItem('prevPlayerMissOnCompCoord')) {
+		localStorage.setItem('prevPlayerMissOnCompCoord', JSON.stringify(''))
+	}
+
+	//grab the previous miss co-ordinates in order to turn them back into gray
+	const prevPlayerMissOnCompCoord = JSON.parse(
+		localStorage.getItem('prevPlayerMissOnCompCoord') ?? ''
+	)
+	const prevPlayerMissOnCompCell: Div = document.querySelector(
+		`[data-cellcomp="${prevPlayerMissOnCompCoord}"]`
+	)
+	pipe(addStyleToElem([['color', 'gainsboro']]))(prevPlayerMissOnCompCell)
+
+	//store current miss co-ordinates in order to highlight the current round's co-ordinates
+	localStorage.setItem('prevPlayerMissOnCompCoord', JSON.stringify(currentCellCoord))
 
 	//to prevent player clicking while computer's turn
 	//while timer runs, clicks on comp grid cells do not register

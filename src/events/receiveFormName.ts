@@ -9,6 +9,11 @@ const receiveFormName = function (this: HTMLFormElement, ev: SubmitEvent) {
 	const formData = new FormData(this)
 	const playerName = formData.get('form-name-input')?.toString() ?? ''
 
+	//store playerName to use for battle texts
+	if (!localStorage.getItem('playerName')) {
+		localStorage.setItem('playerName', JSON.stringify(playerName))
+	}
+
 	renderGamePage(playerName)
 }
 export { receiveFormName }

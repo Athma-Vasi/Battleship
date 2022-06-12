@@ -35,26 +35,63 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 		)(player)
 	)
 
-	//disable destroyer bttn after one click
+	//disable this button after clicking
 	this.disabled = true
+
+	//visually indicate that 'this' button is selected
+	pipe(
+		addStyleToElem([
+			['border', '1px solid #f0a400'],
+			['color', '#f0a400'],
+			['cursor', 'crosshair'],
+		])
+	)(this)
 
 	//disable clicking on other shipButtons while selected
 	//prevents double selection
 	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 	if (superdreadnoughtBttn)
-		pipe(removeEvtListener('click')(handleSuperdreadnoughtBttnClick))(
-			superdreadnoughtBttn
-		)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleSuperdreadnoughtBttnClick)
+		)(superdreadnoughtBttn)
 
 	const carrierBttn: Button = document.querySelector('.bttn-carrier')
-	if (carrierBttn) pipe(removeEvtListener('click')(handleCarrierBttnClick))(carrierBttn)
+	if (carrierBttn)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleCarrierBttnClick)
+		)(carrierBttn)
 
 	const battleshipBttn: Button = document.querySelector('.bttn-battleship')
 	if (battleshipBttn)
-		pipe(removeEvtListener('click')(handleBattleshipBttnClick))(battleshipBttn)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleBattleshipBttnClick)
+		)(battleshipBttn)
 
 	const frigateBttn: Button = document.querySelector('.bttn-frigate')
-	if (frigateBttn) pipe(removeEvtListener('click')(handleFrigateBttnClick))(frigateBttn)
+	if (frigateBttn)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleFrigateBttnClick)
+		)(frigateBttn)
 
 	// //disable button after two destroyers on board
 	// if (localStorage.getItem('isDoubleDestroyer')) {

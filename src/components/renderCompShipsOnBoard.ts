@@ -49,7 +49,7 @@ const renderCompShipsOnBoard = function (
 					addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
 					addTextToElem('✴'),
 					// addTextToElem(`${ship[0].toUpperCase()}`),
-					addStyleToElem([['border', '1px solid gray']])
+					addStyleToElem([['border', '1px solid #00f000']])
 				)(shipCell)
 
 				//store the co-ordinates
@@ -68,7 +68,7 @@ const renderCompShipsOnBoard = function (
 						addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
 						// addTextToElem(`${Object.keys(ship).length === 2 ? 'D' : 'F'}`),
 						addTextToElem('✴'),
-						addStyleToElem([['border', '1px solid gray']])
+						addStyleToElem([['border', '1px solid #00f000']])
 					)(shipCell)
 
 					//store the co-ordinates

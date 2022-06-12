@@ -1,4 +1,9 @@
-import { addEvtListener } from '../utilities/elementCreators'
+import {
+	addEvtListener,
+	appendElemToParent,
+	elemCreator,
+	pipe,
+} from '../utilities/elementCreators'
 import { NodesDiv, BattleTexts } from '../utilities/types'
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses'
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips'
@@ -12,9 +17,9 @@ import { compShipsPlacementChoicesArr } from '../data/compShipsPlacementChoicesA
 const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const log = (i: unknown) => console.log('\n', i, '\n')
 
-	//remove the info screen
-	const infoScreenContainer = document.querySelector('.infoScreen-container')
-	infoScreenContainer?.remove()
+	//remove the previous info screen
+	const infoScreenWrapper = document.querySelector('.infoScreen-wrapper')
+	infoScreenWrapper?.remove()
 
 	//remove the ship bttns wrapper
 	const shipBttnsWrapper = document.querySelector('.shipBttns-wrapper')
@@ -46,6 +51,11 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 	compShipNotPresentCells.forEach((cell) =>
 		addEvtListener('click')(handlePlayerClickOnCompMisses)(cell)
 	)
+
+	//render a new info screen for the battle texts
+	const main: HTMLElement | null = document.querySelector('.main')
+
+	pipe(appendElemToParent(main))(elemCreator('div')(['infoScreen-wrapper']))
 }
 
 export { handleStartButtonClick }

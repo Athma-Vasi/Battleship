@@ -26,26 +26,63 @@ const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 
 	const bttnValue = this.value
 
+	//disable button after clicking once
 	this.disabled = true
+
+	//visually indicate that 'this' button is selected
+	pipe(
+		addStyleToElem([
+			['border', '1px solid #f0a400'],
+			['color', '#f0a400'],
+			['cursor', 'crosshair'],
+		])
+	)(this)
 
 	//disable clicking on other shipButtons while selected
 	//prevents double selection
 	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 	if (superdreadnoughtBttn)
-		pipe(removeEvtListener('click')(handleSuperdreadnoughtBttnClick))(
-			superdreadnoughtBttn
-		)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleSuperdreadnoughtBttnClick)
+		)(superdreadnoughtBttn)
 
 	const battleshipBttn: Button = document.querySelector('.bttn-battleship')
 	if (battleshipBttn)
-		pipe(removeEvtListener('click')(handleBattleshipBttnClick))(battleshipBttn)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleBattleshipBttnClick)
+		)(battleshipBttn)
 
 	const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
 	if (destroyerBttn)
-		pipe(removeEvtListener('click')(handleDestroyerBttnClick))(destroyerBttn)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleDestroyerBttnClick)
+		)(destroyerBttn)
 
 	const frigateBttn: Button = document.querySelector('.bttn-frigate')
-	if (frigateBttn) pipe(removeEvtListener('click')(handleFrigateBttnClick))(frigateBttn)
+	if (frigateBttn)
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			]),
+			removeEvtListener('click')(handleFrigateBttnClick)
+		)(frigateBttn)
 
 	//assign event listener to each player game cell after clicking superdreadnought button
 	playerGameCells.forEach((player) =>

@@ -1,4 +1,5 @@
 import {
+	addStyleToElem,
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,
@@ -40,10 +41,11 @@ const renderBattleMessageElem = function (
 		localStorage.getItem('manticoreShipNames') ?? ''
 	)
 
+	const playerName = JSON.parse(localStorage.getItem('playerName') ?? '')
+
 	const main: HTMLElement | null = document.querySelector('.main')
 
-	const infoScreenWrapper = elemCreator('div')(['infoScreen-wrapper'])
-	appendElemToParent(main)(infoScreenWrapper)
+	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
 
 	const battleMessageElem = elemCreator('p')(['battleMessageElem'])
 	appendElemToParent(infoScreenWrapper)(battleMessageElem)
@@ -80,7 +82,7 @@ const renderBattleMessageElem = function (
 				//display hit on superdreadnought with randomized text
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the superdreadnought PNS ${
+						`${playerName}'s turn: ${hitsPrecursorString} the superdreadnought PNS ${
 							havenShipNames.superdreadnought
 						}! ${
 							battleTexts.hitsOnComp[
@@ -93,7 +95,9 @@ const renderBattleMessageElem = function (
 				//display hit on carrier with randomized text
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the carrier PNS ${havenShipNames.cruiser}! ${
+						`${playerName}'s turn: ${hitsPrecursorString} the carrier PNS ${
+							havenShipNames.cruiser
+						}! ${
 							battleTexts.hitsOnComp[
 								Math.floor(Math.random() * battleTexts.hitsOnComp.length)
 							]
@@ -104,7 +108,9 @@ const renderBattleMessageElem = function (
 				//display hit on battleship with randomized text
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the battleship PNS ${havenShipNames.battleship}! ${
+						`${playerName}'s turn: ${hitsPrecursorString} the battleship PNS ${
+							havenShipNames.battleship
+						}! ${
 							battleTexts.hitsOnComp[
 								Math.floor(Math.random() * battleTexts.hitsOnComp.length)
 							]
@@ -128,7 +134,7 @@ const renderBattleMessageElem = function (
 				//only need to check one destroyer
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the destroyer PNS ${
+						`${playerName}'s turn: ${hitsPrecursorString} the destroyer PNS ${
 							destroyer1Coords.includes(currentCellCoord_)
 								? havenShipNames.destroyers[0]
 								: havenShipNames.destroyers[1]
@@ -154,7 +160,7 @@ const renderBattleMessageElem = function (
 				//only need to check one frigate
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the frigate PNS ${
+						`${playerName}'s turn: ${hitsPrecursorString} the frigate PNS ${
 							frigate1Coords.includes(currentCellCoord_)
 								? havenShipNames.frigates[0]
 								: havenShipNames.frigates[1]
@@ -170,7 +176,7 @@ const renderBattleMessageElem = function (
 			//player attacking computer misses
 			pipe(
 				addTextToElem(
-					`${
+					`${playerName}'s turn: ${
 						battleTexts.missesByPlayer[
 							Math.floor(Math.random() * battleTexts.missesByPlayer.length)
 						]
@@ -185,7 +191,7 @@ const renderBattleMessageElem = function (
 				//display hit on superdreadnought with randomized text
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the superdreadnought RMNS ${
+						`Haven's turn: ${hitsPrecursorString} the superdreadnought RMNS ${
 							manticoreShipNames.superdreadnought
 						}! ${
 							battleTexts.hitsOnPlayer[
@@ -198,7 +204,9 @@ const renderBattleMessageElem = function (
 				//display hit on carrier with randomized text
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the carrier RMNS ${manticoreShipNames.cruiser}! ${
+						`Haven's turn: ${hitsPrecursorString} the carrier RMNS ${
+							manticoreShipNames.cruiser
+						}! ${
 							battleTexts.hitsOnPlayer[
 								Math.floor(Math.random() * battleTexts.hitsOnPlayer.length)
 							]
@@ -209,7 +217,7 @@ const renderBattleMessageElem = function (
 				//display hit on battleship with randomized text
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the battleship RMNS ${
+						`Haven's turn: ${hitsPrecursorString} the battleship RMNS ${
 							manticoreShipNames.battleship
 						}! ${
 							battleTexts.hitsOnPlayer[
@@ -233,7 +241,7 @@ const renderBattleMessageElem = function (
 				//only need to check one destroyer
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the destroyer RMNS ${
+						`Haven's turn: ${hitsPrecursorString} the destroyer RMNS ${
 							destroyer1Coords.includes(currentCellCoord_)
 								? manticoreShipNames.destroyers[0]
 								: manticoreShipNames.destroyers[1]
@@ -257,7 +265,7 @@ const renderBattleMessageElem = function (
 				//only need to check one frigate
 				pipe(
 					addTextToElem(
-						`${hitsPrecursorString} the frigate RMNS ${
+						`Haven's turn: ${hitsPrecursorString} the frigate RMNS ${
 							frigate1Coords.includes(currentCellCoord_)
 								? manticoreShipNames.frigates[0]
 								: manticoreShipNames.frigates[1]
@@ -273,7 +281,7 @@ const renderBattleMessageElem = function (
 			//computer attacking player misses
 			pipe(
 				addTextToElem(
-					`${
+					`Haven's turn: ${
 						battleTexts.missesByComp[
 							Math.floor(Math.random() * battleTexts.missesByComp.length)
 						]

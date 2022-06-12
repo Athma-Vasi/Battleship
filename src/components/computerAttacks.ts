@@ -60,12 +60,29 @@ const computerAttacks = function (compAttackGuess_: string) {
 			hitOrMiss
 		)
 
-		//update playercell to visually indicate miss
+		//assigns '✖' to currently missed co-ordinate and colors it Apple amber
 		if (playerShipCell) {
 			playerShipCell.textContent = ''
 			playerShipCell.textContent = '✖'
-			pipe(addStyleToElem([['color', 'gainsboro']]))(playerShipCell)
+			pipe(addStyleToElem([['color', '#f0a400']]))(playerShipCell)
 		}
+
+		//initialize storage for previously missed co-ordinates
+		if (!localStorage.getItem('prevCompMissOnPlayerCoord')) {
+			localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(''))
+		}
+
+		//grab the previous miss co-ordinates in order to turn them back into gray
+		const prevCompMissOnPlayerCoord = JSON.parse(
+			localStorage.getItem('prevCompMissOnPlayerCoord') ?? ''
+		)
+		const prevCompMissOnPlayerCell: Div = document.querySelector(
+			`[data-cellplayer="${prevCompMissOnPlayerCoord}"]`
+		)
+		pipe(addStyleToElem([['color', 'gainsboro']]))(prevCompMissOnPlayerCell)
+
+		//store current miss co-ordinates in order to highlight the current round's co-ordinates
+		localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord))
 	}
 }
 export { computerAttacks }

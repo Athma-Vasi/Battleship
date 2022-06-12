@@ -131,20 +131,60 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 	accumulateShipCoords(battleshipCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === true) {
-		//enable events on other shipButtons after both destroyers have been placed
+		//after 'this' button has been clicked, set the color to grey to visually indicate finished
+		const battleshipBttn: Button = document.querySelector('.bttn-battleship')
+		pipe(
+			addStyleToElem([
+				['border', '1px solid gainsboro'],
+				['color', 'gainsboro'],
+				['cursor', 'not-allowed'],
+			])
+		)(battleshipBttn)
+
+		//enable events on other shipButtons after battleship has been placed and set color to Apple green to visually indicate that they can be clicked if they have not been previously disabled after a click
 		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
-		if (superdreadnoughtBttn)
-			pipe(addEvtListener('click')(handleSuperdreadnoughtBttnClick))(superdreadnoughtBttn)
+		if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true)
+			pipe(
+				addStyleToElem([
+					['border', '1px solid #00f000'],
+					['color', '#00f000'],
+					['cursor', 'pointer'],
+				]),
+				addEvtListener('click')(handleSuperdreadnoughtBttnClick)
+			)(superdreadnoughtBttn)
 
 		const carrierBttn: Button = document.querySelector('.bttn-carrier')
-		if (carrierBttn) pipe(addEvtListener('click')(handleCarrierBttnClick))(carrierBttn)
+		if (carrierBttn && carrierBttn.disabled !== true)
+			pipe(
+				addStyleToElem([
+					['border', '1px solid #00f000'],
+					['color', '#00f000'],
+					['cursor', 'pointer'],
+				]),
+				addEvtListener('click')(handleCarrierBttnClick)
+			)(carrierBttn)
 
 		const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
-		if (destroyerBttn)
-			pipe(addEvtListener('click')(handleDestroyerBttnClick))(destroyerBttn)
+		if (destroyerBttn && destroyerBttn.disabled !== true)
+			pipe(
+				addStyleToElem([
+					['border', '1px solid #00f000'],
+					['color', '#00f000'],
+					['cursor', 'pointer'],
+				]),
+				addEvtListener('click')(handleDestroyerBttnClick)
+			)(destroyerBttn)
 
 		const frigateBttn: Button = document.querySelector('.bttn-frigate')
-		if (frigateBttn) pipe(addEvtListener('click')(handleFrigateBttnClick))(frigateBttn)
+		if (frigateBttn && frigateBttn.disabled !== true)
+			pipe(
+				addStyleToElem([
+					['border', '1px solid #00f000'],
+					['color', '#00f000'],
+					['cursor', 'pointer'],
+				]),
+				addEvtListener('click')(handleFrigateBttnClick)
+			)(frigateBttn)
 
 		//remove event listeners after battleship has been placed
 		playerGameCells.forEach((player) => {
