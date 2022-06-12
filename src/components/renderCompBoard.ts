@@ -2,19 +2,11 @@ import { Div } from '../utilities/types'
 import {
 	elemCreator,
 	appendElemToParent,
-	addTextToElem,
 	addAttributeToElem,
-	createImage,
-	addEvtListener,
-	addStyleToElem,
 	pipe,
 } from '../utilities/elementCreators'
 
 const renderCompBoard = function () {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
-	const main: HTMLElement | null = document.querySelector('.main')
-
 	const bothBoardsContainer: Div = document.querySelector('.bothBoards-container')
 
 	const compBoardWrapper = elemCreator('div')(['compBoard-wrapper'])

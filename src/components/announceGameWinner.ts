@@ -1,14 +1,10 @@
-import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses'
-import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips'
 import {
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,
-	removeEvtListener,
 	pipe,
 	addEvtListener,
 } from '../utilities/elementCreators'
-import { Div, NodesDiv } from '../utilities/types'
 import { preventClicksAfterWin } from './preventClicksAfterWin'
 import { restartGame } from './restartGame'
 
@@ -30,7 +26,7 @@ const announceGameWinner = function (winner_: string) {
 			appendElemToParent(winnerContainer)
 		)(elemCreator('p')(['winner-announcement']))
 
-		//remove event listeners after win
+		//removes event listeners after win
 		preventClicksAfterWin()
 	} else {
 		pipe(
@@ -38,11 +34,10 @@ const announceGameWinner = function (winner_: string) {
 			appendElemToParent(winnerContainer)
 		)(elemCreator('p')(['winner-announcement']))
 
-		//remove event listeners after win
 		preventClicksAfterWin()
 	}
 
-	//this is being used to prevent computers turn from adding evt listeners back on
+	//prevents computers turn from adding evt listeners back on
 	localStorage.setItem('isGameWon', JSON.stringify(true))
 }
 export { announceGameWinner }

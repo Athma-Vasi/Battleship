@@ -1,27 +1,15 @@
 import { CompShipsPlacementChoice, Div, NodesDiv } from '../utilities/types'
 import {
-	elemCreator,
-	appendElemToParent,
 	addTextToElem,
 	addAttributeToElem,
-	createImage,
-	addEvtListener,
 	addStyleToElem,
 	pipe,
 } from '../utilities/elementCreators'
-import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips'
-import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses'
 
 const renderCompShipsOnBoard = function (
 	compShipsPlacementChoice_: CompShipsPlacementChoice
 ) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
-	const compShipsWrapper: Div = document.querySelector('.compShips-wrapper')
-
-	const compShipsContainer: Div = document.querySelector('.compShips-container')
-
-	//persistent state management
+	//used for hit detection
 	if (!localStorage.getItem('compShipsCoords')) {
 		localStorage.setItem('compShipsCoords', JSON.stringify([]))
 	}
@@ -31,7 +19,7 @@ const renderCompShipsOnBoard = function (
 	)
 
 	Object.entries(compShipsPlacementChoice_).forEach(([ship, shipObj]) => {
-		//store the compships obj in camelcase
+		//if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
 		if (!localStorage.getItem(`comp${ship[0].toUpperCase() + ship.slice(1)}`)) {
 			localStorage.setItem(
 				`comp${ship[0].toUpperCase() + ship.slice(1)}`,
@@ -48,7 +36,6 @@ const renderCompShipsOnBoard = function (
 				pipe(
 					addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
 					addTextToElem('✴'),
-					// addTextToElem(`${ship[0].toUpperCase()}`),
 					addStyleToElem([['border', '1px solid #00f000']])
 				)(shipCell)
 
@@ -66,7 +53,6 @@ const renderCompShipsOnBoard = function (
 
 					pipe(
 						addAttributeToElem([['class', 'compShipPresent comp-gameCell']]),
-						// addTextToElem(`${Object.keys(ship).length === 2 ? 'D' : 'F'}`),
 						addTextToElem('✴'),
 						addStyleToElem([['border', '1px solid #00f000']])
 					)(shipCell)
@@ -80,7 +66,7 @@ const renderCompShipsOnBoard = function (
 
 	const compGameCells: NodesDiv = document.querySelectorAll('.comp-gameCell')
 
-	//to differentiate between ships and empty spaces
+	//differentiates between ships and empty spaces
 	compGameCells.forEach((cell) => {
 		if (!cell.classList.contains('compShipPresent')) {
 			pipe(
@@ -90,7 +76,7 @@ const renderCompShipsOnBoard = function (
 		}
 	})
 
-	//put the coordinates in storage
+	//puts the coordinates in storage for future hit detection checks
 	localStorage.setItem('compShipsCoords', JSON.stringify(compShipsCoords))
 }
 

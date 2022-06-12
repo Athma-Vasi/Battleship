@@ -6,7 +6,6 @@ import {
 	addAttributeToElem,
 	addStyleToElem,
 	addTextToElem,
-	elemCreator,
 	removeEvtListener,
 	pipe,
 	addEvtListener,
@@ -15,8 +14,6 @@ import { Div, NodesDiv, Frigate, NodesBttn, Button } from '../utilities/types'
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
 import { handleCarrierBttnClick } from './handleCarrierBttnClick'
 import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
-import { handleDestroyerMouseEnter } from './handleDestroyerMouseEnter'
-import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave'
 import { handleFrigateMouseEnter } from './handleFrigateMouseEnter'
 import { handleFrigateMouseLeave } from './handleFrigateMouseLeave'
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
@@ -24,16 +21,16 @@ import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnCli
 const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	//grab the current state of the axis button
+	//grabs the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
 	const currentAxis = axisSelector?.textContent ?? ''
 
-	//grab the current cell co-ordinate
+	//grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
-	//initialize the ship object upon first call
+	//initializes the ship object upon first call
 	if (!localStorage.getItem('frigate')) {
 		localStorage.setItem('frigate', JSON.stringify([]))
 	}
@@ -43,11 +40,12 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 	const ship = 'frigate'
 	const amount = 'double'
+
 	if (isCorrectNumberOfShips(ship, amount)) {
 		//overlap detection
 		if (doesShipPlacementOverlap(1, currentAxis, currentX, currentY)) return null
 
-		//place frigate on the grid
+		//places frigate on the grid
 		const nextCell: Div = document.querySelector(
 			`[data-cellplayer="${currentX},${currentY}"]`
 		)
@@ -65,7 +63,7 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 		frigateCoords.push(`${currentX},${currentY}`)
 
-		//only update if there are 2 or less ships
+		//only updates if there are 2 or less ships
 		if (isCorrectNumberOfShips(ship, amount)) {
 			frigate.push({ body: frigateCoords[0] })
 		}
@@ -73,14 +71,14 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		return null
 	}
 
-	//store frigate
+	//stores frigate
 	localStorage.setItem('frigate', JSON.stringify(frigate))
 
-	//store current ship coords to pool of all ship coords
+	//stores current ship coords to pool of all ship coords
 	accumulatePlayerShipCoords(frigateCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === false) {
-		//after 'this' button has been clicked, set the color to grey to visually indicate finished
+		//after 'this' button has been clicked, sets the color to grey to visually indicate finished
 		const frigateBttn: Button = document.querySelector('.bttn-frigate')
 		pipe(
 			addStyleToElem([
@@ -89,7 +87,7 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			])
 		)(frigateBttn)
 
-		//enable events on other shipButtons after both frigates have been placed and set color to Apple green to visually indicate that they can be clicked if they have not been previously disabled after a click
+		//enables events on other shipButtons after both frigates have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
 		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 		if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true)
 			pipe(
@@ -134,7 +132,7 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 				addEvtListener('click')(handleDestroyerBttnClick)
 			)(destroyerBttn)
 
-		//remove event listeners after both frigates have been placed
+		//removes event listeners after both frigates have been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleFrigateCellClick),
@@ -144,7 +142,7 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		})
 	}
 
-	//if all ships placed, render start button
+	//if all ships placed, renders start button
 	checkAllShipsInPlace()
 }
 

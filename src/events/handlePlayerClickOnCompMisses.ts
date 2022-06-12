@@ -5,8 +5,6 @@ import { Div, NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips'
 
 const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
 	const currentCellCoord = this.dataset.cellcomp ?? ''
 	const currentShipSymbol = this.textContent ?? ''
 	const towardsCombatant = 'comp'
@@ -19,7 +17,7 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 		hitOrMiss
 	)
 
-	//auto-scroll to the bottom to have the most recent message visible
+	//auto-scrolls to the bottom to have the most recent message visible
 	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
 	const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0
 
@@ -30,12 +28,12 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 	this.textContent = '✖'
 	pipe(addStyleToElem([['color', '#f0a400']]))(this)
 
-	//initialize storage for previously missed co-ordinates
+	//initializse storage for previously missed co-ordinates
 	if (!localStorage.getItem('prevPlayerMissOnCompCoord')) {
 		localStorage.setItem('prevPlayerMissOnCompCoord', JSON.stringify(''))
 	}
 
-	//grab the previous miss co-ordinates in order to turn them back into gray
+	//grabs the previous miss co-ordinates in order to turn them back into gray
 	const prevPlayerMissOnCompCoord = JSON.parse(
 		localStorage.getItem('prevPlayerMissOnCompCoord') ?? ''
 	)
@@ -44,13 +42,13 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 	)
 	pipe(addStyleToElem([['color', 'gainsboro']]))(prevPlayerMissOnCompCell)
 
-	//store current miss co-ordinates in order to highlight the current round's co-ordinates
+	//stores current miss co-ordinates in order to highlight the current round's co-ordinates
 	localStorage.setItem('prevPlayerMissOnCompCoord', JSON.stringify(currentCellCoord))
 
-	//to prevent player clicking while computer's turn
-	//while timer runs, clicks on comp grid cells do not register
-	//after relevant work is done, event listeners are added back on
-	//simulates computer taking time to 'think'
+	//all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
+	//the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds
+	//After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue is empty because there are no promises), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
+	//simulates a rudimentary game loop (without a while(boolean) statement) and gives the illusion of time taken for the computer to "think"
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 

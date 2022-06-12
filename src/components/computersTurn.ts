@@ -1,15 +1,13 @@
 import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses'
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips'
-import { pipe, addEvtListener, addTextToElem } from '../utilities/elementCreators'
-import { Div, NodesDiv } from '../utilities/types'
+import { pipe, addEvtListener } from '../utilities/elementCreators'
+import { NodesDiv } from '../utilities/types'
 import { announceGameWinner } from './announceGameWinner'
 import { computerAttacks } from './computerAttacks'
 import { genRandCompAttackGuess } from './genRandCompAttackGuess'
 
 const computersTurn = function () {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
-	//to check if game has been won
+	//checks if game has been won
 	if (!localStorage.getItem('isGameWon')) {
 		localStorage.setItem('isGameWon', JSON.stringify(''))
 	}
@@ -27,30 +25,28 @@ const computersTurn = function () {
 
 		const compAttackGuess = genRandCompAttackGuess()
 
-		//if compAttackGuess is on a playerShipCoord, then check the hit counter
+		//if compAttackGuess is on a playerShipCoord, then checks the hit counter
 		//avoids registering a win when the computer misses
 		if (playerShipsCoords.includes(compAttackGuess)) {
 			let totalHitsOnPlayerShips: number = JSON.parse(
 				localStorage.getItem('totalHitsOnPlayerShips') ?? ''
 			)
 			if (totalHitsOnPlayerShips === 17) {
-				//call game winner function
+				//calls game winner function
 				announceGameWinner('comp')
 			}
 		}
 
-		//if no winner, continue attacking
+		//if no winner, continues attack
 		computerAttacks(compAttackGuess)
 
+		//if game win condition has not been reached, adds the event listeners back on to continue round
 		const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
-		const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
-
-		//if game win condition has not been reached, add the event listeners back on to continue round
-
 		compShipPresent.forEach((cell) => {
 			pipe(addEvtListener('click')(handlePlayerClickOnCompShips))(cell)
 		})
 
+		const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 		compShipNotPresent.forEach((cell) => {
 			pipe(addEvtListener('click')(handlePlayerClickOnCompMisses))(cell)
 		})

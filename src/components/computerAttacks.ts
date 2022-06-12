@@ -3,7 +3,6 @@ import { Div, NodesDiv, Para } from '../utilities/types'
 import { renderBattleMessageElem } from './renderBattleMessage'
 
 const computerAttacks = function (compAttackGuess_: string) {
-	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 	const playerShipsCoords: string[] = JSON.parse(
 		localStorage.getItem('playerShipsCoords') ?? ''
 	)
@@ -13,13 +12,13 @@ const computerAttacks = function (compAttackGuess_: string) {
 	)
 
 	//compAttackGuess_ is assumed to be unique at this point
-	//check if playerShip is present
+	//checks if playerShip is present
 	if (playerShipsCoords.includes(compAttackGuess_)) {
 		const playerShipCell: Div = document.querySelector(
 			`[data-cellplayer="${compAttackGuess_}"]`
 		)
 
-		//call function to display battle message when computer registers a hit on a player ship
+		//calls function to display battle message when computer registers a hit on a player ship
 		const currentCellCoord = compAttackGuess_
 		const currentShipSymbol = playerShipCell?.textContent ?? ''
 		const towardsCombatant = 'player'
@@ -32,13 +31,13 @@ const computerAttacks = function (compAttackGuess_: string) {
 			hitOrMiss
 		)
 
-		//update playercell to visually indicate hit
+		//updates playercell to visually indicate hit
 		if (playerShipCell) {
 			playerShipCell.textContent = ''
 			playerShipCell.textContent = '💥'
 		}
 
-		//update hit counter and store
+		//updates hit counter and store
 		totalHitsOnPlayerShips = totalHitsOnPlayerShips + 1
 		localStorage.setItem('totalHitsOnPlayerShips', JSON.stringify(totalHitsOnPlayerShips))
 	} else {
@@ -47,7 +46,7 @@ const computerAttacks = function (compAttackGuess_: string) {
 			`[data-cellplayer="${compAttackGuess_}"]`
 		)
 
-		//call function to display battle message when computer does not hit a player ship
+		//calls function to display battle message when computer does not hit a player ship
 		const currentCellCoord = compAttackGuess_
 		const currentShipSymbol = playerShipCell?.textContent ?? ''
 		const towardsCombatant = 'player'
@@ -60,7 +59,7 @@ const computerAttacks = function (compAttackGuess_: string) {
 			hitOrMiss
 		)
 
-		//auto-scroll to the bottom to have the most recent message visible
+		//auto-scrolls to the bottom to have the most recent message visible
 		const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
 		const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0
 
@@ -73,12 +72,12 @@ const computerAttacks = function (compAttackGuess_: string) {
 			pipe(addStyleToElem([['color', '#f0a400']]))(playerShipCell)
 		}
 
-		//initialize storage for previously missed co-ordinates
+		//initializes storage for previously missed co-ordinates
 		if (!localStorage.getItem('prevCompMissOnPlayerCoord')) {
 			localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(''))
 		}
 
-		//grab the previous miss co-ordinates in order to turn them back into gray
+		//grabs the previous miss co-ordinates in order to turn them back into gray
 		const prevCompMissOnPlayerCoord = JSON.parse(
 			localStorage.getItem('prevCompMissOnPlayerCoord') ?? ''
 		)
@@ -87,7 +86,7 @@ const computerAttacks = function (compAttackGuess_: string) {
 		)
 		pipe(addStyleToElem([['color', 'gainsboro']]))(prevCompMissOnPlayerCell)
 
-		//store current miss co-ordinates in order to highlight the current round's co-ordinates
+		//stores current miss co-ordinates in order to highlight the current round's co-ordinates
 		localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord))
 	}
 }

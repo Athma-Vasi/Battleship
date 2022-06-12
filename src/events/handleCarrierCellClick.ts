@@ -1,10 +1,7 @@
 import { Button, Carrier, Div, NodesDiv } from '../utilities/types'
 import {
-	elemCreator,
-	appendElemToParent,
 	addTextToElem,
 	addAttributeToElem,
-	createImage,
 	addEvtListener,
 	addStyleToElem,
 	pipe,
@@ -22,23 +19,18 @@ import { handleFrigateBttnClick } from './handleFrigateBttnClick'
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	const ship = 'carrier'
-	const amount = 'single'
-
-	//grab the current state of the axis button
+	//grabs the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
 	const currentAxis = axisSelector?.textContent
 
-	//grab the current cell co-ordinate
+	//grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
-	//initialize the carrier object upon first call
+	//initializes the carrier object upon first call
 	if (!localStorage.getItem('carrier')) {
 		localStorage.setItem('carrier', JSON.stringify([]))
 	}
@@ -46,6 +38,9 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	let carrier: Carrier = JSON.parse(localStorage.getItem('carrier') ?? '')
 
 	const carrierCoords: string[] = []
+
+	const ship = 'carrier'
+	const amount = 'single'
 
 	//for horizontal placement
 	if (currentAxis === 'Axis-X' && isCorrectNumberOfShips(ship, amount)) {
@@ -58,8 +53,8 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//overlap detection
 		if (doesShipPlacementOverlap(4, currentAxis, currentX, currentY)) return null
 
-		//to place carrier on grid
-		for (let i = 0; i < 4; i++) {
+		//places carrier on grid
+		for (let i = 0; i < 4; i += 1) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
@@ -79,7 +74,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			carrierCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
 
-		//to prevent updating after first click
+		//prevents updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
 			//update carrier object attributes
 			carrier = {
@@ -102,8 +97,8 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		//overlap detection
 		if (doesShipPlacementOverlap(4, currentAxis, currentX, currentY)) return null
 
-		//to place carrier on grid
-		for (let i = 0; i < 4; i++) {
+		//places carrier on grid
+		for (let i = 0; i < 4; i += 1) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
@@ -122,9 +117,9 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			carrierCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
 
-		//to prevent updating after first click
+		//prevents updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
-			//update carrier object attributes
+			//updates carrier object attributes
 			carrier = {
 				head: carrierCoords[0],
 				body1: carrierCoords[1],
@@ -136,14 +131,14 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		localStorage.setItem('isSingleCarrier', JSON.stringify(false))
 	}
 
-	//store carrier
+	//stores carrier
 	localStorage.setItem('carrier', JSON.stringify(carrier))
 
-	//store current ship coords to pool of all ship coords
+	//stores current ship coords to pool of all ship coords
 	accumulatePlayerShipCoords(carrierCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === true) {
-		//after 'this' button has been clicked, set the color to grey to visually indicate finished
+		//after 'this' button has been clicked, sets the color to grey to visually indicate finished
 		const carrierBttn: Button = document.querySelector('.bttn-carrier')
 		pipe(
 			addStyleToElem([
@@ -153,7 +148,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			])
 		)(carrierBttn)
 
-		//enable events on other shipButtons after carrier has been placed and set color to Apple green to visually indicate that they can be clicked if they have not been previously disabled after a click
+		//enables events on other shipButtons after carrier has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
 		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 		if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true)
 			pipe(
@@ -198,7 +193,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 				addEvtListener('click')(handleFrigateBttnClick)
 			)(frigateBttn)
 
-		//remove event listeners after single carrier has been placed
+		//removes event listeners after single carrier has been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleCarrierCellClick),
@@ -208,7 +203,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		})
 	}
 
-	//if all ships placed, render start button
+	//if all ships placed, renders start button
 	checkAllShipsInPlace()
 }
 export { handleCarrierCellClick }

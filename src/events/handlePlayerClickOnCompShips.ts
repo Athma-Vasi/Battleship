@@ -1,23 +1,11 @@
 import { announceGameWinner } from '../components/announceGameWinner'
 import { computersTurn } from '../components/computersTurn'
-import {
-	addEvtListener,
-	addStyleToElem,
-	addTextToElem,
-	appendElemToParent,
-	elemCreator,
-	pipe,
-	removeEvtListener,
-} from '../utilities/elementCreators'
+import { pipe, removeEvtListener } from '../utilities/elementCreators'
 import { Div, NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses'
-import { shipNames } from '../data/shipNames'
-import { battleTexts } from '../data/battleTexts'
 import { renderBattleMessageElem } from '../components/renderBattleMessage'
 
 const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
 	//initialize the hit counter on first hit
 	//when total hits reaches 18, game ends
 	if (!localStorage.getItem('totalHitsOnCompShips')) {
@@ -33,18 +21,17 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	)
 
 	const currentCellCoord = this.dataset.cellcomp ?? ''
-	//to prevent winner being called when a miss is registered
+	//prevents winner being called when a miss is registered
 	if (compShipsCoords.includes(currentCellCoord)) {
-		//check hit counter to see if its the last hit
+		//checks hit counter to see if its the last hit
 		if (totalHitsOnCompShips === 17) {
-			//grab the player name
 			const playerName = JSON.parse(localStorage.getItem('playerName') ?? '')
 
-			//call game winner function
 			announceGameWinner(playerName)
 		}
 	}
 
+	//required so that the renderBattleMessageElem function can display the appropriate message
 	const currentShipSymbol = this.textContent ?? ''
 	const towardsCombatant = 'comp'
 	const hitOrMiss = 'hit'
@@ -56,16 +43,17 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		hitOrMiss
 	)
 
-	//auto-scroll to the bottom to have the most recent message visible
+	//auto-scrolls to the bottom to have the most recent message visible
 	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
 	const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0
 
 	infoScreenWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' })
 
+	//updates the comp board cell to visually indicate hit
 	this.textContent = ''
 	this.textContent = '💥'
 
-	//to prevent clicks on previously hit cells counting towards totalHitsOnCompShips
+	//prevents clicks on previously hit cells counting towards totalHitsOnCompShips
 	if (!localStorage.getItem('compShipsHitCoords')) {
 		localStorage.setItem('compShipsHitCoords', JSON.stringify([]))
 	}
@@ -73,21 +61,21 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		localStorage.getItem('compShipsHitCoords') ?? ''
 	)
 
-	//update hit counter only when new hit is not on a previously hit cell, and store
+	//updates hit counter only when new hit is not on a previously hit cell, and store
 	if (!compShipsHitCoords.includes(currentCellCoord)) {
-		//store the unique hit co-ordinate
+		//stores the unique hit co-ordinate
 		compShipsHitCoords.push(currentCellCoord)
 		localStorage.setItem('compShipsHitCoords', JSON.stringify(compShipsHitCoords))
 
-		//increment the hit counter and store
+		//increments the hit counter and store
 		totalHitsOnCompShips = totalHitsOnCompShips + 1
 		localStorage.setItem('totalHitsOnCompShips', JSON.stringify(totalHitsOnCompShips))
 	}
 
-	//to prevent player clicking while computer's turn
-	//while timer runs, clicks on comp grid cells do not register
-	//after relevant work is done, event listeners are added back on
-	//simulates computer taking time to 'think'
+	//all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
+	//the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds
+	//After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue is empty because there are no promises), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
+	//simulates a rudimentary game loop (without a while(boolean) statement) and gives the illusion of time taken for the computer to "think"
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 

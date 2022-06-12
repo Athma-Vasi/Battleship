@@ -4,7 +4,6 @@ import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 import {
 	addStyleToElem,
-	elemCreator,
 	pipe,
 	addTextToElem,
 	addAttributeToElem,
@@ -19,25 +18,19 @@ import { handleFrigateBttnClick } from './handleFrigateBttnClick'
 import { handleSuperdreadnoughtMouseEnter } from './handleSuperdreadnoughtMouseEnter'
 import { handleSuperdreadnoughtMouseLeave } from './handleSuperdreadnoughtMouseLeave'
 
-//TODO:implement background change on mouse hover
 const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	const ship = 'superdreadnought'
-	const amount = 'single'
-
-	//grab the current state of the axis button
+	//grabs the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
 	const currentAxis = axisSelector?.textContent
 
-	//grab the current cell co-ordinate
+	//grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
-	//initialize the carrier object upon first call
+	//initializes the carrier object upon first call
 	if (!localStorage.getItem('superdreadnought')) {
 		localStorage.setItem('superdreadnought', JSON.stringify(''))
 	}
@@ -47,6 +40,9 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 	)
 
 	const superdreadnoughtCoords: string[] = []
+
+	const ship = 'superdreadnought'
+	const amount = 'single'
 
 	//for horizontal placement
 	if (currentAxis === 'Axis-X' && isCorrectNumberOfShips(ship, amount)) {
@@ -59,8 +55,8 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		//overlap detection
 		if (doesShipPlacementOverlap(5, currentAxis, currentX, currentY)) return null
 
-		//to place superdreadnought on the grid
-		for (let i = 0; i < 5; i++) {
+		//places superdreadnought on the grid
+		for (let i = 0; i < 5; i += 1) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
@@ -79,9 +75,9 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 			superdreadnoughtCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
 
-		//to prevent updating after first click
+		//prevents updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
-			//update superdreadnought object attributes
+			//updates superdreadnought object attributes
 			superdreadnought = {
 				head: superdreadnoughtCoords[0],
 				body1: superdreadnoughtCoords[1],
@@ -103,8 +99,8 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		//overlap detection
 		if (doesShipPlacementOverlap(5, currentAxis, currentX, currentY)) return null
 
-		//to place superdreadnought on the grid
-		for (let i = 0; i < 5; i++) {
+		//places superdreadnought on the grid
+		for (let i = 0; i < 5; i += 1) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
@@ -124,9 +120,9 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 			superdreadnoughtCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
 
-		//to prevent updating after first click
+		//prevents updating after first click
 		if (isCorrectNumberOfShips(ship, amount)) {
-			//update superdreadnought object attributes
+			//updates superdreadnought object attributes
 			superdreadnought = {
 				head: superdreadnoughtCoords[0],
 				body1: superdreadnoughtCoords[1],
@@ -139,14 +135,14 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		localStorage.setItem('isSingleSuperdreadnought', JSON.stringify(false))
 	}
 
-	//store superdreadnought
+	//stores superdreadnought
 	localStorage.setItem('superdreadnought', JSON.stringify(superdreadnought))
 
-	//store current ship coords to pool of all ship coords
+	//stores current ship coords to pool of all ship coords
 	accumulatePlayerShipCoords(superdreadnoughtCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === true) {
-		//after 'this' button has been clicked, set the color to grey to visually indicate finished
+		//after 'this' button has been clicked, sets the color to grey to visually indicate finished
 		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 		pipe(
 			addStyleToElem([
@@ -156,7 +152,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 			])
 		)(superdreadnoughtBttn)
 
-		//enable events on other shipButtons after superdreadnought has been placed and set color to Apple green to visually indicate that they can be clicked if they have not been previously disabled after a click
+		//enables events on other shipButtons after superdreadnought has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
 		const carrierBttn: Button = document.querySelector('.bttn-carrier')
 		if (carrierBttn && carrierBttn.disabled !== true)
 			pipe(
@@ -201,7 +197,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 				addEvtListener('click')(handleFrigateBttnClick)
 			)(frigateBttn)
 
-		//remove event listeners after single superdreadnought has been placed
+		//removes event listeners after single superdreadnought has been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleSuperdreadnoughtCellClick),
@@ -211,7 +207,7 @@ const handleSuperdreadnoughtCellClick = function (this: HTMLDivElement, ev: Mous
 		})
 	}
 
-	//if all ships placed, render start button
+	//if all ships placed, renders start button
 	checkAllShipsInPlace()
 }
 export { handleSuperdreadnoughtCellClick }

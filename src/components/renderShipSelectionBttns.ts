@@ -9,12 +9,9 @@ import {
 	appendElemToParent,
 	addTextToElem,
 	addAttributeToElem,
-	createImage,
 	addEvtListener,
-	addStyleToElem,
 	pipe,
 } from '../utilities/elementCreators'
-import { Div } from '../utilities/types'
 
 const renderShipSelectionBttns = function () {
 	const log = (i: unknown) => console.log('\n', i, '\n')

@@ -22,8 +22,6 @@ body {
 	height: 100vh;
 	background: rgb(62, 62, 62);
 	background: radial-gradient(circle, rgba(62, 62, 62, 1) 0%, rgba(7, 7, 7, 1) 100%);
-	/* background-color: #000000;
-	background-image: linear-gradient(0deg, #000000 0%, #434343 74%); */
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -72,7 +70,6 @@ h1 {
 }
 
 /* main */
-
 main {
 	grid-area: main;
 	display: flex;
@@ -84,33 +81,7 @@ main {
 	font-size: 1.3rem;
 	padding: 0px 2rem;
 	width: clamp(var(--width-min), 76.4vw, var(--width-max));
-
-	/* white-space: nowrap;
-	margin: 0px auto;
-	letter-spacing: 0.15em;
-	overflow: hidden;
-	border-right: 0.15em solid var(--clr-appleGreen);
-	animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite; */
 }
-/* 
-@keyframes typing {
-	from {
-		width: 0;
-	}
-	to {
-		width: 100%;
-	}
-}
-
-@keyframes blink-caret {
-	from,
-	to {
-		border-color: transparent;
-	}
-	50% {
-		border-color: var(--clr-appleGreen);
-	}
-} */
 
 #form-name {
 	margin-top: 2rem;
@@ -131,13 +102,14 @@ main {
 	font-size: 1.5rem;
 	padding-left: 1rem;
 }
+
 .bttn-name {
 	height: 3rem;
 	width: 7rem;
 	font-size: 2rem;
 	cursor: pointer;
 }
-/*  */
+
 /* ship buttons */
 .shipBttns-wrapper {
 	width: 100%;
@@ -164,7 +136,6 @@ main {
 	width: 7rem;
 	height: 3rem;
 	font-size: 1rem;
-	/* cursor: crosshair; */
 }
 
 .bttn-superdreadnought {
@@ -198,7 +169,6 @@ main {
 }
 
 /* info screen battle */
-
 .infoScreen-wrapper {
 	width: clamp(var(--width-min), 76.4vw, var(--width-max));
 	height: 29rem;
@@ -214,7 +184,6 @@ main {
 }
 
 /* player board */
-
 .playerBoard-wrapper {
 	width: 100%;
 	height: 100%;
@@ -242,7 +211,6 @@ main {
 }
 
 /* comp board */
-
 .compBoard-wrapper {
 	width: 100%;
 	height: 100%;
@@ -260,6 +228,7 @@ main {
 	grid-template-columns: repeat(10, 1fr);
 	grid-template-rows: repeat(10, 1fr);
 }
+
 .comp-gameCell {
 	border: 1px solid var(--clr-appleGreen);
 	color: gainsboro;
@@ -299,13 +268,6 @@ main {
 	.main {
 		grid-area: main;
 		width: clamp(var(--width-min), 76.4vw, var(--width-max));
-		/* display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		grid-template-rows: calc(24.6% * 0.85) calc(61.8% * 0.85) calc(14.6% * 0.85);
-		grid-template-areas:
-			'buttons buttons'
-			'bothBoards bothBoards'
-			'infoScreen infoScreen'; */
 		display: flex;
 		flex-direction: column;
 	}
@@ -335,12 +297,9 @@ main {
 
 	.infoScreen-wrapper {
 		grid-area: infoScreen;
-		/* height: calc(1004.5px - 652.017px); */
-		/* height: 265px; */
 		width: clamp(var(--width-min), 76.4vw, var(--width-max));
 		overflow-y: scroll;
 		scroll-behavior: smooth;
-		/* padding: 1.5rem; */
 	}
 
 	.battleMessageElem {

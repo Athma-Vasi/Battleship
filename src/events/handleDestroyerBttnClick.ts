@@ -1,10 +1,5 @@
 import { Button, Div, NodesDiv } from '../utilities/types'
 import {
-	elemCreator,
-	appendElemToParent,
-	addTextToElem,
-	addAttributeToElem,
-	createImage,
 	addEvtListener,
 	addStyleToElem,
 	pipe,
@@ -19,14 +14,9 @@ import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
 import { handleFrigateBttnClick } from './handleFrigateBttnClick'
 
 const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
-	const playerBoard: Div = document.querySelector('.playerBoard-container')
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	const bttnValue = this.value
-
-	//assign event listeners to each player game cell after clicking destroyer button
+	//assigns event listeners to each player game cell after clicking destroyer button
 	playerGameCells.forEach((player) =>
 		pipe(
 			addEvtListener('click')(handleDestroyerCellClick),
@@ -35,10 +25,10 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 		)(player)
 	)
 
-	//disable this button after clicking
+	//disables this button after clicking
 	this.disabled = true
 
-	//visually indicate that 'this' button is selected
+	//visually indicates that 'this' button is selected
 	pipe(
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
@@ -46,7 +36,7 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 		])
 	)(this)
 
-	//disable clicking on other shipButtons while selected
+	//disables clicking on other shipButtons while selected
 	//prevents double selection
 	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 	if (superdreadnoughtBttn)
@@ -91,12 +81,5 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 			]),
 			removeEvtListener('click')(handleFrigateBttnClick)
 		)(frigateBttn)
-
-	// //disable button after two destroyers on board
-	// if (localStorage.getItem('isDoubleDestroyer')) {
-	// 	if (JSON.parse(localStorage.getItem('isDoubleDestroyer') ?? '') === false) {
-	// 		this.disabled = true
-	// 	}
-	// }
 }
 export { handleDestroyerBttnClick }

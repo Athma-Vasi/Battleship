@@ -1,5 +1,4 @@
 import {
-	addStyleToElem,
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,
@@ -7,14 +6,10 @@ import {
 } from '../utilities/elementCreators'
 import {
 	Div,
-	BattleTexts,
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
 	Destroyer,
 	Frigate,
-	Superdreadnought,
-	Carrier,
-	Battleship,
 } from '../utilities/types'
 import { battleTexts } from '../data/battleTexts'
 
@@ -43,15 +38,13 @@ const renderBattleMessageElem = function (
 
 	const playerName = JSON.parse(localStorage.getItem('playerName') ?? '')
 
-	const main: HTMLElement | null = document.querySelector('.main')
-
 	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
 
 	const battleMessageElem = elemCreator('p')(['battleMessageElem'])
 	appendElemToParent(infoScreenWrapper)(battleMessageElem)
 
 	if (towardsCombatant_ === 'comp') {
-		//in order to check what compShip currentCellCoord_ is part of, as the compGridCells do not pass in a string textContent to differentiate between the ship types unlike the playerGridCells
+		//checks what compShip currentCellCoord_ is part of, as the compGridCells do not pass in a string textContent to differentiate between the ship types unlike the playerGridCells
 		const compSuperdreadnought: string[] = Object.values(
 			JSON.parse(localStorage.getItem('compSuperdreadnought') ?? '')
 		)
@@ -62,7 +55,7 @@ const renderBattleMessageElem = function (
 			JSON.parse(localStorage.getItem('compBattleship') ?? '')
 		)
 
-		//because the destroyers consists of an array of objects
+		//destroyers consists of an array of objects
 		let compDestroyers: unknown[] = []
 		JSON.parse(localStorage.getItem('compDestroyers') ?? '').forEach(
 			(destroyer: Destroyer) => {
@@ -71,7 +64,7 @@ const renderBattleMessageElem = function (
 		)
 		compDestroyers = compDestroyers.flat()
 
-		//because the frigates consists of an array of objects
+		//frigates consists of an array of objects
 		let compFrigates: unknown[] = []
 		JSON.parse(localStorage.getItem('compFrigates') ?? '').forEach((frigate: Frigate) => {
 			compFrigates.push(Object.values(frigate))
@@ -81,7 +74,7 @@ const renderBattleMessageElem = function (
 		if (hitOrMiss_ === 'hit') {
 			//player attacking computer scores a hit
 			if (compSuperdreadnought.includes(currentCellCoord_)) {
-				//display hit on superdreadnought with randomized text
+				//displays hit on superdreadnought with randomized text
 				pipe(
 					addTextToElem(
 						`${playerName}'s turn: ${hitsPrecursorString} the superdreadnought PNS ${
@@ -94,7 +87,7 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (compCarrier.includes(currentCellCoord_)) {
-				//display hit on carrier with randomized text
+				//displays hit on carrier with randomized text
 				pipe(
 					addTextToElem(
 						`${playerName}'s turn: ${hitsPrecursorString} the carrier PNS ${
@@ -107,7 +100,7 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (compBattleship.includes(currentCellCoord_)) {
-				//display hit on battleship with randomized text
+				//displays hit on battleship with randomized text
 				pipe(
 					addTextToElem(
 						`${playerName}'s turn: ${hitsPrecursorString} the battleship PNS ${
@@ -120,8 +113,8 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (compDestroyers.includes(currentCellCoord_)) {
-				//because there are two destroyers to connect names
-				//checking that current cell that has hit registered is included in either one of the destroyers' or frigates' co-ordinates and assigning corresponding name to the hit rather than randomly calling the names
+				//there are two destroyers to connect names
+				//checks that current cell that has hit registered is included in either one of the destroyers' or frigates' co-ordinates and assigns corresponding name to the hit rather than randomly calling the names
 
 				const [destroyer1, _]: Destroyer[] = JSON.parse(
 					localStorage.getItem('compDestroyers') ?? ''
@@ -133,7 +126,7 @@ const renderBattleMessageElem = function (
 					destroyer1Coords.push(shipPartCoords)
 				})
 
-				//display hit on destroyer with randomized text
+				//displays hit on destroyer with randomized text
 				//only need to check one destroyer
 				pipe(
 					addTextToElem(
@@ -149,19 +142,17 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (compFrigates.includes(currentCellCoord_)) {
-				//because there are two frigates to connect names
+				//there are two frigates to connect names
 				const [frigate1, _]: Frigate[] = JSON.parse(
 					localStorage.getItem('compFrigates') ?? ''
 				)
-
-				console.log(frigate1)
 
 				const frigate1Coords: string[] = []
 				Object.values(frigate1).forEach((shipPartCoords) => {
 					frigate1Coords.push(shipPartCoords)
 				})
 
-				//display hit on frigate with randomized text
+				//displays hit on frigate with randomized text
 				//only need to check one frigate
 				pipe(
 					addTextToElem(
@@ -193,7 +184,7 @@ const renderBattleMessageElem = function (
 		if (hitOrMiss_ === 'hit') {
 			//if computer attacking player registers a hit
 			if (currentShipSymbol_ === 'S') {
-				//display hit on superdreadnought with randomized text
+				//displays hit on superdreadnought with randomized text
 				pipe(
 					addTextToElem(
 						`Haven's turn: ${hitsPrecursorString} the superdreadnought RMNS ${
@@ -206,7 +197,7 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (currentShipSymbol_ === 'C') {
-				//display hit on carrier with randomized text
+				//displays hit on carrier with randomized text
 				pipe(
 					addTextToElem(
 						`Haven's turn: ${hitsPrecursorString} the carrier RMNS ${
@@ -219,7 +210,7 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (currentShipSymbol_ === 'B') {
-				//display hit on battleship with randomized text
+				//displays hit on battleship with randomized text
 				pipe(
 					addTextToElem(
 						`Haven's turn: ${hitsPrecursorString} the battleship RMNS ${
@@ -232,7 +223,7 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (currentShipSymbol_ === 'D') {
-				//because there are two destroyers to connect names
+				//there are two destroyers to connect names
 				const [destroyer1, _]: Destroyer[] = JSON.parse(
 					localStorage.getItem('destroyer') ?? ''
 				)
@@ -242,7 +233,7 @@ const renderBattleMessageElem = function (
 					destroyer1Coords.push(shipPartCoords)
 				})
 
-				//display hit on destroyer with randomized text
+				//displays hit on destroyer with randomized text
 				//only need to check one destroyer
 				pipe(
 					addTextToElem(
@@ -258,7 +249,7 @@ const renderBattleMessageElem = function (
 					)
 				)(battleMessageElem)
 			} else if (currentShipSymbol_ === 'F') {
-				//because there are two frigates to connect names
+				//there are two frigates to connect names
 				const [frigate1, _]: Frigate[] = JSON.parse(localStorage.getItem('frigate') ?? '')
 
 				const frigate1Coords: string[] = []
@@ -266,7 +257,7 @@ const renderBattleMessageElem = function (
 					frigate1Coords.push(shipPartCoords)
 				})
 
-				//display hit on frigate with randomized text
+				//displays hit on frigate with randomized text
 				//only need to check one frigate
 				pipe(
 					addTextToElem(

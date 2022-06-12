@@ -1,21 +1,13 @@
 import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses'
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips'
-import {
-	addTextToElem,
-	appendElemToParent,
-	elemCreator,
-	removeEvtListener,
-	pipe,
-} from '../utilities/elementCreators'
-import { Div, NodesDiv } from '../utilities/types'
+import { removeEvtListener, pipe } from '../utilities/elementCreators'
+import { NodesDiv } from '../utilities/types'
 
 const preventClicksAfterWin = function () {
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 
-	console.log('prevent')
-
-	//prevent further clicks after winner is announced
+	//prevents further clicks after winner is announced
 	compShipPresent.forEach((cell) => {
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompShips))(cell)
 	})

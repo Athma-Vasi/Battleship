@@ -7,12 +7,10 @@ import {
 	addTextToElem,
 	addAttributeToElem,
 	removeEvtListener,
-	elemCreator,
 	pipe,
 	addEvtListener,
 } from '../utilities/elementCreators'
 import { Div, NodesDiv, Battleship, Button } from '../utilities/types'
-import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
 import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter'
 import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave'
 import { handleCarrierBttnClick } from './handleCarrierBttnClick'
@@ -21,29 +19,27 @@ import { handleFrigateBttnClick } from './handleFrigateBttnClick'
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	const ship = 'battleship'
-	const amount = 'single'
-
-	//grab the current state of the axis button
+	//grabs the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
 	const currentAxis = axisSelector?.textContent
 
-	//grab the current cell co-ordinate
+	//grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
-	//initialize the ship object upon first call
+	//initializes the ship object upon first call
 	if (!localStorage.getItem('battleship')) {
 		localStorage.setItem('battleship', JSON.stringify(''))
 	}
 	let battleship: Battleship = JSON.parse(localStorage.getItem('battleship') ?? '')
 
 	const battleshipCoords: string[] = []
+
+	const ship = 'battleship'
+	const amount = 'single'
 
 	//for horizontal placement
 	if (currentAxis === 'Axis-X' && isCorrectNumberOfShips(ship, amount)) {
@@ -56,8 +52,8 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 		//overlap detection
 		if (doesShipPlacementOverlap(3, currentAxis, currentX, currentY)) return null
 
-		//to place battleship on the grid
-		for (let i = 0; i < 3; i++) {
+		//places battleship on the grid
+		for (let i = 0; i < 3; i += 1) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
@@ -75,9 +71,9 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 			battleshipCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
 
-		//to prevent updating after first click
+		//prevents updating after first click
 		if (isCorrectNumberOfShips(ship, 'single')) {
-			//update battleship object attributes
+			//updates battleship object attributes
 			battleship = {
 				head: battleshipCoords[0],
 				body: battleshipCoords[1],
@@ -97,8 +93,8 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 		//overlap detection
 		if (doesShipPlacementOverlap(3, currentAxis, currentX, currentY)) return null
 
-		for (let i = 0; i < 3; i++) {
-			//to place battleship on the grid
+		for (let i = 0; i < 3; i += 1) {
+			//places battleship on the grid
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
@@ -117,9 +113,9 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 			battleshipCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
 
-		//to prevent updating after first click
+		//prevents updating after first click
 		if (isCorrectNumberOfShips(ship, 'single')) {
-			//update battleship object attributes
+			//updates battleship object attributes
 			battleship = {
 				head: battleshipCoords[0],
 				body: battleshipCoords[1],
@@ -130,14 +126,14 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 		localStorage.setItem('isSingleBattleship', JSON.stringify(false))
 	}
 
-	//store battleship
+	//stores battleship
 	localStorage.setItem('battleship', JSON.stringify(battleship))
 
-	//store current ship coords to pool of all ship coords
+	//stores current ship coords to pool of all ship coords
 	accumulatePlayerShipCoords(battleshipCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === true) {
-		//after 'this' button has been clicked, set the color to grey to visually indicate finished
+		//after 'this' button has been clicked, sets the color to grey to visually indicate finished
 		const battleshipBttn: Button = document.querySelector('.bttn-battleship')
 		pipe(
 			addStyleToElem([
@@ -147,7 +143,7 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 			])
 		)(battleshipBttn)
 
-		//enable events on other shipButtons after battleship has been placed and set color to Apple green to visually indicate that they can be clicked if they have not been previously disabled after a click
+		//enables events on other shipButtons after battleship has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
 		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 		if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true)
 			pipe(
@@ -192,7 +188,7 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 				addEvtListener('click')(handleFrigateBttnClick)
 			)(frigateBttn)
 
-		//remove event listeners after battleship has been placed
+		//removes event listeners after battleship has been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleBattleshipCellClick),
@@ -202,7 +198,7 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 		})
 	}
 
-	//if all ships placed, render start button
+	//if all ships placed, renders start button
 	checkAllShipsInPlace()
 }
 

@@ -5,7 +5,6 @@ import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 import {
 	addStyleToElem,
 	addTextToElem,
-	elemCreator,
 	addAttributeToElem,
 	removeEvtListener,
 	pipe,
@@ -20,29 +19,27 @@ import { handleFrigateBttnClick } from './handleFrigateBttnClick'
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
 
-	const ship = 'destroyer'
-	const amount = 'double'
-
-	//grab the current state of the axis button
+	//grabs the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
 	const currentAxis = axisSelector?.textContent
 
-	//grab the current cell co-ordinate
+	//grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',')
 	const currentX = currentCell?.[0] ?? ''
 	const currentY = currentCell?.[1] ?? ''
 
-	//initialize the ship object upon first call
+	//initializes the ship object upon first call
 	if (!localStorage.getItem('destroyer')) {
 		localStorage.setItem('destroyer', JSON.stringify([]))
 	}
 	const destroyer: Destroyer[] = JSON.parse(localStorage.getItem('destroyer') ?? '')
 
 	const destroyerCoords: string[] = []
+
+	const ship = 'destroyer'
+	const amount = 'double'
 
 	//for horizontal placement
 	if (currentAxis === 'Axis-X' && isCorrectNumberOfShips(ship, amount)) {
@@ -55,8 +52,8 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 		//overlap detection
 		if (doesShipPlacementOverlap(2, currentAxis, currentX, currentY)) return null
 
-		//to place destroyer on the grid
-		for (let i = 0; i < 2; i++) {
+		//places destroyer on the grid
+		for (let i = 0; i < 2; i += 1) {
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
 			)
@@ -75,7 +72,7 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 			destroyerCoords.push(`${Number(currentX) + i},${currentY}`)
 		}
 
-		//only update if there are 2 or less ships
+		//only updates if there are 2 or less ships
 		if (isCorrectNumberOfShips(ship, amount)) {
 			destroyer.push({ head: destroyerCoords[0], tail: destroyerCoords[1] })
 		}
@@ -90,8 +87,8 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 		//overlap detection
 		if (doesShipPlacementOverlap(2, currentAxis, currentX, currentY)) return null
 
-		for (let i = 0; i < 2; i++) {
-			//to place destroyer on the grid
+		for (let i = 0; i < 2; i += 1) {
+			//places destroyer on the grid
 			const nextCell: Div = document.querySelector(
 				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
 			)
@@ -110,20 +107,20 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 			destroyerCoords.push(`${currentX},${Number(currentY) + i}`)
 		}
 
-		//only update if there are 2 or less ships
+		//only updates if there are 2 or less ships
 		if (isCorrectNumberOfShips(ship, amount)) {
 			destroyer.push({ head: destroyerCoords[0], tail: destroyerCoords[1] })
 		}
 	} else if (isCorrectNumberOfShips(ship, amount) === false) return null
 
-	//store destroyer
+	//stores destroyer
 	localStorage.setItem('destroyer', JSON.stringify(destroyer))
 
-	//store current ship coords to pool of all ship coords
+	//stores current ship coords to pool of all ship coords
 	accumulatePlayerShipCoords(destroyerCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === false) {
-		//after 'this' button has been clicked, set the color to grey to visually indicate finished
+		//after 'this' button has been clicked, sets the color to grey to visually indicate finished
 		const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
 		pipe(
 			addStyleToElem([
@@ -133,7 +130,7 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 			])
 		)(destroyerBttn)
 
-		//enable events on other shipButtons after both destroyers have been placed and set color to Apple green to visually indicate that they can be clicked if they have not been previously disabled after a click
+		//enables events on other shipButtons after both destroyers have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
 		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
 		if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true)
 			pipe(
@@ -178,7 +175,7 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 				addEvtListener('click')(handleFrigateBttnClick)
 			)(frigateBttn)
 
-		//remove event listeners after both destroyers have been placed
+		//removes event listeners after both destroyers have been placed
 		playerGameCells.forEach((player) => {
 			pipe(
 				removeEvtListener('click')(handleDestroyerCellClick),
@@ -188,7 +185,7 @@ const handleDestroyerCellClick = function (this: HTMLDivElement, ev: MouseEvent)
 		})
 	}
 
-	//if all ships placed, render start button
+	//if all ships placed, renders start button
 	checkAllShipsInPlace()
 }
 
