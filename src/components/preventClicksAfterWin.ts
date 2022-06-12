@@ -13,6 +13,8 @@ const preventClicksAfterWin = function () {
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent')
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent')
 
+	console.log('prevent')
+
 	//prevent further clicks after winner is announced
 	compShipPresent.forEach((cell) => {
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompShips))(cell)

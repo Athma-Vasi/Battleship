@@ -1,4 +1,4 @@
-const accumulateShipCoords = function (currentShipCoords_: string[]) {
+const accumulatePlayerShipCoords = function (currentShipCoords_: string[]) {
 	const playerShipsCoords: string[] = JSON.parse(
 		localStorage.getItem('playerShipsCoords') ?? ''
 	)
@@ -8,4 +8,4 @@ const accumulateShipCoords = function (currentShipCoords_: string[]) {
 
 	localStorage.setItem('playerShipsCoords', JSON.stringify(playerShipsCoords))
 }
-export { accumulateShipCoords }
+export { accumulatePlayerShipCoords }

@@ -43,7 +43,6 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
 			['color', '#f0a400'],
-			['cursor', 'crosshair'],
 		])
 	)(this)
 

@@ -22,7 +22,13 @@ const handleFrigateMouseEnter = function (this: HTMLDivElement, ev: MouseEvent) 
 	)
 
 	if (!nextCell?.classList.contains('playerShipPresent')) {
-		pipe(addTextToElem('F'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+		pipe(
+			addTextToElem('F'),
+			addStyleToElem([
+				['color', '#f0a400'],
+				['cursor', 'crosshair'],
+			])
+		)(nextCell)
 	}
 }
 export { handleFrigateMouseEnter }

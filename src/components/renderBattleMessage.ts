@@ -61,20 +61,22 @@ const renderBattleMessageElem = function (
 		const compBattleship: string[] = Object.values(
 			JSON.parse(localStorage.getItem('compBattleship') ?? '')
 		)
-		//because the destroyers and frigates consist of an array of objects
-		const compDestroyers: string[] = []
+
+		//because the destroyers consists of an array of objects
+		let compDestroyers: unknown[] = []
 		JSON.parse(localStorage.getItem('compDestroyers') ?? '').forEach(
-			(destroyer: Destroyer) =>
-				Object.values((coord: string) => {
-					compDestroyers.push(coord)
-				})
+			(destroyer: Destroyer) => {
+				compDestroyers.push(Object.values(destroyer))
+			}
 		)
-		const compFrigates: string[] = []
-		JSON.parse(localStorage.getItem('compFrigates') ?? '').forEach((frigate: Frigate) =>
-			Object.values((coord: string) => {
-				compFrigates.push(coord)
-			})
-		)
+		compDestroyers = compDestroyers.flat()
+
+		//because the frigates consists of an array of objects
+		let compFrigates: unknown[] = []
+		JSON.parse(localStorage.getItem('compFrigates') ?? '').forEach((frigate: Frigate) => {
+			compFrigates.push(Object.values(frigate))
+		})
+		compFrigates = compFrigates.flat()
 
 		if (hitOrMiss_ === 'hit') {
 			//player attacking computer scores a hit
@@ -124,6 +126,7 @@ const renderBattleMessageElem = function (
 				const [destroyer1, _]: Destroyer[] = JSON.parse(
 					localStorage.getItem('compDestroyers') ?? ''
 				)
+				console.log(destroyer1)
 
 				const destroyer1Coords: string[] = []
 				Object.values(destroyer1).forEach((shipPartCoords) => {
@@ -150,6 +153,8 @@ const renderBattleMessageElem = function (
 				const [frigate1, _]: Frigate[] = JSON.parse(
 					localStorage.getItem('compFrigates') ?? ''
 				)
+
+				console.log(frigate1)
 
 				const frigate1Coords: string[] = []
 				Object.values(frigate1).forEach((shipPartCoords) => {

@@ -34,7 +34,6 @@ const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
 			['color', '#f0a400'],
-			['cursor', 'crosshair'],
 		])
 	)(this)
 

@@ -35,7 +35,6 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
 			['color', '#f0a400'],
-			['cursor', 'crosshair'],
 		])
 	)(this)
 

@@ -30,7 +30,12 @@ const handleSuperdreadnoughtMouseLeave = function (this: HTMLDivElement, ev: Mou
 			//to avoid changing cells of ships already present
 			if (!nextCell?.classList.contains('playerShipPresent')) {
 				if (nextCell) nextCell.textContent = ''
-				pipe(addStyleToElem([['color', 'gainsboro']]))(nextCell)
+				pipe(
+					addStyleToElem([
+						['color', 'gainsboro'],
+						['cursor', 'default'],
+					])
+				)(nextCell)
 			}
 		}
 	} else if (currentAxis === 'Axis-Y') {
@@ -42,7 +47,12 @@ const handleSuperdreadnoughtMouseLeave = function (this: HTMLDivElement, ev: Mou
 			//to avoid changing cells of ships already present
 			if (!nextCell?.classList.contains('playerShipPresent')) {
 				if (nextCell) nextCell.textContent = ''
-				pipe(addStyleToElem([['color', 'gainsboro']]))(nextCell)
+				pipe(
+					addStyleToElem([
+						['color', 'gainsboro'],
+						['cursor', 'default'],
+					])
+				)(nextCell)
 			}
 		}
 	}

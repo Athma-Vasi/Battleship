@@ -31,12 +31,13 @@ body {
 
 .container-all {
 	display: grid;
-	grid-template-rows: 15% 85%;
+	grid-template-rows: 10% 90%;
 	grid-template-areas:
 		'header'
 		'main';
 	width: clamp(var(--width-min), 76.4vw, var(--width-max));
 	height: 100vh;
+	border: 1px solid var(--clr-appleGreen);
 }
 
 button {
@@ -48,12 +49,18 @@ button {
 	border-radius: 5px;
 	cursor: pointer;
 }
+button:hover {
+	border: 1px solid var(--clr-appleAmberDark);
+	color: var(--clr-appleAmberDark);
+}
 
 /* header */
 header {
 	grid-area: header;
 	width: clamp(var(--width-min), 76.4vw, var(--width-max));
-	outline: 1px solid gainsboro;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 h1 {
@@ -61,6 +68,7 @@ h1 {
 	font-size: 4rem;
 	text-transform: uppercase;
 	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	padding-left: 2rem;
 }
 
 /* main */
@@ -70,7 +78,6 @@ main {
 	display: flex;
 	flex-direction: column;
 	width: clamp(var(--width-min), 76.4vw, var(--width-max));
-	outline: 1px solid tan;
 }
 .greetings {
 	color: var(--clr-appleGreen);
@@ -107,7 +114,6 @@ main {
 
 #form-name {
 	margin-top: 2rem;
-	outline: 1px solid darkblue;
 	height: 4rem;
 	display: flex;
 	justify-content: center;
@@ -136,9 +142,9 @@ main {
 .shipBttns-wrapper {
 	width: 100%;
 	height: 13rem;
-	outline: 1px solid darkgreen;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	width: 100%;
 }
 
@@ -182,24 +188,34 @@ main {
 	margin-top: 2rem;
 }
 
+.bothBoards-container {
+	display: flex;
+	height: 35rem;
+}
+
+.compBoard-container {
+	margin-bottom: 31px;
+}
+
 /* info screen battle */
 
 .infoScreen-wrapper {
 	width: clamp(var(--width-min), 76.4vw, var(--width-max));
 	height: 29rem;
-	outline: 1px solid darkgoldenrod;
+
 	overflow-y: scroll;
 	scroll-behavior: smooth;
+	padding: 2rem;
 }
 
 .battleMessageElem {
+	font-size: 1.5rem;
 	color: var(--clr-appleGreen);
 }
 
 /* player board */
 
 .playerBoard-wrapper {
-	outline: 1px solid darkmagenta;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -228,7 +244,6 @@ main {
 /* comp board */
 
 .compBoard-wrapper {
-	outline: 1px solid gainsboro;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -254,24 +269,64 @@ main {
 	font-size: 1.5em;
 }
 
+.winner-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 7rem;
+}
+
+.bttn-restart {
+	width: 7rem;
+	height: 3rem;
+	font-size: 1.25rem;
+	margin-left: 2rem;
+}
+
+.winner-announcement {
+	margin-right: 2rem;
+	color: var(--clr-appleAmberDark);
+	font-size: 1.5rem;
+}
+
 @media only screen and (min-width: 1242px) {
+	.form-container {
+		position: absolute;
+		top: calc(50% - (64px / 2));
+		left: calc(50% - (528px / 2));
+	}
+
 	.main {
 		grid-area: main;
 		width: clamp(var(--width-min), 76.4vw, var(--width-max));
-		display: grid;
+		/* display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		grid-template-rows: calc(76.4% * 0.85) calc(24.6% * 0.85);
+		grid-template-rows: calc(24.6% * 0.85) calc(61.8% * 0.85) calc(14.6% * 0.85);
 		grid-template-areas:
-			'playerBoard compBoard'
-			'infoScreen infoScreen';
+			'buttons buttons'
+			'bothBoards bothBoards'
+			'infoScreen infoScreen'; */
+		display: flex;
+		flex-direction: column;
 	}
 
-	.playerBoard-wrapper {
-		grid-area: playerBoard;
+	.shipBttns-wrapper {
+		grid-area: buttons;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
 	}
 
-	.compBoard-wrapper {
-		grid-area: compBoard;
+	.shipsBttn-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.bothBoards-container {
+		grid-area: bothBoards;
+		display: flex;
+		height: 35rem;
 	}
 
 	.compBoard-container {
@@ -280,6 +335,15 @@ main {
 
 	.infoScreen-wrapper {
 		grid-area: infoScreen;
-		height: calc(1004.5px - 652.017px);
+		/* height: calc(1004.5px - 652.017px); */
+		/* height: 265px; */
+		width: clamp(var(--width-min), 76.4vw, var(--width-max));
+		overflow-y: scroll;
+		scroll-behavior: smooth;
+		/* padding: 1.5rem; */
+	}
+
+	.battleMessageElem {
+		font-size: 1.5rem;
 	}
 }

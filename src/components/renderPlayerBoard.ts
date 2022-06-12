@@ -15,14 +15,17 @@ const renderPlayerBoard = function () {
 
 	const main: HTMLElement | null = document.querySelector('.main')
 
+	const bothBoardsContainer = elemCreator('div')(['bothBoards-container'])
+	appendElemToParent(main)(bothBoardsContainer)
+
 	const playerBoardWrapper = elemCreator('div')(['playerBoard-wrapper'])
-	appendElemToParent(main)(playerBoardWrapper)
+	appendElemToParent(bothBoardsContainer)(playerBoardWrapper)
 
 	const playerBoardContainer = elemCreator('div')(['playerBoard-container'])
 	appendElemToParent(playerBoardWrapper)(playerBoardContainer)
 
-	for (let i = 0; i < 10; i++) {
-		for (let j = 0; j < 10; j++) {
+	for (let i = 0; i < 10; i += 1) {
+		for (let j = 0; j < 10; j += 1) {
 			//render a div per iteration of for-loop
 			pipe(
 				addAttributeToElem([['data-cellplayer', `${j},${i}`]]),

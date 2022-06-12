@@ -28,7 +28,13 @@ const handleBattleshipMouseEnter = function (this: HTMLDivElement, ev: MouseEven
 			)
 
 			if (!nextCell?.classList.contains('playerShipPresent')) {
-				pipe(addTextToElem('B'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+				pipe(
+					addTextToElem('B'),
+					addStyleToElem([
+						['color', '#f0a400'],
+						['cursor', 'crosshair'],
+					])
+				)(nextCell)
 			}
 		}
 	} else if (currentAxis === 'Axis-Y') {
@@ -38,7 +44,13 @@ const handleBattleshipMouseEnter = function (this: HTMLDivElement, ev: MouseEven
 			)
 
 			if (!nextCell?.classList.contains('playerShipPresent')) {
-				pipe(addTextToElem('B'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+				pipe(
+					addTextToElem('B'),
+					addStyleToElem([
+						['color', '#f0a400'],
+						['cursor', 'crosshair'],
+					])
+				)(nextCell)
 			}
 		}
 	}

@@ -15,14 +15,16 @@ const renderCompBoard = function () {
 
 	const main: HTMLElement | null = document.querySelector('.main')
 
+	const bothBoardsContainer: Div = document.querySelector('.bothBoards-container')
+
 	const compBoardWrapper = elemCreator('div')(['compBoard-wrapper'])
-	appendElemToParent(main)(compBoardWrapper)
+	appendElemToParent(bothBoardsContainer)(compBoardWrapper)
 
 	const compBoardContainer = elemCreator('div')(['compBoard-container'])
 	appendElemToParent(compBoardWrapper)(compBoardContainer)
 
-	for (let i = 0; i < 10; i++) {
-		for (let j = 0; j < 10; j++) {
+	for (let i = 0; i < 10; i += 1) {
+		for (let j = 0; j < 10; j += 1) {
 			pipe(
 				addAttributeToElem([['data-cellcomp', `${j},${i}`]]),
 				appendElemToParent(compBoardContainer)

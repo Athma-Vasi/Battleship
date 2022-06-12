@@ -12,7 +12,7 @@ import {
 } from '../utilities/elementCreators'
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
-import { accumulateShipCoords } from '../components/accumulateShipCoords'
+import { accumulatePlayerShipCoords } from '../components/accumulatePlayerShipCoords'
 import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
 import { handleCarrierMouseEnter } from './handleCarrierMouseEnter'
 import { handleCarrierMouseLeave } from './handleCarrierMouseLeave'
@@ -69,7 +69,10 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 			pipe(
 				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['color', '#f0a400']]),
+				addStyleToElem([
+					['color', '#f0a400'],
+					['cursor', 'default'],
+				]),
 				addTextToElem('C')
 			)(nextCell)
 
@@ -109,7 +112,10 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 			pipe(
 				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['color', '#f0a400']]),
+				addStyleToElem([
+					['color', '#f0a400'],
+					['cursor', 'default'],
+				]),
 				addTextToElem('C')
 			)(nextCell)
 
@@ -134,7 +140,7 @@ const handleCarrierCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	localStorage.setItem('carrier', JSON.stringify(carrier))
 
 	//store current ship coords to pool of all ship coords
-	accumulateShipCoords(carrierCoords)
+	accumulatePlayerShipCoords(carrierCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === true) {
 		//after 'this' button has been clicked, set the color to grey to visually indicate finished

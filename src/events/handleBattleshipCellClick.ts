@@ -1,4 +1,4 @@
-import { accumulateShipCoords } from '../components/accumulateShipCoords'
+import { accumulatePlayerShipCoords } from '../components/accumulatePlayerShipCoords'
 import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
 import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
@@ -65,7 +65,10 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 
 			pipe(
 				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['color', '#f0a400']]),
+				addStyleToElem([
+					['color', '#f0a400'],
+					['cursor', 'default'],
+				]),
 				addTextToElem('B')
 			)(nextCell)
 
@@ -104,7 +107,10 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 
 			pipe(
 				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['color', '#f0a400']]),
+				addStyleToElem([
+					['color', '#f0a400'],
+					['cursor', 'default'],
+				]),
 				addTextToElem('B')
 			)(nextCell)
 
@@ -128,7 +134,7 @@ const handleBattleshipCellClick = function (this: HTMLDivElement, ev: MouseEvent
 	localStorage.setItem('battleship', JSON.stringify(battleship))
 
 	//store current ship coords to pool of all ship coords
-	accumulateShipCoords(battleshipCoords)
+	accumulatePlayerShipCoords(battleshipCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === true) {
 		//after 'this' button has been clicked, set the color to grey to visually indicate finished

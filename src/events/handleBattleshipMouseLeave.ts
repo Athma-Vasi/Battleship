@@ -30,7 +30,12 @@ const handleBattleshipMouseLeave = function (this: HTMLDivElement, ev: MouseEven
 			//to avoid changing cells of ships already present
 			if (!nextCell?.classList.contains('playerShipPresent')) {
 				if (nextCell) nextCell.textContent = ''
-				pipe(addStyleToElem([['color', 'gainsboro']]))(nextCell)
+				pipe(
+					addStyleToElem([
+						['color', 'gainsboro'],
+						['cursor', 'default'],
+					])
+				)(nextCell)
 			}
 		}
 	} else if (currentAxis === 'Axis-Y') {
@@ -42,7 +47,12 @@ const handleBattleshipMouseLeave = function (this: HTMLDivElement, ev: MouseEven
 			//to avoid changing cells of ships already present
 			if (!nextCell?.classList.contains('playerShipPresent')) {
 				if (nextCell) nextCell.textContent = ''
-				pipe(addStyleToElem([['color', 'gainsboro']]))(nextCell)
+				pipe(
+					addStyleToElem([
+						['color', 'gainsboro'],
+						['cursor', 'default'],
+					])
+				)(nextCell)
 			}
 		}
 	}

@@ -62,6 +62,6 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 	})
 
 	//computers turn
-	setTimeout(computersTurn, 0)
+	setTimeout(computersTurn, 2000)
 }
 export { handlePlayerClickOnCompMisses }

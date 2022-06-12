@@ -23,7 +23,7 @@ const doesShipPlacementOverlap = function (
 			}
 		}
 	} else if (currentAxis_ === 'Axis-Y') {
-		for (let i = 0; i < 3; i++) {
+		for (let i = 0; i < shipLength_; i++) {
 			//overlap detection
 			if (playerShipsCoords.includes(`${currentX_},${Number(currentY_) + i}`)) {
 				alert(

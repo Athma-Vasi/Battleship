@@ -1,4 +1,4 @@
-import { accumulateShipCoords } from '../components/accumulateShipCoords'
+import { accumulatePlayerShipCoords } from '../components/accumulatePlayerShipCoords'
 import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
 import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
@@ -22,16 +22,11 @@ import { handleFrigateMouseLeave } from './handleFrigateMouseLeave'
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
 
 const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
-	const log = (i: unknown) => console.log('\n', i, '\n')
-
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
-
-	const ship = 'frigate'
-	const amount = 'double'
 
 	//grab the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector')
-	const currentAxis = axisSelector?.textContent
+	const currentAxis = axisSelector?.textContent ?? ''
 
 	//grab the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',')
@@ -46,77 +41,43 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 	const frigateCoords: string[] = []
 
-	//for horizontal placement
-	if (currentAxis === 'Axis-X' && isCorrectNumberOfShips(ship, amount)) {
-		// //grid boundary detection
-		// if (Number(currentX) > 9) {
-		// 	alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
-		// 	return null
-		// }
-
+	const ship = 'frigate'
+	const amount = 'double'
+	if (isCorrectNumberOfShips(ship, amount)) {
 		//overlap detection
 		if (doesShipPlacementOverlap(1, currentAxis, currentX, currentY)) return null
 
-		//to place frigate on the grid
-		for (let i = 0; i < 1; i++) {
-			const nextCell: Div = document.querySelector(
-				`[data-cellplayer="${Number(currentX) + i},${currentY}"]`
-			)
-			//prevents duplicate letters being placed
-			if (nextCell) nextCell.textContent = ''
+		//place frigate on the grid
+		const nextCell: Div = document.querySelector(
+			`[data-cellplayer="${currentX},${currentY}"]`
+		)
+		//prevents duplicate letters being placed
+		if (nextCell) nextCell.textContent = ''
 
-			pipe(
-				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['color', '#f0a400']]),
-				addTextToElem('F')
-			)(nextCell)
+		pipe(
+			addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
+			addStyleToElem([
+				['color', '#f0a400'],
+				['cursor', 'default'],
+			]),
+			addTextToElem('F')
+		)(nextCell)
 
-			frigateCoords.push(`${Number(currentX) + i},${currentY}`)
-		}
+		frigateCoords.push(`${currentX},${currentY}`)
 
 		//only update if there are 2 or less ships
 		if (isCorrectNumberOfShips(ship, amount)) {
 			frigate.push({ body: frigateCoords[0] })
 		}
-	} //for vertical placement
-	else if (currentAxis === 'Axis-Y' && isCorrectNumberOfShips(ship, amount)) {
-		// //grid boundary detection
-		// if (Number(currentY) > 9) {
-		// 	alert('Please stay within boundaries of the sector (｡•́︿•̀｡)')
-		// 	return null
-		// }
-
-		//overlap detection
-		if (doesShipPlacementOverlap(1, currentAxis, currentX, currentY)) return null
-
-		for (let i = 0; i < 1; i++) {
-			//to place frigate on the grid
-			const nextCell: Div = document.querySelector(
-				`[data-cellplayer="${currentX},${Number(currentY) + i}"]`
-			)
-			//prevents duplicate letters being placed
-			if (nextCell) nextCell.textContent = ''
-
-			pipe(
-				addAttributeToElem([['class', 'playerShipPresent player-gameCell']]),
-				addStyleToElem([['color', '#f0a400']]),
-				addTextToElem('F')
-			)(nextCell)
-
-			frigateCoords.push(`${currentX},${Number(currentY) + i}`)
-		}
-
-		//only update if there are 2 or less ships
-		if (isCorrectNumberOfShips(ship, amount)) {
-			frigate.push({ body: frigateCoords[0] })
-		}
-	} else if (isCorrectNumberOfShips(ship, amount) === false) return null
+	} else if (isCorrectNumberOfShips(ship, amount) === false) {
+		return null
+	}
 
 	//store frigate
 	localStorage.setItem('frigate', JSON.stringify(frigate))
 
 	//store current ship coords to pool of all ship coords
-	accumulateShipCoords(frigateCoords)
+	accumulatePlayerShipCoords(frigateCoords)
 
 	if (isCorrectNumberOfShips(ship, amount) === false) {
 		//after 'this' button has been clicked, set the color to grey to visually indicate finished
@@ -125,7 +86,6 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			addStyleToElem([
 				['border', '1px solid gainsboro'],
 				['color', 'gainsboro'],
-				['cursor', 'not-allowed'],
 			])
 		)(frigateBttn)
 

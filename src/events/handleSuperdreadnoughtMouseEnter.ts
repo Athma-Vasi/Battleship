@@ -28,7 +28,13 @@ const handleSuperdreadnoughtMouseEnter = function (this: HTMLDivElement, ev: Mou
 			)
 
 			if (!nextCell?.classList.contains('playerShipPresent')) {
-				pipe(addTextToElem('S'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+				pipe(
+					addTextToElem('S'),
+					addStyleToElem([
+						['color', '#f0a400'],
+						['cursor', 'crosshair'],
+					])
+				)(nextCell)
 			}
 		}
 	} else if (currentAxis === 'Axis-Y') {
@@ -38,7 +44,13 @@ const handleSuperdreadnoughtMouseEnter = function (this: HTMLDivElement, ev: Mou
 			)
 
 			if (!nextCell?.classList.contains('playerShipPresent')) {
-				pipe(addTextToElem('S'), addStyleToElem([['color', '#f0a400']]))(nextCell)
+				pipe(
+					addTextToElem('S'),
+					addStyleToElem([
+						['color', '#f0a400'],
+						['cursor', 'crosshair'],
+					])
+				)(nextCell)
 			}
 		}
 	}

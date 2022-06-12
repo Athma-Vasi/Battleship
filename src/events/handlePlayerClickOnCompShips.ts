@@ -37,8 +37,11 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	if (compShipsCoords.includes(currentCellCoord)) {
 		//check hit counter to see if its the last hit
 		if (totalHitsOnCompShips === 17) {
+			//grab the player name
+			const playerName = JSON.parse(localStorage.getItem('playerName') ?? '')
+
 			//call game winner function
-			announceGameWinner('player')
+			announceGameWinner(playerName)
 		}
 	}
 
@@ -95,6 +98,6 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompMisses))(cell)
 	})
 
-	setTimeout(computersTurn, 0)
+	setTimeout(computersTurn, 2000)
 }
 export { handlePlayerClickOnCompShips }
