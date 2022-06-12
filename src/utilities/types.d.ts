@@ -1,6 +1,7 @@
 type Form = HTMLFormElement | null
 type Div = HTMLDivElement | null
 type Button = HTMLButtonElement | null
+type Para = HTMLParagraphElement | null
 
 type NodesDiv = NodeListOf<HTMLDivElement>
 type NodesBttn = NodeListOf<HTMLButtonElement>
@@ -94,6 +95,7 @@ type RandomizedManticoreShipNames = {
 export {
 	Form,
 	Div,
+	Para,
 	NodesDiv,
 	NodesBttn,
 	Superdreadnought,

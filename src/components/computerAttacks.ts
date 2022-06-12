@@ -1,5 +1,5 @@
 import { addStyleToElem, pipe } from '../utilities/elementCreators'
-import { Div, NodesDiv } from '../utilities/types'
+import { Div, NodesDiv, Para } from '../utilities/types'
 import { renderBattleMessageElem } from './renderBattleMessage'
 
 const computerAttacks = function (compAttackGuess_: string) {
@@ -60,7 +60,13 @@ const computerAttacks = function (compAttackGuess_: string) {
 			hitOrMiss
 		)
 
-		//assigns '✖' to currently missed co-ordinate and colors it Apple amber
+		//auto-scroll to the bottom to have the most recent message visible
+		const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
+		const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0
+
+		infoScreenWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' })
+
+		//assigns '✖' to currently missed co-ordinate and colors it  amber
 		if (playerShipCell) {
 			playerShipCell.textContent = ''
 			playerShipCell.textContent = '✖'

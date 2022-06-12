@@ -53,6 +53,12 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		hitOrMiss
 	)
 
+	//auto-scroll to the bottom to have the most recent message visible
+	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper')
+	const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0
+
+	infoScreenWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' })
+
 	this.textContent = ''
 	this.textContent = '💥'
 
