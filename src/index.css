@@ -171,8 +171,7 @@ main {
 /* info screen battle */
 .infoScreen-wrapper {
 	width: clamp(var(--width-min), 76.4vw, var(--width-max));
-	height: 29rem;
-
+	height: 31rem;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 	padding: 2rem;

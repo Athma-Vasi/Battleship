@@ -1,6 +1,6 @@
 import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses'
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips'
-import { pipe, addEvtListener } from '../utilities/elementCreators'
+import { addEvtListener, pipe } from '../utilities/elementCreators'
 import { NodesDiv } from '../utilities/types'
 import { announceGameWinner } from './announceGameWinner'
 import { computerAttacks } from './computerAttacks'
@@ -28,7 +28,7 @@ const computersTurn = function () {
 		//if compAttackGuess is on a playerShipCoord, then checks the hit counter
 		//avoids registering a win when the computer misses
 		if (playerShipsCoords.includes(compAttackGuess)) {
-			let totalHitsOnPlayerShips: number = JSON.parse(
+			const totalHitsOnPlayerShips: number = JSON.parse(
 				localStorage.getItem('totalHitsOnPlayerShips') ?? ''
 			)
 			if (totalHitsOnPlayerShips === 17) {

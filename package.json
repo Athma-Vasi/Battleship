@@ -2,7 +2,6 @@
 	"name": "battleship",
 	"version": "1.0.0",
 	"description": "Battleship project made with TS as part of The Odin Project curriculum",
-	"main": "index.js",
 	"source": "src/index.html",
 	"browserslist": "> 0.5%, last 2 versions, not dead",
 	"scripts": {
@@ -29,6 +28,7 @@
 	},
 	"homepage": "https://github.com/Athma-Vasi/Battleship#readme",
 	"devDependencies": {
+		"@swc/helpers": "^0.3.17",
 		"@types/jest": "^28.1.1",
 		"@typescript-eslint/eslint-plugin": "^5.27.1",
 		"@typescript-eslint/parser": "^5.27.1",
@@ -39,6 +39,7 @@
 		"eslint-plugin-simple-import-sort": "^7.0.0",
 		"jest": "^28.1.0",
 		"parcel": "^2.6.0",
+		"parcel-bundler": "^1.3.1",
 		"ts-jest": "^28.0.4",
 		"typescript": "^4.7.3"
 	}

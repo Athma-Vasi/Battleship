@@ -6,7 +6,7 @@ const genRandCompAttackGuess = function () {
 	if (!localStorage.getItem('compAttackGuesses')) {
 		localStorage.setItem('compAttackGuesses', JSON.stringify([]))
 	}
-	let compAttackGuesses: string[] = JSON.parse(
+	const compAttackGuesses: string[] = JSON.parse(
 		localStorage.getItem('compAttackGuesses') ?? ''
 	)
 

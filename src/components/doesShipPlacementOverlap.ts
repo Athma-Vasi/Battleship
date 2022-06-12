@@ -8,7 +8,7 @@ const doesShipPlacementOverlap = function (
 	if (!localStorage.getItem('playerShipsCoords')) {
 		localStorage.setItem('playerShipsCoords', JSON.stringify([]))
 	}
-	let playerShipsCoords: string[] = JSON.parse(
+	const playerShipsCoords: string[] = JSON.parse(
 		localStorage.getItem('playerShipsCoords') ?? ''
 	)
 
