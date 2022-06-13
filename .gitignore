@@ -2,7 +2,7 @@
 coverage/
 node_modules/
 *.log
-.cache
+.cache/
 
 # OS generated files
 .DS_Store
