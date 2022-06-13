@@ -1,9 +1,9 @@
 import {
+	addEvtListener,
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,
 	pipe,
-	addEvtListener,
 } from '../utilities/elementCreators'
 import { preventClicksAfterWin } from './preventClicksAfterWin'
 import { restartGame } from './restartGame'

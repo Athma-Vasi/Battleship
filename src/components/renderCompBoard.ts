@@ -1,10 +1,10 @@
-import { Div } from '../utilities/types'
 import {
-	elemCreator,
-	appendElemToParent,
 	addAttributeToElem,
+	appendElemToParent,
+	elemCreator,
 	pipe,
 } from '../utilities/elementCreators'
+import { Div } from '../utilities/types'
 
 const renderCompBoard = function () {
 	const bothBoardsContainer: Div = document.querySelector('.bothBoards-container')

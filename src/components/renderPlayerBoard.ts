@@ -1,7 +1,7 @@
 import {
-	elemCreator,
-	appendElemToParent,
 	addAttributeToElem,
+	appendElemToParent,
+	elemCreator,
 	pipe,
 } from '../utilities/elementCreators'
 

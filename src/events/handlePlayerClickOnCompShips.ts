@@ -1,9 +1,9 @@
 import { announceGameWinner } from '../components/announceGameWinner'
 import { computersTurn } from '../components/computersTurn'
-import { addStyleToElem, pipe, removeEvtListener } from '../utilities/elementCreators'
+import { renderBattleMessageElem } from '../components/renderBattleMessage'
+import { pipe, removeEvtListener } from '../utilities/elementCreators'
 import { Div, NodesDiv } from '../utilities/types'
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses'
-import { renderBattleMessageElem } from '../components/renderBattleMessage'
 
 const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
 	//initialize the hit counter on first hit
@@ -52,7 +52,7 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	//updates the comp board cell to visually indicate hit
 	this.textContent = ''
 	this.textContent = '💥'
-	pipe(addStyleToElem(['color', '#f0a400']))(this)
+	this.style.color = '#f0a400'
 
 	//prevents clicks on previously hit cells counting towards totalHitsOnCompShips
 	if (!localStorage.getItem('compShipsHitCoords')) {

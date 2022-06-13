@@ -1,6 +1,6 @@
 import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses'
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips'
-import { removeEvtListener, pipe } from '../utilities/elementCreators'
+import { pipe, removeEvtListener } from '../utilities/elementCreators'
 import { NodesDiv } from '../utilities/types'
 
 const preventClicksAfterWin = function () {

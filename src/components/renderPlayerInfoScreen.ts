@@ -8,7 +8,7 @@ import {
 const renderPlayerInfoScreen = function (playerName_: string) {
 	const main: HTMLElement | null = document.querySelector('.main')
 
-	const infoScreenWrapper = elemCreator('div')(['infoScreen-wrapper'])
+	const infoScreenWrapper = elemCreator('div')(['preBattle-infoScreen'])
 	appendElemToParent(main)(infoScreenWrapper)
 
 	const infoScreenContainer = elemCreator('div')(['infoScreen-container'])

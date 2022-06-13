@@ -5,11 +5,11 @@ import { handleDestroyerBttnClick } from '../events/handleDestroyerBttnClick'
 import { handleFrigateBttnClick } from '../events/handleFrigateBttnClick'
 import { handleSuperdreadnoughtBttnClick } from '../events/handleSuperdreadnoughtBttnClick'
 import {
-	elemCreator,
-	appendElemToParent,
-	addTextToElem,
 	addAttributeToElem,
 	addEvtListener,
+	addTextToElem,
+	appendElemToParent,
+	elemCreator,
 	pipe,
 } from '../utilities/elementCreators'
 

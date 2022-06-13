@@ -1,10 +1,10 @@
-import { CompShipsPlacementChoice, Div, NodesDiv } from '../utilities/types'
 import {
-	addTextToElem,
 	addAttributeToElem,
 	addStyleToElem,
+	addTextToElem,
 	pipe,
 } from '../utilities/elementCreators'
+import { CompShipsPlacementChoice, Div, NodesDiv } from '../utilities/types'
 
 const renderCompShipsOnBoard = function (
 	compShipsPlacementChoice_: CompShipsPlacementChoice

@@ -1,0 +1,316 @@
+:root {
+	--width-min: 828px;
+	--width-max: 1242px;
+	--clr-text: #183535;
+	--clr-appleGreen: #00f000;
+	--clr-appleAmberDark: #f0a400;
+	--clr-appleAmberLight: #f0c000;
+}
+
+html {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+body {
+	font-family: monospace;
+	height: 100vh;
+	background: rgb(62, 62, 62);
+	background: radial-gradient(circle, rgba(62, 62, 62, 1) 0%, rgba(7, 7, 7, 1) 100%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container-all {
+	display: grid;
+	grid-template-rows: 10% 90%;
+	grid-template-areas:
+		'header'
+		'main';
+	width: clamp(var(--width-min), 76.4vw, var(--width-max));
+	height: 100vh;
+	border: 1px solid var(--clr-appleGreen);
+}
+
+button {
+	font-family: monospace;
+	outline: none;
+	border: 1px solid var(--clr-appleGreen);
+	color: var(--clr-appleGreen);
+	background-color: transparent;
+	border-radius: 5px;
+	cursor: pointer;
+}
+button:hover {
+	border: 1px solid var(--clr-appleAmberDark);
+	color: var(--clr-appleAmberDark);
+}
+
+/* header */
+header {
+	grid-area: header;
+	width: clamp(var(--width-min), 76.4vw, var(--width-max));
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+h1 {
+	color: var(--clr-appleAmberDark);
+	font-size: 4rem;
+	text-transform: uppercase;
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	padding-left: 2rem;
+}
+
+/* main */
+main {
+	grid-area: main;
+	display: flex;
+	flex-direction: column;
+	width: clamp(var(--width-min), 76.4vw, var(--width-max));
+}
+.greetings {
+	color: var(--clr-appleGreen);
+	font-size: 1rem;
+	padding: 0px 2rem;
+	width: clamp(var(--width-min), 76.4vw, var(--width-max));
+}
+
+#form-name {
+	margin-top: 2rem;
+	height: 4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#input-name {
+	margin-right: 3rem;
+	height: 3rem;
+	width: 23rem;
+	border: 1px solid var(--clr-appleGreen);
+	outline: none;
+	border-radius: 5px;
+	background-color: transparent;
+	color: var(--clr-appleGreen);
+	font-size: 1.5rem;
+	padding-left: 1rem;
+}
+
+.bttn-name {
+	height: 3rem;
+	width: 7rem;
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+/* ship buttons */
+.shipBttns-wrapper {
+	width: 100%;
+	height: 13rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+}
+
+.shipsBttn-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0px 2rem;
+	margin-top: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.bttn-carrier,
+.bttn-battleship,
+.bttn-destroyer,
+.bttn-frigate {
+	width: 7rem;
+	height: 3rem;
+	font-size: 1rem;
+}
+
+.bttn-superdreadnought {
+	width: 13rem;
+	height: 3rem;
+	font-size: 1rem;
+}
+
+.bttn-axisSelector,
+.bttn-startGame {
+	align-self: center;
+	margin-top: 1rem;
+	margin-bottom: 0.5rem;
+	width: 10rem;
+	height: 3rem;
+	font-size: 1rem;
+}
+
+.bttn-startGame {
+	font-size: 2rem;
+	margin-top: 2rem;
+}
+
+.bothBoards-container {
+	display: flex;
+	height: 35rem;
+}
+
+.compBoard-container {
+	margin-bottom: 31px;
+}
+
+/* info screen battle */
+.infoScreen-wrapper {
+	width: clamp(var(--width-min), 76.4vw, var(--width-max));
+	height: 31rem;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	padding: 2rem;
+}
+
+.preBattle-infoScreen {
+	overflow-y: hidden;
+	height: 31rem;
+	font-size: 1.25rem;
+}
+
+.battleMessageElem {
+	font-size: 1.25rem;
+	color: var(--clr-appleGreen);
+}
+
+/* player board */
+.playerBoard-wrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.playerBoard-container {
+	width: 25rem;
+	height: 25rem;
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+	border: 1px solid var(--clr-appleGreen);
+}
+.player-gameCell {
+	border: 1px solid var(--clr-appleGreen);
+	color: gainsboro;
+	text-align: center;
+	display: grid;
+	place-content: center;
+	font-size: 1.5em;
+	font-weight: 700;
+}
+
+/* comp board */
+.compBoard-wrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.compBoard-container {
+	margin-top: 2rem;
+	width: 25rem;
+	height: 25rem;
+	border: 1px solid var(--clr-appleGreen);
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	grid-template-rows: repeat(10, 1fr);
+}
+
+.comp-gameCell {
+	border: 1px solid var(--clr-appleGreen);
+	color: gainsboro;
+	display: grid;
+	place-content: center;
+	font-weight: 700;
+	font-size: 1.5em;
+}
+
+.winner-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 7rem;
+}
+
+.bttn-restart {
+	width: 7rem;
+	height: 3rem;
+	font-size: 1.25rem;
+	margin-left: 2rem;
+}
+
+.winner-announcement {
+	margin-right: 2rem;
+	color: var(--clr-appleAmberDark);
+	font-size: 1.5rem;
+}
+
+@media only screen and (min-width: 1242px) {
+	.form-container {
+		position: absolute;
+		top: calc(50% - (64px / 2));
+		left: calc(50% - (528px / 2));
+	}
+
+	.main {
+		grid-area: main;
+		width: clamp(var(--width-min), 76.4vw, var(--width-max));
+		display: flex;
+		flex-direction: column;
+	}
+
+	.shipBttns-wrapper {
+		grid-area: buttons;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+	}
+
+	.shipsBttn-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.bothBoards-container {
+		grid-area: bothBoards;
+		display: flex;
+		height: 35rem;
+	}
+
+	.compBoard-container {
+		margin-bottom: 31px;
+	}
+
+	.infoScreen-wrapper {
+		grid-area: infoScreen;
+		width: clamp(var(--width-min), 76.4vw, var(--width-max));
+		overflow-y: scroll;
+		scroll-behavior: smooth;
+	}
+
+	.battleMessageElem {
+		font-size: 1.5rem;
+	}
+}
+
+
+/*# sourceMappingURL=/src.9ad09f98.css.map */

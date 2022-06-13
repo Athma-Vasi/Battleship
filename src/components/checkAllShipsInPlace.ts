@@ -1,5 +1,5 @@
-import { renderStartButton } from './renderStartButton'
 import { renderStarsInPlayerBoard } from './renderStarsInPlayerBoard'
+import { renderStartButton } from './renderStartButton'
 
 const checkAllShipsInPlace = function () {
 	//if playerShip co-ordinates does not exist, create it to check its length which is the sum total of length of all player ships

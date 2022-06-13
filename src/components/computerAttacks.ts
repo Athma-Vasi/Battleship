@@ -1,5 +1,5 @@
 import { addStyleToElem, pipe } from '../utilities/elementCreators'
-import { Div, NodesDiv, Para } from '../utilities/types'
+import { Div } from '../utilities/types'
 import { renderBattleMessageElem } from './renderBattleMessage'
 
 const computerAttacks = function (compAttackGuess_: string) {

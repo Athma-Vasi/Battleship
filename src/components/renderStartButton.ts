@@ -1,10 +1,10 @@
 import { handleStartButtonClick } from '../events/handleStartButtonClick'
 import {
-	elemCreator,
-	appendElemToParent,
-	addTextToElem,
 	addAttributeToElem,
 	addEvtListener,
+	addTextToElem,
+	appendElemToParent,
+	elemCreator,
 	pipe,
 } from '../utilities/elementCreators'
 import { Button, Div } from '../utilities/types'

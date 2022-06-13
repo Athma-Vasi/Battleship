@@ -1,4 +1,4 @@
-import { CompShipsPlacementChoiceArr, Div, NodesDiv } from '../utilities/types'
+import { CompShipsPlacementChoiceArr } from '../utilities/types'
 import { renderCompShipsOnBoard } from './renderCompShipsOnBoard'
 
 const placeCompShipsOnBoard = function (

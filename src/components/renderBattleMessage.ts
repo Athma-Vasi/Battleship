@@ -1,3 +1,4 @@
+import { battleTexts } from '../data/battleTexts'
 import {
 	addTextToElem,
 	appendElemToParent,
@@ -5,13 +6,12 @@ import {
 	pipe,
 } from '../utilities/elementCreators'
 import {
+	Destroyer,
 	Div,
+	Frigate,
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
-	Destroyer,
-	Frigate,
 } from '../utilities/types'
-import { battleTexts } from '../data/battleTexts'
 
 const renderBattleMessageElem = function (
 	currentCellCoord_: string,
