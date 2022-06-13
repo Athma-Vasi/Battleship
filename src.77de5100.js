@@ -1549,55 +1549,193 @@ var compShipsPlacementChoicesArr = [{
   }, {
     body: '7,8'
   }]
-}]; // //first generate grid
-// function generateGridAndStoreIt(squareSide: number): void {
-// 	let grid: string[][] = []
-// 	for (let i = 0; i < squareSide; i++) {
-// 		grid[i] = []
-// 	}
-// 	for (let i = 0; i < squareSide; i++) {
-// 		for (let j = 0; j < squareSide; j++) {
-// 			grid[i][j] = `${j},${i}`
-// 		}
-// 	}
-// 	console.log(JSON.stringify(grid))
-// 	//for persistent state
-// 	if (!localStorage.getItem('compGrid')) {
-// 		localStorage.setItem('compGrid', JSON.stringify(grid))
-// 	}
-// }
-// function randShipCoordGenerator(shipLength_: number) {
-// 	//random axis gen
-// 	const axis = ['x', 'y']
-// 	const randAxis_ = axis[Math.round(Math.random())]
-// 	console.log({ randAxis_ })
-// 	const maxBound = 11 - shipLength_
-// 	let xCoord = Math.floor(Math.random() * maxBound)
-// 	let yCoord = Math.floor(Math.random() * maxBound)
-// 	//grab grid state from storage
-// 	const compGrid = JSON.parse(localStorage.getItem('compGrid') ?? '')
-// 	if (randAxis_ === 'x') {
-// 		let coordArr: string[] = []
-// 		for (let i = 0; i < shipLength_; i++) {
-// 			coordArr.push(`${xCoord},${yCoord + i}`)
-// 		}
-// 		return coordArr
-// 	} else if (randAxis_ === 'y') {
-// 		let coordArr: string[] = []
-// 		for (let i = 0; i < shipLength_; i++) {
-// 			coordArr.push(`${xCoord + i},${yCoord}`)
-// 		}
-// 		return coordArr
-// 	}
-// }
-// function secondRandShipCoordGen(shipLength_: number) {
-// 	//random axis gen
-// 	const axis = ['x', 'y']
-// 	const randAxis_ = axis[Math.round(Math.random())]
-// 	//grab grid state from storage
-// 	const compGrid: Array<string[]> = JSON.parse(localStorage.getItem('compGrid') ?? '')
-// }
-
+}, {
+  superdreadnought: {
+    head: '2,9',
+    body1: '3,9',
+    body2: '4,9',
+    body3: '5,9',
+    tail: '6,9'
+  },
+  carrier: {
+    head: '1,2',
+    body1: '1,3',
+    body2: '1,4',
+    tail: '1,5'
+  },
+  battleship: {
+    head: '8,2',
+    body: '8,3',
+    tail: '8,4'
+  },
+  destroyers: [{
+    head: '9,8',
+    tail: '9,9'
+  }, {
+    head: '0,7',
+    tail: '0,8'
+  }],
+  frigates: [{
+    body: '5,3'
+  }, {
+    body: '3,5'
+  }]
+}, {
+  superdreadnought: {
+    head: '2,5',
+    body1: '2,6',
+    body2: '2,7',
+    body3: '2,8',
+    tail: '2,9'
+  },
+  carrier: {
+    head: '1,2',
+    body1: '2,2',
+    body2: '3,2',
+    tail: '4,2'
+  },
+  battleship: {
+    head: '7,2',
+    body: '7,3',
+    tail: '7,4'
+  },
+  destroyers: [{
+    head: '5,6',
+    tail: '6,6'
+  }, {
+    head: '5,8',
+    tail: '6,8'
+  }],
+  frigates: [{
+    body: '0,0'
+  }, {
+    body: '9,9'
+  }]
+}, {
+  superdreadnought: {
+    head: '4,3',
+    body1: '4,4',
+    body2: '4,5',
+    body3: '4,6',
+    tail: '4,7'
+  },
+  carrier: {
+    head: '3,9',
+    body1: '4,9',
+    body2: '5,9',
+    tail: '6,9'
+  },
+  battleship: {
+    head: '3,0',
+    body: '4,0',
+    tail: '5,0'
+  },
+  destroyers: [{
+    head: '0,1',
+    tail: '0,2'
+  }, {
+    head: '0,8',
+    tail: '0,9'
+  }],
+  frigates: [{
+    body: '7,3'
+  }, {
+    body: '7,6'
+  }]
+}, {
+  superdreadnought: {
+    head: '9,0',
+    body1: '9,1',
+    body2: '9,2',
+    body3: '9,3',
+    tail: '9,4'
+  },
+  carrier: {
+    head: '5,2',
+    body1: '5,3',
+    body2: '5,4',
+    tail: '5,5'
+  },
+  battleship: {
+    head: '7,1',
+    body: '7,2',
+    tail: '7,3'
+  },
+  destroyers: [{
+    head: '9,8',
+    tail: '9,9'
+  }, {
+    head: '7,7',
+    tail: '7,8'
+  }],
+  frigates: [{
+    body: '1,1'
+  }, {
+    body: '1,3'
+  }]
+}, {
+  superdreadnought: {
+    head: '2,6',
+    body1: '3,6',
+    body2: '4,6',
+    body3: '5,6',
+    tail: '6,6'
+  },
+  carrier: {
+    head: '2,1',
+    body1: '2,2',
+    body2: '2,3',
+    tail: '2,4'
+  },
+  battleship: {
+    head: '8,6',
+    body: '8,7',
+    tail: '8,8'
+  },
+  destroyers: [{
+    head: '5,2',
+    tail: '5,3'
+  }, {
+    head: '7,1',
+    tail: '7,2'
+  }],
+  frigates: [{
+    body: '0,9'
+  }, {
+    body: '5,8'
+  }]
+}, {
+  superdreadnought: {
+    head: '6,3',
+    body1: '6,4',
+    body2: '6,5',
+    body3: '6,6',
+    tail: '6,7'
+  },
+  carrier: {
+    head: '1,5',
+    body1: '2,5',
+    body2: '3,5',
+    tail: '4,5'
+  },
+  battleship: {
+    head: '4,1',
+    body: '4,2',
+    tail: '4,3'
+  },
+  destroyers: [{
+    head: '1,1',
+    tail: '1,2'
+  }, {
+    head: '8,1',
+    tail: '8,2'
+  }],
+  frigates: [{
+    body: '1,8'
+  }, {
+    body: '5,8'
+  }]
+}];
 exports.compShipsPlacementChoicesArr = compShipsPlacementChoicesArr;
 },{}],"events/handleStartButtonClick.ts":[function(require,module,exports) {
 "use strict";
@@ -2710,21 +2848,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handleCarrierCellClick = void 0;
 
-var _elementCreators = require("../utilities/elementCreators");
-
-var _isCorrectNumberOfShips = require("../components/isCorrectNumberOfShips");
-
-var _doesShipPlacementOverlap = require("../components/doesShipPlacementOverlap");
-
 var _accumulatePlayerShipCoords = require("../components/accumulatePlayerShipCoords");
 
 var _checkAllShipsInPlace = require("../components/checkAllShipsInPlace");
 
+var _doesShipPlacementOverlap = require("../components/doesShipPlacementOverlap");
+
+var _isCorrectNumberOfShips = require("../components/isCorrectNumberOfShips");
+
+var _elementCreators = require("../utilities/elementCreators");
+
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+
 var _handleCarrierMouseEnter = require("./handleCarrierMouseEnter");
 
 var _handleCarrierMouseLeave = require("./handleCarrierMouseLeave");
-
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
 
 var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
 
@@ -2846,7 +2984,7 @@ var handleCarrierCellClick = function handleCarrierCellClick(ev) {
 };
 
 exports.handleCarrierCellClick = handleCarrierCellClick;
-},{"../utilities/elementCreators":"utilities/elementCreators.ts","../components/isCorrectNumberOfShips":"components/isCorrectNumberOfShips.ts","../components/doesShipPlacementOverlap":"components/doesShipPlacementOverlap.ts","../components/accumulatePlayerShipCoords":"components/accumulatePlayerShipCoords.ts","../components/checkAllShipsInPlace":"components/checkAllShipsInPlace.ts","./handleCarrierMouseEnter":"events/handleCarrierMouseEnter.ts","./handleCarrierMouseLeave":"events/handleCarrierMouseLeave.ts","./handleBattleshipBttnClick":"events/handleBattleshipBttnClick.ts","./handleDestroyerBttnClick":"events/handleDestroyerBttnClick.ts","./handleFrigateBttnClick":"events/handleFrigateBttnClick.ts","./handleSuperdreadnoughtBttnClick":"events/handleSuperdreadnoughtBttnClick.ts"}],"events/handleCarrierBttnClick.ts":[function(require,module,exports) {
+},{"../components/accumulatePlayerShipCoords":"components/accumulatePlayerShipCoords.ts","../components/checkAllShipsInPlace":"components/checkAllShipsInPlace.ts","../components/doesShipPlacementOverlap":"components/doesShipPlacementOverlap.ts","../components/isCorrectNumberOfShips":"components/isCorrectNumberOfShips.ts","../utilities/elementCreators":"utilities/elementCreators.ts","./handleBattleshipBttnClick":"events/handleBattleshipBttnClick.ts","./handleCarrierMouseEnter":"events/handleCarrierMouseEnter.ts","./handleCarrierMouseLeave":"events/handleCarrierMouseLeave.ts","./handleDestroyerBttnClick":"events/handleDestroyerBttnClick.ts","./handleFrigateBttnClick":"events/handleFrigateBttnClick.ts","./handleSuperdreadnoughtBttnClick":"events/handleSuperdreadnoughtBttnClick.ts"}],"events/handleCarrierBttnClick.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3233,7 +3371,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40919" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34571" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
