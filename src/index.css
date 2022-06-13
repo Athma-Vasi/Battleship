@@ -180,11 +180,11 @@ main {
 .preBattle-infoScreen {
 	overflow-y: hidden;
 	height: 31rem;
-	font-size: 1.25rem;
+	font-size: 1.15rem;
 }
 
 .battleMessageElem {
-	font-size: 1.25rem;
+	font-size: 1rem;
 	color: var(--clr-appleGreen);
 }
 

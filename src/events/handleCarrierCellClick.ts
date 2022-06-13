@@ -1,19 +1,19 @@
-import { Button, Carrier, Div, NodesDiv } from '../utilities/types'
+import { accumulatePlayerShipCoords } from '../components/accumulatePlayerShipCoords'
+import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
+import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
+import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
 import {
-	addTextToElem,
 	addAttributeToElem,
 	addEvtListener,
 	addStyleToElem,
+	addTextToElem,
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators'
-import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips'
-import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap'
-import { accumulatePlayerShipCoords } from '../components/accumulatePlayerShipCoords'
-import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace'
+import { Button, Carrier, Div, NodesDiv } from '../utilities/types'
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
 import { handleCarrierMouseEnter } from './handleCarrierMouseEnter'
 import { handleCarrierMouseLeave } from './handleCarrierMouseLeave'
-import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
 import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
 import { handleFrigateBttnClick } from './handleFrigateBttnClick'
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'

@@ -1,4 +1,4 @@
-import { addTextToElem, addStyleToElem, pipe } from '../utilities/elementCreators'
+import { addStyleToElem, addTextToElem, pipe } from '../utilities/elementCreators'
 import { Div } from '../utilities/types'
 
 const handleCarrierMouseEnter = function (this: HTMLDivElement, ev: MouseEvent) {
