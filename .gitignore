@@ -3,6 +3,8 @@ coverage/
 node_modules/
 *.log
 .cache/
+.prettierrc.js
+.eslintrc.js
 
 # OS generated files
 .DS_Store
