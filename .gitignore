@@ -5,6 +5,7 @@ node_modules/
 .cache/
 .prettierrc.js
 .eslintrc.js
+__tests__/
 
 # OS generated files
 .DS_Store

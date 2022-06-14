@@ -16,7 +16,7 @@ const renderPlayerInfoScreen = function (playerName_: string) {
 
 	pipe(
 		addTextToElem(
-			`Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not! Teach the galaxy that a malediction attends those that violate the territory of the Star Kingdom and her allies!`
+			`Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`
 		),
 		appendElemToParent(infoScreenContainer)
 	)(elemCreator('p')(['infoScreen-preBattleMssg']))
