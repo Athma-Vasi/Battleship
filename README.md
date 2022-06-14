@@ -28,7 +28,7 @@ The game flow is as follows:
 - The player always goes first. When the player clicks on a comp cell, the event callback function is called depending on whether the cell contains a ship or is empty. This differentiation is mainly for the purpose of visually indicating an explosion (if a hit) and updating the hit counter, or an 'x' (if a miss).
 
 - As 'click' handler callbacks are synchronous functions, they are
-  executed first. The 'click' handlers contain a `setTimeout(computersTurn, 2000)` callback that is passed immediately to the browser API. The thread of execution continues running the remaining synchronous code, which after relevant work is done removes the event listeners placed on the comp board cells. This prevents the player's clicks from having any effect for two seconds, giving the illusion of computer taking time to ""think"" 🤖.
+  executed first. The 'click' handlers contain a `setTimeout(computersTurn, 2000)` callback that is passed immediately to the browser API. The thread of execution continues running the remaining synchronous code, which after relevant work is done removes the event listeners placed on the comp board cells. This prevents the player's clicks from having any effect for two seconds, giving the illusion of computer taking time to ""think"".
 
 - When the timer ends, the browser API pushes the `computersTurn` callback onto the macrotask queue and is pushed by the event loop onto the callstack once all the synchronous functions have been popped off (save the global()). The computer attacks a random cell (previously hit player cells are prevented from being attacked again), and a hit is visually indicated along with a hit counter update, and a miss is also visually indicated. Finally, the 'click' event listeners are put back on the corresponding cells and the `computersTurn` function is popped off the callstack.
 
@@ -38,9 +38,11 @@ State management was done entirely using `localStorage` API.
 
 #### Setting
 
-The setting of the game was inspired by my love of science-fiction. The game is set in the 'Honorverse', a fictional universe from a series of books written by David Weber and published by Baen, featuring a strong female character where the good folks are liberal, democratic and serve the 'Queen 👑 and Kingdom', and the bad folks are war-mongering authoritarians. The conflict between the Star Kingdom and People's Republic of Haven does take place and is a central story arc in the books, but the battle in this game does not.
+The setting of the game was inspired by my love of science-fiction. The game is set in the 'Honorverse', a fictional universe from a series of books written by David Weber and published by Baen, featuring a strong female character where the good folks are liberal, democratic and serve the 'Queen and Kingdom', and the bad folks are war-mongering authoritarians. The conflict between the Star Kingdom and People's Republic of Haven does take place and is a central story arc in the books, but the battle in this game does not.
 
-The names used for the ships are from the books, although I took some liberties in mixing up several ship type names as some were scarce. The battle messages were also from the books. Yes, it really is naval water based ships set in space 🚀, complete with broadside salvos and sails ⛵!
+The names used for the ships are from the books, although I took some liberties in mixing up several ship type names as some were scarce. The battle messages were also from the books. Yes, it really is naval water based ships set in space, complete with broadside salvos and sails!
+
+The pre-battle quote in the ship selection page is actually paraphrased from two different real historical sources. The first 'Shall we...' speech was given by General Napoleon Bonaparte to his followers before the Battle of Marengo in Italy, June 14, 1800. The second 'You are ...' was spoken by General Dwight D. Eisenhower ordering the Normandy Invasion, June 6, 1944.
 
 #### Disclaimers
 
