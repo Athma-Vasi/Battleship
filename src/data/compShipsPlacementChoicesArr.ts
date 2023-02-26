@@ -304,4 +304,69 @@ export const compShipsPlacementChoicesArr = [
 		],
 		frigates: [{ body: '1,8' }, { body: '5,8' }],
 	},
+	{
+		superdreadnought: {
+			head: '2,3',
+			body1: '3,3',
+			body2: '4,3',
+			body3: '5,3',
+			tail: '6,3',
+		},
+		carrier: { head: '0,3', body1: '0,4', body2: '0,5', tail: '0,6' },
+		battleship: { head: '8,3', body: '8,4', tail: '8,5' },
+		destroyers: [
+			{ head: '9,7', tail: '9,8' },
+			{ head: '8,8', tail: '7,8' },
+		],
+		frigates: [{ body: '1,1' }, { body: '1,3' }],
+	},
+	// generate random positions of ships from 0,0 to 9,9 in the same pattern as above and with no overlap and in different positions each time
+	{
+		superdreadnought: {
+			head: '2,9',
+			body1: '3,9',
+			body2: '4,9',
+			body3: '5,9',
+			tail: '6,9',
+		},
+		carrier: { head: '0,0', body1: '0,1', body2: '0,2', tail: '0,3' },
+		battleship: { head: '8,9', body: '8,8', tail: '8,7' },
+		destroyers: [
+			{ head: '4,4', tail: '4,5' },
+			{ head: '7,4', tail: '7,5' },
+		],
+		frigates: [{ body: '1,8' }, { body: '5,8' }],
+	},
+	{
+		superdreadnought: {
+			head: '2,0',
+			body1: '3,0',
+			body2: '4,0',
+			body3: '5,0',
+			tail: '6,0',
+		},
+		carrier: { head: '0,9', body1: '0,8', body2: '0,7', tail: '0,6' },
+		battleship: { head: '8,0', body: '8,1', tail: '8,2' },
+		destroyers: [
+			{ head: '9,2', tail: '9,3' },
+			{ head: '8,3', tail: '7,3' },
+		],
+		frigates: [{ body: '1,1' }, { body: '1,3' }],
+	},
+	{
+		superdreadnought: {
+			head: '2,6',
+			body1: '3,6',
+			body2: '4,6',
+			body3: '5,6',
+			tail: '6,6',
+		},
+		carrier: { head: '0,3', body1: '0,4', body2: '0,5', tail: '0,6' },
+		battleship: { head: '8,6', body: '8,7', tail: '8,8' },
+		destroyers: [
+			{ head: '9,7', tail: '9,8' },
+			{ head: '8,8', tail: '7,8' },
+		],
+		frigates: [{ body: '1,1' }, { body: '1,3' }],
+	},
 ];
