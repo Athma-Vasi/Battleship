@@ -304,4 +304,4 @@ export const compShipsPlacementChoicesArr = [
 		],
 		frigates: [{ body: '1,8' }, { body: '5,8' }],
 	},
-]
+];

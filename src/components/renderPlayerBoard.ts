@@ -3,19 +3,19 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators'
+} from '../utilities/elementCreators';
 
 const renderPlayerBoard = function () {
-	const main: HTMLElement | null = document.querySelector('.main')
+	const main: HTMLElement | null = document.querySelector('.main');
 
-	const bothBoardsContainer = elemCreator('div')(['bothBoards-container'])
-	appendElemToParent(main)(bothBoardsContainer)
+	const bothBoardsContainer = elemCreator('div')(['bothBoards-container']);
+	appendElemToParent(main)(bothBoardsContainer);
 
-	const playerBoardWrapper = elemCreator('div')(['playerBoard-wrapper'])
-	appendElemToParent(bothBoardsContainer)(playerBoardWrapper)
+	const playerBoardWrapper = elemCreator('div')(['playerBoard-wrapper']);
+	appendElemToParent(bothBoardsContainer)(playerBoardWrapper);
 
-	const playerBoardContainer = elemCreator('div')(['playerBoard-container'])
-	appendElemToParent(playerBoardWrapper)(playerBoardContainer)
+	const playerBoardContainer = elemCreator('div')(['playerBoard-container']);
+	appendElemToParent(playerBoardWrapper)(playerBoardContainer);
 
 	for (let i = 0; i < 10; i += 1) {
 		for (let j = 0; j < 10; j += 1) {
@@ -23,8 +23,8 @@ const renderPlayerBoard = function () {
 			pipe(
 				addAttributeToElem([['data-cellplayer', `${j},${i}`]]),
 				appendElemToParent(playerBoardContainer)
-			)(elemCreator('div')(['player-gameCell']))
+			)(elemCreator('div')(['player-gameCell']));
 		}
 	}
-}
-export { renderPlayerBoard }
+};
+export { renderPlayerBoard };

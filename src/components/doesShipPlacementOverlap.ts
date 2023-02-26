@@ -6,11 +6,11 @@ const doesShipPlacementOverlap = function (
 ) {
 	//initializes on first call for overlap detection
 	if (!localStorage.getItem('playerShipsCoords')) {
-		localStorage.setItem('playerShipsCoords', JSON.stringify([]))
+		localStorage.setItem('playerShipsCoords', JSON.stringify([]));
 	}
 	const playerShipsCoords: string[] = JSON.parse(
 		localStorage.getItem('playerShipsCoords') ?? ''
-	)
+	);
 
 	if (currentAxis_ === 'Axis-X') {
 		for (let i = 0; i < shipLength_; i += 1) {
@@ -18,8 +18,8 @@ const doesShipPlacementOverlap = function (
 			if (playerShipsCoords.includes(`${Number(currentX_) + i},${currentY_}`)) {
 				alert(
 					'A ship is already present at these coordinates. Please choose another area.'
-				)
-				return true
+				);
+				return true;
 			}
 		}
 	} else if (currentAxis_ === 'Axis-Y') {
@@ -27,10 +27,10 @@ const doesShipPlacementOverlap = function (
 			if (playerShipsCoords.includes(`${currentX_},${Number(currentY_) + i}`)) {
 				alert(
 					'A ship is already present at these coordinates. Please choose another area.'
-				)
-				return true
+				);
+				return true;
 			}
 		}
 	}
-}
-export { doesShipPlacementOverlap }
+};
+export { doesShipPlacementOverlap };

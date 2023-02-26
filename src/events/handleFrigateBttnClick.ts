@@ -1,23 +1,23 @@
-import { Button, Div, NodesDiv } from '../utilities/types'
+import { Button, Div, NodesDiv } from '../utilities/types';
 import {
 	addEvtListener,
 	addStyleToElem,
 	pipe,
 	removeEvtListener,
-} from '../utilities/elementCreators'
-import { handleFrigateCellClick } from './handleFrigateCellClick'
-import { handleFrigateMouseEnter } from './handleFrigateMouseEnter'
-import { handleFrigateMouseLeave } from './handleFrigateMouseLeave'
-import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
-import { handleCarrierBttnClick } from './handleCarrierBttnClick'
-import { handleBattleshipBttnClick } from './handleBattleshipBttnClick'
-import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
+} from '../utilities/elementCreators';
+import { handleFrigateCellClick } from './handleFrigateCellClick';
+import { handleFrigateMouseEnter } from './handleFrigateMouseEnter';
+import { handleFrigateMouseLeave } from './handleFrigateMouseLeave';
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
+import { handleCarrierBttnClick } from './handleCarrierBttnClick';
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
+import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';
 
 const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
-	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
+	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');
 
 	//disables this button after clicking
-	this.disabled = true
+	this.disabled = true;
 
 	//visually indicates that 'this' button is selected
 	pipe(
@@ -25,11 +25,11 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 			['border', '1px solid #f0a400'],
 			['color', '#f0a400'],
 		])
-	)(this)
+	)(this);
 
 	//disables events on other shipButtons while selected
 	//prevents double selection
-	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
+	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought');
 	if (superdreadnoughtBttn)
 		pipe(
 			addStyleToElem([
@@ -38,9 +38,9 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleSuperdreadnoughtBttnClick)
-		)(superdreadnoughtBttn)
+		)(superdreadnoughtBttn);
 
-	const carrierBttn: Button = document.querySelector('.bttn-carrier')
+	const carrierBttn: Button = document.querySelector('.bttn-carrier');
 	if (carrierBttn)
 		pipe(
 			addStyleToElem([
@@ -49,9 +49,9 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleCarrierBttnClick)
-		)(carrierBttn)
+		)(carrierBttn);
 
-	const battleshipBttn: Button = document.querySelector('.bttn-battleship')
+	const battleshipBttn: Button = document.querySelector('.bttn-battleship');
 	if (battleshipBttn)
 		pipe(
 			addStyleToElem([
@@ -60,9 +60,9 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleBattleshipBttnClick)
-		)(battleshipBttn)
+		)(battleshipBttn);
 
-	const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
+	const destroyerBttn: Button = document.querySelector('.bttn-destroyer');
 	if (destroyerBttn)
 		pipe(
 			addStyleToElem([
@@ -71,7 +71,7 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleDestroyerBttnClick)
-		)(destroyerBttn)
+		)(destroyerBttn);
 
 	//assigns event listeners to each player game cell after clicking destroyer button
 	playerGameCells.forEach((player) =>
@@ -80,6 +80,6 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 			addEvtListener('mouseenter')(handleFrigateMouseEnter),
 			addEvtListener('mouseleave')(handleFrigateMouseLeave)
 		)(player)
-	)
-}
-export { handleFrigateBttnClick }
+	);
+};
+export { handleFrigateBttnClick };

@@ -1,9 +1,9 @@
-import { handleAxisToggleClick } from '../events/handleAxisToggleClick'
-import { handleBattleshipBttnClick } from '../events/handleBattleshipBttnClick'
-import { handleCarrierBttnClick } from '../events/handleCarrierBttnClick'
-import { handleDestroyerBttnClick } from '../events/handleDestroyerBttnClick'
-import { handleFrigateBttnClick } from '../events/handleFrigateBttnClick'
-import { handleSuperdreadnoughtBttnClick } from '../events/handleSuperdreadnoughtBttnClick'
+import { handleAxisToggleClick } from '../events/handleAxisToggleClick';
+import { handleBattleshipBttnClick } from '../events/handleBattleshipBttnClick';
+import { handleCarrierBttnClick } from '../events/handleCarrierBttnClick';
+import { handleDestroyerBttnClick } from '../events/handleDestroyerBttnClick';
+import { handleFrigateBttnClick } from '../events/handleFrigateBttnClick';
+import { handleSuperdreadnoughtBttnClick } from '../events/handleSuperdreadnoughtBttnClick';
 import {
 	addAttributeToElem,
 	addEvtListener,
@@ -11,18 +11,18 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators'
+} from '../utilities/elementCreators';
 
 const renderShipSelectionBttns = function () {
-	const log = (i: unknown) => console.log('\n', i, '\n')
+	const log = (i: unknown) => console.log('\n', i, '\n');
 
-	const main: HTMLElement | null = document.querySelector('.main')
+	const main: HTMLElement | null = document.querySelector('.main');
 
-	const shipBttnsWrapper = elemCreator('div')(['shipBttns-wrapper'])
-	appendElemToParent(main)(shipBttnsWrapper)
+	const shipBttnsWrapper = elemCreator('div')(['shipBttns-wrapper']);
+	appendElemToParent(main)(shipBttnsWrapper);
 
-	const shipsBttnContainer = elemCreator('div')(['shipsBttn-container'])
-	appendElemToParent(shipBttnsWrapper)(shipsBttnContainer)
+	const shipsBttnContainer = elemCreator('div')(['shipsBttn-container']);
+	appendElemToParent(shipBttnsWrapper)(shipsBttnContainer);
 
 	pipe(
 		addTextToElem('Superdreadnought'),
@@ -32,7 +32,7 @@ const renderShipSelectionBttns = function () {
 			['value', 'superdreadnought'],
 		]),
 		appendElemToParent(shipsBttnContainer)
-	)(elemCreator('button')(['bttn-superdreadnought']))
+	)(elemCreator('button')(['bttn-superdreadnought']));
 
 	pipe(
 		addTextToElem('Carrier'),
@@ -42,7 +42,7 @@ const renderShipSelectionBttns = function () {
 			['value', 'carrier'],
 		]),
 		appendElemToParent(shipsBttnContainer)
-	)(elemCreator('button')(['bttn-carrier']))
+	)(elemCreator('button')(['bttn-carrier']));
 
 	pipe(
 		addTextToElem('Battleship'),
@@ -52,7 +52,7 @@ const renderShipSelectionBttns = function () {
 			['value', 'battleship'],
 		]),
 		appendElemToParent(shipsBttnContainer)
-	)(elemCreator('button')(['bttn-battleship']))
+	)(elemCreator('button')(['bttn-battleship']));
 
 	pipe(
 		addTextToElem('Destroyer'),
@@ -62,7 +62,7 @@ const renderShipSelectionBttns = function () {
 			['value', 'destroyer'],
 		]),
 		appendElemToParent(shipsBttnContainer)
-	)(elemCreator('button')(['bttn-destroyer']))
+	)(elemCreator('button')(['bttn-destroyer']));
 
 	pipe(
 		addTextToElem('Frigate'),
@@ -72,7 +72,7 @@ const renderShipSelectionBttns = function () {
 			['value', 'frigate'],
 		]),
 		appendElemToParent(shipsBttnContainer)
-	)(elemCreator('button')(['bttn-frigate']))
+	)(elemCreator('button')(['bttn-frigate']));
 
 	//axis selector button
 	pipe(
@@ -83,6 +83,6 @@ const renderShipSelectionBttns = function () {
 			['value', 'axis-x'],
 		]),
 		appendElemToParent(shipBttnsWrapper)
-	)(elemCreator('button')(['bttn', 'bttn-axisSelector']))
-}
-export { renderShipSelectionBttns }
+	)(elemCreator('button')(['bttn', 'bttn-axisSelector']));
+};
+export { renderShipSelectionBttns };

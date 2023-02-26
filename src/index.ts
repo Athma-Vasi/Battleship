@@ -1,9 +1,9 @@
-import { addEvtListenerToForm } from './components/addEvtListenerToForm'
+import { addEvtListenerToForm } from './components/addEvtListenerToForm';
 
 const mainApp = function () {
-	addEvtListenerToForm()
+	addEvtListenerToForm();
 
 	//clears storage upon refresh
-	localStorage.clear()
-}
-document.addEventListener('DOMContentLoaded', mainApp)
+	localStorage.clear();
+};
+document.addEventListener('DOMContentLoaded', mainApp);

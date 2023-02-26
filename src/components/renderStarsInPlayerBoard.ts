@@ -1,8 +1,8 @@
-import { addAttributeToElem, addTextToElem, pipe } from '../utilities/elementCreators'
-import { NodesDiv } from '../utilities/types'
+import { addAttributeToElem, addTextToElem, pipe } from '../utilities/elementCreators';
+import { NodesDiv } from '../utilities/types';
 
 const renderStarsInPlayerBoard = function () {
-	const playerGameCell: NodesDiv = document.querySelectorAll('.player-gameCell')
+	const playerGameCell: NodesDiv = document.querySelectorAll('.player-gameCell');
 
 	//adds stars and a corresponding class to differentiate the cells which do not consist of a player ship
 	playerGameCell.forEach((cell) => {
@@ -10,8 +10,8 @@ const renderStarsInPlayerBoard = function () {
 			pipe(
 				addTextToElem('✴'),
 				addAttributeToElem([['class', 'player-gameCell playerShipNotPresent']])
-			)(cell)
+			)(cell);
 		}
-	})
-}
-export { renderStarsInPlayerBoard }
+	});
+};
+export { renderStarsInPlayerBoard };

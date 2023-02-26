@@ -53,6 +53,6 @@ const battleTexts = {
 		'General signal to all heavy cruisers. Return to formation at once. Repeat, return to formation at once!',
 	],
 	compShipDestroyed: ["Yes! She's streaming air, Sir!"],
-}
+};
 
-export { battleTexts }
+export { battleTexts };

@@ -1,24 +1,24 @@
-import { Button, Div, NodesDiv } from '../utilities/types'
+import { Button, Div, NodesDiv } from '../utilities/types';
 import {
 	addEvtListener,
 	addStyleToElem,
 	pipe,
 	removeEvtListener,
-} from '../utilities/elementCreators'
+} from '../utilities/elementCreators';
 
-import { handleBattleshipCellClick } from './handleBattleshipCellClick'
-import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter'
-import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave'
-import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick'
-import { handleCarrierBttnClick } from './handleCarrierBttnClick'
-import { handleDestroyerBttnClick } from './handleDestroyerBttnClick'
-import { handleFrigateBttnClick } from './handleFrigateBttnClick'
+import { handleBattleshipCellClick } from './handleBattleshipCellClick';
+import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter';
+import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave';
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
+import { handleCarrierBttnClick } from './handleCarrierBttnClick';
+import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';
+import { handleFrigateBttnClick } from './handleFrigateBttnClick';
 
 const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
-	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell')
+	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');
 
 	//disables this button after clicking
-	this.disabled = true
+	this.disabled = true;
 
 	//visually indicates that 'this' button is selected
 	pipe(
@@ -26,11 +26,11 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 			['border', '1px solid #f0a400'],
 			['color', '#f0a400'],
 		])
-	)(this)
+	)(this);
 
 	//disables clicking on other shipButtons while selected
 	//prevents double selection
-	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought')
+	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought');
 	if (superdreadnoughtBttn)
 		pipe(
 			addStyleToElem([
@@ -39,9 +39,9 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleSuperdreadnoughtBttnClick)
-		)(superdreadnoughtBttn)
+		)(superdreadnoughtBttn);
 
-	const carrierBttn: Button = document.querySelector('.bttn-carrier')
+	const carrierBttn: Button = document.querySelector('.bttn-carrier');
 	if (carrierBttn)
 		pipe(
 			addStyleToElem([
@@ -50,9 +50,9 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleCarrierBttnClick)
-		)(carrierBttn)
+		)(carrierBttn);
 
-	const destroyerBttn: Button = document.querySelector('.bttn-destroyer')
+	const destroyerBttn: Button = document.querySelector('.bttn-destroyer');
 	if (destroyerBttn)
 		pipe(
 			addStyleToElem([
@@ -61,9 +61,9 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleDestroyerBttnClick)
-		)(destroyerBttn)
+		)(destroyerBttn);
 
-	const frigateBttn: Button = document.querySelector('.bttn-frigate')
+	const frigateBttn: Button = document.querySelector('.bttn-frigate');
 	if (frigateBttn)
 		pipe(
 			addStyleToElem([
@@ -72,7 +72,7 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 				['cursor', 'not-allowed'],
 			]),
 			removeEvtListener('click')(handleFrigateBttnClick)
-		)(frigateBttn)
+		)(frigateBttn);
 
 	//assigns event listeners to each player game cell after clicking battleship button
 	playerGameCells.forEach((player) =>
@@ -81,6 +81,6 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 			addEvtListener('mouseenter')(handleBattleshipMouseEnter),
 			addEvtListener('mouseleave')(handleBattleshipMouseLeave)
 		)(player)
-	)
-}
-export { handleBattleshipBttnClick }
+	);
+};
+export { handleBattleshipBttnClick };

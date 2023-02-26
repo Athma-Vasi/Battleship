@@ -481,6 +481,6 @@ const shipNames = {
 			'Aegis',
 		],
 	},
-}
+};
 
-export { shipNames }
+export { shipNames };

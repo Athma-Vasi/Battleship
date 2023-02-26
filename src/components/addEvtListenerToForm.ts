@@ -1,9 +1,9 @@
-import { receiveFormName } from '../events/receiveFormName'
-import { Form } from '../utilities/types'
+import { receiveFormName } from '../events/receiveFormName';
+import { Form } from '../utilities/types';
 
 const addEvtListenerToForm = function () {
-	const formName: Form = document.querySelector('#form-name')
+	const formName: Form = document.querySelector('#form-name');
 
-	formName?.addEventListener('submit', receiveFormName)
-}
-export { addEvtListenerToForm }
+	formName?.addEventListener('submit', receiveFormName);
+};
+export { addEvtListenerToForm };
