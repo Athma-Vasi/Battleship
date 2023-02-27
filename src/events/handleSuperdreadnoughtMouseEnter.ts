@@ -1,5 +1,5 @@
+import { addStyleToElem, addTextToElem, pipe } from '../utilities/elementCreators';
 import { Div } from '../utilities/types';
-import { addTextToElem, addStyleToElem, pipe } from '../utilities/elementCreators';
 
 const handleSuperdreadnoughtMouseEnter = function (this: HTMLDivElement, ev: MouseEvent) {
 	//grabs the current state of the axis button

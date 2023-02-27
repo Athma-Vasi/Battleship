@@ -60,6 +60,6 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 	});
 
 	//computers turn
-	setTimeout(computersTurn, 2000);
+	setTimeout(computersTurn, 0);
 };
 export { handlePlayerClickOnCompMisses };

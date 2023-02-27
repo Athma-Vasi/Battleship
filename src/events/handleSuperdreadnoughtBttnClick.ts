@@ -1,17 +1,17 @@
-import { Button, Div, NodesDiv } from '../utilities/types';
 import {
 	addEvtListener,
 	addStyleToElem,
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
-import { handleSuperdreadnoughtCellClick } from './handleSuperdreadnoughtCellClick';
-import { handleSuperdreadnoughtMouseEnter } from './handleSuperdreadnoughtMouseEnter';
-import { handleSuperdreadnoughtMouseLeave } from './handleSuperdreadnoughtMouseLeave';
+import { Button, Div, NodesDiv } from '../utilities/types';
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierBttnClick } from './handleCarrierBttnClick';
 import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';
 import { handleFrigateBttnClick } from './handleFrigateBttnClick';
-import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
+import { handleSuperdreadnoughtCellClick } from './handleSuperdreadnoughtCellClick';
+import { handleSuperdreadnoughtMouseEnter } from './handleSuperdreadnoughtMouseEnter';
+import { handleSuperdreadnoughtMouseLeave } from './handleSuperdreadnoughtMouseLeave';
 
 const handleSuperdreadnoughtBttnClick = function (
 	this: HTMLButtonElement,

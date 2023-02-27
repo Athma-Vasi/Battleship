@@ -1,5 +1,5 @@
-import { Div } from '../utilities/types';
 import { addStyleToElem, pipe } from '../utilities/elementCreators';
+import { Div } from '../utilities/types';
 
 const handleFrigateMouseLeave = function (this: HTMLDivElement, ev: MouseEvent) {
 	//grabs the current cell co-ordinate

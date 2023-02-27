@@ -1,0 +1,294 @@
+:root {
+  --width-min: 350px;
+  --width-max: 1200px;
+  --padding-x: 1rem;
+  --padding-y: 2rem;
+  --border-radius: 5px;
+  --input-height: 3rem;
+  --bttn-width: 7rem;
+  --colour-text: #183535;
+  --colour-appleGreen: #00f000;
+  --colour-appleAmberDark: #f0a400;
+  --colour-appleAmberLight: #f0c000;
+}
+
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*, :before, :after {
+  box-sizing: inherit;
+}
+
+a {
+  color: var(--colour-appleAmberDark);
+  text-decoration: none;
+}
+
+button {
+  border: 1px solid var(--colour-appleGreen);
+  color: var(--colour-appleGreen);
+  cursor: pointer;
+  background-color: #0000;
+  border-radius: 5px;
+  font-family: monospace;
+}
+
+button:hover {
+  border: 1px solid var(--colour-appleAmberDark);
+  color: var(--colour-appleAmberDark);
+}
+
+h1 {
+  color: var(--colour-appleAmberDark);
+  text-transform: uppercase;
+  font-family: Impact, Haettenschweiler, Arial Narrow Bold, sans-serif;
+  font-size: clamp(2rem, 10vw, 4rem);
+}
+
+body {
+  height: 100%;
+  background: radial-gradient(circle, #3e3e3e 0%, #070707 100%);
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  display: flex;
+}
+
+.container-all {
+  width: clamp(var(--width-min), 90vw, var(--width-max) );
+  padding: var(--padding-y) var(--padding-x);
+  outline: 1px solid #f4a460;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+.header {
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.header__links {
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 3rem;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  display: flex;
+}
+
+.main {
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.greetings-container {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.greetings {
+  color: var(--colour-appleGreen);
+  width: 100%;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+#form-name {
+  margin-top: var(--padding-y);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  display: flex;
+}
+
+.form__input {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+#input-name {
+  height: var(--input-height);
+  width: clamp(18rem, 50vw, 23rem);
+  border: 1px solid var(--colour-appleGreen);
+  border-radius: var(--border-radius);
+  color: var(--colour-appleGreen);
+  padding-left: var(--padding-x);
+  background-color: #0000;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.bttn-name {
+  height: var(--input-height);
+  width: var(--bttn-width);
+  cursor: pointer;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.shipBttns-wrapper {
+  width: 100%;
+  margin-top: var(--padding-y);
+  outline: 1px solid salmon;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  display: flex;
+}
+
+.shipsBttn-container {
+  outline: 1px solid #40e0d0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  display: flex;
+}
+
+.bttn-carrier, .bttn-battleship, .bttn-destroyer, .bttn-frigate {
+  width: var(--bttn-width);
+  height: var(--input-height);
+  font-size: 1rem;
+}
+
+.bttn-superdreadnought {
+  width: 13rem;
+  height: var(--input-height);
+  font-size: 1rem;
+}
+
+.bttn-axisSelector, .bttn-startGame {
+  width: 10rem;
+  height: var(--input-height);
+  align-self: center;
+  margin-bottom: .5rem;
+  font-size: 1rem;
+}
+
+.bttn-startGame {
+  margin-top: 2rem;
+  font-size: 2rem;
+}
+
+.bothBoards-container {
+  width: 100%;
+  outline: 1px solid #7fffd4;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  display: flex;
+}
+
+.compBoard-container {
+  outline: 1px solid salmon;
+  margin-bottom: 31px;
+}
+
+.infoScreen-wrapper {
+  width: 100%;
+  height: 25rem;
+  scroll-behavior: smooth;
+  margin-top: 2rem;
+  overflow-y: scroll;
+}
+
+.infoScreen-preBattleMssg {
+  color: var(--colour-appleGreen);
+  font-size: 1.2rem;
+  overflow-y: hidden;
+}
+
+.battleMessageElem {
+  color: var(--colour-appleGreen);
+  font-size: 1.2rem;
+}
+
+.playerBoard-wrapper {
+  outline: 1px solid #b22222;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.playerBoard-container {
+  width: clamp(20rem, 50vw, 30rem);
+  height: clamp(20rem, 50vw, 30rem);
+  border: 1px solid var(--colour-appleGreen);
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  display: grid;
+}
+
+.player-gameCell {
+  border: 1px solid var(--colour-appleGreen);
+  color: #dcdcdc;
+  text-align: center;
+  place-content: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  display: grid;
+}
+
+.compBoard-wrapper {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.compBoard-container {
+  width: clamp(20rem, 50vw, 30rem);
+  height: clamp(20rem, 50vw, 30rem);
+  border: 1px solid var(--colour-appleGreen);
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  margin-top: 2rem;
+  display: grid;
+}
+
+.comp-gameCell {
+  border: 1px solid var(--colour-appleGreen);
+  color: #dcdcdc;
+  place-content: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  display: grid;
+}
+
+.winner-container {
+  outline: 1px solid #dcdcdc;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.bttn-restart {
+  width: var(--bttn-width);
+  height: var(--input-height);
+  font-size: 1.25rem;
+}
+
+.winner-announcement {
+  color: var(--colour-appleAmberDark);
+  font-size: 1.5rem;
+}
+
+/*# sourceMappingURL=index.61d3354a.css.map */

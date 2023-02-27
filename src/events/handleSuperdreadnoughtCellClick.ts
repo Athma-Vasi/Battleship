@@ -3,11 +3,11 @@ import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace';
 import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap';
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips';
 import {
-	addStyleToElem,
-	pipe,
-	addTextToElem,
 	addAttributeToElem,
 	addEvtListener,
+	addStyleToElem,
+	addTextToElem,
+	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
 import { Button, Div, NodesDiv, Superdreadnought } from '../utilities/types';

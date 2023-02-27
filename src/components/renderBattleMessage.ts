@@ -1,10 +1,12 @@
 import { battleTexts } from '../data/battleTexts';
 import {
+	addStyleToElem,
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,
 	pipe,
 } from '../utilities/elementCreators';
+import { tossCoin } from '../utilities/tossCoin';
 import {
 	Destroyer,
 	Div,
@@ -25,8 +27,22 @@ const renderBattleMessageElem = function (
 		'Shields weak on',
 		'Hull integrity is weakening on',
 		'Impellers damaged on',
+		'Engines are out on',
+		'Weapons systems offline on',
+		'Life support failing on',
+		'Structural damage on',
+		'Reactor breach on',
+		'Target immobilized on',
+		'Power systems fluctuating on',
+		'Navigational systems down on',
+		'Communication systems disabled on',
+		'Gravity generators failing on',
+		'Primary sensor array damaged on',
+		'Secondary defenses compromised on',
+		'Point defense systems offline on',
+		'Missile tubes destroyed on',
 	];
-	const hitsPrecursorString =
+	const hitsPrecursorString = () =>
 		randHitsStrings[Math.floor(Math.random() * randHitsStrings.length)];
 
 	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
@@ -44,6 +60,20 @@ const renderBattleMessageElem = function (
 	appendElemToParent(infoScreenWrapper)(battleMessageElem);
 
 	if (towardsCombatant_ === 'comp') {
+		{
+			//display that its players's turn so the messages are more clearly differentiable
+			pipe(
+				addStyleToElem([[`color`, `#f0a400`]]),
+				addTextToElem(`Players's turn: `)
+			)(battleMessageElem);
+
+			//adds a spacer element to separate the player's turn message from the battle message
+			for (let i = 0; i < 2; i += 1) {
+				const spacerElem = elemCreator('br')(['spacerElem']);
+				pipe(appendElemToParent(battleMessageElem))(spacerElem);
+			}
+		}
+
 		//checks what compShip currentCellCoord_ is part of, as the compGridCells do not pass in a string textContent to differentiate between the ship types unlike the playerGridCells
 		const compSuperdreadnought: string[] = Object.values(
 			JSON.parse(localStorage.getItem('compSuperdreadnought') ?? '')
@@ -77,11 +107,33 @@ const renderBattleMessageElem = function (
 				//displays hit on superdreadnought with randomized text
 				pipe(
 					addTextToElem(
-						`${playerName}'s turn: ${hitsPrecursorString} the superdreadnought PNS ${
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the superdreadnought PNS ${
 							havenShipNames.superdreadnought
 						}! ${
-							battleTexts.hitsOnComp[
-								Math.floor(Math.random() * battleTexts.hitsOnComp.length)
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// haven CIC text that indicates damage to their superdreadnought when player scores a hit
+				pipe(
+					addTextToElem(
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the superdreadnought PNS ${
+							havenShipNames.superdreadnought
+						}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -90,11 +142,29 @@ const renderBattleMessageElem = function (
 				//displays hit on carrier with randomized text
 				pipe(
 					addTextToElem(
-						`${playerName}'s turn: ${hitsPrecursorString} the carrier PNS ${
-							havenShipNames.cruiser
-						}! ${
-							battleTexts.hitsOnComp[
-								Math.floor(Math.random() * battleTexts.hitsOnComp.length)
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the carrier PNS ${havenShipNames.cruiser}! ${
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// haven CIC text that indicates damage to their carrier when player scores a hit
+				pipe(
+					addTextToElem(
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the carrier PNS ${havenShipNames.cruiser}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -103,11 +173,29 @@ const renderBattleMessageElem = function (
 				//displays hit on battleship with randomized text
 				pipe(
 					addTextToElem(
-						`${playerName}'s turn: ${hitsPrecursorString} the battleship PNS ${
-							havenShipNames.battleship
-						}! ${
-							battleTexts.hitsOnComp[
-								Math.floor(Math.random() * battleTexts.hitsOnComp.length)
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the battleship PNS ${havenShipNames.battleship}! ${
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// haven CIC text that indicates damage to their battleship when player scores a hit
+				pipe(
+					addTextToElem(
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the battleship PNS ${havenShipNames.battleship}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -130,13 +218,37 @@ const renderBattleMessageElem = function (
 				//only need to check one destroyer
 				pipe(
 					addTextToElem(
-						`${playerName}'s turn: ${hitsPrecursorString} the destroyer PNS ${
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the destroyer PNS ${
 							destroyer1Coords.includes(currentCellCoord_)
 								? havenShipNames.destroyers[0]
 								: havenShipNames.destroyers[1]
 						}! ${
-							battleTexts.hitsOnComp[
-								Math.floor(Math.random() * battleTexts.hitsOnComp.length)
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// haven CIC text that indicates damage to their destroyer when player scores a hit
+				pipe(
+					addTextToElem(
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the destroyer PNS ${
+							destroyer1Coords.includes(currentCellCoord_)
+								? havenShipNames.destroyers[0]
+								: havenShipNames.destroyers[1]
+						}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -156,13 +268,37 @@ const renderBattleMessageElem = function (
 				//only need to check one frigate
 				pipe(
 					addTextToElem(
-						`${playerName}'s turn: ${hitsPrecursorString} the frigate PNS ${
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the frigate PNS ${
 							frigate1Coords.includes(currentCellCoord_)
 								? havenShipNames.frigates[0]
 								: havenShipNames.frigates[1]
 						}! ${
-							battleTexts.hitsOnComp[
-								Math.floor(Math.random() * battleTexts.hitsOnComp.length)
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// haven CIC text that indicates damage to their frigate when player scores a hit
+				pipe(
+					addTextToElem(
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the frigate PNS ${
+							frigate1Coords.includes(currentCellCoord_)
+								? havenShipNames.frigates[0]
+								: havenShipNames.frigates[1]
+						}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -172,26 +308,58 @@ const renderBattleMessageElem = function (
 			//player attacking computer misses
 			pipe(
 				addTextToElem(
-					`${playerName}'s turn: ${
-						battleTexts.missesByPlayer[
-							Math.floor(Math.random() * battleTexts.missesByPlayer.length)
+					`Tenth Fleet CIC: ${tossCoin() ? `Admiral ${playerName}!` : ''} ${
+						battleTexts.missesOnShip[
+							Math.floor(Math.random() * battleTexts.missesOnShip.length)
 						]
 					}`
 				)
 			)(battleMessageElem);
 		}
 	} else if (towardsCombatant_ === 'player') {
+		{
+			//display that its computer's turn so the messages are more clearly differentiable
+			pipe(addTextToElem(`Computer's turn: `))(battleMessageElem);
+			//adds a spacer element to separate the player's turn message from the battle message
+			for (let i = 0; i < 2; i += 1) {
+				const spacerElem = elemCreator('br')(['spacerElem']);
+				pipe(appendElemToParent(battleMessageElem))(spacerElem);
+			}
+		}
+
 		if (hitOrMiss_ === 'hit') {
 			//if computer attacking player registers a hit
 			if (currentShipSymbol_ === 'S') {
 				//displays hit on superdreadnought with randomized text
 				pipe(
 					addTextToElem(
-						`Haven's turn: ${hitsPrecursorString} the superdreadnought RMNS ${
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the superdreadnought RMNS ${
 							manticoreShipNames.superdreadnought
 						}! ${
-							battleTexts.hitsOnPlayer[
-								Math.floor(Math.random() * battleTexts.hitsOnPlayer.length)
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// player CIC text that indicates damage to their superdreadnought when computer scores a hit
+				pipe(
+					addTextToElem(
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the superdreadnought RMNS ${
+							manticoreShipNames.superdreadnought
+						}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -200,11 +368,29 @@ const renderBattleMessageElem = function (
 				//displays hit on carrier with randomized text
 				pipe(
 					addTextToElem(
-						`Haven's turn: ${hitsPrecursorString} the carrier RMNS ${
-							manticoreShipNames.cruiser
-						}! ${
-							battleTexts.hitsOnPlayer[
-								Math.floor(Math.random() * battleTexts.hitsOnPlayer.length)
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the carrier RMNS ${manticoreShipNames.cruiser}! ${
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// player CIC text that indicates damage to their carrier when computer scores a hit
+				pipe(
+					addTextToElem(
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the carrier RMNS ${manticoreShipNames.cruiser}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -213,11 +399,33 @@ const renderBattleMessageElem = function (
 				//displays hit on battleship with randomized text
 				pipe(
 					addTextToElem(
-						`Haven's turn: ${hitsPrecursorString} the battleship RMNS ${
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the battleship RMNS ${
 							manticoreShipNames.battleship
 						}! ${
-							battleTexts.hitsOnPlayer[
-								Math.floor(Math.random() * battleTexts.hitsOnPlayer.length)
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// player CIC text that indicates damage to their battleship when computer scores a hit
+				pipe(
+					addTextToElem(
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the battleship RMNS ${
+							manticoreShipNames.battleship
+						}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -237,13 +445,37 @@ const renderBattleMessageElem = function (
 				//only need to check one destroyer
 				pipe(
 					addTextToElem(
-						`Haven's turn: ${hitsPrecursorString} the destroyer RMNS ${
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the destroyer RMNS ${
 							destroyer1Coords.includes(currentCellCoord_)
 								? manticoreShipNames.destroyers[0]
 								: manticoreShipNames.destroyers[1]
 						}! ${
-							battleTexts.hitsOnPlayer[
-								Math.floor(Math.random() * battleTexts.hitsOnPlayer.length)
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// player CIC text that indicates damage to their destroyer when computer scores a hit
+				pipe(
+					addTextToElem(
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the destroyer RMNS ${
+							destroyer1Coords.includes(currentCellCoord_)
+								? manticoreShipNames.destroyers[0]
+								: manticoreShipNames.destroyers[1]
+						}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -263,13 +495,37 @@ const renderBattleMessageElem = function (
 				//only need to check one frigate
 				pipe(
 					addTextToElem(
-						`Haven's turn: ${hitsPrecursorString} the frigate RMNS ${
+						`Haven Fleet CIC: ${
+							tossCoin() ? `Admiral McQueen!` : ''
+						} ${hitsPrecursorString()} the frigate RMNS ${
 							frigate1Coords.includes(currentCellCoord_)
 								? manticoreShipNames.frigates[0]
 								: manticoreShipNames.frigates[1]
 						}! ${
-							battleTexts.hitsOnPlayer[
-								Math.floor(Math.random() * battleTexts.hitsOnPlayer.length)
+							battleTexts.hitsOnShip[
+								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+							]
+						}`
+					)
+				)(battleMessageElem);
+
+				for (let i = 0; i < 2; i += 1) {
+					const spacerElem = elemCreator('br')(['spacerElem']);
+					pipe(appendElemToParent(battleMessageElem))(spacerElem);
+				}
+
+				// player CIC text that indicates damage to their frigate when computer scores a hit
+				pipe(
+					addTextToElem(
+						`Tenth Fleet CIC: ${
+							tossCoin() ? `Admiral ${playerName}!` : ''
+						} ${hitsPrecursorString()} the frigate RMNS ${
+							frigate1Coords.includes(currentCellCoord_)
+								? manticoreShipNames.frigates[0]
+								: manticoreShipNames.frigates[1]
+						}! ${
+							battleTexts.damageOnShip[
+								Math.floor(Math.random() * battleTexts.damageOnShip.length)
 							]
 						}`
 					)
@@ -279,14 +535,21 @@ const renderBattleMessageElem = function (
 			//computer attacking player misses
 			pipe(
 				addTextToElem(
-					`Haven's turn: ${
-						battleTexts.missesByComp[
-							Math.floor(Math.random() * battleTexts.missesByComp.length)
+					`Haven Fleet CIC: ${tossCoin() ? `Admiral McQueen!` : ''} ${
+						battleTexts.missesOnShip[
+							Math.floor(Math.random() * battleTexts.missesOnShip.length)
 						]
 					}`
 				)
 			)(battleMessageElem);
 		}
 	}
+
+	const dividerElem = elemCreator('p')(['dividerElem']);
+	pipe(
+		addTextToElem('_______________________'),
+		addStyleToElem([['color', '#00f000']]),
+		appendElemToParent(infoScreenWrapper)
+	)(dividerElem);
 };
 export { renderBattleMessageElem };

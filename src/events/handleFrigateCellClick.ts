@@ -4,13 +4,13 @@ import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips';
 import {
 	addAttributeToElem,
+	addEvtListener,
 	addStyleToElem,
 	addTextToElem,
-	removeEvtListener,
 	pipe,
-	addEvtListener,
+	removeEvtListener,
 } from '../utilities/elementCreators';
-import { Div, NodesDiv, Frigate, NodesBttn, Button } from '../utilities/types';
+import { Button, Div, Frigate, NodesDiv } from '../utilities/types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierBttnClick } from './handleCarrierBttnClick';
 import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';

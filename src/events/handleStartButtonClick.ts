@@ -1,3 +1,8 @@
+import { placeCompShipsOnBoard } from '../components/placeCompShipsOnBoard';
+import { randomizeAndStoreShipNames } from '../components/randomizeAndStoreShipNames';
+import { renderCompBoard } from '../components/renderCompBoard';
+import { compShipsPlacementChoicesArr } from '../data/compShipsPlacementChoicesArr';
+import { shipNames } from '../data/shipNames';
 import {
 	addEvtListener,
 	appendElemToParent,
@@ -7,16 +12,14 @@ import {
 import { NodesDiv } from '../utilities/types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
-import { shipNames } from '../data/shipNames';
-import { randomizeAndStoreShipNames } from '../components/randomizeAndStoreShipNames';
-import { renderCompBoard } from '../components/renderCompBoard';
-import { placeCompShipsOnBoard } from '../components/placeCompShipsOnBoard';
-import { compShipsPlacementChoicesArr } from '../data/compShipsPlacementChoicesArr';
 
 const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	//removes the previous info screen
 	const infoScreenWrapper = document.querySelector('.infoScreen-wrapper');
 	infoScreenWrapper?.remove();
+
+	const preBattleInfoScreen = document.querySelector('.preBattle-infoScreen');
+	preBattleInfoScreen?.remove();
 
 	//removes the ship bttns wrapper
 	const shipBttnsWrapper = document.querySelector('.shipBttns-wrapper');

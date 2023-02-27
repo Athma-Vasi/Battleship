@@ -1,17 +1,17 @@
-import { Button, Div, NodesDiv } from '../utilities/types';
 import {
 	addEvtListener,
 	addStyleToElem,
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
+import { Button, Div, NodesDiv } from '../utilities/types';
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
+import { handleCarrierBttnClick } from './handleCarrierBttnClick';
 import { handleDestroyerCellClick } from './handleDestroyerCellClick';
 import { handleDestroyerMouseEnter } from './handleDestroyerMouseEnter';
 import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave';
-import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
-import { handleCarrierBttnClick } from './handleCarrierBttnClick';
-import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleFrigateBttnClick } from './handleFrigateBttnClick';
+import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
 const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');

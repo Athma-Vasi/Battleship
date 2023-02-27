@@ -3,14 +3,14 @@ import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace';
 import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap';
 import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips';
 import {
+	addAttributeToElem,
+	addEvtListener,
 	addStyleToElem,
 	addTextToElem,
-	addAttributeToElem,
-	removeEvtListener,
 	pipe,
-	addEvtListener,
+	removeEvtListener,
 } from '../utilities/elementCreators';
-import { Div, NodesDiv, Destroyer, Button } from '../utilities/types';
+import { Button, Destroyer, Div, NodesDiv } from '../utilities/types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierBttnClick } from './handleCarrierBttnClick';
 import { handleDestroyerMouseEnter } from './handleDestroyerMouseEnter';

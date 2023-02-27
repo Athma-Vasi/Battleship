@@ -14,8 +14,6 @@ import {
 } from '../utilities/elementCreators';
 
 const renderShipSelectionBttns = function () {
-	const log = (i: unknown) => console.log('\n', i, '\n');
-
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	const shipBttnsWrapper = elemCreator('div')(['shipBttns-wrapper']);

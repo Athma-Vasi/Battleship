@@ -87,6 +87,6 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompMisses))(cell);
 	});
 
-	setTimeout(computersTurn, 2000);
+	setTimeout(computersTurn, 0);
 };
 export { handlePlayerClickOnCompShips };

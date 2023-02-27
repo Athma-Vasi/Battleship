@@ -14,12 +14,6 @@ const announceGameWinner = function (winner_: string) {
 	const winnerContainer = elemCreator('div')(['winner-container']);
 	appendElemToParent(main)(winnerContainer);
 
-	pipe(
-		addTextToElem('Restart'),
-		addEvtListener('click')(restartGame),
-		appendElemToParent(winnerContainer)
-	)(elemCreator('button')(['bttn-restart']));
-
 	if (winner_ === 'comp') {
 		pipe(
 			addTextToElem('Fall back and regroup! We will not surrender!'),
@@ -36,6 +30,12 @@ const announceGameWinner = function (winner_: string) {
 
 		preventClicksAfterWin();
 	}
+
+	pipe(
+		addTextToElem('Restart'),
+		addEvtListener('click')(restartGame),
+		appendElemToParent(winnerContainer)
+	)(elemCreator('button')(['bttn-restart']));
 
 	//prevents computers turn from adding evt listeners back on
 	localStorage.setItem('isGameWon', JSON.stringify(true));

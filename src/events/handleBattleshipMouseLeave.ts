@@ -1,5 +1,5 @@
-import { Div } from '../utilities/types';
 import { addStyleToElem, pipe } from '../utilities/elementCreators';
+import { Div } from '../utilities/types';
 
 const handleBattleshipMouseLeave = function (this: HTMLDivElement, ev: MouseEvent) {
 	//grabs the current state of the axis button

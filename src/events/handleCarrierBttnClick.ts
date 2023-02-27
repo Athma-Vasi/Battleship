@@ -1,14 +1,14 @@
-import { Button, Div, NodesDiv } from '../utilities/types';
 import {
 	addEvtListener,
 	addStyleToElem,
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
+import { Button, Div, NodesDiv } from '../utilities/types';
+import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierCellClick } from './handleCarrierCellClick';
 import { handleCarrierMouseEnter } from './handleCarrierMouseEnter';
 import { handleCarrierMouseLeave } from './handleCarrierMouseLeave';
-import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';
 import { handleFrigateBttnClick } from './handleFrigateBttnClick';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
