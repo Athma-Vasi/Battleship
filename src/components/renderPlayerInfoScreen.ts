@@ -6,6 +6,9 @@ import {
 } from '../utilities/elementCreators';
 
 const renderPlayerInfoScreen = function (playerName_: string) {
+	// scroll to top of page
+	window.scrollTo(0, 0);
+
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	const infoScreenWrapper = elemCreator('div')(['preBattle-infoScreen']);
@@ -21,7 +24,7 @@ const renderPlayerInfoScreen = function (playerName_: string) {
 
 	pipe(
 		addTextToElem(
-			`You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the treacherous People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`
+			`You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`
 		),
 		appendElemToParent(infoScreenContainer)
 	)(elemCreator('p')(['infoScreen-preBattleMssg']));

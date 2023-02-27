@@ -60,7 +60,6 @@ body {
 .container-all {
   width: clamp(var(--width-min), 90vw, var(--width-max) );
   padding: var(--padding-y) var(--padding-x);
-  outline: 1px solid #f4a460;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -71,6 +70,7 @@ body {
 
 .header {
   width: 100%;
+  padding-bottom: var(--padding-y);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -128,10 +128,15 @@ body {
   width: clamp(18rem, 50vw, 23rem);
   border: 1px solid var(--colour-appleGreen);
   border-radius: var(--border-radius);
-  color: var(--colour-appleGreen);
+  color: var(--colour-appleAmberDark);
   padding-left: var(--padding-x);
   background-color: #0000;
   font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+#input-name:focus {
+  outline: 1px solid var(--colour-appleAmberDark);
+  border: none;
 }
 
 .bttn-name {
@@ -144,7 +149,6 @@ body {
 .shipBttns-wrapper {
   width: 100%;
   margin-top: var(--padding-y);
-  outline: 1px solid salmon;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -153,7 +157,6 @@ body {
 }
 
 .shipsBttn-container {
-  outline: 1px solid #40e0d0;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -188,7 +191,6 @@ body {
 
 .bothBoards-container {
   width: 100%;
-  outline: 1px solid #7fffd4;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -198,7 +200,6 @@ body {
 }
 
 .compBoard-container {
-  outline: 1px solid salmon;
   margin-bottom: 31px;
 }
 
@@ -222,7 +223,6 @@ body {
 }
 
 .playerBoard-wrapper {
-  outline: 1px solid #b22222;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -273,7 +273,6 @@ body {
 }
 
 .winner-container {
-  outline: 1px solid #dcdcdc;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;

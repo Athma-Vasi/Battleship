@@ -207,7 +207,6 @@ const renderBattleMessageElem = function (
 				const [destroyer1, _]: Destroyer[] = JSON.parse(
 					localStorage.getItem('compDestroyers') ?? ''
 				);
-				console.log(destroyer1);
 
 				const destroyer1Coords: string[] = [];
 				Object.values(destroyer1).forEach((shipPartCoords) => {

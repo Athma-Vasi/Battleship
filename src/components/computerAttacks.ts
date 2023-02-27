@@ -4,11 +4,11 @@ import { renderBattleMessageElem } from './renderBattleMessage';
 
 const computerAttacks = function (compAttackGuess_: string) {
 	const playerShipsCoords: string[] = JSON.parse(
-		localStorage.getItem('playerShipsCoords') ?? ''
+		localStorage.getItem('playerShipsCoords') ?? '[0,0]'
 	);
 
 	let totalHitsOnPlayerShips: number = JSON.parse(
-		localStorage.getItem('totalHitsOnPlayerShips') ?? ''
+		localStorage.getItem('totalHitsOnPlayerShips') ?? '0'
 	);
 
 	//compAttackGuess_ is assumed to be unique at this point

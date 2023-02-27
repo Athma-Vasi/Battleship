@@ -13,7 +13,7 @@ const computersTurn = function () {
 	}
 	const isGameWon: boolean = JSON.parse(localStorage.getItem('isGameWon') ?? '');
 
-	//this conditional check is to prevent computer from having a turn after player has destroyed all of computer's ships
+	//this conditional check is to prevent computer from having a turn after player has destroyed all computer ships
 	if (!isGameWon) {
 		if (!localStorage.getItem('totalHitsOnPlayerShips')) {
 			localStorage.setItem('totalHitsOnPlayerShips', JSON.stringify(0));
