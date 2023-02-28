@@ -3431,9 +3431,11 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "computerAttacks", ()=>computerAttacks);
 var _elementCreators = require("../utilities/elementCreators");
+var _storeCompHitsOrMisses = require("../utilities/storeCompHitsOrMisses");
+var _storePrevCompHitOrMiss = require("../utilities/storePrevCompHitOrMiss");
 var _renderBattleMessage = require("./renderBattleMessage");
 const computerAttacks = function(compAttackGuess_) {
-    const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "[0,0]");
+    const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "[]");
     let totalHitsOnPlayerShips = JSON.parse(localStorage.getItem("totalHitsOnPlayerShips") ?? "0");
     //compAttackGuess_ is assumed to be unique at this point
     //checks if playerShip is present
@@ -3453,6 +3455,9 @@ const computerAttacks = function(compAttackGuess_) {
         //updates hit counter and store
         totalHitsOnPlayerShips = totalHitsOnPlayerShips + 1;
         localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(totalHitsOnPlayerShips));
+        //store the current hit co-ordinates and hit type to assist comp firing solution
+        (0, _storeCompHitsOrMisses.storeCompHitsOrMisses)(compAttackGuess_, "hit");
+        (0, _storePrevCompHitOrMiss.storePrevCompHitOrMiss)("hit", currentCellCoord);
     } else {
         //if its a miss
         const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
@@ -3492,12 +3497,62 @@ const computerAttacks = function(compAttackGuess_) {
                 "gainsboro"
             ]
         ]))(prevCompMissOnPlayerCell);
-        //stores current miss co-ordinates in order to highlight the current round's co-ordinates
-        localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(currentCellCoord));
+        // //stores current miss co-ordinates in order to highlight the current round's co-ordinates
+        // localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord));
+        //store the current miss co-ordinates and hit type to assist comp firing solution
+        (0, _storeCompHitsOrMisses.storeCompHitsOrMisses)(compAttackGuess_, "miss");
+        (0, _storePrevCompHitOrMiss.storePrevCompHitOrMiss)("miss", currentCellCoord);
     }
 };
 
-},{"../utilities/elementCreators":"H4ivl","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cOUsP":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/storeCompHitsOrMisses":"kX0U2","../utilities/storePrevCompHitOrMiss":"2vwp5"}],"kX0U2":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "storeCompHitsOrMisses", ()=>storeCompHitsOrMisses);
+function storeCompHitsOrMisses(compAttackGuess_, hitOrMiss) {
+    switch(hitOrMiss){
+        case "hit":
+            {
+                const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? "[]");
+                //adds current hit to array
+                compHitOnPlayerCoordsArr.push(compAttackGuess_);
+                //updates store
+                localStorage.setItem("compHitOnPlayerCoordsArr", JSON.stringify(compHitOnPlayerCoordsArr));
+                break;
+            }
+        case "miss":
+            {
+                const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? "[]");
+                //adds current miss to array
+                compMissOnPlayerCoordsArr.push(compAttackGuess_);
+                //updates store
+                localStorage.setItem("compMissOnPlayerCoordsArr", JSON.stringify(compMissOnPlayerCoordsArr));
+                break;
+            }
+        default:
+            break;
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2vwp5":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "storePrevCompHitOrMiss", ()=>storePrevCompHitOrMiss);
+function storePrevCompHitOrMiss(prevCompHitOrMiss, coord) {
+    localStorage.setItem("prevCompHitOrMiss", prevCompHitOrMiss);
+    switch(prevCompHitOrMiss){
+        case "hit":
+            localStorage.setItem("prevCompHitOnPlayerCoord", JSON.stringify(coord));
+            break;
+        case "miss":
+            localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(coord));
+            break;
+        default:
+            break;
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cOUsP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess);

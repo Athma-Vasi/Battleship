@@ -1,10 +1,12 @@
 import { addStyleToElem, pipe } from '../utilities/elementCreators';
+import { storeCompHitsOrMisses } from '../utilities/storeCompHitsOrMisses';
+import { storePrevCompHitOrMiss } from '../utilities/storePrevCompHitOrMiss';
 import { Div } from '../utilities/types';
 import { renderBattleMessageElem } from './renderBattleMessage';
 
 const computerAttacks = function (compAttackGuess_: string) {
 	const playerShipsCoords: string[] = JSON.parse(
-		localStorage.getItem('playerShipsCoords') ?? '[0,0]'
+		localStorage.getItem('playerShipsCoords') ?? '[]'
 	);
 
 	let totalHitsOnPlayerShips: number = JSON.parse(
@@ -43,6 +45,10 @@ const computerAttacks = function (compAttackGuess_: string) {
 			'totalHitsOnPlayerShips',
 			JSON.stringify(totalHitsOnPlayerShips)
 		);
+
+		//store the current hit co-ordinates and hit type to assist comp firing solution
+		storeCompHitsOrMisses(compAttackGuess_, 'hit');
+		storePrevCompHitOrMiss('hit', currentCellCoord);
 	} else {
 		//if its a miss
 		const playerShipCell: Div = document.querySelector(
@@ -89,8 +95,12 @@ const computerAttacks = function (compAttackGuess_: string) {
 		);
 		pipe(addStyleToElem([['color', 'gainsboro']]))(prevCompMissOnPlayerCell);
 
-		//stores current miss co-ordinates in order to highlight the current round's co-ordinates
-		localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord));
+		// //stores current miss co-ordinates in order to highlight the current round's co-ordinates
+		// localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord));
+
+		//store the current miss co-ordinates and hit type to assist comp firing solution
+		storeCompHitsOrMisses(compAttackGuess_, 'miss');
+		storePrevCompHitOrMiss('miss', currentCellCoord);
 	}
 };
 export { computerAttacks };
