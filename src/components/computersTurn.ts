@@ -1,6 +1,7 @@
 import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips';
 import { addEvtListener, pipe } from '../utilities/elementCreators';
+import { generateProbabilisticFiringCoord } from '../utilities/generateProbabilisticFiringCoord';
 import { NodesDiv } from '../utilities/types';
 import { announceGameWinner } from './announceGameWinner';
 import { computerAttacks } from './computerAttacks';
@@ -23,7 +24,8 @@ const computersTurn = function () {
 			localStorage.getItem('playerShipsCoords') ?? ''
 		);
 
-		const compAttackGuess = genRandCompAttackGuess();
+		// const compAttackGuess = genRandCompAttackGuess();
+		const compAttackGuess = generateProbabilisticFiringCoord();
 
 		//if compAttackGuess is on a playerShipCoord, then checks the hit counter
 		//avoids registering a win when the computer misses

@@ -17,6 +17,8 @@ function storeCompHitsOrMisses(
 				JSON.stringify(compHitOnPlayerCoordsArr)
 			);
 
+			console.log('compHitOnPlayerCoordsArr', compHitOnPlayerCoordsArr);
+
 			break;
 		}
 		case 'miss': {
@@ -32,6 +34,8 @@ function storeCompHitsOrMisses(
 				'compMissOnPlayerCoordsArr',
 				JSON.stringify(compMissOnPlayerCoordsArr)
 			);
+
+			console.log('compMissOnPlayerCoordsArr', compMissOnPlayerCoordsArr);
 
 			break;
 		}

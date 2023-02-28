@@ -2825,9 +2825,9 @@ parcelHelpers.export(exports, "computersTurn", ()=>computersTurn);
 var _handlePlayerClickOnCompMisses = require("../events/handlePlayerClickOnCompMisses");
 var _handlePlayerClickOnCompShips = require("../events/handlePlayerClickOnCompShips");
 var _elementCreators = require("../utilities/elementCreators");
+var _generateProbabilisticFiringCoord = require("../utilities/generateProbabilisticFiringCoord");
 var _announceGameWinner = require("./announceGameWinner");
 var _computerAttacks = require("./computerAttacks");
-var _genRandCompAttackGuess = require("./genRandCompAttackGuess");
 const computersTurn = function() {
     //checks if game has been won
     if (!localStorage.getItem("isGameWon")) localStorage.setItem("isGameWon", JSON.stringify(""));
@@ -2836,7 +2836,8 @@ const computersTurn = function() {
     if (!isGameWon) {
         if (!localStorage.getItem("totalHitsOnPlayerShips")) localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(0));
         const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "");
-        const compAttackGuess = (0, _genRandCompAttackGuess.genRandCompAttackGuess)();
+        // const compAttackGuess = genRandCompAttackGuess();
+        const compAttackGuess = (0, _generateProbabilisticFiringCoord.generateProbabilisticFiringCoord)();
         //if compAttackGuess is on a playerShipCoord, then checks the hit counter
         //avoids registering a win when the computer misses
         if (playerShipsCoords.includes(compAttackGuess)) {
@@ -2858,7 +2859,7 @@ const computersTurn = function() {
     }
 };
 
-},{"../events/handlePlayerClickOnCompMisses":"2HlWb","../events/handlePlayerClickOnCompShips":"uEG8W","../utilities/elementCreators":"H4ivl","./announceGameWinner":"503Ay","./computerAttacks":"6ZQM8","./genRandCompAttackGuess":"cOUsP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"uEG8W":[function(require,module,exports) {
+},{"../events/handlePlayerClickOnCompMisses":"2HlWb","../events/handlePlayerClickOnCompShips":"uEG8W","../utilities/elementCreators":"H4ivl","../utilities/generateProbabilisticFiringCoord":"2fd56","./announceGameWinner":"503Ay","./computerAttacks":"6ZQM8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"uEG8W":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handlePlayerClickOnCompShips", ()=>handlePlayerClickOnCompShips);
@@ -2935,6 +2936,8 @@ var _preventClicksAfterWin = require("./preventClicksAfterWin");
 var _restartGame = require("./restartGame");
 const announceGameWinner = function(winner_) {
     const main = document.querySelector(".main");
+    const infoScreenWrapper = document.querySelector(".infoScreen-wrapper");
+    infoScreenWrapper?.remove();
     const winnerContainer = (0, _elementCreators.elemCreator)("div")([
         "winner-container"
     ]);
@@ -2986,6 +2989,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "restartGame", ()=>restartGame);
 const restartGame = function() {
     localStorage.clear();
+    window.scrollTo(0, 0);
     self.location.reload();
 };
 
@@ -3426,6 +3430,231 @@ function tossCoin() {
     return Math.random() > 0.5;
 }
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2fd56":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord) /**
+ 
+  if (prevCompHitOrMiss === 'hit') {
+		const adjacentCoords: string[] = generateAdjacentCoordArr(
+			prevCompFireOnPlayerCoord,
+			prevCompFiringCoords
+		);
+
+		//if all adjacent coords have been hit, generate a random guess
+		newFiringCoordinate =
+			adjacentCoords.length === 0
+				? genRandCompAttackGuess(prevCompFiringCoords)
+				: adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
+	} else {
+		// either generate a random guess or a random adjacent coord
+		// avoids the computer only firing at adjacent coords
+		// and simulates a more organic play style
+
+		// first firing coord is always random
+		if (!prevCompFireOnPlayerCoord) {
+			newFiringCoordinate = genRandCompAttackGuess(prevCompFiringCoords);
+		} else {
+			const adjacentCoords: string[] = generateAdjacentCoordArr(
+				prevCompFireOnPlayerCoord,
+				prevCompFiringCoords
+			);
+
+			newFiringCoordinate = tossCoin()
+				? genRandCompAttackGuess(prevCompFiringCoords)
+				: adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
+		}
+
+		console.log('else block prevCompFiringCoords', prevCompFiringCoords);
+		console.log('else block compHitOnPlayerCoordsArr', compHitOnPlayerCoordsArr);
+	}
+
+ */ ;
+var _genRandCompAttackGuess = require("../components/genRandCompAttackGuess");
+var _generateAdjacentCoordArr = require("./generateAdjacentCoordArr");
+function generateProbabilisticFiringCoord() {
+    const prevCompHitOrMiss = localStorage.getItem("prevCompHitOrMiss");
+    const prevCompFireOnPlayerCoord = prevCompHitOrMiss === "hit" ? localStorage.getItem("prevCompHitOnPlayerCoord") ?? "" : localStorage.getItem("prevCompMissOnPlayerCoord") ?? "";
+    const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? "[]");
+    const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? "[]");
+    const prevCompFiringCoords = [
+        compHitOnPlayerCoordsArr,
+        compMissOnPlayerCoordsArr, 
+    ].flat();
+    let newFiringCoordinate = "";
+    //only runs on first computer turn as prevCompHitOrMiss is undefined
+    if (!prevCompHitOrMiss) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
+    else {
+        const adjacentCoords = (0, _generateAdjacentCoordArr.generateAdjacentCoordArr)(prevCompFireOnPlayerCoord, compHitOnPlayerCoordsArr, compMissOnPlayerCoordsArr);
+        //if all adjacent coords of prev hits have been hit, generate a random guess
+        //else generate a random adjacent coord from the prev hits
+        newFiringCoordinate = adjacentCoords.length === 0 ? (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords) : adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
+    }
+    return newFiringCoordinate;
+}
+
+},{"../components/genRandCompAttackGuess":"cOUsP","./generateAdjacentCoordArr":"5lblu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cOUsP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess) /**
+ 
+	let compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(
+		Math.random() * 10
+	)}`;
+	// //stores comp guesses to avoid hits on previously targeted co-ordinates
+	// if (!localStorage.getItem('compAttackGuesses')) {
+	// 	localStorage.setItem('compAttackGuesses', JSON.stringify([]));
+	// }
+	// const compAttackGuesses: string[] = JSON.parse(
+	// 	localStorage.getItem('compAttackGuesses') ?? ''
+	// );
+
+	//checks if guess is in previous guesses, if so runs the random function again
+	//avoids guessing the same co-ordinates
+	let isUniqueCoordinate = false;
+
+	while (!isUniqueCoordinate) {
+		if (prevCompFiringCoords.includes(compAttackGuess)) {
+			//if the guessed co-ordinate has already been tried
+			isUniqueCoordinate = false;
+
+			compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(
+				Math.random() * 10
+			)}`;
+		} else {
+			isUniqueCoordinate = true;
+			// //stores unique co-ordinate
+			// compAttackGuesses.push(compAttackGuess);
+			// localStorage.setItem('compAttackGuesses', JSON.stringify(compAttackGuesses));
+		}
+	}
+
+	return compAttackGuess;
+
+ */ ;
+const genRandCompAttackGuess = function(prevCompFiringCoords) {
+    let compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
+    //checks if guess is in previous guesses, if so runs the random function again
+    //avoids guessing the same co-ordinates
+    let isUniqueCoordinate = false;
+    while(!isUniqueCoordinate)if (prevCompFiringCoords.includes(compAttackGuess)) {
+        //if the guessed co-ordinate has already been tried
+        isUniqueCoordinate = false;
+        compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
+    } else isUniqueCoordinate = true;
+    return compAttackGuess;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5lblu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "generateAdjacentCoordArr", ()=>generateAdjacentCoordArr) /**
+ 
+	{
+		//top
+		let topCoordStep = 1;
+		let topCoord = `${xCoord},${yCoord - topCoordStep}`;
+		let infiniteLoop = false;
+		while (compHitOnPlayerCoordsArr.includes(topCoord) && !infiniteLoop) {
+			// top of the board
+			if (yCoord - topCoordStep >= 0) {
+				topCoord = `${xCoord},${yCoord - topCoordStep}`;
+				topCoordStep += 1;
+			} else infiniteLoop = true;
+		}
+		// only push if within bounds of board
+		if (yCoord - topCoordStep >= 0) {
+			adjacentCoords.push(topCoord);
+		}
+		console.log('topCoord', topCoord);
+	}
+
+	{
+		//right
+		let rightCoordStep = 1;
+		let rightCoord = `${xCoord + rightCoordStep},${yCoord}`;
+		let infiniteLoop = false;
+		while (compHitOnPlayerCoordsArr.includes(rightCoord) && !infiniteLoop) {
+			// right of the board
+			if (xCoord + rightCoordStep <= 9) {
+				rightCoord = `${xCoord + rightCoordStep},${yCoord}`;
+				rightCoordStep += 1;
+			} else infiniteLoop = true;
+		}
+		// only push if within bounds of board
+		if (xCoord + rightCoordStep <= 9) {
+			adjacentCoords.push(rightCoord);
+		}
+		console.log('rightCoord', rightCoord);
+	}
+
+	{
+		//bottom
+		let bottomCoordStep = 1;
+		let bottomCoord = `${xCoord},${yCoord + bottomCoordStep}`;
+		let infiniteLoop = false;
+		while (compHitOnPlayerCoordsArr.includes(bottomCoord) && !infiniteLoop) {
+			// bottom of the board
+			if (yCoord + bottomCoordStep <= 9) {
+				bottomCoord = `${xCoord},${yCoord + bottomCoordStep}`;
+				bottomCoordStep += 1;
+			} else infiniteLoop = true;
+		}
+		// only push if within bounds of board
+		if (yCoord + bottomCoordStep <= 9) {
+			adjacentCoords.push(bottomCoord);
+		}
+		console.log('bottomCoord', bottomCoord);
+	}
+
+	{
+		//left
+		let leftCoordStep = 1;
+		let leftCoord = `${xCoord - leftCoordStep},${yCoord}`;
+		let infiniteLoop = false;
+		while (compHitOnPlayerCoordsArr.includes(leftCoord) && !infiniteLoop) {
+			// left of the board
+			if (xCoord - leftCoordStep >= 0) {
+				leftCoord = `${xCoord - leftCoordStep},${yCoord}`;
+				leftCoordStep += 1;
+			} else infiniteLoop = true;
+		}
+		// only push if within bounds of board
+		if (xCoord - leftCoordStep >= 0) {
+			adjacentCoords.push(leftCoord);
+		}
+		console.log('leftCoord', leftCoord);
+	}
+
+ */ ;
+function generateAdjacentCoordArr(prevCompFireOnPlayerCoord, compHitOnPlayerCoordsArr, compMissOnPlayerCoordsArr) {
+    const prevCompHitOnPlayerCoords = prevCompFireOnPlayerCoord.split(",");
+    const xCoord1 = parseInt(prevCompHitOnPlayerCoords[0].replace('"', ""));
+    const yCoord1 = parseInt(prevCompHitOnPlayerCoords[1].replace('"', ""));
+    console.log("prevCompHitOnPlayerCoords", prevCompHitOnPlayerCoords);
+    console.log("xCoord", xCoord1);
+    console.log("yCoord", yCoord1);
+    //generate adjacent coords
+    const adjacentCoords = [];
+    // loop through each of the previous hits and generate adjacent coords
+    compHitOnPlayerCoordsArr.forEach((coord)=>{
+        const xyCoords = coord.split(",");
+        const xCoord = parseInt(xyCoords[0].replace('"', ""));
+        const yCoord = parseInt(xyCoords[1].replace('"', ""));
+        //top
+        if (yCoord - 1 >= 0) adjacentCoords.push(`${xCoord},${yCoord - 1}`);
+        //right
+        if (xCoord + 1 <= 9) adjacentCoords.push(`${xCoord + 1},${yCoord}`);
+        //bottom
+        if (yCoord + 1 <= 9) adjacentCoords.push(`${xCoord},${yCoord + 1}`);
+        //left
+        if (xCoord - 1 >= 0) adjacentCoords.push(`${xCoord - 1},${yCoord}`);
+    });
+    //filter the coords that have already been hit or missed
+    const uniqueAdjacentCoords = adjacentCoords.filter((coord)=>!compHitOnPlayerCoordsArr.includes(coord) && !compMissOnPlayerCoordsArr.includes(coord));
+    return uniqueAdjacentCoords;
+}
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6ZQM8":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -3505,7 +3734,7 @@ const computerAttacks = function(compAttackGuess_) {
     }
 };
 
-},{"../utilities/elementCreators":"H4ivl","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/storeCompHitsOrMisses":"kX0U2","../utilities/storePrevCompHitOrMiss":"2vwp5"}],"kX0U2":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","../utilities/storeCompHitsOrMisses":"kX0U2","../utilities/storePrevCompHitOrMiss":"2vwp5","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kX0U2":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "storeCompHitsOrMisses", ()=>storeCompHitsOrMisses);
@@ -3518,6 +3747,7 @@ function storeCompHitsOrMisses(compAttackGuess_, hitOrMiss) {
                 compHitOnPlayerCoordsArr.push(compAttackGuess_);
                 //updates store
                 localStorage.setItem("compHitOnPlayerCoordsArr", JSON.stringify(compHitOnPlayerCoordsArr));
+                console.log("compHitOnPlayerCoordsArr", compHitOnPlayerCoordsArr);
                 break;
             }
         case "miss":
@@ -3527,6 +3757,7 @@ function storeCompHitsOrMisses(compAttackGuess_, hitOrMiss) {
                 compMissOnPlayerCoordsArr.push(compAttackGuess_);
                 //updates store
                 localStorage.setItem("compMissOnPlayerCoordsArr", JSON.stringify(compMissOnPlayerCoordsArr));
+                console.log("compMissOnPlayerCoordsArr", compMissOnPlayerCoordsArr);
                 break;
             }
         default:
@@ -3540,6 +3771,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "storePrevCompHitOrMiss", ()=>storePrevCompHitOrMiss);
 function storePrevCompHitOrMiss(prevCompHitOrMiss, coord) {
     localStorage.setItem("prevCompHitOrMiss", prevCompHitOrMiss);
+    console.log("storePrevCompHitOrMiss coord", coord);
     switch(prevCompHitOrMiss){
         case "hit":
             localStorage.setItem("prevCompHitOnPlayerCoord", JSON.stringify(coord));
@@ -3551,31 +3783,6 @@ function storePrevCompHitOrMiss(prevCompHitOrMiss, coord) {
             break;
     }
 }
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cOUsP":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess);
-const genRandCompAttackGuess = function() {
-    let compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
-    //stores comp guesses to avoid hits on previously targeted co-ordinates
-    if (!localStorage.getItem("compAttackGuesses")) localStorage.setItem("compAttackGuesses", JSON.stringify([]));
-    const compAttackGuesses = JSON.parse(localStorage.getItem("compAttackGuesses") ?? "");
-    //checks if guess is in previous guesses, if so runs the random function again
-    //avoids guessing the same co-ordinates
-    let isUniqueCoordinate = false;
-    while(!isUniqueCoordinate)if (compAttackGuesses.includes(compAttackGuess)) {
-        //if the guessed co-ordinate has already been tried
-        isUniqueCoordinate = false;
-        compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
-    } else {
-        isUniqueCoordinate = true;
-        //stores unique co-ordinate
-        compAttackGuesses.push(compAttackGuess);
-        localStorage.setItem("compAttackGuesses", JSON.stringify(compAttackGuesses));
-    }
-    return compAttackGuess;
-};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iGKQQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

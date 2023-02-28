@@ -287,7 +287,7 @@ body {
 
 .winner-announcement {
   color: var(--colour-appleAmberDark);
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 /*# sourceMappingURL=index.61d3354a.css.map */

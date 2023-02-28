@@ -1,6 +1,8 @@
 function storePrevCompHitOrMiss(prevCompHitOrMiss: 'hit' | 'miss', coord: string): void {
 	localStorage.setItem('prevCompHitOrMiss', prevCompHitOrMiss);
 
+	console.log('storePrevCompHitOrMiss coord', coord);
+
 	switch (prevCompHitOrMiss) {
 		case 'hit': {
 			localStorage.setItem('prevCompHitOnPlayerCoord', JSON.stringify(coord));

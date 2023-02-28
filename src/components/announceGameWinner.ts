@@ -5,11 +5,15 @@ import {
 	elemCreator,
 	pipe,
 } from '../utilities/elementCreators';
+import { Div } from '../utilities/types';
 import { preventClicksAfterWin } from './preventClicksAfterWin';
 import { restartGame } from './restartGame';
 
 const announceGameWinner = function (winner_: string) {
 	const main: HTMLElement | null = document.querySelector('.main');
+
+	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');
+	infoScreenWrapper?.remove();
 
 	const winnerContainer = elemCreator('div')(['winner-container']);
 	appendElemToParent(main)(winnerContainer);
