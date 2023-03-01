@@ -15,9 +15,7 @@ const genRandCompAttackGuess = function (prevCompFiringCoords: string[]) {
 			compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(
 				Math.random() * 10
 			)}`;
-		} else {
-			isUniqueCoordinate = true;
-		}
+		} else isUniqueCoordinate = true;
 	}
 
 	return compAttackGuess;

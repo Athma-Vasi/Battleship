@@ -1,7 +1,8 @@
 import { addStyleToElem, pipe } from '../utilities/elementCreators';
-import { storeCompHitsOrMisses } from '../utilities/storeCompHitsOrMisses';
-import { storePrevCompHitOrMiss } from '../utilities/storePrevCompHitOrMiss';
+import { storeCompHitMissCoords } from '../utilities/storeCompHitMissCoords';
+
 import { Div } from '../utilities/types';
+import { updateTacticalOverviewCells } from '../utilities/updateTacticalOverviewCells';
 import { renderBattleMessageElem } from './renderBattleMessage';
 
 const computerAttacks = function (compAttackGuess_: string) {
@@ -20,12 +21,15 @@ const computerAttacks = function (compAttackGuess_: string) {
 			`[data-cellplayer="${compAttackGuess_}"]`
 		);
 
-		//calls function to display battle message when computer registers a hit on a player ship
 		const currentCellCoord = compAttackGuess_;
 		const currentShipSymbol = playerShipCell?.textContent ?? '';
 		const towardsCombatant = 'player';
 		const hitOrMiss = 'hit';
 
+		// update tactical overview ship cells to visually indicate hit
+		updateTacticalOverviewCells(currentCellCoord, towardsCombatant);
+
+		//calls function to display battle message when computer registers a hit on a player ship
 		renderBattleMessageElem(
 			currentCellCoord,
 			currentShipSymbol,
@@ -47,20 +51,19 @@ const computerAttacks = function (compAttackGuess_: string) {
 		);
 
 		//store the current hit co-ordinates and hit type to assist comp firing solution
-		storeCompHitsOrMisses(compAttackGuess_, 'hit');
-		storePrevCompHitOrMiss('hit', currentCellCoord);
+		storeCompHitMissCoords(compAttackGuess_, 'hit');
 	} else {
 		//if its a miss
 		const playerShipCell: Div = document.querySelector(
 			`[data-cellplayer="${compAttackGuess_}"]`
 		);
 
-		//calls function to display battle message when computer does not hit a player ship
 		const currentCellCoord = compAttackGuess_;
 		const currentShipSymbol = playerShipCell?.textContent ?? '';
 		const towardsCombatant = 'player';
 		const hitOrMiss = 'miss';
 
+		//calls function to display battle message when computer does not hit a player ship
 		renderBattleMessageElem(
 			currentCellCoord,
 			currentShipSymbol,
@@ -99,8 +102,7 @@ const computerAttacks = function (compAttackGuess_: string) {
 		// localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord));
 
 		//store the current miss co-ordinates and hit type to assist comp firing solution
-		storeCompHitsOrMisses(compAttackGuess_, 'miss');
-		storePrevCompHitOrMiss('miss', currentCellCoord);
+		storeCompHitMissCoords(compAttackGuess_, 'miss');
 	}
 };
 export { computerAttacks };

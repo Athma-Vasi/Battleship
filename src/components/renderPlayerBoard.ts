@@ -4,6 +4,7 @@ import {
 	elemCreator,
 	pipe,
 } from '../utilities/elementCreators';
+import { renderTacticalOverview } from '../utilities/renderTacticalOverview';
 
 const renderPlayerBoard = function () {
 	const main: HTMLElement | null = document.querySelector('.main');

@@ -3,6 +3,7 @@ import { computersTurn } from '../components/computersTurn';
 import { renderBattleMessageElem } from '../components/renderBattleMessage';
 import { pipe, removeEvtListener } from '../utilities/elementCreators';
 import { Div, NodesDiv } from '../utilities/types';
+import { updateTacticalOverviewCells } from '../utilities/updateTacticalOverviewCells';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
 const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
@@ -35,6 +36,9 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	const currentShipSymbol = this.textContent ?? '';
 	const towardsCombatant = 'comp';
 	const hitOrMiss = 'hit';
+
+	// update tactical overview ship cells to visually indicate hit
+	updateTacticalOverviewCells(currentCellCoord, towardsCombatant);
 
 	renderBattleMessageElem(
 		currentCellCoord,

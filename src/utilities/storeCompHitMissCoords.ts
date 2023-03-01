@@ -1,9 +1,12 @@
-function storeCompHitsOrMisses(
+function storeCompHitMissCoords(
 	compAttackGuess_: string,
 	hitOrMiss: 'hit' | 'miss'
 ): void {
+	localStorage.setItem('prevCompHitOrMiss', hitOrMiss);
 	switch (hitOrMiss) {
 		case 'hit': {
+			localStorage.setItem('prevCompHitOnPlayerCoord', JSON.stringify(compAttackGuess_));
+
 			const compHitOnPlayerCoordsArr: string[] = JSON.parse(
 				localStorage.getItem('compHitOnPlayerCoordsArr') ?? '[]'
 			);
@@ -22,6 +25,8 @@ function storeCompHitsOrMisses(
 			break;
 		}
 		case 'miss': {
+			localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(compAttackGuess_));
+
 			const compMissOnPlayerCoordsArr: string[] = JSON.parse(
 				localStorage.getItem('compMissOnPlayerCoordsArr') ?? '[]'
 			);
@@ -44,4 +49,4 @@ function storeCompHitsOrMisses(
 	}
 }
 
-export { storeCompHitsOrMisses };
+export { storeCompHitMissCoords };

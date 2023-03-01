@@ -9,6 +9,7 @@ import {
 	elemCreator,
 	pipe,
 } from '../utilities/elementCreators';
+import { renderTacticalOverview } from '../utilities/renderTacticalOverview';
 import { NodesDiv } from '../utilities/types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
@@ -55,6 +56,9 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	pipe(appendElemToParent(main))(elemCreator('div')(['infoScreen-wrapper']));
+
+	// render tactical overview
+	renderTacticalOverview();
 };
 
 export { handleStartButtonClick };

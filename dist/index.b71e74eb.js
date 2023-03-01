@@ -695,6 +695,9 @@ const renderPlayerInfoScreen = function(playerName_) {
         "infoScreen-container"
     ]);
     (0, _elementCreators.appendElemToParent)(infoScreenWrapper)(infoScreenContainer);
+    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
+        "infoScreen-preBattleMssg"
+    ]));
     (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Sailors of Manticore!`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
         "infoScreen-preBattleMssg"
     ]));
@@ -1213,6 +1216,7 @@ var _renderCompBoard = require("../components/renderCompBoard");
 var _compShipsPlacementChoicesArr = require("../data/compShipsPlacementChoicesArr");
 var _shipNames = require("../data/shipNames");
 var _elementCreators = require("../utilities/elementCreators");
+var _renderTacticalOverview = require("../utilities/renderTacticalOverview");
 var _handlePlayerClickOnCompMisses = require("./handlePlayerClickOnCompMisses");
 var _handlePlayerClickOnCompShips = require("./handlePlayerClickOnCompShips");
 const handleStartButtonClick = function(ev) {
@@ -1242,9 +1246,11 @@ const handleStartButtonClick = function(ev) {
     (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(main))((0, _elementCreators.elemCreator)("div")([
         "infoScreen-wrapper"
     ]));
+    // render tactical overview
+    (0, _renderTacticalOverview.renderTacticalOverview)();
 };
 
-},{"../components/placeCompShipsOnBoard":"dU4Hs","../components/randomizeAndStoreShipNames":"et96r","../components/renderCompBoard":"5e8Dz","../data/compShipsPlacementChoicesArr":"k7Vwa","../data/shipNames":"ekPmF","../utilities/elementCreators":"H4ivl","./handlePlayerClickOnCompMisses":"2HlWb","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dU4Hs":[function(require,module,exports) {
+},{"../components/placeCompShipsOnBoard":"dU4Hs","../components/randomizeAndStoreShipNames":"et96r","../components/renderCompBoard":"5e8Dz","../data/compShipsPlacementChoicesArr":"k7Vwa","../data/shipNames":"ekPmF","../utilities/elementCreators":"H4ivl","./handlePlayerClickOnCompMisses":"2HlWb","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/renderTacticalOverview":"kMrKG"}],"dU4Hs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "placeCompShipsOnBoard", ()=>placeCompShipsOnBoard);
@@ -2867,6 +2873,7 @@ var _announceGameWinner = require("../components/announceGameWinner");
 var _computersTurn = require("../components/computersTurn");
 var _renderBattleMessage = require("../components/renderBattleMessage");
 var _elementCreators = require("../utilities/elementCreators");
+var _updateTacticalOverviewCells = require("../utilities/updateTacticalOverviewCells");
 var _handlePlayerClickOnCompMisses = require("./handlePlayerClickOnCompMisses");
 const handlePlayerClickOnCompShips = function(ev) {
     //initialize the hit counter on first hit
@@ -2887,6 +2894,8 @@ const handlePlayerClickOnCompShips = function(ev) {
     const currentShipSymbol = this.textContent ?? "";
     const towardsCombatant = "comp";
     const hitOrMiss = "hit";
+    // update tactical overview ship cells to visually indicate hit
+    (0, _updateTacticalOverviewCells.updateTacticalOverviewCells)(currentCellCoord, towardsCombatant);
     (0, _renderBattleMessage.renderBattleMessageElem)(currentCellCoord, currentShipSymbol, towardsCombatant, hitOrMiss);
     //auto-scrolls to the bottom to have the most recent message visible
     const infoScreenWrapper = document.querySelector(".infoScreen-wrapper");
@@ -2927,7 +2936,7 @@ const handlePlayerClickOnCompShips = function(ev) {
     setTimeout((0, _computersTurn.computersTurn), 0);
 };
 
-},{"../components/announceGameWinner":"503Ay","../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"503Ay":[function(require,module,exports) {
+},{"../components/announceGameWinner":"503Ay","../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/updateTacticalOverviewCells":"4OdS8"}],"503Ay":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "announceGameWinner", ()=>announceGameWinner);
@@ -2943,12 +2952,28 @@ const announceGameWinner = function(winner_) {
     ]);
     (0, _elementCreators.appendElemToParent)(main)(winnerContainer);
     if (winner_ === "comp") {
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("With heavy heart and profound regret, we must report a defeat in battle. Our valiant crew fought with all their strength and skill, but alas, the enemy proved too strong for us. We honor the memory of those who gave their lives in defense of the Kingdom, and we pledge to continue the fight with renewed determination. We shall not rest until victory is ours."), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
+        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("DEFEAT!"), (0, _elementCreators.addStyleToElem)([
+            [
+                "font-size",
+                "2rem"
+            ]
+        ]), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
+            "winner-announcement"
+        ]));
+        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("With heavy heart and profound regret, we must report a defeat in battle. Our valiant crew fought with all their strength and skill, but alas, the enemy proved too strong for us. We honor the memory of those who gave their lives in defense of the Kingdom, and we pledge to continue the fight with renewed determination. We shall not rest until victory is ours!"), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
             "winner-announcement"
         ]));
         //removes event listeners after win
         (0, _preventClicksAfterWin.preventClicksAfterWin)();
     } else {
+        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`VICTORY!`), (0, _elementCreators.addStyleToElem)([
+            [
+                "font-size",
+                "2rem"
+            ]
+        ]), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
+            "winner-announcement"
+        ]));
         (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`The cheers of the crew fill the bridge as the last enemy ship explodes in a ball of fire. You have emerged victorious from the heat of battle, your ship battered but still flying. Your skill and courage in the face of overwhelming odds have saved the lives of your crew and secured another victory for the Star Kingdom of Manticore. As you survey the wreckage of the enemy fleet, you know that your actions will go down in history as a shining example of the indomitable spirit of the Manticoran Navy. 
 				
 				Congrats ${winner_}! You have destroyed the Haven Fleet!
@@ -3430,46 +3455,53 @@ function tossCoin() {
     return Math.random() > 0.5;
 }
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4OdS8":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateTacticalOverviewCells", ()=>updateTacticalOverviewCells) /**
+ 
+  const tacticalOverviewCells: NodesDiv = document.querySelectorAll(
+		`[data-${towardsCombatant}-tacticalCell]`
+	);
+
+	tacticalOverviewCells.forEach((cell) => {
+		if (cell?.dataset[`${towardsCombatant}TacticalCell`] === currentCellCoord) {
+			cell.textContent = currentShipSymbol;
+		}
+	});
+
+ */ ;
+function updateTacticalOverviewCells(currentCellCoord, towardsCombatant) {
+    switch(towardsCombatant){
+        case "player":
+            {
+                const cellToUpdate = document.querySelector(`[data-${towardsCombatant}ship="${currentCellCoord}"]`);
+                if (cellToUpdate) {
+                    cellToUpdate.textContent = "";
+                    cellToUpdate.textContent = "\uD83D\uDCA5";
+                    cellToUpdate.style.color = "#f0a400";
+                }
+                break;
+            }
+        case "comp":
+            {
+                const cellToUpdate = document.querySelector(`[data-${towardsCombatant}ship="${currentCellCoord}"]`);
+                if (cellToUpdate) {
+                    cellToUpdate.textContent = "";
+                    cellToUpdate.textContent = "\uD83D\uDCA5";
+                    cellToUpdate.style.color = "#f0a400";
+                }
+                break;
+            }
+        default:
+            break;
+    }
+}
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2fd56":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord) /**
- 
-  if (prevCompHitOrMiss === 'hit') {
-		const adjacentCoords: string[] = generateAdjacentCoordArr(
-			prevCompFireOnPlayerCoord,
-			prevCompFiringCoords
-		);
-
-		//if all adjacent coords have been hit, generate a random guess
-		newFiringCoordinate =
-			adjacentCoords.length === 0
-				? genRandCompAttackGuess(prevCompFiringCoords)
-				: adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
-	} else {
-		// either generate a random guess or a random adjacent coord
-		// avoids the computer only firing at adjacent coords
-		// and simulates a more organic play style
-
-		// first firing coord is always random
-		if (!prevCompFireOnPlayerCoord) {
-			newFiringCoordinate = genRandCompAttackGuess(prevCompFiringCoords);
-		} else {
-			const adjacentCoords: string[] = generateAdjacentCoordArr(
-				prevCompFireOnPlayerCoord,
-				prevCompFiringCoords
-			);
-
-			newFiringCoordinate = tossCoin()
-				? genRandCompAttackGuess(prevCompFiringCoords)
-				: adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
-		}
-
-		console.log('else block prevCompFiringCoords', prevCompFiringCoords);
-		console.log('else block compHitOnPlayerCoordsArr', compHitOnPlayerCoordsArr);
-	}
-
- */ ;
+parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord);
 var _genRandCompAttackGuess = require("../components/genRandCompAttackGuess");
 var _generateAdjacentCoordArr = require("./generateAdjacentCoordArr");
 function generateProbabilisticFiringCoord() {
@@ -3485,6 +3517,7 @@ function generateProbabilisticFiringCoord() {
     //only runs on first computer turn as prevCompHitOrMiss is undefined
     if (!prevCompHitOrMiss) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
     else {
+        // if the previous guess was a hit, generate adjacent coords of all previous hits
         const adjacentCoords = (0, _generateAdjacentCoordArr.generateAdjacentCoordArr)(prevCompFireOnPlayerCoord, compHitOnPlayerCoordsArr, compMissOnPlayerCoordsArr);
         //if all adjacent coords of prev hits have been hit, generate a random guess
         //else generate a random adjacent coord from the prev hits
@@ -3548,85 +3581,7 @@ const genRandCompAttackGuess = function(prevCompFiringCoords) {
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5lblu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateAdjacentCoordArr", ()=>generateAdjacentCoordArr) /**
- 
-	{
-		//top
-		let topCoordStep = 1;
-		let topCoord = `${xCoord},${yCoord - topCoordStep}`;
-		let infiniteLoop = false;
-		while (compHitOnPlayerCoordsArr.includes(topCoord) && !infiniteLoop) {
-			// top of the board
-			if (yCoord - topCoordStep >= 0) {
-				topCoord = `${xCoord},${yCoord - topCoordStep}`;
-				topCoordStep += 1;
-			} else infiniteLoop = true;
-		}
-		// only push if within bounds of board
-		if (yCoord - topCoordStep >= 0) {
-			adjacentCoords.push(topCoord);
-		}
-		console.log('topCoord', topCoord);
-	}
-
-	{
-		//right
-		let rightCoordStep = 1;
-		let rightCoord = `${xCoord + rightCoordStep},${yCoord}`;
-		let infiniteLoop = false;
-		while (compHitOnPlayerCoordsArr.includes(rightCoord) && !infiniteLoop) {
-			// right of the board
-			if (xCoord + rightCoordStep <= 9) {
-				rightCoord = `${xCoord + rightCoordStep},${yCoord}`;
-				rightCoordStep += 1;
-			} else infiniteLoop = true;
-		}
-		// only push if within bounds of board
-		if (xCoord + rightCoordStep <= 9) {
-			adjacentCoords.push(rightCoord);
-		}
-		console.log('rightCoord', rightCoord);
-	}
-
-	{
-		//bottom
-		let bottomCoordStep = 1;
-		let bottomCoord = `${xCoord},${yCoord + bottomCoordStep}`;
-		let infiniteLoop = false;
-		while (compHitOnPlayerCoordsArr.includes(bottomCoord) && !infiniteLoop) {
-			// bottom of the board
-			if (yCoord + bottomCoordStep <= 9) {
-				bottomCoord = `${xCoord},${yCoord + bottomCoordStep}`;
-				bottomCoordStep += 1;
-			} else infiniteLoop = true;
-		}
-		// only push if within bounds of board
-		if (yCoord + bottomCoordStep <= 9) {
-			adjacentCoords.push(bottomCoord);
-		}
-		console.log('bottomCoord', bottomCoord);
-	}
-
-	{
-		//left
-		let leftCoordStep = 1;
-		let leftCoord = `${xCoord - leftCoordStep},${yCoord}`;
-		let infiniteLoop = false;
-		while (compHitOnPlayerCoordsArr.includes(leftCoord) && !infiniteLoop) {
-			// left of the board
-			if (xCoord - leftCoordStep >= 0) {
-				leftCoord = `${xCoord - leftCoordStep},${yCoord}`;
-				leftCoordStep += 1;
-			} else infiniteLoop = true;
-		}
-		// only push if within bounds of board
-		if (xCoord - leftCoordStep >= 0) {
-			adjacentCoords.push(leftCoord);
-		}
-		console.log('leftCoord', leftCoord);
-	}
-
- */ ;
+parcelHelpers.export(exports, "generateAdjacentCoordArr", ()=>generateAdjacentCoordArr);
 function generateAdjacentCoordArr(prevCompFireOnPlayerCoord, compHitOnPlayerCoordsArr, compMissOnPlayerCoordsArr) {
     const prevCompHitOnPlayerCoords = prevCompFireOnPlayerCoord.split(",");
     const xCoord1 = parseInt(prevCompHitOnPlayerCoords[0].replace('"', ""));
@@ -3660,8 +3615,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "computerAttacks", ()=>computerAttacks);
 var _elementCreators = require("../utilities/elementCreators");
-var _storeCompHitsOrMisses = require("../utilities/storeCompHitsOrMisses");
-var _storePrevCompHitOrMiss = require("../utilities/storePrevCompHitOrMiss");
+var _storeCompHitMissCoords = require("../utilities/storeCompHitMissCoords");
+var _updateTacticalOverviewCells = require("../utilities/updateTacticalOverviewCells");
 var _renderBattleMessage = require("./renderBattleMessage");
 const computerAttacks = function(compAttackGuess_) {
     const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "[]");
@@ -3670,11 +3625,13 @@ const computerAttacks = function(compAttackGuess_) {
     //checks if playerShip is present
     if (playerShipsCoords.includes(compAttackGuess_)) {
         const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
-        //calls function to display battle message when computer registers a hit on a player ship
         const currentCellCoord = compAttackGuess_;
         const currentShipSymbol = playerShipCell?.textContent ?? "";
         const towardsCombatant = "player";
         const hitOrMiss = "hit";
+        // update tactical overview ship cells to visually indicate hit
+        (0, _updateTacticalOverviewCells.updateTacticalOverviewCells)(currentCellCoord, towardsCombatant);
+        //calls function to display battle message when computer registers a hit on a player ship
         (0, _renderBattleMessage.renderBattleMessageElem)(currentCellCoord, currentShipSymbol, towardsCombatant, hitOrMiss);
         //updates playercell to visually indicate hit
         if (playerShipCell) {
@@ -3685,16 +3642,15 @@ const computerAttacks = function(compAttackGuess_) {
         totalHitsOnPlayerShips = totalHitsOnPlayerShips + 1;
         localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(totalHitsOnPlayerShips));
         //store the current hit co-ordinates and hit type to assist comp firing solution
-        (0, _storeCompHitsOrMisses.storeCompHitsOrMisses)(compAttackGuess_, "hit");
-        (0, _storePrevCompHitOrMiss.storePrevCompHitOrMiss)("hit", currentCellCoord);
+        (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "hit");
     } else {
         //if its a miss
         const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
-        //calls function to display battle message when computer does not hit a player ship
         const currentCellCoord = compAttackGuess_;
         const currentShipSymbol = playerShipCell?.textContent ?? "";
         const towardsCombatant = "player";
         const hitOrMiss = "miss";
+        //calls function to display battle message when computer does not hit a player ship
         (0, _renderBattleMessage.renderBattleMessageElem)(currentCellCoord, currentShipSymbol, towardsCombatant, hitOrMiss);
         //auto-scrolls to the bottom to have the most recent message visible
         const infoScreenWrapper = document.querySelector(".infoScreen-wrapper");
@@ -3729,19 +3685,20 @@ const computerAttacks = function(compAttackGuess_) {
         // //stores current miss co-ordinates in order to highlight the current round's co-ordinates
         // localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord));
         //store the current miss co-ordinates and hit type to assist comp firing solution
-        (0, _storeCompHitsOrMisses.storeCompHitsOrMisses)(compAttackGuess_, "miss");
-        (0, _storePrevCompHitOrMiss.storePrevCompHitOrMiss)("miss", currentCellCoord);
+        (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "miss");
     }
 };
 
-},{"../utilities/elementCreators":"H4ivl","../utilities/storeCompHitsOrMisses":"kX0U2","../utilities/storePrevCompHitOrMiss":"2vwp5","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kX0U2":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/storeCompHitMissCoords":"h8NPY","../utilities/updateTacticalOverviewCells":"4OdS8"}],"h8NPY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "storeCompHitsOrMisses", ()=>storeCompHitsOrMisses);
-function storeCompHitsOrMisses(compAttackGuess_, hitOrMiss) {
+parcelHelpers.export(exports, "storeCompHitMissCoords", ()=>storeCompHitMissCoords);
+function storeCompHitMissCoords(compAttackGuess_, hitOrMiss) {
+    localStorage.setItem("prevCompHitOrMiss", hitOrMiss);
     switch(hitOrMiss){
         case "hit":
             {
+                localStorage.setItem("prevCompHitOnPlayerCoord", JSON.stringify(compAttackGuess_));
                 const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? "[]");
                 //adds current hit to array
                 compHitOnPlayerCoordsArr.push(compAttackGuess_);
@@ -3752,6 +3709,7 @@ function storeCompHitsOrMisses(compAttackGuess_, hitOrMiss) {
             }
         case "miss":
             {
+                localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(compAttackGuess_));
                 const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? "[]");
                 //adds current miss to array
                 compMissOnPlayerCoordsArr.push(compAttackGuess_);
@@ -3765,23 +3723,253 @@ function storeCompHitsOrMisses(compAttackGuess_, hitOrMiss) {
     }
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2vwp5":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kMrKG":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "storePrevCompHitOrMiss", ()=>storePrevCompHitOrMiss);
-function storePrevCompHitOrMiss(prevCompHitOrMiss, coord) {
-    localStorage.setItem("prevCompHitOrMiss", prevCompHitOrMiss);
-    console.log("storePrevCompHitOrMiss coord", coord);
-    switch(prevCompHitOrMiss){
-        case "hit":
-            localStorage.setItem("prevCompHitOnPlayerCoord", JSON.stringify(coord));
-            break;
-        case "miss":
-            localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(coord));
-            break;
-        default:
-            break;
-    }
+parcelHelpers.export(exports, "renderTacticalOverview", ()=>renderTacticalOverview);
+var _elementCreators = require("./elementCreators");
+var _returnPlayerCompShipsCoords = require("./returnPlayerCompShipsCoords");
+function renderTacticalOverview() {
+    const playerBoardWrapper = document.querySelector(".playerBoard-wrapper");
+    const compBoardWrapper = document.querySelector(".compBoard-wrapper");
+    const tacticalOverviewWrapperPlayer = (0, _elementCreators.elemCreator)("div")([
+        "tacticalOverview-wrapper"
+    ]);
+    (0, _elementCreators.appendElemToParent)(playerBoardWrapper)(tacticalOverviewWrapperPlayer);
+    const tacticalOverviewWrapperComp = (0, _elementCreators.elemCreator)("div")([
+        "tacticalOverview-wrapper"
+    ]);
+    (0, _elementCreators.appendElemToParent)(compBoardWrapper)(tacticalOverviewWrapperComp);
+    const tacticalOverviewContainerPlayer = (0, _elementCreators.elemCreator)("div")([
+        "tacticalOverview-container", 
+    ]);
+    (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperPlayer)(tacticalOverviewContainerPlayer);
+    const tacticalOverviewTitlePlayer = (0, _elementCreators.elemCreator)("h2")([
+        "tacticalOverview-title"
+    ]);
+    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Manticoran Navy Tenth Fleet"), (0, _elementCreators.appendElemToParent)(tacticalOverviewContainerPlayer))(tacticalOverviewTitlePlayer);
+    const tacticalOverviewContainerComp = (0, _elementCreators.elemCreator)("div")([
+        "tacticalOverview-container", 
+    ]);
+    (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperComp)(tacticalOverviewContainerComp);
+    const tacticalOverviewTitleComp = (0, _elementCreators.elemCreator)("h2")([
+        "tacticalOverview-title"
+    ]);
+    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Havenite Navy Grendelsbane Fleet"), (0, _elementCreators.appendElemToParent)(tacticalOverviewContainerComp))(tacticalOverviewTitleComp);
+    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
+    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
+    // grab the ship coords from the board to use them in the tac overview cells to update hits
+    const { playerShipCoords , compShipCoords  } = (0, _returnPlayerCompShipsCoords.returnPlayerCompShipsCoords)();
+    // loop through the player ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
+    Object.entries(manticoreShipNames).forEach(([shipType, shipName])=>{
+        const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
+            "shipName-container"
+        ]);
+        (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperPlayer)(shipNameContainer);
+        //handle superdreadnought, carrier, battleship first
+        if (!Array.isArray(shipName)) {
+            const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "cruiser" ? 4 : 3;
+            const shipAndCoords = shipType === "superdreadnought" ? playerShipCoords.superdreadnought : shipType === "cruiser" ? playerShipCoords.carrier : playerShipCoords.battleship;
+            (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`RMNS ${shipName}`), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
+                "shipName-text"
+            ]));
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "data-shiptype",
+                    `${shipType}`
+                ]
+            ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+                "tacticalCells-container"
+            ]));
+            for(let i = 0; i < lengthOfCells; i += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    `data-playership`,
+                    `${shipAndCoords[i]}`
+                ]
+            ]), (0, _elementCreators.addTextToElem)(shipType[0].toUpperCase()), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+                "player-tacticalCell"
+            ]));
+        } else {
+            const lengthOfCells = shipType === "destroyers" ? 2 : 1;
+            const shipAndCoords = shipType === "destroyers" ? playerShipCoords.destroyers : playerShipCoords.frigates;
+            for(let i = 0; i < 2; i += 1){
+                const smallShipsContainer = (0, _elementCreators.elemCreator)("p")([
+                    "smallShips-container"
+                ]);
+                (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(shipNameContainer))(smallShipsContainer);
+                (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`RMNS ${shipName[i]}`), (0, _elementCreators.appendElemToParent)(smallShipsContainer))((0, _elementCreators.elemCreator)("p")([
+                    "shipName-text"
+                ]));
+                for(let j = 0; j < lengthOfCells; j += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                    [
+                        `data-playership`,
+                        `${shipAndCoords[i][j]}`
+                    ]
+                ]), (0, _elementCreators.addTextToElem)(shipType[0].toUpperCase()), (0, _elementCreators.appendElemToParent)(smallShipsContainer))((0, _elementCreators.elemCreator)("div")([
+                    "player-tacticalCell"
+                ]));
+            }
+        }
+    });
+    // loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
+    Object.entries(havenShipNames).forEach(([shipType, shipName])=>{
+        const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
+            "shipName-container"
+        ]);
+        (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperComp)(shipNameContainer);
+        // handle superdreadnought, carrier, battleship first
+        if (!Array.isArray(shipName)) {
+            const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "cruiser" ? 4 : 3;
+            const shipAndCoords = shipType === "superdreadnought" ? compShipCoords.superdreadnought : shipType === "cruiser" ? compShipCoords.carrier : compShipCoords.battleship;
+            (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`PNS ${shipName}`), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
+                "shipName-text"
+            ]));
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "data-shiptype",
+                    `${shipType}`
+                ]
+            ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+                "tacticalCells-container"
+            ]));
+            for(let i = 0; i < lengthOfCells; i += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    `data-compship`,
+                    `${shipAndCoords[i]}`
+                ]
+            ]), (0, _elementCreators.addTextToElem)(shipType[0].toUpperCase()), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+                "comp-tacticalCell"
+            ]));
+        } else {
+            const lengthOfCells = shipType === "destroyers" ? 2 : 1;
+            const shipAndCoords = shipType === "destroyers" ? compShipCoords.destroyers : compShipCoords.frigates;
+            for(let i = 0; i < 2; i += 1){
+                const smallShipsContainer = (0, _elementCreators.elemCreator)("p")([
+                    "smallShips-container"
+                ]);
+                (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(shipNameContainer))(smallShipsContainer);
+                (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`PNS ${shipName[i]}`), (0, _elementCreators.appendElemToParent)(smallShipsContainer))((0, _elementCreators.elemCreator)("p")([
+                    "shipName-text"
+                ]));
+                for(let j = 0; j < lengthOfCells; j += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                    [
+                        `data-compship`,
+                        `${shipAndCoords[i][j]}`
+                    ]
+                ]), (0, _elementCreators.addTextToElem)(shipType[0].toUpperCase()), (0, _elementCreators.appendElemToParent)(smallShipsContainer))((0, _elementCreators.elemCreator)("div")([
+                    "comp-tacticalCell"
+                ]));
+            }
+        }
+    });
+}
+
+},{"./elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./returnPlayerCompShipsCoords":"j1hhz"}],"j1hhz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "returnPlayerCompShipsCoords", ()=>returnPlayerCompShipsCoords);
+function returnPlayerCompShipsCoords() {
+    // grab the player and comp ships coords from local storage so we can assign ship cells in the tac overview to the correct ship cells from game board
+    //coords are assigned into array in an explicit order at author time to guarantee order sequence
+    //coulda sorted the coords but this is more explicit and easier to read, albeit verbose
+    const playerSuperdreadnought = JSON.parse(localStorage.getItem("superdreadnought") ?? "");
+    const playerSuperdreadnoughtCoords = [
+        playerSuperdreadnought.head,
+        playerSuperdreadnought.body1,
+        playerSuperdreadnought.body2,
+        playerSuperdreadnought.body3,
+        playerSuperdreadnought.tail, 
+    ];
+    const playerCarrier = JSON.parse(localStorage.getItem("carrier") ?? "");
+    const playerCarrierCoords = [
+        playerCarrier.head,
+        playerCarrier.body1,
+        playerCarrier.body2,
+        playerCarrier.tail, 
+    ];
+    const playerBattleship = JSON.parse(localStorage.getItem("battleship") ?? "");
+    const playerBattleshipCoords = [
+        playerBattleship.head,
+        playerBattleship.body,
+        playerBattleship.tail, 
+    ];
+    const playerDestroyers = JSON.parse(localStorage.getItem("destroyer") ?? "");
+    const playerDestroyersCoords = [
+        [
+            playerDestroyers[0].head,
+            playerDestroyers[0].tail
+        ],
+        [
+            playerDestroyers[1].head,
+            playerDestroyers[1].tail
+        ], 
+    ];
+    const playerFrigates = JSON.parse(localStorage.getItem("frigate") ?? "");
+    const playerFrigatesCoords = [
+        [
+            playerFrigates[0].body
+        ],
+        [
+            playerFrigates[1].body
+        ]
+    ];
+    const compSuperdreadnought = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? "");
+    const compSuperdreadnoughtCoords = [
+        compSuperdreadnought.head,
+        compSuperdreadnought.body1,
+        compSuperdreadnought.body2,
+        compSuperdreadnought.body3,
+        compSuperdreadnought.tail, 
+    ];
+    const compCarrier = JSON.parse(localStorage.getItem("compCarrier") ?? "");
+    const compCarrierCoords = [
+        compCarrier.head,
+        compCarrier.body1,
+        compCarrier.body2,
+        compCarrier.tail, 
+    ];
+    const compBattleship = JSON.parse(localStorage.getItem("compBattleship") ?? "");
+    const compBattleshipCoords = [
+        compBattleship.head,
+        compBattleship.body,
+        compBattleship.tail, 
+    ];
+    const compDestroyers = JSON.parse(localStorage.getItem("compDestroyers") ?? "");
+    const compDestroyersCoords = [
+        [
+            compDestroyers[0].head,
+            compDestroyers[0].tail
+        ],
+        [
+            compDestroyers[1].head,
+            compDestroyers[1].tail
+        ], 
+    ];
+    const compFrigates = JSON.parse(localStorage.getItem("compFrigates") ?? "");
+    const compFrigatesCoords = [
+        [
+            compFrigates[0].body
+        ],
+        [
+            compFrigates[1].body
+        ]
+    ];
+    return {
+        playerShipCoords: {
+            superdreadnought: playerSuperdreadnoughtCoords,
+            carrier: playerCarrierCoords,
+            battleship: playerBattleshipCoords,
+            destroyers: playerDestroyersCoords,
+            frigates: playerFrigatesCoords
+        },
+        compShipCoords: {
+            superdreadnought: compSuperdreadnoughtCoords,
+            carrier: compCarrierCoords,
+            battleship: compBattleshipCoords,
+            destroyers: compDestroyersCoords,
+            frigates: compFrigatesCoords
+        }
+    };
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iGKQQ":[function(require,module,exports) {

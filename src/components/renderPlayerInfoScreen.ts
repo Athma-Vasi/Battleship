@@ -18,6 +18,13 @@ const renderPlayerInfoScreen = function (playerName_: string) {
 	appendElemToParent(infoScreenWrapper)(infoScreenContainer);
 
 	pipe(
+		addTextToElem(
+			`By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
 		addTextToElem(`Sailors of Manticore!`),
 		appendElemToParent(infoScreenContainer)
 	)(elemCreator('p')(['infoScreen-preBattleMssg']));

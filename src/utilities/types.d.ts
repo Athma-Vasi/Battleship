@@ -92,6 +92,25 @@ type RandomizedManticoreShipNames = {
 	frigates: string[];
 };
 
+type ShipTypes = 'superdreadnought' | 'cruiser' | 'battleship' | 'destroyer' | 'frigate';
+
+type PlayerCompShipsCoords = {
+	playerShipCoords: {
+		superdreadnought: string[];
+		carrier: string[];
+		battleship: string[];
+		destroyers: string[][];
+		frigates: string[][];
+	};
+	compShipCoords: {
+		superdreadnought: string[];
+		carrier: string[];
+		battleship: string[];
+		destroyers: string[][];
+		frigates: string[][];
+	};
+};
+
 export {
 	Form,
 	Div,
@@ -112,4 +131,6 @@ export {
 	BattleTexts,
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
+	ShipTypes,
+	PlayerCompShipsCoords,
 };

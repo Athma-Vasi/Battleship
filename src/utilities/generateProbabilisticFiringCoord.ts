@@ -30,6 +30,7 @@ function generateProbabilisticFiringCoord() {
 	if (!prevCompHitOrMiss) {
 		newFiringCoordinate = genRandCompAttackGuess(prevCompFiringCoords);
 	} else {
+		// if the previous guess was a hit, generate adjacent coords of all previous hits
 		const adjacentCoords: string[] = generateAdjacentCoordArr(
 			prevCompFireOnPlayerCoord,
 			compHitOnPlayerCoordsArr,
@@ -48,41 +49,3 @@ function generateProbabilisticFiringCoord() {
 }
 
 export { generateProbabilisticFiringCoord };
-
-/**
- 
-  if (prevCompHitOrMiss === 'hit') {
-		const adjacentCoords: string[] = generateAdjacentCoordArr(
-			prevCompFireOnPlayerCoord,
-			prevCompFiringCoords
-		);
-
-		//if all adjacent coords have been hit, generate a random guess
-		newFiringCoordinate =
-			adjacentCoords.length === 0
-				? genRandCompAttackGuess(prevCompFiringCoords)
-				: adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
-	} else {
-		// either generate a random guess or a random adjacent coord
-		// avoids the computer only firing at adjacent coords
-		// and simulates a more organic play style
-
-		// first firing coord is always random
-		if (!prevCompFireOnPlayerCoord) {
-			newFiringCoordinate = genRandCompAttackGuess(prevCompFiringCoords);
-		} else {
-			const adjacentCoords: string[] = generateAdjacentCoordArr(
-				prevCompFireOnPlayerCoord,
-				prevCompFiringCoords
-			);
-
-			newFiringCoordinate = tossCoin()
-				? genRandCompAttackGuess(prevCompFiringCoords)
-				: adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
-		}
-
-		console.log('else block prevCompFiringCoords', prevCompFiringCoords);
-		console.log('else block compHitOnPlayerCoordsArr', compHitOnPlayerCoordsArr);
-	}
-
- */

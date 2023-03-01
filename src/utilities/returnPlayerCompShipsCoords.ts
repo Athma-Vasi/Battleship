@@ -1,0 +1,112 @@
+import {
+	Battleship,
+	Carrier,
+	Destroyer,
+	Frigate,
+	PlayerCompShipsCoords,
+	Superdreadnought,
+} from './types';
+
+function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
+	// grab the player and comp ships coords from local storage so we can assign ship cells in the tac overview to the correct ship cells from game board
+
+	//coords are assigned into array in an explicit order at author time to guarantee order sequence
+	//coulda sorted the coords but this is more explicit and easier to read, albeit verbose
+
+	const playerSuperdreadnought: Superdreadnought = JSON.parse(
+		localStorage.getItem('superdreadnought') ?? ''
+	);
+	const playerSuperdreadnoughtCoords = [
+		playerSuperdreadnought.head,
+		playerSuperdreadnought.body1,
+		playerSuperdreadnought.body2,
+		playerSuperdreadnought.body3,
+		playerSuperdreadnought.tail,
+	];
+
+	const playerCarrier: Carrier = JSON.parse(localStorage.getItem('carrier') ?? '');
+	const playerCarrierCoords = [
+		playerCarrier.head,
+		playerCarrier.body1,
+		playerCarrier.body2,
+		playerCarrier.tail,
+	];
+
+	const playerBattleship: Battleship = JSON.parse(
+		localStorage.getItem('battleship') ?? ''
+	);
+	const playerBattleshipCoords = [
+		playerBattleship.head,
+		playerBattleship.body,
+		playerBattleship.tail,
+	];
+
+	const playerDestroyers: Destroyer[] = JSON.parse(
+		localStorage.getItem('destroyer') ?? ''
+	);
+	const playerDestroyersCoords = [
+		[playerDestroyers[0].head, playerDestroyers[0].tail],
+		[playerDestroyers[1].head, playerDestroyers[1].tail],
+	];
+
+	const playerFrigates: Frigate[] = JSON.parse(localStorage.getItem('frigate') ?? '');
+	const playerFrigatesCoords = [[playerFrigates[0].body], [playerFrigates[1].body]];
+
+	const compSuperdreadnought: Superdreadnought = JSON.parse(
+		localStorage.getItem('compSuperdreadnought') ?? ''
+	);
+	const compSuperdreadnoughtCoords = [
+		compSuperdreadnought.head,
+		compSuperdreadnought.body1,
+		compSuperdreadnought.body2,
+		compSuperdreadnought.body3,
+		compSuperdreadnought.tail,
+	];
+
+	const compCarrier: Carrier = JSON.parse(localStorage.getItem('compCarrier') ?? '');
+	const compCarrierCoords = [
+		compCarrier.head,
+		compCarrier.body1,
+		compCarrier.body2,
+		compCarrier.tail,
+	];
+
+	const compBattleship: Battleship = JSON.parse(
+		localStorage.getItem('compBattleship') ?? ''
+	);
+	const compBattleshipCoords = [
+		compBattleship.head,
+		compBattleship.body,
+		compBattleship.tail,
+	];
+
+	const compDestroyers: Destroyer[] = JSON.parse(
+		localStorage.getItem('compDestroyers') ?? ''
+	);
+	const compDestroyersCoords = [
+		[compDestroyers[0].head, compDestroyers[0].tail],
+		[compDestroyers[1].head, compDestroyers[1].tail],
+	];
+
+	const compFrigates: Frigate[] = JSON.parse(localStorage.getItem('compFrigates') ?? '');
+	const compFrigatesCoords = [[compFrigates[0].body], [compFrigates[1].body]];
+
+	return {
+		playerShipCoords: {
+			superdreadnought: playerSuperdreadnoughtCoords,
+			carrier: playerCarrierCoords,
+			battleship: playerBattleshipCoords,
+			destroyers: playerDestroyersCoords,
+			frigates: playerFrigatesCoords,
+		},
+		compShipCoords: {
+			superdreadnought: compSuperdreadnoughtCoords,
+			carrier: compCarrierCoords,
+			battleship: compBattleshipCoords,
+			destroyers: compDestroyersCoords,
+			frigates: compFrigatesCoords,
+		},
+	};
+}
+
+export { returnPlayerCompShipsCoords };
