@@ -35,17 +35,3 @@ function updateTacticalOverviewCells(
 }
 
 export { updateTacticalOverviewCells };
-
-/**
- 
-  const tacticalOverviewCells: NodesDiv = document.querySelectorAll(
-		`[data-${towardsCombatant}-tacticalCell]`
-	);
-
-	tacticalOverviewCells.forEach((cell) => {
-		if (cell?.dataset[`${towardsCombatant}TacticalCell`] === currentCellCoord) {
-			cell.textContent = currentShipSymbol;
-		}
-	});
-
- */

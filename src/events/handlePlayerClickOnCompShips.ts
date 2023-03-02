@@ -2,6 +2,9 @@ import { announceGameWinner } from '../components/announceGameWinner';
 import { computersTurn } from '../components/computersTurn';
 import { renderBattleMessageElem } from '../components/renderBattleMessage';
 import { pipe, removeEvtListener } from '../utilities/elementCreators';
+import { returnPlayerCompShipsCoords } from '../utilities/returnPlayerCompShipsCoords';
+import { returnShipSymbolFromCoord } from '../utilities/returnShipSymbolFromCoord';
+import { returnSunkShipObj } from '../utilities/returnSunkShipObj';
 import { Div, NodesDiv } from '../utilities/types';
 import { updateTacticalOverviewCells } from '../utilities/updateTacticalOverviewCells';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
@@ -32,20 +35,51 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		}
 	}
 
+	//used to identify the ship that was hit
+	const playerCompShipsCoords = returnPlayerCompShipsCoords();
+
+	console.log(
+		'playerCompShipsCoords from handlePlayerClickOnCompShips(): ',
+		playerCompShipsCoords
+	);
+
 	//required so that the renderBattleMessageElem function can display the appropriate message
-	const currentShipSymbol = this.textContent ?? '';
 	const towardsCombatant = 'comp';
 	const hitOrMiss = 'hit';
+	const currentShipSymbol = returnShipSymbolFromCoord({
+		playerCompShipsCoords,
+		currentCellCoord,
+		towardsCombatant,
+	});
+
+	console.log(
+		'currentShipSymbol from handlePlayerClickOnCompShips(): ',
+		currentShipSymbol
+	);
 
 	// update tactical overview ship cells to visually indicate hit
 	updateTacticalOverviewCells(currentCellCoord, towardsCombatant);
 
-	renderBattleMessageElem(
+	//stores hits on corresponding ships to determine if a ship has been sunk
+	const sunkShipObj = returnSunkShipObj(
+		currentCellCoord,
+		currentShipSymbol,
+		towardsCombatant
+	);
+	const sunkShipName =
+		sunkShipObj.player === null || sunkShipObj.player === undefined
+			? (sunkShipObj.comp as string)
+			: (sunkShipObj.player as string);
+
+	console.log('sunkShipName from handlePlayerClickOnCompShips(): ', sunkShipName);
+
+	renderBattleMessageElem({
 		currentCellCoord,
 		currentShipSymbol,
 		towardsCombatant,
-		hitOrMiss
-	);
+		hitOrMiss,
+		sunkShipName,
+	});
 
 	//auto-scrolls to the bottom to have the most recent message visible
 	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');

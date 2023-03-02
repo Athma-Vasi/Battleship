@@ -10,12 +10,12 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 	const towardsCombatant = 'comp';
 	const hitOrMiss = 'miss';
 
-	renderBattleMessageElem(
+	renderBattleMessageElem({
 		currentCellCoord,
 		currentShipSymbol,
 		towardsCombatant,
-		hitOrMiss
-	);
+		hitOrMiss,
+	});
 
 	//auto-scrolls to the bottom to have the most recent message visible
 	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');

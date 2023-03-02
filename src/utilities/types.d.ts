@@ -111,6 +111,23 @@ type PlayerCompShipsCoords = {
 	};
 };
 
+type ShipHits = {
+	playerShips: {
+		superdreadnought: number;
+		carrier: number;
+		battleship: number;
+		destroyers: Array<number>;
+		frigates: Array<number>;
+	};
+	compShips: {
+		superdreadnought: number;
+		carrier: number;
+		battleship: number;
+		destroyers: Array<number>;
+		frigates: Array<number>;
+	};
+};
+
 export {
 	Form,
 	Div,
@@ -133,4 +150,5 @@ export {
 	RandomizedManticoreShipNames,
 	ShipTypes,
 	PlayerCompShipsCoords,
+	ShipHits,
 };

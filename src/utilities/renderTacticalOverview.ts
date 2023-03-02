@@ -6,7 +6,7 @@ import {
 	pipe,
 } from './elementCreators';
 import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
-import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from './types';
+import { Div, RandomizedManticoreShipNames } from './types';
 
 function renderTacticalOverview() {
 	const playerBoardWrapper: Div = document.querySelector('.playerBoard-wrapper');
@@ -41,9 +41,9 @@ function renderTacticalOverview() {
 		appendElemToParent(tacticalOverviewContainerComp)
 	)(tacticalOverviewTitleComp);
 
-	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
-		localStorage.getItem('havenShipNames') ?? ''
-	);
+	// const havenShipNames: RandomizedHavenShipNames = JSON.parse(
+	// 	localStorage.getItem('havenShipNames') ?? ''
+	// );
 	const manticoreShipNames: RandomizedManticoreShipNames = JSON.parse(
 		localStorage.getItem('manticoreShipNames') ?? ''
 	);
@@ -116,7 +116,12 @@ function renderTacticalOverview() {
 			}
 		}
 	);
+}
 
+export { renderTacticalOverview };
+
+/**
+ 
 	// loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
 	Object.entries(havenShipNames).forEach(
 		([shipType, shipName]: [string, string | string[]]) => {
@@ -180,6 +185,5 @@ function renderTacticalOverview() {
 			}
 		}
 	);
-}
 
-export { renderTacticalOverview };
+ */

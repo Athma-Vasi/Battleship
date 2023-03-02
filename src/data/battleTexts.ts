@@ -135,8 +135,6 @@ const battleTexts = {
 		'Missed, but keep firing and keep them on the defensive!',
 	],
 	playerShipDestroyed: [
-		"Sir, it's gone... Dear God, all those people...",
-		'All hands, abandon ship!',
 		"They've taken out one of our own! But we won't let their sacrifice be in vain. Keep fighting!",
 		'The loss of that ship is a tragedy, but we must stay focused and fight on!',
 		"We've lost a valuable ally, but we won't give up this fight! Keep pushing forward!",
