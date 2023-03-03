@@ -1,5 +1,6 @@
 import {
 	addAttributeToElem,
+	addStyleToElem,
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,
@@ -130,6 +131,8 @@ function renderTacticalOverview() {
 	Object.entries(havenShipNames)
 		.sort((_, __) => Math.random() - 0.5)
 		.forEach(([shipType, shipName]: [string, string | string[]]) => {
+			// shipType = shipType === 'cruiser' ? 'carrier' : shipType;
+
 			// handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
 				const shipNameContainer = elemCreator('div')(['shipName-container']);
@@ -138,12 +141,12 @@ function renderTacticalOverview() {
 				const lengthOfCells =
 					shipType === 'superdreadnought' ? 5 : shipType === 'cruiser' ? 4 : 3;
 
-				const shipAndCoords: string[] =
-					shipType === 'superdreadnought'
-						? compShipCoords.superdreadnought
-						: shipType === 'cruiser'
-						? compShipCoords.carrier
-						: compShipCoords.battleship;
+				// const shipAndCoords: string[] =
+				// 	shipType === 'superdreadnought'
+				// 		? compShipCoords.superdreadnought
+				// 		: shipType === 'cruiser'
+				// 		? compShipCoords.carrier
+				// 		: compShipCoords.battleship;
 
 				pipe(
 					addAttributeToElem([['data-compshipnamecontainer', `${shipType}`]]),
@@ -152,20 +155,31 @@ function renderTacticalOverview() {
 				)(elemCreator('p')(['shipName-text']));
 
 				pipe(
-					addAttributeToElem([['data-compshiptype', `${shipType}`]]),
+					addAttributeToElem([
+						['data-compshiptype', `${shipType[0].toUpperCase() + shipType.slice(1)}`],
+					]),
 					appendElemToParent(shipNameContainer)
 				)(elemCreator('div')(['tacticalCells-container']));
 
-				// for (let i = 0; i < lengthOfCells; i += 1) {
-				// 	pipe(
-				// 		addAttributeToElem([[`data-compship`, `${shipAndCoords[i]}`]]),
-				// 		addTextToElem(shipType[0].toUpperCase()),
-				// 		appendElemToParent(shipNameContainer)
-				// 	)(elemCreator('div')(['comp-tacticalCell']));
-				// }
+				for (let i = 0; i < lengthOfCells; i += 1) {
+					pipe(
+						addAttributeToElem([
+							[
+								`data-compshipcell`,
+								`${shipType[0].toUpperCase() + shipType.slice(1)}_${i}`,
+							],
+						]),
+						addStyleToElem([['display', 'none']]),
+						// addTextToElem(shipType[0].toUpperCase()),
+						appendElemToParent(shipNameContainer)
+					)(elemCreator('div')(['comp-tacticalCell']));
+				}
 
 				pipe(
 					addTextToElem('?'),
+					addAttributeToElem([
+						[`data-compshipquestion`, `${shipType[0].toUpperCase() + shipType.slice(1)}`],
+					]),
 					appendElemToParent(shipNameContainer)
 				)(elemCreator('p')(['comp-tacticalCell']));
 			}

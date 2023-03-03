@@ -33,6 +33,11 @@ const addStyleToElem =
 		);
 	};
 
+const removeStyleFromElem = (styleProp_: string) => (elem_: HTMLElement | null) => {
+	elem_?.style.removeProperty(styleProp_);
+	return elem_;
+};
+
 const addTextToElem = (text_: string) => (elem_: HTMLElement | null) => {
 	const textNode = document.createTextNode(text_);
 	elem_?.appendChild(textNode);
@@ -109,5 +114,6 @@ export {
 	addEvtListener,
 	removeEvtListener,
 	addStyleToElem,
+	removeStyleFromElem,
 	pipe,
 };

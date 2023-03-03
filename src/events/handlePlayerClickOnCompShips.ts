@@ -6,6 +6,7 @@ import { returnPlayerCompShipsCoords } from '../utilities/returnPlayerCompShipsC
 import { returnShipSymbolFromCoord } from '../utilities/returnShipSymbolFromCoord';
 import { returnSunkShipObj } from '../utilities/returnSunkShipObj';
 import { NodesDiv } from '../utilities/types';
+import { updateCompTacticalOverviewShips } from '../utilities/updateCompTacticalOverviewShips';
 import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTacticalOverviewCells';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
@@ -94,6 +95,9 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		totalHitsOnCompShips = totalHitsOnCompShips + 1;
 		localStorage.setItem('totalHitsOnCompShips', JSON.stringify(totalHitsOnCompShips));
 	}
+
+	// update the comp tactical overview
+	updateCompTacticalOverviewShips();
 
 	//all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
 	//the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds

@@ -614,6 +614,7 @@ parcelHelpers.export(exports, "createImage", ()=>createImage);
 parcelHelpers.export(exports, "addEvtListener", ()=>addEvtListener);
 parcelHelpers.export(exports, "removeEvtListener", ()=>removeEvtListener);
 parcelHelpers.export(exports, "addStyleToElem", ()=>addStyleToElem);
+parcelHelpers.export(exports, "removeStyleFromElem", ()=>removeStyleFromElem);
 parcelHelpers.export(exports, "pipe", ()=>pipe);
 const elemCreator = (elem_)=>(class_)=>{
         const element = document.createElement(elem_);
@@ -635,6 +636,10 @@ const addStyleToElem = (stylePropVals_)=>(elem_)=>{
             element?.style.setProperty(curr[0], curr[1]);
             return element;
         }, elem_);
+    };
+const removeStyleFromElem = (styleProp_)=>(elem_)=>{
+        elem_?.style.removeProperty(styleProp_);
+        return elem_;
     };
 const addTextToElem = (text_)=>(elem_)=>{
         const textNode = document.createTextNode(text_);
@@ -3106,6 +3111,7 @@ function renderTacticalOverview() {
     const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
     // loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
     Object.entries(havenShipNames).sort((_, __)=>Math.random() - 0.5).forEach(([shipType, shipName])=>{
+        // shipType = shipType === 'cruiser' ? 'carrier' : shipType;
         // handle superdreadnought, carrier, battleship first
         if (!Array.isArray(shipName)) {
             const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
@@ -3113,7 +3119,12 @@ function renderTacticalOverview() {
             ]);
             (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperComp)(shipNameContainer);
             const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "cruiser" ? 4 : 3;
-            const shipAndCoords = shipType === "superdreadnought" ? compShipCoords.superdreadnought : shipType === "cruiser" ? compShipCoords.carrier : compShipCoords.battleship;
+            // const shipAndCoords: string[] =
+            // 	shipType === 'superdreadnought'
+            // 		? compShipCoords.superdreadnought
+            // 		: shipType === 'cruiser'
+            // 		? compShipCoords.carrier
+            // 		: compShipCoords.battleship;
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
                     "data-compshipnamecontainer",
@@ -3125,19 +3136,31 @@ function renderTacticalOverview() {
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
                     "data-compshiptype",
-                    `${shipType}`
-                ]
+                    `${shipType[0].toUpperCase() + shipType.slice(1)}`
+                ], 
             ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
                 "tacticalCells-container"
             ]));
-            // for (let i = 0; i < lengthOfCells; i += 1) {
-            // 	pipe(
-            // 		addAttributeToElem([[`data-compship`, `${shipAndCoords[i]}`]]),
-            // 		addTextToElem(shipType[0].toUpperCase()),
-            // 		appendElemToParent(shipNameContainer)
-            // 	)(elemCreator('div')(['comp-tacticalCell']));
-            // }
-            (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("?"), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
+            for(let i = 0; i < lengthOfCells; i += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    `data-compshipcell`,
+                    `${shipType[0].toUpperCase() + shipType.slice(1)}_${i}`, 
+                ], 
+            ]), (0, _elementCreators.addStyleToElem)([
+                [
+                    "display",
+                    "none"
+                ]
+            ]), // addTextToElem(shipType[0].toUpperCase()),
+            (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+                "comp-tacticalCell"
+            ]));
+            (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("?"), (0, _elementCreators.addAttributeToElem)([
+                [
+                    `data-compshipquestion`,
+                    `${shipType[0].toUpperCase() + shipType.slice(1)}`
+                ], 
+            ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
                 "comp-tacticalCell"
             ]));
         } else {
@@ -3292,6 +3315,7 @@ parcelHelpers.export(exports, "handlePlayerClickOnCompMisses", ()=>handlePlayerC
 var _computersTurn = require("../components/computersTurn");
 var _renderBattleMessage = require("../components/renderBattleMessage");
 var _elementCreators = require("../utilities/elementCreators");
+var _updateCompTacticalOverviewShips = require("../utilities/updateCompTacticalOverviewShips");
 var _handlePlayerClickOnCompShips = require("./handlePlayerClickOnCompShips");
 const handlePlayerClickOnCompMisses = function(ev) {
     const currentCellCoord = this.dataset.cellcomp ?? "";
@@ -3330,6 +3354,8 @@ const handlePlayerClickOnCompMisses = function(ev) {
     const compShipsMissesCoords = JSON.parse(localStorage.getItem("compShipsMissesCoords") ?? JSON.stringify([]));
     compShipsMissesCoords.push(currentCellCoord);
     localStorage.setItem("compShipsMissesCoords", JSON.stringify(compShipsMissesCoords));
+    // update the comp tactical overview
+    (0, _updateCompTacticalOverviewShips.updateCompTacticalOverviewShips)();
     //all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
     //the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds
     //After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue is empty because there are no promises), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
@@ -3346,7 +3372,7 @@ const handlePlayerClickOnCompMisses = function(ev) {
     setTimeout((0, _computersTurn.computersTurn), 0);
 };
 
-},{"../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kGr2j":[function(require,module,exports) {
+},{"../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/updateCompTacticalOverviewShips":"3ytuC"}],"kGr2j":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "computersTurn", ()=>computersTurn);
@@ -3398,6 +3424,7 @@ var _elementCreators = require("../utilities/elementCreators");
 var _returnPlayerCompShipsCoords = require("../utilities/returnPlayerCompShipsCoords");
 var _returnShipSymbolFromCoord = require("../utilities/returnShipSymbolFromCoord");
 var _returnSunkShipObj = require("../utilities/returnSunkShipObj");
+var _updateCompTacticalOverviewShips = require("../utilities/updateCompTacticalOverviewShips");
 var _handlePlayerClickOnCompMisses = require("./handlePlayerClickOnCompMisses");
 const handlePlayerClickOnCompShips = function(ev) {
     //initialize the hit counter on first hit
@@ -3451,6 +3478,8 @@ const handlePlayerClickOnCompShips = function(ev) {
         totalHitsOnCompShips = totalHitsOnCompShips + 1;
         localStorage.setItem("totalHitsOnCompShips", JSON.stringify(totalHitsOnCompShips));
     }
+    // update the comp tactical overview
+    (0, _updateCompTacticalOverviewShips.updateCompTacticalOverviewShips)();
     //all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
     //the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds
     //After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue is empty because there are no promises), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
@@ -3466,7 +3495,7 @@ const handlePlayerClickOnCompShips = function(ev) {
     setTimeout((0, _computersTurn.computersTurn), 0);
 };
 
-},{"../components/announceGameWinner":"503Ay","../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","../utilities/returnPlayerCompShipsCoords":"j1hhz","../utilities/returnShipSymbolFromCoord":"gdJC8","../utilities/returnSunkShipObj":"FtKRn","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"503Ay":[function(require,module,exports) {
+},{"../components/announceGameWinner":"503Ay","../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","../utilities/returnPlayerCompShipsCoords":"j1hhz","../utilities/returnShipSymbolFromCoord":"gdJC8","../utilities/returnSunkShipObj":"FtKRn","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/updateCompTacticalOverviewShips":"3ytuC"}],"503Ay":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "announceGameWinner", ()=>announceGameWinner);
@@ -4245,7 +4274,69 @@ function returnSunkShipObj(currentCellCoord, currentShipSymbol, towardsCombatant
     return sunkShipObj;
 }
 
-},{"./returnPlayerCompShipsCoords":"j1hhz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2fd56":[function(require,module,exports) {
+},{"./returnPlayerCompShipsCoords":"j1hhz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3ytuC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateCompTacticalOverviewShips", ()=>updateCompTacticalOverviewShips);
+var _elementCreators = require("./elementCreators");
+function updateCompTacticalOverviewShips() {
+    // at each fire by player towards computer, the computer ships coords are checked to see if all adjacent cells are hit, if so, the ship is sunk and message is displayed to player
+    // this ensures that player does not easily determine the type of ship and whether it is sunk or not by the number of hits on the ship
+    // coords of player misses on computer ships
+    const compShipsMissesCoords = JSON.parse(localStorage.getItem("compShipsMissesCoords") ?? JSON.stringify([]));
+    // coords of player hits on computer ships
+    const compShipsHitCoords = JSON.parse(localStorage.getItem("compShipsHitCoords") ?? JSON.stringify([]));
+    // check the superdreadnought, carrier, battleship first
+    let shipTypes = [
+        "Superdreadnought",
+        "Carrier",
+        "Battleship"
+    ];
+    let uniqueAdjacentCoords = [];
+    shipTypes.forEach((shipType)=>{
+        const compShipsCoords = JSON.parse(localStorage.getItem(`comp${shipType}`) ?? JSON.stringify([]));
+        // grab adjacent array of cells for each ship
+        uniqueAdjacentCoords = Object.values(compShipsCoords).reduce((adjCoords, coord)=>{
+            const xyCoords = coord.split(",");
+            const xCoord = parseInt(xyCoords[0].replace('"', ""));
+            const yCoord = parseInt(xyCoords[1].replace('"', ""));
+            //top
+            if (yCoord - 1 >= 0) adjCoords.push(`${xCoord},${yCoord - 1}`);
+            //right
+            if (xCoord + 1 <= 9) adjCoords.push(`${xCoord + 1},${yCoord}`);
+            //bottom
+            if (yCoord + 1 <= 9) adjCoords.push(`${xCoord},${yCoord + 1}`);
+            //left
+            if (xCoord - 1 >= 0) adjCoords.push(`${xCoord - 1},${yCoord}`);
+            return adjCoords;
+        }, []).filter((coord)=>!compShipsHitCoords.includes(coord) && !compShipsMissesCoords.includes(coord));
+        console.log(`uniqueAdjacentCoords for ${shipType}: `, uniqueAdjacentCoords);
+        // if all adjacent cells are hit, the ship is sunk and the ship is displayed as sunk in the tactical overview
+        if (uniqueAdjacentCoords.length === 0) {
+            // grab the comp tactical overview container for the ship type
+            const compSunkShipContainer = document.querySelector(`[data-compshiptype="${shipType}"]`);
+            const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}"]`);
+            if (questionMarkCell) questionMarkCell.remove();
+            const lengthOfCells = shipType === "Superdreadnought" ? 5 : shipType === "Carrier" ? 4 : 3;
+            // display sunk ship with '💥' emoji
+            for(let i = 0; i < lengthOfCells; i += 1){
+                const hiddenCell = document.querySelector(`[data-compshipcell="${shipType}_${i}"]`);
+                if (hiddenCell && hiddenCell.style.display === "none") (0, _elementCreators.pipe)((0, _elementCreators.removeStyleFromElem)("display"), (0, _elementCreators.addStyleToElem)([
+                    [
+                        "display",
+                        "visible"
+                    ],
+                    [
+                        "color",
+                        "#f0a400"
+                    ], 
+                ]), (0, _elementCreators.addTextToElem)("\uD83D\uDCA5"))(hiddenCell);
+            }
+        }
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl"}],"2fd56":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord);
