@@ -616,56 +616,56 @@ parcelHelpers.export(exports, "removeEvtListener", ()=>removeEvtListener);
 parcelHelpers.export(exports, "addStyleToElem", ()=>addStyleToElem);
 parcelHelpers.export(exports, "removeStyleFromElem", ()=>removeStyleFromElem);
 parcelHelpers.export(exports, "pipe", ()=>pipe);
-const elemCreator = (elem_)=>(class_)=>{
-        const element = document.createElement(elem_);
-        return class_.reduce((elem, currClass)=>{
+const elemCreator = (elem1)=>(classes)=>{
+        const element = document.createElement(elem1);
+        return classes.reduce((elem, currClass)=>{
             elem.classList.add(currClass);
             return elem;
         }, element);
     };
-const addAttributeToElem = (attrVals_)=>(elem_)=>{
-        return attrVals_.reduce((element, curr)=>{
+const addAttributeToElem = (attrVals)=>(elem)=>{
+        return attrVals.reduce((element, curr)=>{
             if (curr.length > 2) return undefined;
             element?.setAttribute(curr[0], curr[1]);
             return element;
-        }, elem_);
+        }, elem);
     };
-const addStyleToElem = (stylePropVals_)=>(elem_)=>{
-        return stylePropVals_.reduce((element, curr)=>{
+const addStyleToElem = (stylePropVals)=>(elem)=>{
+        return stylePropVals.reduce((element, curr)=>{
             if (curr.length > 2) return undefined;
             element?.style.setProperty(curr[0], curr[1]);
             return element;
-        }, elem_);
+        }, elem);
     };
-const removeStyleFromElem = (styleProp_)=>(elem_)=>{
-        elem_?.style.removeProperty(styleProp_);
-        return elem_;
+const removeStyleFromElem = (styleProp)=>(elem)=>{
+        elem?.style.removeProperty(styleProp);
+        return elem;
     };
-const addTextToElem = (text_)=>(elem_)=>{
-        const textNode = document.createTextNode(text_);
-        elem_?.appendChild(textNode);
-        return elem_;
+const addTextToElem = (text)=>(elem)=>{
+        const textNode = document.createTextNode(text);
+        elem?.appendChild(textNode);
+        return elem;
     };
-const appendElemToParent = (parent_)=>(child_)=>{
-        if (child_) parent_?.appendChild(child_);
+const appendElemToParent = (parent)=>(child)=>{
+        if (child) parent?.appendChild(child);
     };
-const createImage = (source_)=>(class_)=>(alt_)=>(title_)=>{
+const createImage = (source)=>(classes)=>(alt)=>(title)=>{
                 const image = new Image();
-                image.src = source_;
-                image.alt = alt_;
-                image.title = title_;
-                return class_.reduce((elem, currClass)=>{
+                image.src = source;
+                image.alt = alt;
+                image.title = title;
+                return classes.reduce((elem, currClass)=>{
                     elem.classList.add(currClass);
                     return elem;
                 }, image);
             };
-const addEvtListener = (evt_)=>(handleEvt_)=>(elem_)=>{
-            elem_?.addEventListener(evt_, handleEvt_);
-            return elem_;
+const addEvtListener = (evt)=>(handleEvt)=>(elem)=>{
+            elem?.addEventListener(evt, handleEvt);
+            return elem;
         };
-const removeEvtListener = (evt_)=>(handleEvt_)=>(elem_)=>{
-            elem_?.removeEventListener(evt_, handleEvt_);
-            return elem_;
+const removeEvtListener = (evt)=>(handleEvt)=>(elem)=>{
+            elem?.removeEventListener(evt, handleEvt);
+            return elem;
         };
 const pipe = (...funcs)=>(value)=>funcs.reduce((res, func)=>func(res), value);
 
@@ -3043,7 +3043,9 @@ function renderTacticalOverview() {
         "tacticalOverview-title"
     ]);
     (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Havenite Navy Grendelsbane Fleet"), (0, _elementCreators.appendElemToParent)(tacticalOverviewContainerComp))(tacticalOverviewTitleComp);
-    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
+    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? JSON.stringify([
+        {}
+    ]));
     // grab the ship coords from the board to use them in the tac overview cells to update hits
     const { playerShipCoords , compShipCoords  } = (0, _returnPlayerCompShipsCoords.returnPlayerCompShipsCoords)();
     // loop through the player ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
@@ -3108,9 +3110,11 @@ function renderTacticalOverview() {
             }
         }
     });
-    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
+    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? JSON.stringify([
+        {}
+    ]));
     // loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
-    Object.entries(havenShipNames).sort((_, __)=>Math.random() - 0.5).forEach(([shipType, shipName])=>{
+    Object.entries(havenShipNames).forEach(([shipType, shipName])=>{
         // handle superdreadnought, carrier, battleship first
         if (!Array.isArray(shipName)) {
             const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
@@ -3118,12 +3122,6 @@ function renderTacticalOverview() {
             ]);
             (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperComp)(shipNameContainer);
             const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "carrier" ? 4 : 3;
-            // const shipAndCoords: string[] =
-            // 	shipType === 'superdreadnought'
-            // 		? compShipCoords.superdreadnought
-            // 		: shipType === 'carrier'
-            // 		? compShipCoords.carrier
-            // 		: compShipCoords.battleship;
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
                     "data-compshipnamecontainer",
@@ -3135,6 +3133,7 @@ function renderTacticalOverview() {
             (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
                 "tacticalCells-container"
             ]));
+            // add the hidden cells that wil be revealed once the player has fired upon all adjacent cells
             for(let i = 0; i < lengthOfCells; i += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
                     `data-compshipcell`,
@@ -3145,8 +3144,7 @@ function renderTacticalOverview() {
                     "display",
                     "none"
                 ]
-            ]), // addTextToElem(shipType[0].toUpperCase()),
-            (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+            ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
                 "comp-tacticalCell"
             ]));
             (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("?"), (0, _elementCreators.addAttributeToElem)([
@@ -3159,14 +3157,11 @@ function renderTacticalOverview() {
             ]));
         } else {
             const lengthOfCells = shipType === "destroyers" ? 2 : 1;
-            const shipAndCoords = shipType === "destroyers" ? compShipCoords.destroyers : compShipCoords.frigates;
             for(let i = 0; i < 2; i += 1){
                 const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
                     "shipName-container"
                 ]);
                 (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperComp)(shipNameContainer);
-                // const smallShipsContainer = elemCreator('p')(['smallShips-container']);
-                // pipe(appendElemToParent(shipNameContainer))(smallShipsContainer);
                 (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`PNS ${shipName[i]}`), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
                     "shipName-text"
                 ]));
@@ -3187,6 +3182,7 @@ function renderTacticalOverview() {
                 ]), (0, _elementCreators.addTextToElem)("?"), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
                     "comp-tacticalCell"
                 ]));
+                // add the hidden cells that wil be revealed once the player has fired upon all adjacent cells
                 for(let j = 0; j < lengthOfCells; j += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                     [
                         `data-compshipcell`,
@@ -3197,8 +3193,7 @@ function renderTacticalOverview() {
                         "display",
                         "none"
                     ]
-                ]), // addTextToElem(shipType[0].toUpperCase()),
-                (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+                ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
                     "comp-tacticalCell"
                 ]));
             }

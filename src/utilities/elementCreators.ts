@@ -1,71 +1,71 @@
-const elemCreator = (elem_: string) => (class_: string[]) => {
-	const element = document.createElement(elem_);
+const elemCreator = (elem: string) => (classes: string[]) => {
+	const element = document.createElement(elem);
 
-	return class_.reduce((elem: HTMLElement, currClass: string) => {
+	return classes.reduce((elem: HTMLElement, currClass: string) => {
 		elem.classList.add(currClass);
 		return elem;
 	}, element);
 };
 
 const addAttributeToElem =
-	(attrVals_: Array<Array<string>>) => (elem_: HTMLElement | null) => {
-		return attrVals_.reduce(
+	(attrVals: Array<Array<string>>) => (elem: HTMLElement | null) => {
+		return attrVals.reduce(
 			(element: HTMLElement | null | undefined, curr: Array<string>) => {
 				if (curr.length > 2) return undefined;
 
 				element?.setAttribute(curr[0], curr[1]);
 				return element;
 			},
-			elem_
+			elem
 		);
 	};
 
 const addStyleToElem =
-	(stylePropVals_: Array<Array<string>>) => (elem_: HTMLElement | null) => {
-		return stylePropVals_.reduce(
+	(stylePropVals: Array<Array<string>>) => (elem: HTMLElement | null) => {
+		return stylePropVals.reduce(
 			(element: HTMLElement | null | undefined, curr: string[]) => {
 				if (curr.length > 2) return undefined;
 
 				element?.style.setProperty(curr[0], curr[1]);
 				return element;
 			},
-			elem_
+			elem
 		);
 	};
 
-const removeStyleFromElem = (styleProp_: string) => (elem_: HTMLElement | null) => {
-	elem_?.style.removeProperty(styleProp_);
-	return elem_;
+const removeStyleFromElem = (styleProp: string) => (elem: HTMLElement | null) => {
+	elem?.style.removeProperty(styleProp);
+	return elem;
 };
 
-const addTextToElem = (text_: string) => (elem_: HTMLElement | null) => {
-	const textNode = document.createTextNode(text_);
-	elem_?.appendChild(textNode);
-	return elem_;
+const addTextToElem = (text: string) => (elem: HTMLElement | null) => {
+	const textNode = document.createTextNode(text);
+	elem?.appendChild(textNode);
+	return elem;
 };
 
 const appendElemToParent =
-	(parent_: HTMLElement | null) => (child_: HTMLElement | null) => {
-		if (child_) parent_?.appendChild(child_);
+	(parent: HTMLElement | null) => (child: HTMLElement | null) => {
+		if (child) parent?.appendChild(child);
 	};
 
 const createImage =
-	(source_: string) => (class_: string[]) => (alt_: string) => (title_: string) => {
+	(source: string) => (classes: string[]) => (alt: string) => (title: string) => {
 		const image = new Image();
-		image.src = source_;
-		image.alt = alt_;
-		image.title = title_;
+		image.src = source;
+		image.alt = alt;
+		image.title = title;
 
-		return class_.reduce((elem: HTMLImageElement, currClass: string) => {
+		return classes.reduce((elem: HTMLImageElement, currClass: string) => {
 			elem.classList.add(currClass);
 			return elem;
 		}, image);
 	};
 
 const addEvtListener =
-	(evt_: string) =>
+	(evt: string) =>
 	(
-		handleEvt_: (
+		handleEvt: (
 			this: any,
 			ev: any,
 			options?: {
@@ -76,15 +76,15 @@ const addEvtListener =
 			}
 		) => unknown
 	) =>
-	(elem_: HTMLElement | null) => {
-		elem_?.addEventListener(evt_, handleEvt_);
-		return elem_;
+	(elem: HTMLElement | null) => {
+		elem?.addEventListener(evt, handleEvt);
+		return elem;
 	};
 
 const removeEvtListener =
-	(evt_: string) =>
+	(evt: string) =>
 	(
-		handleEvt_: (
+		handleEvt: (
 			this: any,
 			ev: any,
 			options?: {
@@ -95,9 +95,9 @@ const removeEvtListener =
 			}
 		) => unknown
 	) =>
-	(elem_: HTMLElement | null) => {
-		elem_?.removeEventListener(evt_, handleEvt_);
-		return elem_;
+	(elem: HTMLElement | null) => {
+		elem?.removeEventListener(evt, handleEvt);
+		return elem;
 	};
 
 const pipe =

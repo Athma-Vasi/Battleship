@@ -43,7 +43,7 @@ function renderTacticalOverview() {
 	)(tacticalOverviewTitleComp);
 
 	const manticoreShipNames: RandomizedManticoreShipNames = JSON.parse(
-		localStorage.getItem('manticoreShipNames') ?? ''
+		localStorage.getItem('manticoreShipNames') ?? JSON.stringify([{}])
 	);
 
 	// grab the ship coords from the board to use them in the tac overview cells to update hits
@@ -124,13 +124,12 @@ function renderTacticalOverview() {
 	);
 
 	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
-		localStorage.getItem('havenShipNames') ?? ''
+		localStorage.getItem('havenShipNames') ?? JSON.stringify([{}])
 	);
 
 	// loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
-	Object.entries(havenShipNames)
-		.sort((_, __) => Math.random() - 0.5)
-		.forEach(([shipType, shipName]: [string, string | string[]]) => {
+	Object.entries(havenShipNames).forEach(
+		([shipType, shipName]: [string, string | string[]]) => {
 			// handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
 				const shipNameContainer = elemCreator('div')(['shipName-container']);
@@ -138,13 +137,6 @@ function renderTacticalOverview() {
 
 				const lengthOfCells =
 					shipType === 'superdreadnought' ? 5 : shipType === 'carrier' ? 4 : 3;
-
-				// const shipAndCoords: string[] =
-				// 	shipType === 'superdreadnought'
-				// 		? compShipCoords.superdreadnought
-				// 		: shipType === 'carrier'
-				// 		? compShipCoords.carrier
-				// 		: compShipCoords.battleship;
 
 				pipe(
 					addAttributeToElem([['data-compshipnamecontainer', `${shipType}`]]),
@@ -156,6 +148,7 @@ function renderTacticalOverview() {
 					elemCreator('div')(['tacticalCells-container'])
 				);
 
+				// add the hidden cells that wil be revealed once the player has fired upon all adjacent cells
 				for (let i = 0; i < lengthOfCells; i += 1) {
 					pipe(
 						addAttributeToElem([
@@ -165,7 +158,6 @@ function renderTacticalOverview() {
 							],
 						]),
 						addStyleToElem([['display', 'none']]),
-						// addTextToElem(shipType[0].toUpperCase()),
 						appendElemToParent(shipNameContainer)
 					)(elemCreator('div')(['comp-tacticalCell']));
 				}
@@ -182,15 +174,9 @@ function renderTacticalOverview() {
 			else {
 				const lengthOfCells = shipType === 'destroyers' ? 2 : 1;
 
-				const shipAndCoords: string[][] =
-					shipType === 'destroyers' ? compShipCoords.destroyers : compShipCoords.frigates;
-
 				for (let i = 0; i < 2; i += 1) {
 					const shipNameContainer = elemCreator('div')(['shipName-container']);
 					appendElemToParent(tacticalOverviewWrapperComp)(shipNameContainer);
-
-					// const smallShipsContainer = elemCreator('p')(['smallShips-container']);
-					// pipe(appendElemToParent(shipNameContainer))(smallShipsContainer);
 
 					pipe(
 						addTextToElem(`PNS ${shipName[i]}`),
@@ -219,6 +205,7 @@ function renderTacticalOverview() {
 						appendElemToParent(shipNameContainer)
 					)(elemCreator('p')(['comp-tacticalCell']));
 
+					// add the hidden cells that wil be revealed once the player has fired upon all adjacent cells
 					for (let j = 0; j < lengthOfCells; j += 1) {
 						pipe(
 							addAttributeToElem([
@@ -228,13 +215,13 @@ function renderTacticalOverview() {
 								],
 							]),
 							addStyleToElem([['display', 'none']]),
-							// addTextToElem(shipType[0].toUpperCase()),
 							appendElemToParent(shipNameContainer)
 						)(elemCreator('div')(['comp-tacticalCell']));
 					}
 				}
 			}
-		});
+		}
+	);
 }
 
 export { renderTacticalOverview };
