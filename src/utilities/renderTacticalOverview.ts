@@ -58,12 +58,12 @@ function renderTacticalOverview() {
 				appendElemToParent(tacticalOverviewWrapperPlayer)(shipNameContainer);
 
 				const lengthOfCells =
-					shipType === 'superdreadnought' ? 5 : shipType === 'cruiser' ? 4 : 3;
+					shipType === 'superdreadnought' ? 5 : shipType === 'carrier' ? 4 : 3;
 
 				const shipAndCoords: string[] =
 					shipType === 'superdreadnought'
 						? playerShipCoords.superdreadnought
-						: shipType === 'cruiser'
+						: shipType === 'carrier'
 						? playerShipCoords.carrier
 						: playerShipCoords.battleship;
 
@@ -131,7 +131,7 @@ function renderTacticalOverview() {
 	Object.entries(havenShipNames)
 		.sort((_, __) => Math.random() - 0.5)
 		.forEach(([shipType, shipName]: [string, string | string[]]) => {
-			// shipType = shipType === 'cruiser' ? 'carrier' : shipType;
+			/
 
 			// handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
@@ -139,12 +139,12 @@ function renderTacticalOverview() {
 				appendElemToParent(tacticalOverviewWrapperComp)(shipNameContainer);
 
 				const lengthOfCells =
-					shipType === 'superdreadnought' ? 5 : shipType === 'cruiser' ? 4 : 3;
+					shipType === 'superdreadnought' ? 5 : shipType === 'carrier' ? 4 : 3;
 
 				// const shipAndCoords: string[] =
 				// 	shipType === 'superdreadnought'
 				// 		? compShipCoords.superdreadnought
-				// 		: shipType === 'cruiser'
+				// 		: shipType === 'carrier'
 				// 		? compShipCoords.carrier
 				// 		: compShipCoords.battleship;
 
@@ -243,12 +243,12 @@ export { renderTacticalOverview };
 			// handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
 				const lengthOfCells =
-					shipType === 'superdreadnought' ? 5 : shipType === 'cruiser' ? 4 : 3;
+					shipType === 'superdreadnought' ? 5 : shipType === 'carrier' ? 4 : 3;
 
 				const shipAndCoords: string[] =
 					shipType === 'superdreadnought'
 						? compShipCoords.superdreadnought
-						: shipType === 'cruiser'
+						: shipType === 'carrier'
 						? compShipCoords.carrier
 						: compShipCoords.battleship;
 

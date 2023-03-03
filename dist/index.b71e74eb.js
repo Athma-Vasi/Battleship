@@ -2340,7 +2340,7 @@ const shipNames = {
             "Victorieux",
             "Temeraire", 
         ],
-        cruisers: [
+        carriers: [
             "Sword",
             "Claymore",
             "Cutlass",
@@ -2585,7 +2585,7 @@ const shipNames = {
             "Sovereign",
             "Bellerophon", 
         ],
-        cruisers: [
+        carriers: [
             "Redoubtable",
             "Champion",
             "Defiant",
@@ -2958,12 +2958,12 @@ parcelHelpers.export(exports, "renderTacticalOverview", ()=>renderTacticalOvervi
 			// handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
 				const lengthOfCells =
-					shipType === 'superdreadnought' ? 5 : shipType === 'cruiser' ? 4 : 3;
+					shipType === 'superdreadnought' ? 5 : shipType === 'carrier' ? 4 : 3;
 
 				const shipAndCoords: string[] =
 					shipType === 'superdreadnought'
 						? compShipCoords.superdreadnought
-						: shipType === 'cruiser'
+						: shipType === 'carrier'
 						? compShipCoords.carrier
 						: compShipCoords.battleship;
 
@@ -3054,8 +3054,8 @@ function renderTacticalOverview() {
                 "shipName-container"
             ]);
             (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperPlayer)(shipNameContainer);
-            const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "cruiser" ? 4 : 3;
-            const shipAndCoords = shipType === "superdreadnought" ? playerShipCoords.superdreadnought : shipType === "cruiser" ? playerShipCoords.carrier : playerShipCoords.battleship;
+            const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "carrier" ? 4 : 3;
+            const shipAndCoords = shipType === "superdreadnought" ? playerShipCoords.superdreadnought : shipType === "carrier" ? playerShipCoords.carrier : playerShipCoords.battleship;
             (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`RMNS ${shipName}`), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
                 "shipName-text"
             ]));
@@ -3111,18 +3111,18 @@ function renderTacticalOverview() {
     const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
     // loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
     Object.entries(havenShipNames).sort((_, __)=>Math.random() - 0.5).forEach(([shipType, shipName])=>{
-        // shipType = shipType === 'cruiser' ? 'carrier' : shipType;
+        // shipType = shipType === 'carrier' ? 'carrier' : shipType;
         // handle superdreadnought, carrier, battleship first
         if (!Array.isArray(shipName)) {
             const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
                 "shipName-container"
             ]);
             (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperComp)(shipNameContainer);
-            const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "cruiser" ? 4 : 3;
+            const lengthOfCells = shipType === "superdreadnought" ? 5 : shipType === "carrier" ? 4 : 3;
             // const shipAndCoords: string[] =
             // 	shipType === 'superdreadnought'
             // 		? compShipCoords.superdreadnought
-            // 		: shipType === 'cruiser'
+            // 		: shipType === 'carrier'
             // 		? compShipCoords.carrier
             // 		: compShipCoords.battleship;
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
@@ -3696,7 +3696,7 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
             if (compSuperdreadnought.includes(currentCellCoord)) // displays hit on superdreadnought with randomized text
             (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} PNS ${havenShipNames.superdreadnought}! ${(0, _battleTexts.battleTexts).hitsOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).hitsOnShip.length)]}`))(battleMessageElem);
             else if (compCarrier.includes(currentCellCoord)) //displays hit on carrier with randomized text
-            (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} PNS ${havenShipNames.cruiser}! ${(0, _battleTexts.battleTexts).hitsOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).hitsOnShip.length)]}`))(battleMessageElem);
+            (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} PNS ${havenShipNames.carrier}! ${(0, _battleTexts.battleTexts).hitsOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).hitsOnShip.length)]}`))(battleMessageElem);
             else if (compBattleship.includes(currentCellCoord)) //displays hit on battleship with randomized text
             (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} PNS ${havenShipNames.battleship}! ${(0, _battleTexts.battleTexts).hitsOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).hitsOnShip.length)]}`))(battleMessageElem);
             else if (compDestroyers.includes(currentCellCoord)) {
@@ -3748,15 +3748,15 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
                 } else // player CIC text that indicates damage to their superdreadnought when computer scores a hit
                 (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the superdreadnought RMNS ${manticoreShipNames.superdreadnought}! ${(0, _battleTexts.battleTexts).damageOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).damageOnShip.length)]}`))(battleMessageElem);
             } else if (currentShipSymbol === "C") {
-                // comp sinks player's cruiser
-                if (sunkShipName === manticoreShipNames.cruiser) {
-                    // player CIC text that indicates that computer has sunk their cruiser
+                // comp sinks player's carrier
+                if (sunkShipName === manticoreShipNames.carrier) {
+                    // player CIC text that indicates that computer has sunk their carrier
                     (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
                         [
                             "color",
                             "#f0a400"
                         ]
-                    ]), (0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${hitsPrecursorString()} the cruiser RMNS ${manticoreShipNames.cruiser}! Sir, it's gone... Dear God, all those people... `))(battleMessageElem);
+                    ]), (0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${hitsPrecursorString()} the carrier RMNS ${manticoreShipNames.carrier}! Sir, it's gone... Dear God, all those people... `))(battleMessageElem);
                     (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(battleMessageElem))((0, _elementCreators.elemCreator)("br")([
                         "spacerElem"
                     ]));
@@ -3767,7 +3767,7 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
                         ]
                     ]), (0, _elementCreators.addTextToElem)(`Admiral ${playerName} to Tenth Fleet: ${(0, _battleTexts.battleTexts).playerShipDestroyed[Math.floor(Math.random() * (0, _battleTexts.battleTexts).playerShipDestroyed.length)]}`))(battleMessageElem);
                 } else // player CIC text that indicates damage to their carrier when computer scores a hit
-                (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the carrier RMNS ${manticoreShipNames.cruiser}! ${(0, _battleTexts.battleTexts).damageOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).damageOnShip.length)]}`))(battleMessageElem);
+                (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Tenth Fleet CIC: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the carrier RMNS ${manticoreShipNames.carrier}! ${(0, _battleTexts.battleTexts).damageOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).damageOnShip.length)]}`))(battleMessageElem);
             } else if (currentShipSymbol === "B") {
                 // comp sinks player's battleship
                 if (sunkShipName === manticoreShipNames.battleship) {
@@ -4233,7 +4233,7 @@ function returnSunkShipObj(currentCellCoord, currentShipSymbol, towardsCombatant
             shipHits.playerShips.superdreadnought < 4 ? shipHits.playerShips.superdreadnought += 1 : sunkShipObj.player = manticoreShipNames.superdreadnought;
             break;
         case "C":
-            shipHits.playerShips.carrier < 3 ? shipHits.playerShips.carrier += 1 : sunkShipObj.player = manticoreShipNames.cruiser;
+            shipHits.playerShips.carrier < 3 ? shipHits.playerShips.carrier += 1 : sunkShipObj.player = manticoreShipNames.carrier;
             break;
         case "B":
             shipHits.playerShips.battleship < 2 ? shipHits.playerShips.battleship += 1 : sunkShipObj.player = manticoreShipNames.battleship;
@@ -4254,7 +4254,7 @@ function returnSunkShipObj(currentCellCoord, currentShipSymbol, towardsCombatant
             shipHits.compShips.superdreadnought < 4 ? shipHits.compShips.superdreadnought += 1 : sunkShipObj.comp = havenShipNames.superdreadnought;
             break;
         case "C":
-            shipHits.compShips.carrier < 3 ? shipHits.compShips.carrier += 1 : sunkShipObj.comp = havenShipNames.cruiser;
+            shipHits.compShips.carrier < 3 ? shipHits.compShips.carrier += 1 : sunkShipObj.comp = havenShipNames.carrier;
             break;
         case "B":
             shipHits.compShips.battleship < 2 ? shipHits.compShips.battleship += 1 : sunkShipObj.comp = havenShipNames.battleship;

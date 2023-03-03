@@ -143,7 +143,7 @@ const renderBattleMessageElem = function ({
 					addTextToElem(
 						`Tenth Fleet CIC: ${
 							tossCoin() ? `Admiral ${playerName}!` : ''
-						} ${hitsPrecursorString()} PNS ${havenShipNames.cruiser}! ${
+						} ${hitsPrecursorString()} PNS ${havenShipNames.carrier}! ${
 							battleTexts.hitsOnShip[
 								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
 							]
@@ -279,14 +279,14 @@ const renderBattleMessageElem = function ({
 					)(battleMessageElem);
 				}
 			} else if (currentShipSymbol === 'C') {
-				// comp sinks player's cruiser
-				if (sunkShipName === manticoreShipNames.cruiser) {
-					// player CIC text that indicates that computer has sunk their cruiser
+				// comp sinks player's carrier
+				if (sunkShipName === manticoreShipNames.carrier) {
+					// player CIC text that indicates that computer has sunk their carrier
 					pipe(
 						addStyleToElem([['color', '#f0a400']]),
 						addTextToElem(
-							`Tenth Fleet CIC: ${hitsPrecursorString()} the cruiser RMNS ${
-								manticoreShipNames.cruiser
+							`Tenth Fleet CIC: ${hitsPrecursorString()} the carrier RMNS ${
+								manticoreShipNames.carrier
 							}! Sir, it's gone... Dear God, all those people... `
 						)
 					)(battleMessageElem);
@@ -310,7 +310,7 @@ const renderBattleMessageElem = function ({
 							`Tenth Fleet CIC: ${
 								tossCoin() ? `Admiral ${playerName}!` : ''
 							} ${hitsPrecursorString()} the carrier RMNS ${
-								manticoreShipNames.cruiser
+								manticoreShipNames.carrier
 							}! ${
 								battleTexts.damageOnShip[
 									Math.floor(Math.random() * battleTexts.damageOnShip.length)

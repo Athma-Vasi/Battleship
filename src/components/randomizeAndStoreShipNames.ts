@@ -21,7 +21,7 @@ const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool) {
 
 					havenShipNames.set(shipType, tempShipNamesArr);
 				} else {
-					//only one name for superdreadnought, cruiser and battleship
+					//only one name for superdreadnought, carrier and battleship
 					havenShipNames.set(
 						//changes from plural to singular
 						shipType.slice(0, -1),
@@ -47,7 +47,7 @@ const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool) {
 
 					manticoreShipNames.set(shipType, tempShipNamesArr);
 				} else {
-					//only one name for superdreadnought, cruiser and battleship
+					//only one name for superdreadnought, carrier and battleship
 					manticoreShipNames.set(
 						shipType.slice(0, -1),
 						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]

@@ -56,7 +56,7 @@ function returnSunkShipObj(
 			case 'C': {
 				shipHits.playerShips.carrier < 3
 					? (shipHits.playerShips.carrier += 1)
-					: (sunkShipObj.player = manticoreShipNames.cruiser);
+					: (sunkShipObj.player = manticoreShipNames.carrier);
 				break;
 			}
 			case 'B': {
@@ -103,7 +103,7 @@ function returnSunkShipObj(
 			case 'C': {
 				shipHits.compShips.carrier < 3
 					? (shipHits.compShips.carrier += 1)
-					: (sunkShipObj.comp = havenShipNames.cruiser);
+					: (sunkShipObj.comp = havenShipNames.carrier);
 				break;
 			}
 			case 'B': {
@@ -158,7 +158,7 @@ export { returnSunkShipObj };
 			case 'C': {
 				shipHits.playerShips.carrier < 3
 					? (shipHits.playerShips.carrier += 1)
-					: (sunkShipObj.player = manticoreShipNames.cruiser);
+					: (sunkShipObj.player = manticoreShipNames.carrier);
 				break;
 			}
 			case 'B': {
@@ -201,7 +201,7 @@ export { returnSunkShipObj };
 			case 'C': {
 				shipHits.compShips.carrier < 3
 					? (shipHits.compShips.carrier += 1)
-					: (sunkShipObj.comp = havenShipNames.cruiser);
+					: (sunkShipObj.comp = havenShipNames.carrier);
 				break;
 			}
 			case 'B': {

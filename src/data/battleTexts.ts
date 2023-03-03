@@ -11,7 +11,7 @@ const battleTexts = {
 		'Roll port! All batteries, engage!',
 		'Engage with forward batteries!',
 		"They're taking the bait, Sir!",
-		'Formation Reno, Com—get those cruisers in tighter!',
+		'Formation Reno, Com—get those carriers in tighter!',
 		'Recompute firing pattern.',
 		'We just took out their forward impellers!',
 		"We've got a hit on their port engines, Sir! They're losing speed!",
@@ -112,7 +112,7 @@ const battleTexts = {
 		'Missiles at three-five-two! Lucky this time..',
 		'Hard a starboard!',
 		'Pursuit vector, maximum acceleration!',
-		'General signal to all heavy cruisers. Return to formation at once. Repeat, return to formation at once!',
+		'General signal to all heavy carriers. Return to formation at once. Repeat, return to formation at once!',
 		//
 		'Damn! We missed them!',
 		'Target evaded, adjust trajectory!',

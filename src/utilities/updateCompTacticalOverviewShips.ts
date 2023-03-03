@@ -1,23 +1,10 @@
 import {
-	addAttributeToElem,
 	addStyleToElem,
 	addTextToElem,
-	appendElemToParent,
-	elemCreator,
 	pipe,
 	removeStyleFromElem,
 } from './elementCreators';
-import { generateAdjacentCoordArr } from './generateAdjacentCoordArr';
-import {
-	Battleship,
-	Carrier,
-	Destroyer,
-	Div,
-	Frigate,
-	Para,
-	ShipType,
-	Superdreadnought,
-} from './types';
+import { Battleship, Carrier, Div, Para, Superdreadnought } from './types';
 
 function updateCompTacticalOverviewShips() {
 	// at each fire by player towards computer, the computer ships coords are checked to see if all adjacent cells are hit, if so, the ship is sunk and message is displayed to player

@@ -43,7 +43,7 @@ const shipNames = {
 			'Victorieux',
 			'Temeraire',
 		],
-		cruisers: [
+		carriers: [
 			'Sword',
 			'Claymore',
 			'Cutlass',
@@ -289,7 +289,7 @@ const shipNames = {
 			'Sovereign',
 			'Bellerophon',
 		],
-		cruisers: [
+		carriers: [
 			'Redoubtable',
 			'Champion',
 			'Defiant',
