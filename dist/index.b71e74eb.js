@@ -1361,7 +1361,7 @@ const randomizeAndStoreShipNames = function(shipNames_) {
                         shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
                     ];
                     havenShipNames.set(shipType, tempShipNamesArr);
-                } else //only one name for superdreadnought, cruiser and battleship
+                } else //only one name for superdreadnought, carrier and battleship
                 havenShipNames.set(//changes from plural to singular
                 shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
             });
@@ -1376,7 +1376,7 @@ const randomizeAndStoreShipNames = function(shipNames_) {
                         shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
                     ];
                     manticoreShipNames.set(shipType, tempShipNamesArr);
-                } else //only one name for superdreadnought, cruiser and battleship
+                } else //only one name for superdreadnought, carrier and battleship
                 manticoreShipNames.set(shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
             });
             localStorage.setItem("manticoreShipNames", JSON.stringify(Object.fromEntries(manticoreShipNames)));
@@ -3111,7 +3111,6 @@ function renderTacticalOverview() {
     const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
     // loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
     Object.entries(havenShipNames).sort((_, __)=>Math.random() - 0.5).forEach(([shipType, shipName])=>{
-        // shipType = shipType === 'carrier' ? 'carrier' : shipType;
         // handle superdreadnought, carrier, battleship first
         if (!Array.isArray(shipName)) {
             const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
@@ -3133,12 +3132,7 @@ function renderTacticalOverview() {
             ]), (0, _elementCreators.addTextToElem)(`PNS ${shipName}`), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
                 "shipName-text"
             ]));
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "data-compshiptype",
-                    `${shipType[0].toUpperCase() + shipType.slice(1)}`
-                ], 
-            ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
+            (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
                 "tacticalCells-container"
             ]));
             for(let i = 0; i < lengthOfCells; i += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
@@ -3176,23 +3170,35 @@ function renderTacticalOverview() {
                 (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`PNS ${shipName[i]}`), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
                     "shipName-text"
                 ]));
-                // for (let j = 0; j < lengthOfCells; j += 1) {
-                // 	pipe(
-                // 		addAttributeToElem([[`data-compship`, `${shipAndCoords[i][j]}`]]),
-                // 		addTextToElem(shipType[0].toUpperCase()),
-                // 		appendElemToParent(smallShipsContainer)
-                // 	)(elemCreator('div')(['comp-tacticalCell']));
-                // }
                 const tacticalCellsContainer = (0, _elementCreators.elemCreator)("div")([
                     "tacticalCells-container"
                 ]);
                 (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                     [
                         "data-compshiptype",
-                        `${shipType[0].toUpperCase() + shipType.slice(1)}${i}`, 
+                        `${shipType[0].toUpperCase() + shipType.slice(1)}_${i}`, 
                     ], 
                 ]), (0, _elementCreators.appendElemToParent)(shipNameContainer))(tacticalCellsContainer);
-                (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("?"), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
+                (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                    [
+                        `data-compshipquestion`,
+                        `${shipType[0].toUpperCase() + shipType.slice(1)}_${i}`, 
+                    ], 
+                ]), (0, _elementCreators.addTextToElem)("?"), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
+                    "comp-tacticalCell"
+                ]));
+                for(let j = 0; j < lengthOfCells; j += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                    [
+                        `data-compshipcell`,
+                        `${shipType[0].toUpperCase() + shipType.slice(1)}_${i}_${j}`, 
+                    ], 
+                ]), (0, _elementCreators.addStyleToElem)([
+                    [
+                        "display",
+                        "none"
+                    ]
+                ]), // addTextToElem(shipType[0].toUpperCase()),
+                (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("div")([
                     "comp-tacticalCell"
                 ]));
             }
@@ -3372,7 +3378,7 @@ const handlePlayerClickOnCompMisses = function(ev) {
     setTimeout((0, _computersTurn.computersTurn), 0);
 };
 
-},{"../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/updateCompTacticalOverviewShips":"3ytuC"}],"kGr2j":[function(require,module,exports) {
+},{"../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","../utilities/updateCompTacticalOverviewShips":"3ytuC","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kGr2j":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "computersTurn", ()=>computersTurn);
@@ -3495,7 +3501,7 @@ const handlePlayerClickOnCompShips = function(ev) {
     setTimeout((0, _computersTurn.computersTurn), 0);
 };
 
-},{"../components/announceGameWinner":"503Ay","../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","../utilities/returnPlayerCompShipsCoords":"j1hhz","../utilities/returnShipSymbolFromCoord":"gdJC8","../utilities/returnSunkShipObj":"FtKRn","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/updateCompTacticalOverviewShips":"3ytuC"}],"503Ay":[function(require,module,exports) {
+},{"../components/announceGameWinner":"503Ay","../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","../utilities/returnPlayerCompShipsCoords":"j1hhz","../utilities/returnShipSymbolFromCoord":"gdJC8","../utilities/returnSunkShipObj":"FtKRn","../utilities/updateCompTacticalOverviewShips":"3ytuC","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"503Ay":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "announceGameWinner", ()=>announceGameWinner);
@@ -3873,7 +3879,7 @@ const battleTexts = {
         "Roll port! All batteries, engage!",
         "Engage with forward batteries!",
         "They're taking the bait, Sir!",
-        "Formation Reno, Com\u2014get those cruisers in tighter!",
+        "Formation Reno, Com\u2014get those carriers in tighter!",
         "Recompute firing pattern.",
         "We just took out their forward impellers!",
         "We've got a hit on their port engines, Sir! They're losing speed!",
@@ -3973,7 +3979,7 @@ const battleTexts = {
         "Missiles at three-five-two! Lucky this time..",
         "Hard a starboard!",
         "Pursuit vector, maximum acceleration!",
-        "General signal to all heavy cruisers. Return to formation at once. Repeat, return to formation at once!",
+        "General signal to all heavy carriers. Return to formation at once. Repeat, return to formation at once!",
         //
         "Damn! We missed them!",
         "Target evaded, adjust trajectory!",
@@ -4112,7 +4118,7 @@ parcelHelpers.export(exports, "returnSunkShipObj", ()=>returnSunkShipObj) /**
 			case 'C': {
 				shipHits.playerShips.carrier < 3
 					? (shipHits.playerShips.carrier += 1)
-					: (sunkShipObj.player = manticoreShipNames.cruiser);
+					: (sunkShipObj.player = manticoreShipNames.carrier);
 				break;
 			}
 			case 'B': {
@@ -4155,7 +4161,7 @@ parcelHelpers.export(exports, "returnSunkShipObj", ()=>returnSunkShipObj) /**
 			case 'C': {
 				shipHits.compShips.carrier < 3
 					? (shipHits.compShips.carrier += 1)
-					: (sunkShipObj.comp = havenShipNames.cruiser);
+					: (sunkShipObj.comp = havenShipNames.carrier);
 				break;
 			}
 			case 'B': {
@@ -4286,17 +4292,16 @@ function updateCompTacticalOverviewShips() {
     const compShipsMissesCoords = JSON.parse(localStorage.getItem("compShipsMissesCoords") ?? JSON.stringify([]));
     // coords of player hits on computer ships
     const compShipsHitCoords = JSON.parse(localStorage.getItem("compShipsHitCoords") ?? JSON.stringify([]));
-    // check the superdreadnought, carrier, battleship first
+    // check the superdreadnought, carrier, battleship first that consist of an array of one object whose values will be returned as string[]
     let shipTypes = [
         "Superdreadnought",
         "Carrier",
         "Battleship"
     ];
-    let uniqueAdjacentCoords = [];
     shipTypes.forEach((shipType)=>{
         const compShipsCoords = JSON.parse(localStorage.getItem(`comp${shipType}`) ?? JSON.stringify([]));
         // grab adjacent array of cells for each ship
-        uniqueAdjacentCoords = Object.values(compShipsCoords).reduce((adjCoords, coord)=>{
+        const uniqueAdjacentCoords = Object.values(compShipsCoords).reduce((adjCoords, coord)=>{
             const xyCoords = coord.split(",");
             const xCoord = parseInt(xyCoords[0].replace('"', ""));
             const yCoord = parseInt(xyCoords[1].replace('"', ""));
@@ -4310,11 +4315,9 @@ function updateCompTacticalOverviewShips() {
             if (xCoord - 1 >= 0) adjCoords.push(`${xCoord - 1},${yCoord}`);
             return adjCoords;
         }, []).filter((coord)=>!compShipsHitCoords.includes(coord) && !compShipsMissesCoords.includes(coord));
-        console.log(`uniqueAdjacentCoords for ${shipType}: `, uniqueAdjacentCoords);
         // if all adjacent cells are hit, the ship is sunk and the ship is displayed as sunk in the tactical overview
         if (uniqueAdjacentCoords.length === 0) {
-            // grab the comp tactical overview container for the ship type
-            const compSunkShipContainer = document.querySelector(`[data-compshiptype="${shipType}"]`);
+            // grab the tac overview comp '?' cell and remove it
             const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}"]`);
             if (questionMarkCell) questionMarkCell.remove();
             const lengthOfCells = shipType === "Superdreadnought" ? 5 : shipType === "Carrier" ? 4 : 3;
@@ -4334,9 +4337,57 @@ function updateCompTacticalOverviewShips() {
             }
         }
     });
+    // check the destroyer and submarine last that consist of an array of two objects whose values will be returned as Array<string[]>
+    shipTypes = [
+        "Destroyers",
+        "Frigates"
+    ];
+    shipTypes.forEach((shipType)=>{
+        const compShipsCoords = JSON.parse(localStorage.getItem(`comp${shipType}`) ?? JSON.stringify([]));
+        const compShipCoordsArr = compShipsCoords.map((ship)=>Object.values(ship));
+        // grab adjacent array of cells for each ship of each type
+        compShipCoordsArr.forEach((compShipCoord, idx)=>{
+            const uniqueAdjacentCoords = compShipCoord.reduce((adjCoords, coord)=>{
+                const xyCoords = coord.split(",");
+                const xCoord = parseInt(xyCoords[0].replace('"', ""));
+                const yCoord = parseInt(xyCoords[1].replace('"', ""));
+                //top
+                if (yCoord - 1 >= 0) adjCoords.push(`${xCoord},${yCoord - 1}`);
+                //right
+                if (xCoord + 1 <= 9) adjCoords.push(`${xCoord + 1},${yCoord}`);
+                //bottom
+                if (yCoord + 1 <= 9) adjCoords.push(`${xCoord},${yCoord + 1}`);
+                //left
+                if (xCoord - 1 >= 0) adjCoords.push(`${xCoord - 1},${yCoord}`);
+                return adjCoords;
+            }, []).filter((coord)=>!compShipsHitCoords.includes(coord) && !compShipsMissesCoords.includes(coord));
+            console.log(`uniqueAdjacentCoords for ${shipType}: `, uniqueAdjacentCoords);
+            // if all adjacent cells are hit, the ship is sunk and the ship is displayed as sunk in the tactical overview
+            if (uniqueAdjacentCoords.length === 0) {
+                // grab the tac overview comp '?' cell and remove it
+                const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}_${idx}"]`);
+                if (questionMarkCell) questionMarkCell.remove();
+                const lengthOfCells = shipType === "Destroyers" ? 2 : 1;
+                // display sunk ship with '💥' emoji
+                for(let i = 0; i < lengthOfCells; i += 1){
+                    const hiddenCell = document.querySelector(`[data-compshipcell="${shipType}_${idx}_${i}"]`);
+                    if (hiddenCell && hiddenCell.style.display === "none") (0, _elementCreators.pipe)((0, _elementCreators.removeStyleFromElem)("display"), (0, _elementCreators.addStyleToElem)([
+                        [
+                            "display",
+                            "visible"
+                        ],
+                        [
+                            "color",
+                            "#f0a400"
+                        ], 
+                    ]), (0, _elementCreators.addTextToElem)("\uD83D\uDCA5"))(hiddenCell);
+                }
+            }
+        });
+    });
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl"}],"2fd56":[function(require,module,exports) {
+},{"./elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2fd56":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord);
@@ -4531,7 +4582,7 @@ const computerAttacks = function(compAttackGuess_) {
     }
 };
 
-},{"../utilities/elementCreators":"H4ivl","../utilities/returnSunkShipObj":"FtKRn","../utilities/storeCompHitMissCoords":"h8NPY","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/updatePlayerTacticalOverviewCells":"f2Nuf"}],"h8NPY":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","../utilities/returnSunkShipObj":"FtKRn","../utilities/storeCompHitMissCoords":"h8NPY","../utilities/updatePlayerTacticalOverviewCells":"f2Nuf","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h8NPY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "storeCompHitMissCoords", ()=>storeCompHitMissCoords);

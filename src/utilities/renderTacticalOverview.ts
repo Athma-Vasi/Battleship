@@ -131,8 +131,6 @@ function renderTacticalOverview() {
 	Object.entries(havenShipNames)
 		.sort((_, __) => Math.random() - 0.5)
 		.forEach(([shipType, shipName]: [string, string | string[]]) => {
-			/
-
 			// handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
 				const shipNameContainer = elemCreator('div')(['shipName-container']);
@@ -154,12 +152,9 @@ function renderTacticalOverview() {
 					appendElemToParent(shipNameContainer)
 				)(elemCreator('p')(['shipName-text']));
 
-				pipe(
-					addAttributeToElem([
-						['data-compshiptype', `${shipType[0].toUpperCase() + shipType.slice(1)}`],
-					]),
-					appendElemToParent(shipNameContainer)
-				)(elemCreator('div')(['tacticalCells-container']));
+				pipe(appendElemToParent(shipNameContainer))(
+					elemCreator('div')(['tacticalCells-container'])
+				);
 
 				for (let i = 0; i < lengthOfCells; i += 1) {
 					pipe(
@@ -202,29 +197,41 @@ function renderTacticalOverview() {
 						appendElemToParent(shipNameContainer)
 					)(elemCreator('p')(['shipName-text']));
 
-					// for (let j = 0; j < lengthOfCells; j += 1) {
-					// 	pipe(
-					// 		addAttributeToElem([[`data-compship`, `${shipAndCoords[i][j]}`]]),
-					// 		addTextToElem(shipType[0].toUpperCase()),
-					// 		appendElemToParent(smallShipsContainer)
-					// 	)(elemCreator('div')(['comp-tacticalCell']));
-					// }
-
 					const tacticalCellsContainer = elemCreator('div')(['tacticalCells-container']);
 					pipe(
 						addAttributeToElem([
 							[
 								'data-compshiptype',
-								`${shipType[0].toUpperCase() + shipType.slice(1)}${i}`,
+								`${shipType[0].toUpperCase() + shipType.slice(1)}_${i}`,
 							],
 						]),
 						appendElemToParent(shipNameContainer)
 					)(tacticalCellsContainer);
 
 					pipe(
+						addAttributeToElem([
+							[
+								`data-compshipquestion`,
+								`${shipType[0].toUpperCase() + shipType.slice(1)}_${i}`,
+							],
+						]),
 						addTextToElem('?'),
 						appendElemToParent(shipNameContainer)
 					)(elemCreator('p')(['comp-tacticalCell']));
+
+					for (let j = 0; j < lengthOfCells; j += 1) {
+						pipe(
+							addAttributeToElem([
+								[
+									`data-compshipcell`,
+									`${shipType[0].toUpperCase() + shipType.slice(1)}_${i}_${j}`,
+								],
+							]),
+							addStyleToElem([['display', 'none']]),
+							// addTextToElem(shipType[0].toUpperCase()),
+							appendElemToParent(shipNameContainer)
+						)(elemCreator('div')(['comp-tacticalCell']));
+					}
 				}
 			}
 		});
