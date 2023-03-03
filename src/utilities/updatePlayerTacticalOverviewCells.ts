@@ -1,10 +1,24 @@
 import { Div } from './types';
 
-function updateTacticalOverviewCells(
-	currentCellCoord: string,
-	towardsCombatant: 'player' | 'comp'
+function updatePlayerTacticalOverviewCells(
+	currentCellCoord: string
+	// towardsCombatant: 'player' | 'comp'
 ) {
-	switch (towardsCombatant) {
+	const cellToUpdate: Div = document.querySelector(
+		`[data-playership="${currentCellCoord}"]`
+	);
+	if (cellToUpdate) {
+		cellToUpdate.textContent = '';
+		cellToUpdate.textContent = '💥';
+		cellToUpdate.style.color = '#f0a400';
+	}
+}
+
+export { updatePlayerTacticalOverviewCells };
+
+/**
+ 
+switch (towardsCombatant) {
 		case 'player': {
 			const cellToUpdate: Div = document.querySelector(
 				`[data-${towardsCombatant}ship="${currentCellCoord}"]`
@@ -32,6 +46,5 @@ function updateTacticalOverviewCells(
 		default:
 			break;
 	}
-}
 
-export { updateTacticalOverviewCells };
+ */

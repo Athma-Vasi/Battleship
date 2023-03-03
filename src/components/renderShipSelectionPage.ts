@@ -1,9 +1,9 @@
 import { Div } from '../utilities/types';
-import { renderPlayerBoard } from './renderPlayerBoard';
 import { renderPlayerInfoScreen } from './renderPlayerInfoScreen';
+import { renderPlayerShipPlacementBoard } from './renderPlayerShipPlacementBoard';
 import { renderShipSelectionBttns } from './renderShipSelectionBttns';
 
-const renderGamePage = function (playerName_: string) {
+const renderShipSelectionPage = function (playerName_: string) {
 	const playerName = playerName_;
 
 	//removes main page content
@@ -17,6 +17,7 @@ const renderGamePage = function (playerName_: string) {
 	//renders pre-battle speech and ship placement functionality
 	renderPlayerInfoScreen(playerName);
 	renderShipSelectionBttns();
-	renderPlayerBoard();
+	renderPlayerShipPlacementBoard();
 };
-export { renderGamePage };
+
+export { renderShipSelectionPage };

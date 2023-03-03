@@ -1,4 +1,4 @@
-import { renderGamePage } from '../components/renderGamePage';
+import { renderShipSelectionPage } from '../components/renderShipSelectionPage';
 
 const receiveFormName = function (this: HTMLFormElement, ev: SubmitEvent) {
 	ev.preventDefault();
@@ -11,6 +11,6 @@ const receiveFormName = function (this: HTMLFormElement, ev: SubmitEvent) {
 		localStorage.setItem('playerName', JSON.stringify(playerName));
 	}
 
-	renderGamePage(playerName);
+	renderShipSelectionPage(playerName);
 };
 export { receiveFormName };

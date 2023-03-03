@@ -17,12 +17,6 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 		hitOrMiss,
 	});
 
-	//auto-scrolls to the bottom to have the most recent message visible
-	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');
-	const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0;
-
-	infoScreenWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
-
 	//assigns '✖' to currently missed co-ordinate and colors it amber
 	this.textContent == '';
 	this.textContent = '✖';
@@ -44,6 +38,13 @@ const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseE
 
 	//stores current miss co-ordinates in order to highlight the current round's co-ordinates
 	localStorage.setItem('prevPlayerMissOnCompCoord', JSON.stringify(currentCellCoord));
+
+	// store miss coords
+	const compShipsMissesCoords = JSON.parse(
+		localStorage.getItem('compShipsMissesCoords') ?? JSON.stringify([])
+	);
+	compShipsMissesCoords.push(currentCellCoord);
+	localStorage.setItem('compShipsMissesCoords', JSON.stringify(compShipsMissesCoords));
 
 	//all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
 	//the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds

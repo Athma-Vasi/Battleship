@@ -1,4 +1,3 @@
-import { CompShipsPlacementChoice } from '../utilities/types';
 import { renderStarsInPlayerBoard } from './renderStarsInPlayerBoard';
 import { renderStartButton } from './renderStartButton';
 

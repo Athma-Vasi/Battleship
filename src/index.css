@@ -217,12 +217,25 @@ body {
 }
 
 /* info screen battle */
-.infoScreen-wrapper {
+/* .infoScreen-wrapper {
 	margin-top: 2rem;
 	width: 100%;
 	height: 25rem;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
+} */
+
+.battleMessage-wrapper {
+	margin-top: 2rem;
+	width: clamp(20rem, 50vw, 30rem);
+	height: 90vh;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.battleMessage-wrapper::-webkit-scrollbar {
+	display: none;
 }
 
 .infoScreen-preBattleMssg {
@@ -236,15 +249,54 @@ body {
 	color: var(--colour-appleGreen);
 }
 
+.gameBoard-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	outline: 1px solid darkorange;
+}
+
+@media screen and (min-width: 1137px) {
+	.gameBoard-container {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+	}
+	/* .gamePlayerBoard-wrapper {
+		display: flex;
+		flex-wrap: wrap-reverse;
+		justify-content: center;
+		align-items: start;
+	}
+	.compBoard-wrapper {
+		display: flex;
+		flex-wrap: wrap-reverse;
+		justify-content: center;
+		align-items: start;
+	} */
+}
+
 /* player board */
+/* this is for when player places ships on board */
 .playerBoard-wrapper {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap-reverse;
 	gap: 2rem;
 	max-width: 1100px;
-	width: 100%;
+	outline: 1px solid saddlebrown;
+}
+
+/* this is for board when game starts */
+.gamePlayerBoard-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap-reverse;
+	gap: 2rem;
+	max-width: 1100px;
 	outline: 1px solid saddlebrown;
 }
 
@@ -270,9 +322,9 @@ body {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	align-items: start;
+	align-items: center;
 	flex-wrap: wrap;
-	width: clamp(23rem, 50vw, 29rem);
+	width: clamp(20rem, 50vw, 30rem);
 	padding-bottom: var(--padding-y);
 	outline: 1px solid darkcyan;
 }
@@ -327,12 +379,11 @@ body {
 
 .compBoard-wrapper {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
-	flex-wrap: wrap;
+	flex-wrap: wrap-reverse;
 	gap: 2rem;
 	max-width: 1100px;
-	width: 100%;
 	outline: 1px solid cyan;
 }
 

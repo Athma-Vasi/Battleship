@@ -7,10 +7,10 @@ import {
 import { Div } from '../utilities/types';
 
 const renderCompBoard = function () {
-	const bothBoardsContainer: Div = document.querySelector('.bothBoards-container');
+	const gameBoardContainer: Div = document.querySelector('.gameBoard-container');
 
 	const compBoardWrapper = elemCreator('div')(['compBoard-wrapper']);
-	appendElemToParent(bothBoardsContainer)(compBoardWrapper);
+	appendElemToParent(gameBoardContainer)(compBoardWrapper);
 
 	const compBoardContainer = elemCreator('div')(['compBoard-container']);
 	appendElemToParent(compBoardWrapper)(compBoardContainer);

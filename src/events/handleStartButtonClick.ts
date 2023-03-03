@@ -9,8 +9,9 @@ import {
 	elemCreator,
 	pipe,
 } from '../utilities/elementCreators';
+import { renderPlayerBoard } from '../utilities/renderPlayerBoard';
 import { renderTacticalOverview } from '../utilities/renderTacticalOverview';
-import { NodesDiv } from '../utilities/types';
+import { Div, NodesDiv } from '../utilities/types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 
@@ -26,10 +27,14 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 	const shipBttnsWrapper = document.querySelector('.shipBttns-wrapper');
 	shipBttnsWrapper?.remove();
 
+	const bothBoardsContainer = document.querySelector('.bothBoards-container');
+	bothBoardsContainer?.remove();
+
 	//remove the start button
 	this.remove();
 
-	//renders comp board and place the ships
+	//renders player and comp board and places the ships
+	renderPlayerBoard();
 	renderCompBoard();
 	placeCompShipsOnBoard(compShipsPlacementChoicesArr);
 
@@ -59,6 +64,12 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 
 	// render tactical overview
 	renderTacticalOverview();
+
+	const gameBoardContainer: Div = document.querySelector('.gameBoard-container');
+
+	// renders a new info screen for the battle texts
+	const battleMessageWrapper = elemCreator('div')(['battleMessage-wrapper']);
+	appendElemToParent(gameBoardContainer)(battleMessageWrapper);
 };
 
 export { handleStartButtonClick };

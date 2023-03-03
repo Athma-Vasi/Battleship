@@ -2,7 +2,7 @@ import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnComp
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips';
 import { addEvtListener, pipe } from '../utilities/elementCreators';
 import { generateProbabilisticFiringCoord } from '../utilities/generateProbabilisticFiringCoord';
-import { NodesDiv } from '../utilities/types';
+import { Div, NodesDiv } from '../utilities/types';
 import { announceGameWinner } from './announceGameWinner';
 import { computerAttacks } from './computerAttacks';
 import { genRandCompAttackGuess } from './genRandCompAttackGuess';

@@ -6,15 +6,15 @@ import {
 	pipe,
 } from './elementCreators';
 import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
-import { Div, RandomizedManticoreShipNames } from './types';
+import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from './types';
 
 function renderTacticalOverview() {
-	const playerBoardWrapper: Div = document.querySelector('.playerBoard-wrapper');
+	const gamePlayerBoardWrapper: Div = document.querySelector('.gamePlayerBoard-wrapper');
 
 	const compBoardWrapper: Div = document.querySelector('.compBoard-wrapper');
 
 	const tacticalOverviewWrapperPlayer = elemCreator('div')(['tacticalOverview-wrapper']);
-	appendElemToParent(playerBoardWrapper)(tacticalOverviewWrapperPlayer);
+	appendElemToParent(gamePlayerBoardWrapper)(tacticalOverviewWrapperPlayer);
 
 	const tacticalOverviewWrapperComp = elemCreator('div')(['tacticalOverview-wrapper']);
 	appendElemToParent(compBoardWrapper)(tacticalOverviewWrapperComp);
@@ -41,9 +41,6 @@ function renderTacticalOverview() {
 		appendElemToParent(tacticalOverviewContainerComp)
 	)(tacticalOverviewTitleComp);
 
-	// const havenShipNames: RandomizedHavenShipNames = JSON.parse(
-	// 	localStorage.getItem('havenShipNames') ?? ''
-	// );
 	const manticoreShipNames: RandomizedManticoreShipNames = JSON.parse(
 		localStorage.getItem('manticoreShipNames') ?? ''
 	);
@@ -54,11 +51,11 @@ function renderTacticalOverview() {
 	// loop through the player ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
 	Object.entries(manticoreShipNames).forEach(
 		([shipType, shipName]: [string, string | string[]]) => {
-			const shipNameContainer = elemCreator('div')(['shipName-container']);
-			appendElemToParent(tacticalOverviewWrapperPlayer)(shipNameContainer);
-
 			//handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
+				const shipNameContainer = elemCreator('div')(['shipName-container']);
+				appendElemToParent(tacticalOverviewWrapperPlayer)(shipNameContainer);
+
 				const lengthOfCells =
 					shipType === 'superdreadnought' ? 5 : shipType === 'cruiser' ? 4 : 3;
 
@@ -97,25 +94,126 @@ function renderTacticalOverview() {
 						: playerShipCoords.frigates;
 
 				for (let i = 0; i < 2; i += 1) {
-					const smallShipsContainer = elemCreator('p')(['smallShips-container']);
-					pipe(appendElemToParent(shipNameContainer))(smallShipsContainer);
+					const shipNameContainer = elemCreator('div')(['shipName-container']);
+					appendElemToParent(tacticalOverviewWrapperPlayer)(shipNameContainer);
+					// const smallShipsContainer = elemCreator('p')(['smallShips-container']);
+					// pipe(appendElemToParent(shipNameContainer))(smallShipsContainer);
 
 					pipe(
 						addTextToElem(`RMNS ${shipName[i]}`),
-						appendElemToParent(smallShipsContainer)
+						appendElemToParent(shipNameContainer)
 					)(elemCreator('p')(['shipName-text']));
+
+					const tacticalCellsContainer = elemCreator('div')(['tacticalCells-container']);
+					pipe(
+						addAttributeToElem([['data-playershiptype', `${shipType}`]]),
+						appendElemToParent(shipNameContainer)
+					)(tacticalCellsContainer);
 
 					for (let j = 0; j < lengthOfCells; j += 1) {
 						pipe(
 							addAttributeToElem([[`data-playership`, `${shipAndCoords[i][j]}`]]),
 							addTextToElem(shipType[0].toUpperCase()),
-							appendElemToParent(smallShipsContainer)
+							appendElemToParent(tacticalCellsContainer)
 						)(elemCreator('div')(['player-tacticalCell']));
 					}
 				}
 			}
 		}
 	);
+
+	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
+		localStorage.getItem('havenShipNames') ?? ''
+	);
+
+	// loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
+	Object.entries(havenShipNames)
+		.sort((_, __) => Math.random() - 0.5)
+		.forEach(([shipType, shipName]: [string, string | string[]]) => {
+			// handle superdreadnought, carrier, battleship first
+			if (!Array.isArray(shipName)) {
+				const shipNameContainer = elemCreator('div')(['shipName-container']);
+				appendElemToParent(tacticalOverviewWrapperComp)(shipNameContainer);
+
+				const lengthOfCells =
+					shipType === 'superdreadnought' ? 5 : shipType === 'cruiser' ? 4 : 3;
+
+				const shipAndCoords: string[] =
+					shipType === 'superdreadnought'
+						? compShipCoords.superdreadnought
+						: shipType === 'cruiser'
+						? compShipCoords.carrier
+						: compShipCoords.battleship;
+
+				pipe(
+					addAttributeToElem([['data-compshipnamecontainer', `${shipType}`]]),
+					addTextToElem(`PNS ${shipName}`),
+					appendElemToParent(shipNameContainer)
+				)(elemCreator('p')(['shipName-text']));
+
+				pipe(
+					addAttributeToElem([['data-compshiptype', `${shipType}`]]),
+					appendElemToParent(shipNameContainer)
+				)(elemCreator('div')(['tacticalCells-container']));
+
+				// for (let i = 0; i < lengthOfCells; i += 1) {
+				// 	pipe(
+				// 		addAttributeToElem([[`data-compship`, `${shipAndCoords[i]}`]]),
+				// 		addTextToElem(shipType[0].toUpperCase()),
+				// 		appendElemToParent(shipNameContainer)
+				// 	)(elemCreator('div')(['comp-tacticalCell']));
+				// }
+
+				pipe(
+					addTextToElem('?'),
+					appendElemToParent(shipNameContainer)
+				)(elemCreator('p')(['comp-tacticalCell']));
+			}
+			// handle destroyers and frigates that are a string[]
+			else {
+				const lengthOfCells = shipType === 'destroyers' ? 2 : 1;
+
+				const shipAndCoords: string[][] =
+					shipType === 'destroyers' ? compShipCoords.destroyers : compShipCoords.frigates;
+
+				for (let i = 0; i < 2; i += 1) {
+					const shipNameContainer = elemCreator('div')(['shipName-container']);
+					appendElemToParent(tacticalOverviewWrapperComp)(shipNameContainer);
+
+					// const smallShipsContainer = elemCreator('p')(['smallShips-container']);
+					// pipe(appendElemToParent(shipNameContainer))(smallShipsContainer);
+
+					pipe(
+						addTextToElem(`PNS ${shipName[i]}`),
+						appendElemToParent(shipNameContainer)
+					)(elemCreator('p')(['shipName-text']));
+
+					// for (let j = 0; j < lengthOfCells; j += 1) {
+					// 	pipe(
+					// 		addAttributeToElem([[`data-compship`, `${shipAndCoords[i][j]}`]]),
+					// 		addTextToElem(shipType[0].toUpperCase()),
+					// 		appendElemToParent(smallShipsContainer)
+					// 	)(elemCreator('div')(['comp-tacticalCell']));
+					// }
+
+					const tacticalCellsContainer = elemCreator('div')(['tacticalCells-container']);
+					pipe(
+						addAttributeToElem([
+							[
+								'data-compshiptype',
+								`${shipType[0].toUpperCase() + shipType.slice(1)}${i}`,
+							],
+						]),
+						appendElemToParent(shipNameContainer)
+					)(tacticalCellsContainer);
+
+					pipe(
+						addTextToElem('?'),
+						appendElemToParent(shipNameContainer)
+					)(elemCreator('p')(['comp-tacticalCell']));
+				}
+			}
+		});
 }
 
 export { renderTacticalOverview };

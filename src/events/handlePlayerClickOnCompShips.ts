@@ -5,8 +5,8 @@ import { pipe, removeEvtListener } from '../utilities/elementCreators';
 import { returnPlayerCompShipsCoords } from '../utilities/returnPlayerCompShipsCoords';
 import { returnShipSymbolFromCoord } from '../utilities/returnShipSymbolFromCoord';
 import { returnSunkShipObj } from '../utilities/returnSunkShipObj';
-import { Div, NodesDiv } from '../utilities/types';
-import { updateTacticalOverviewCells } from '../utilities/updateTacticalOverviewCells';
+import { NodesDiv } from '../utilities/types';
+import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTacticalOverviewCells';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
 const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
@@ -52,14 +52,6 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		towardsCombatant,
 	});
 
-	console.log(
-		'currentShipSymbol from handlePlayerClickOnCompShips(): ',
-		currentShipSymbol
-	);
-
-	// update tactical overview ship cells to visually indicate hit
-	updateTacticalOverviewCells(currentCellCoord, towardsCombatant);
-
 	//stores hits on corresponding ships to determine if a ship has been sunk
 	const sunkShipObj = returnSunkShipObj(
 		currentCellCoord,
@@ -71,8 +63,6 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 			? (sunkShipObj.comp as string)
 			: (sunkShipObj.player as string);
 
-	console.log('sunkShipName from handlePlayerClickOnCompShips(): ', sunkShipName);
-
 	renderBattleMessageElem({
 		currentCellCoord,
 		currentShipSymbol,
@@ -80,12 +70,6 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		hitOrMiss,
 		sunkShipName,
 	});
-
-	//auto-scrolls to the bottom to have the most recent message visible
-	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');
-	const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0;
-
-	infoScreenWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
 
 	//updates the comp board cell to visually indicate hit
 	this.textContent = '';

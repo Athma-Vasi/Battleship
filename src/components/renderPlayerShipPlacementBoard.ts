@@ -4,9 +4,8 @@ import {
 	elemCreator,
 	pipe,
 } from '../utilities/elementCreators';
-import { renderTacticalOverview } from '../utilities/renderTacticalOverview';
 
-const renderPlayerBoard = function () {
+const renderPlayerShipPlacementBoard = function () {
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	const bothBoardsContainer = elemCreator('div')(['bothBoards-container']);
@@ -28,4 +27,4 @@ const renderPlayerBoard = function () {
 		}
 	}
 };
-export { renderPlayerBoard };
+export { renderPlayerShipPlacementBoard };

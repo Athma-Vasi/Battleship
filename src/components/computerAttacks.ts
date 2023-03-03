@@ -2,7 +2,8 @@ import { addStyleToElem, pipe } from '../utilities/elementCreators';
 import { returnSunkShipObj } from '../utilities/returnSunkShipObj';
 import { storeCompHitMissCoords } from '../utilities/storeCompHitMissCoords';
 import { Div } from '../utilities/types';
-import { updateTacticalOverviewCells } from '../utilities/updateTacticalOverviewCells';
+import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTacticalOverviewCells';
+
 import { renderBattleMessageElem } from './renderBattleMessage';
 
 const computerAttacks = function (compAttackGuess_: string) {
@@ -17,12 +18,6 @@ const computerAttacks = function (compAttackGuess_: string) {
 	//compAttackGuess_ is assumed to be unique at this point
 	//checks if playerShip is present
 	if (playerShipsCoords.includes(compAttackGuess_)) {
-		//auto-scrolls to the bottom to have the most recent message visible
-		const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');
-		const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0;
-
-		infoScreenWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
-
 		const playerShipCell: Div = document.querySelector(
 			`[data-cellplayer="${compAttackGuess_}"]`
 		);
@@ -33,7 +28,7 @@ const computerAttacks = function (compAttackGuess_: string) {
 		const hitOrMiss = 'hit';
 
 		// update tactical overview ship cells to visually indicate hit
-		updateTacticalOverviewCells(currentCellCoord, towardsCombatant);
+		updatePlayerTacticalOverviewCells(currentCellCoord);
 
 		//stores hits on corresponding ships to determine if a ship has been sunk
 		const sunkShipObj = returnSunkShipObj(
@@ -72,12 +67,6 @@ const computerAttacks = function (compAttackGuess_: string) {
 		//store the current hit co-ordinates and hit type to assist comp firing solution
 		storeCompHitMissCoords(compAttackGuess_, 'hit');
 	} else {
-		//auto-scrolls to the bottom to have the most recent message visible
-		const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');
-		const scrollHeight = infoScreenWrapper?.scrollHeight ?? 0;
-
-		infoScreenWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
-
 		//if its a miss
 		const playerShipCell: Div = document.querySelector(
 			`[data-cellplayer="${compAttackGuess_}"]`

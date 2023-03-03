@@ -1,5 +1,4 @@
 import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
-import { returnShipSymbolFromCoord } from './returnShipSymbolFromCoord';
 import {
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
