@@ -92,7 +92,9 @@ function returnSunkShipObj(
 			default:
 				break;
 		}
-	} else {
+	}
+	// towards combatant === 'comp'
+	else {
 		switch (currentShipSymbol) {
 			case 'S': {
 				shipHits.compShips.superdreadnought < 4

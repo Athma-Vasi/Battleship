@@ -13,7 +13,7 @@ const addAttributeToElem =
 			(element: HTMLElement | null | undefined, curr: Array<string>) => {
 				if (curr.length > 2) return undefined;
 
-				element?.setAttribute(curr[0], curr[1]);
+				if (element) element.setAttribute(curr[0], curr[1]);
 				return element;
 			},
 			elem
@@ -26,7 +26,7 @@ const addStyleToElem =
 			(element: HTMLElement | null | undefined, curr: string[]) => {
 				if (curr.length > 2) return undefined;
 
-				element?.style.setProperty(curr[0], curr[1]);
+				if (element) element.style.setProperty(curr[0], curr[1]);
 				return element;
 			},
 			elem
@@ -34,19 +34,19 @@ const addStyleToElem =
 	};
 
 const removeStyleFromElem = (styleProp: string) => (elem: HTMLElement | null) => {
-	elem?.style.removeProperty(styleProp);
+	if (elem) elem.style.removeProperty(styleProp);
 	return elem;
 };
 
 const addTextToElem = (text: string) => (elem: HTMLElement | null) => {
 	const textNode = document.createTextNode(text);
-	elem?.appendChild(textNode);
+	if (elem) elem.appendChild(textNode);
 	return elem;
 };
 
 const appendElemToParent =
 	(parent: HTMLElement | null) => (child: HTMLElement | null) => {
-		if (child) parent?.appendChild(child);
+		if (child) if (parent) parent.appendChild(child);
 	};
 
 const createImage =
@@ -77,7 +77,7 @@ const addEvtListener =
 		) => unknown
 	) =>
 	(elem: HTMLElement | null) => {
-		elem?.addEventListener(evt, handleEvt);
+		if (elem) elem.addEventListener(evt, handleEvt);
 		return elem;
 	};
 
@@ -96,7 +96,7 @@ const removeEvtListener =
 		) => unknown
 	) =>
 	(elem: HTMLElement | null) => {
-		elem?.removeEventListener(evt, handleEvt);
+		if (elem) elem.removeEventListener(evt, handleEvt);
 		return elem;
 	};
 

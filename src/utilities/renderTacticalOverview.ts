@@ -168,7 +168,7 @@ function renderTacticalOverview() {
 						[`data-compshipquestion`, `${shipType[0].toUpperCase() + shipType.slice(1)}`],
 					]),
 					appendElemToParent(shipNameContainer)
-				)(elemCreator('p')(['comp-tacticalCell']));
+				)(elemCreator('div')(['comp-tacticalCell']));
 			}
 			// handle destroyers and frigates that are a string[]
 			else {
@@ -203,7 +203,7 @@ function renderTacticalOverview() {
 						]),
 						addTextToElem('?'),
 						appendElemToParent(shipNameContainer)
-					)(elemCreator('p')(['comp-tacticalCell']));
+					)(elemCreator('div')(['comp-tacticalCell']));
 
 					// add the hidden cells that wil be revealed once the player has fired upon all adjacent cells
 					for (let j = 0; j < lengthOfCells; j += 1) {

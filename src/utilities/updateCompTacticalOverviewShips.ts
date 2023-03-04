@@ -15,7 +15,7 @@ import {
 } from './types';
 
 function updateCompTacticalOverviewShips() {
-	// at each fire by player towards computer, the computer ships coords are checked to see if all adjacent cells are hit, if so, the ship is sunk and message is displayed to player
+	// at each fire by player towards computer, the computer ships coords are checked to see if all adjacent cells are hit, if so, a message is displayed to player
 	// this ensures that player does not easily determine the type of ship and whether it is sunk or not by the number of hits on the ship
 
 	// coords of player misses on computer ships
@@ -45,13 +45,10 @@ function updateCompTacticalOverviewShips() {
 
 				//top
 				if (yCoord - 1 >= 0) adjCoords.push(`${xCoord},${yCoord - 1}`);
-
 				//right
 				if (xCoord + 1 <= 9) adjCoords.push(`${xCoord + 1},${yCoord}`);
-
 				//bottom
 				if (yCoord + 1 <= 9) adjCoords.push(`${xCoord},${yCoord + 1}`);
-
 				//left
 				if (xCoord - 1 >= 0) adjCoords.push(`${xCoord - 1},${yCoord}`);
 
@@ -62,7 +59,7 @@ function updateCompTacticalOverviewShips() {
 					!compShipsHitCoords.includes(coord) && !compShipsMissesCoords.includes(coord)
 			);
 
-		// if all adjacent cells are hit, the ship is sunk and the ship is displayed as sunk in the tactical overview
+		// if all adjacent cells are hit, the ship is confirmed sunk and the ship is displayed as sunk in the tactical overview
 		if (uniqueAdjacentCoords.length === 0) {
 			// grab the tac overview comp '?' cell and remove it
 			const questionMarkCell: Para = document.querySelector(
@@ -112,13 +109,10 @@ function updateCompTacticalOverviewShips() {
 
 					//top
 					if (yCoord - 1 >= 0) adjCoords.push(`${xCoord},${yCoord - 1}`);
-
 					//right
 					if (xCoord + 1 <= 9) adjCoords.push(`${xCoord + 1},${yCoord}`);
-
 					//bottom
 					if (yCoord + 1 <= 9) adjCoords.push(`${xCoord},${yCoord + 1}`);
-
 					//left
 					if (xCoord - 1 >= 0) adjCoords.push(`${xCoord - 1},${yCoord}`);
 
@@ -131,7 +125,7 @@ function updateCompTacticalOverviewShips() {
 
 			console.log(`uniqueAdjacentCoords for ${shipType}: `, uniqueAdjacentCoords);
 
-			// if all adjacent cells are hit, the ship is sunk and the ship is displayed as sunk in the tactical overview
+			// if all adjacent cells are hit, the ship is confirmed sunk and the ship is displayed as sunk in the tactical overview
 			if (uniqueAdjacentCoords.length === 0) {
 				// grab the tac overview comp '?' cell and remove it
 				const questionMarkCell: Para = document.querySelector(

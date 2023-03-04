@@ -191,7 +191,6 @@ body {
 .bothBoards-container {
   width: fit-content;
   width: 100%;
-  outline: 1px solid khaki;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -205,16 +204,28 @@ body {
 }
 
 .battleMessage-wrapper {
-  width: clamp(20rem, 50vw, 30rem);
-  height: 90vh;
+  width: clamp(17rem, 50vw, 26rem);
+  flex-flow: column wrap-reverse;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.battleMessageTitleElem {
+  color: var(--colour-appleGreen);
+  padding-top: .5rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.battleMessage-container {
+  height: 100vh;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  margin-top: 2rem;
   overflow-y: scroll;
 }
 
-.battleMessage-wrapper::-webkit-scrollbar {
+.battleMessage-container::-webkit-scrollbar {
   display: none;
 }
 
@@ -226,11 +237,10 @@ body {
 
 .battleMessageElem {
   color: var(--colour-appleGreen);
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.25rem);
 }
 
 .gameBoard-container {
-  outline: 1px solid #ff8c00;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -239,15 +249,26 @@ body {
 
 @media screen and (min-width: 1137px) {
   .gameBoard-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: "playerBoard compBoard battleMessages";
     gap: 2rem;
     display: grid;
+  }
+
+  .gamePlayerBoard-wrapper {
+    grid-area: playerBoard;
+  }
+
+  .compBoard-wrapper {
+    grid-area: compBoard;
+  }
+
+  .battleMessage-wrapper {
+    grid-area: battleMessages;
   }
 }
 
 .playerBoard-wrapper, .gamePlayerBoard-wrapper {
   max-width: 1100px;
-  outline: 1px solid #8b4513;
   flex-wrap: wrap-reverse;
   justify-content: center;
   align-items: center;
@@ -255,29 +276,38 @@ body {
   display: flex;
 }
 
-.playerBoard-container {
-  width: clamp(20rem, 50vw, 30rem);
-  height: clamp(20rem, 50vw, 30rem);
+.compBoard-wrapper {
+  max-width: 1100px;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  display: flex;
+}
+
+.playerBoard-container, .compBoard-container {
+  width: clamp(17rem, 50vw, 26rem);
+  height: clamp(17rem, 50vw, 26rem);
   border: 1px solid var(--colour-appleGreen);
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(10, 1fr);
   display: grid;
 }
 
-.player-gameCell {
+.player-gameCell, .comp-gameCell {
   border: 1px solid var(--colour-appleGreen);
   color: #dcdcdc;
   text-align: center;
   place-content: center;
-  font-size: 1.5em;
+  font-size: clamp(.75rem, 3vw, 1.25rem);
   font-weight: 700;
   display: grid;
 }
 
 .tacticalOverview-wrapper {
-  width: clamp(20rem, 50vw, 30rem);
+  width: clamp(17rem, 50vw, 26rem);
   padding-bottom: var(--padding-y);
-  outline: 1px solid #008b8b;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
@@ -292,7 +322,6 @@ body {
 
 .shipName-container {
   width: 100%;
-  outline: 1px solid #ff69b4;
   justify-content: space-between;
   align-items: center;
   display: flex;
@@ -301,15 +330,7 @@ body {
 .shipName-text {
   color: var(--colour-appleGreen);
   padding-right: var(--padding-x);
-  font-size: clamp(.75rem, 3vw, 1rem);
-}
-
-.smallShips-container {
-  outline: 1px solid #e6e6fa;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  display: flex;
+  font-size: clamp(.75rem, 3vw, 1.25rem);
 }
 
 .tacticalCells-container {
@@ -322,40 +343,11 @@ body {
 .player-tacticalCell, .comp-tacticalCell {
   border: 1px solid var(--colour-appleGreen);
   color: var(--colour-appleAmberDark);
-  width: clamp(2rem, 3vw, 3rem);
-  height: clamp(2rem, 3vw, 3rem);
+  width: clamp(1.75rem, 3vw, 2.5rem);
+  height: clamp(1.75rem, 3vw, 2.5rem);
   text-align: center;
   place-content: center;
-  font-size: 1.5em;
-  font-weight: 700;
-  display: grid;
-}
-
-.compBoard-wrapper {
-  max-width: 1100px;
-  outline: 1px solid #0ff;
-  flex-wrap: wrap-reverse;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  display: flex;
-}
-
-.compBoard-container {
-  width: clamp(20rem, 50vw, 30rem);
-  height: clamp(20rem, 50vw, 30rem);
-  border: 1px solid var(--colour-appleGreen);
-  grid-template-rows: repeat(10, 1fr);
-  grid-template-columns: repeat(10, 1fr);
-  margin-top: 2rem;
-  display: grid;
-}
-
-.comp-gameCell {
-  border: 1px solid var(--colour-appleGreen);
-  color: #dcdcdc;
-  place-content: center;
-  font-size: 1.5em;
+  font-size: clamp(.75rem, 3vw, 1.25rem);
   font-weight: 700;
   display: grid;
 }

@@ -209,7 +209,6 @@ body {
 	width: fit-content;
 	width: 100%;
 	gap: 2rem;
-	outline: 1px solid khaki;
 }
 
 .compBoard-container {
@@ -226,15 +225,30 @@ body {
 } */
 
 .battleMessage-wrapper {
-	margin-top: 2rem;
-	width: clamp(20rem, 50vw, 30rem);
-	height: 90vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap-reverse;
+	width: clamp(17rem, 50vw, 26rem);
+}
+
+.battleMessageTitleElem {
+	padding-top: 0.5rem;
+	font-size: clamp(1rem, 3vw, 1.5rem);
+	color: var(--colour-appleGreen);
+}
+
+.battleMessage-container {
+	/* margin-top: 2rem; */
+
+	height: 100vh;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 }
-.battleMessage-wrapper::-webkit-scrollbar {
+.battleMessage-container::-webkit-scrollbar {
 	display: none;
 }
 
@@ -245,7 +259,7 @@ body {
 }
 
 .battleMessageElem {
-	font-size: 1.2rem;
+	font-size: clamp(1rem, 3vw, 1.25rem);
 	color: var(--colour-appleGreen);
 }
 
@@ -254,27 +268,26 @@ body {
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-	outline: 1px solid darkorange;
 }
 
 @media screen and (min-width: 1137px) {
 	.gameBoard-container {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-areas: 'playerBoard compBoard battleMessages';
 		gap: 2rem;
 	}
-	/* .gamePlayerBoard-wrapper {
-		display: flex;
-		flex-wrap: wrap-reverse;
-		justify-content: center;
-		align-items: start;
+
+	.gamePlayerBoard-wrapper {
+		grid-area: playerBoard;
 	}
+
 	.compBoard-wrapper {
-		display: flex;
-		flex-wrap: wrap-reverse;
-		justify-content: center;
-		align-items: start;
-	} */
+		grid-area: compBoard;
+	}
+
+	.battleMessage-wrapper {
+		grid-area: battleMessages;
+	}
 }
 
 /* player board */
@@ -286,7 +299,6 @@ body {
 	flex-wrap: wrap-reverse;
 	gap: 2rem;
 	max-width: 1100px;
-	outline: 1px solid saddlebrown;
 }
 
 /* this is for board when game starts */
@@ -297,24 +309,37 @@ body {
 	flex-wrap: wrap-reverse;
 	gap: 2rem;
 	max-width: 1100px;
-	outline: 1px solid saddlebrown;
 }
 
-.playerBoard-container {
-	width: clamp(20rem, 50vw, 30rem);
-	height: clamp(20rem, 50vw, 30rem);
+.compBoard-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap-reverse;
+	gap: 2rem;
+	max-width: 1100px;
+
+	margin-top: 2rem;
+}
+
+.playerBoard-container,
+.compBoard-container {
+	width: clamp(17rem, 50vw, 26rem);
+	height: clamp(17rem, 50vw, 26rem);
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
 	grid-template-rows: repeat(10, 1fr);
 	border: 1px solid var(--colour-appleGreen);
 }
-.player-gameCell {
+
+.player-gameCell,
+.comp-gameCell {
 	border: 1px solid var(--colour-appleGreen);
 	color: gainsboro;
 	text-align: center;
 	display: grid;
 	place-content: center;
-	font-size: 1.5em;
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 	font-weight: 700;
 }
 
@@ -324,9 +349,8 @@ body {
 	flex-direction: column;
 	align-items: center;
 	flex-wrap: wrap;
-	width: clamp(20rem, 50vw, 30rem);
+	width: clamp(17rem, 50vw, 26rem);
 	padding-bottom: var(--padding-y);
-	outline: 1px solid darkcyan;
 }
 
 .tacticalOverview-title {
@@ -340,21 +364,12 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
-	outline: 1px solid hotpink;
 }
 
 .shipName-text {
-	font-size: clamp(0.75rem, 3vw, 1rem);
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 	color: var(--colour-appleGreen);
 	padding-right: var(--padding-x);
-}
-
-.smallShips-container {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	flex-wrap: wrap;
-	outline: 1px solid lavender;
 }
 
 .tacticalCells-container {
@@ -368,29 +383,28 @@ body {
 .comp-tacticalCell {
 	border: 1px solid var(--colour-appleGreen);
 	color: var(--colour-appleAmberDark);
-	width: clamp(2rem, 3vw, 3rem);
-	height: clamp(2rem, 3vw, 3rem);
+	width: clamp(1.75rem, 3vw, 2.5rem);
+	height: clamp(1.75rem, 3vw, 2.5rem);
 	text-align: center;
 	display: grid;
 	place-content: center;
-	font-size: 1.5em;
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 	font-weight: 700;
 }
 
-.compBoard-wrapper {
+/* .compBoard-wrapper {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap-reverse;
 	gap: 2rem;
 	max-width: 1100px;
-	outline: 1px solid cyan;
+	
 }
 
 .compBoard-container {
-	margin-top: 2rem;
-	width: clamp(20rem, 50vw, 30rem);
-	height: clamp(20rem, 50vw, 30rem);
+	width: clamp(17rem, 50vw, 26rem);
+	height: clamp(17rem, 50vw, 26rem);
 	border: 1px solid var(--colour-appleGreen);
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
@@ -404,7 +418,7 @@ body {
 	place-content: center;
 	font-weight: 700;
 	font-size: 1.5em;
-}
+} */
 
 .winner-container {
 	display: flex;

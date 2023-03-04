@@ -1,4 +1,3 @@
-import { battleTexts } from '../data/battleTexts';
 import {
 	addStyleToElem,
 	addTextToElem,
@@ -6,16 +5,14 @@ import {
 	elemCreator,
 	pipe,
 } from '../utilities/elementCreators';
-import { tossCoin } from '../utilities/tossCoin';
+import { renderBattleMessageHelper } from '../utilities/renderBattleMessageHelper';
 import {
 	Destroyer,
 	Div,
 	Frigate,
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
-	ShipType,
 } from '../utilities/types';
-import { updateCompTacticalOverviewShips } from '../utilities/updateCompTacticalOverviewShips';
 
 type renderBattleMessageElemProps = {
 	currentCellCoord: string;
@@ -32,30 +29,6 @@ const renderBattleMessageElem = function ({
 	hitOrMiss,
 	sunkShipName,
 }: renderBattleMessageElemProps) {
-	const randHitsStrings = [
-		'A hit on',
-		'Direct hit on',
-		'Shields weak on',
-		'Hull integrity is weakening on',
-		'Impellers damaged on',
-		'Engines are out on',
-		'Weapons systems offline on',
-		'Life support failing on',
-		'Structural damage on',
-		'Reactor breach on',
-		'Target immobilized on',
-		'Power systems fluctuating on',
-		'Navigational systems down on',
-		'Communication systems disabled on',
-		'Gravity generators failing on',
-		'Primary sensor array damaged on',
-		'Secondary defenses compromised on',
-		'Point defense systems offline on',
-		'Missile tubes destroyed on',
-	];
-	const hitsPrecursorString = () =>
-		randHitsStrings[Math.floor(Math.random() * randHitsStrings.length)];
-
 	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
 		localStorage.getItem('havenShipNames') ?? ''
 	);
@@ -67,32 +40,10 @@ const renderBattleMessageElem = function ({
 
 	const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
 
+	const battleMessageContainer: Div = document.querySelector('.battleMessage-container');
+
 	const battleMessageElem = elemCreator('p')(['battleMessageElem']);
-	appendElemToParent(battleMessageWrapper)(battleMessageElem);
-
-	{
-		const today = new Date();
-		const formatter = new Intl.DateTimeFormat('en-US', {
-			month: 'short',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric',
-			second: 'numeric',
-		});
-		const formattedDate = formatter.format(today);
-
-		const dividerElem = elemCreator('p')(['dividerElem']);
-		pipe(
-			addTextToElem('_______________________'),
-			addStyleToElem([['color', '#00f000']]),
-			appendElemToParent(battleMessageWrapper)
-		)(dividerElem);
-
-		pipe(addTextToElem(`T-year 1913  ${formattedDate}  `))(battleMessageElem);
-
-		for (let i = 0; i < 2; i += 1)
-			pipe(appendElemToParent(battleMessageElem))(elemCreator('br')(['spacerElem']));
-	}
+	appendElemToParent(battleMessageContainer)(battleMessageElem);
 
 	if (towardsCombatant === 'comp') {
 		// checks what compShip currentCellCoord is part of, as the compGridCells do not pass in a string textContent to differentiate between the ship types unlike the playerGridCells
@@ -126,43 +77,61 @@ const renderBattleMessageElem = function ({
 			// player attacking computer scores a hit
 			if (compSuperdreadnought.includes(currentCellCoord)) {
 				// displays hit on superdreadnought with randomized text
-				pipe(
-					addTextToElem(
-						`Tenth Fleet CIC: ${
-							tossCoin() ? `Admiral ${playerName}!` : ''
-						} ${hitsPrecursorString()} PNS ${havenShipNames.superdreadnought}! ${
-							battleTexts.hitsOnShip[
-								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-							]
-						}`
-					)
-				)(battleMessageElem);
+				renderBattleMessageHelper({
+					towardsCombatant: 'comp',
+					firedStatus: 'hit',
+					shipTypeHit: 'superdreadnought',
+				});
+
+				// pipe(
+				// 	addTextToElem(
+				// 		`Tenth Fleet CIC: ${
+				// 			tossCoin() ? `Admiral ${playerName}!` : ''
+				// 		} ${hitsPrecursorString()} PNS ${havenShipNames.superdreadnought}! ${
+				// 			battleTexts.hitsOnShip[
+				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+				// 			]
+				// 		}`
+				// 	)
+				// )(battleMessageElem);
 			} else if (compCarrier.includes(currentCellCoord)) {
 				//displays hit on carrier with randomized text
-				pipe(
-					addTextToElem(
-						`Tenth Fleet CIC: ${
-							tossCoin() ? `Admiral ${playerName}!` : ''
-						} ${hitsPrecursorString()} PNS ${havenShipNames.carrier}! ${
-							battleTexts.hitsOnShip[
-								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-							]
-						}`
-					)
-				)(battleMessageElem);
+				renderBattleMessageHelper({
+					towardsCombatant: 'comp',
+					firedStatus: 'hit',
+					shipTypeHit: 'carrier',
+				});
+
+				// pipe(
+				// 	addTextToElem(
+				// 		`Tenth Fleet CIC: ${
+				// 			tossCoin() ? `Admiral ${playerName}!` : ''
+				// 		} ${hitsPrecursorString()} PNS ${havenShipNames.carrier}! ${
+				// 			battleTexts.hitsOnShip[
+				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+				// 			]
+				// 		}`
+				// 	)
+				// )(battleMessageElem);
 			} else if (compBattleship.includes(currentCellCoord)) {
 				//displays hit on battleship with randomized text
-				pipe(
-					addTextToElem(
-						`Tenth Fleet CIC: ${
-							tossCoin() ? `Admiral ${playerName}!` : ''
-						} ${hitsPrecursorString()} PNS ${havenShipNames.battleship}! ${
-							battleTexts.hitsOnShip[
-								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-							]
-						}`
-					)
-				)(battleMessageElem);
+				renderBattleMessageHelper({
+					towardsCombatant: 'comp',
+					firedStatus: 'hit',
+					shipTypeHit: 'battleship',
+				});
+
+				// pipe(
+				// 	addTextToElem(
+				// 		`Tenth Fleet CIC: ${
+				// 			tossCoin() ? `Admiral ${playerName}!` : ''
+				// 		} ${hitsPrecursorString()} PNS ${havenShipNames.battleship}! ${
+				// 			battleTexts.hitsOnShip[
+				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+				// 			]
+				// 		}`
+				// 	)
+				// )(battleMessageElem);
 			} else if (compDestroyers.includes(currentCellCoord)) {
 				//there are two destroyers to connect names
 				//checks that current cell that has hit registered is included in either one of the destroyers' or frigates' co-ordinates and assigns corresponding name to the hit rather than randomly calling the names
@@ -171,194 +140,144 @@ const renderBattleMessageElem = function ({
 					localStorage.getItem('compDestroyers') ?? ''
 				);
 
-				const destroyer1Coords: string[] = [];
-				Object.values(destroyer1).forEach((shipPartCoords) => {
-					destroyer1Coords.push(shipPartCoords);
-				});
+				// const destroyer1Coords: string[] = [];
+				// Object.values(destroyer1).forEach((shipPartCoords) => {
+				// 	destroyer1Coords.push(shipPartCoords);
+				// });
+				const destroyer1Coords: string[] = Object.values(destroyer1);
 
 				//displays hit on destroyer with randomized text
-				//only need to check one destroyer
-				pipe(
-					addTextToElem(
-						`Tenth Fleet CIC: ${
-							tossCoin() ? `Admiral ${playerName}!` : ''
-						} ${hitsPrecursorString()} PNS ${
-							destroyer1Coords.includes(currentCellCoord)
-								? havenShipNames.destroyers[0]
-								: havenShipNames.destroyers[1]
-						}! ${
-							battleTexts.hitsOnShip[
-								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-							]
-						}`
-					)
-				)(battleMessageElem);
+				renderBattleMessageHelper({
+					towardsCombatant: 'comp',
+					firedStatus: 'hit',
+					shipTypeHit: 'destroyer',
+					shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1,
+				});
+
+				// //only need to check one destroyer
+				// pipe(
+				// 	addTextToElem(
+				// 		`Tenth Fleet CIC: ${
+				// 			tossCoin() ? `Admiral ${playerName}!` : ''
+				// 		} ${hitsPrecursorString()} PNS ${
+				// 			destroyer1Coords.includes(currentCellCoord)
+				// 				? havenShipNames.destroyers[0]
+				// 				: havenShipNames.destroyers[1]
+				// 		}! ${
+				// 			battleTexts.hitsOnShip[
+				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+				// 			]
+				// 		}`
+				// 	)
+				// )(battleMessageElem);
 			} else if (compFrigates.includes(currentCellCoord)) {
 				//there are two frigates to connect names
 				const [frigate1, _]: Frigate[] = JSON.parse(
 					localStorage.getItem('compFrigates') ?? ''
 				);
 
-				const frigate1Coords: string[] = [];
-				Object.values(frigate1).forEach((shipPartCoords) => {
-					frigate1Coords.push(shipPartCoords);
-				});
+				// const frigate1Coords: string[] = [];
+				// Object.values(frigate1).forEach((shipPartCoords) => {
+				// 	frigate1Coords.push(shipPartCoords);
+				// });
+				const frigate1Coords: string[] = Object.values(frigate1);
 
 				//displays hit on frigate with randomized text
-				//only need to check one frigate
-				pipe(
-					addTextToElem(
-						`Tenth Fleet CIC: ${
-							tossCoin() ? `Admiral ${playerName}!` : ''
-						} ${hitsPrecursorString()} PNS ${
-							frigate1Coords.includes(currentCellCoord)
-								? havenShipNames.frigates[0]
-								: havenShipNames.frigates[1]
-						}! ${
-							battleTexts.hitsOnShip[
-								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-							]
-						}`
-					)
-				)(battleMessageElem);
+				renderBattleMessageHelper({
+					towardsCombatant: 'comp',
+					firedStatus: 'hit',
+					shipTypeHit: 'frigate',
+					shipNumber: frigate1Coords.includes(currentCellCoord) ? 0 : 1,
+				});
+
+				// //only need to check one frigate
+				// pipe(
+				// 	addTextToElem(
+				// 		`Tenth Fleet CIC: ${
+				// 			tossCoin() ? `Admiral ${playerName}!` : ''
+				// 		} ${hitsPrecursorString()} PNS ${
+				// 			frigate1Coords.includes(currentCellCoord)
+				// 				? havenShipNames.frigates[0]
+				// 				: havenShipNames.frigates[1]
+				// 		}! ${
+				// 			battleTexts.hitsOnShip[
+				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
+				// 			]
+				// 		}`
+				// 	)
+				// )(battleMessageElem);
 			}
 		} else if (hitOrMiss === 'miss') {
 			//player attacking computer misses
-			pipe(
-				addTextToElem(
-					`Tenth Fleet CIC: ${tossCoin() ? `Admiral ${playerName}!` : ''} ${
-						battleTexts.missesOnShip[
-							Math.floor(Math.random() * battleTexts.missesOnShip.length)
-						]
-					}`
-				)
-			)(battleMessageElem);
+			//displays miss on computer with randomized text
+			renderBattleMessageHelper({
+				towardsCombatant: 'comp',
+				firedStatus: 'miss',
+			});
+
+			// pipe(
+			// 	addTextToElem(
+			// 		`Tenth Fleet CIC: ${tossCoin() ? `Admiral ${playerName}!` : ''} ${
+			// 			battleTexts.missesOnShip[
+			// 				Math.floor(Math.random() * battleTexts.missesOnShip.length)
+			// 			]
+			// 		}`
+			// 	)
+			// )(battleMessageElem);
 		}
 	} else if (towardsCombatant === 'player') {
 		if (hitOrMiss === 'hit') {
 			//if computer attacking player registers a hit
 			if (currentShipSymbol === 'S') {
+				// computer hits player's superdreadnought
+				renderBattleMessageHelper({
+					towardsCombatant: 'player',
+					firedStatus: 'hit',
+					shipTypeHit: 'superdreadnought',
+				});
+
 				// comp sinks player's superdreadnought
 				if (sunkShipName === manticoreShipNames.superdreadnought) {
 					// player CIC text that indicates that computer has sunk their superdreadnought
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Tenth Fleet CIC: ${hitsPrecursorString()} the superdreadnought RMNS ${
-								manticoreShipNames.superdreadnought
-							}! Sir, it's gone... Dear God, all those people... `
-						)
-					)(battleMessageElem);
-
-					pipe(appendElemToParent(battleMessageElem))(elemCreator('br')(['spacerElem']));
-
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Admiral ${playerName} to Tenth Fleet: ${
-								battleTexts.playerShipDestroyed[
-									Math.floor(Math.random() * battleTexts.playerShipDestroyed.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
-				} else {
-					// player CIC text that indicates damage to their superdreadnought when computer scores a hit
-					pipe(
-						addTextToElem(
-							`Tenth Fleet CIC: ${
-								tossCoin() ? `Admiral ${playerName}!` : ''
-							} ${hitsPrecursorString()} the superdreadnought RMNS ${
-								manticoreShipNames.superdreadnought
-							}! ${
-								battleTexts.damageOnShip[
-									Math.floor(Math.random() * battleTexts.damageOnShip.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
+					renderBattleMessageHelper({
+						towardsCombatant: 'player',
+						firedStatus: 'sunk',
+						shipTypeHit: 'superdreadnought',
+					});
 				}
 			} else if (currentShipSymbol === 'C') {
+				// computer hits player's carrier
+				renderBattleMessageHelper({
+					towardsCombatant: 'player',
+					firedStatus: 'hit',
+					shipTypeHit: 'carrier',
+				});
+
 				// comp sinks player's carrier
 				if (sunkShipName === manticoreShipNames.carrier) {
 					// player CIC text that indicates that computer has sunk their carrier
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Tenth Fleet CIC: ${hitsPrecursorString()} the carrier RMNS ${
-								manticoreShipNames.carrier
-							}! Sir, it's gone... Dear God, all those people... `
-						)
-					)(battleMessageElem);
-
-					pipe(appendElemToParent(battleMessageElem))(elemCreator('br')(['spacerElem']));
-
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Admiral ${playerName} to Tenth Fleet: ${
-								battleTexts.playerShipDestroyed[
-									Math.floor(Math.random() * battleTexts.playerShipDestroyed.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
-				} else {
-					// player CIC text that indicates damage to their carrier when computer scores a hit
-					pipe(
-						addTextToElem(
-							`Tenth Fleet CIC: ${
-								tossCoin() ? `Admiral ${playerName}!` : ''
-							} ${hitsPrecursorString()} the carrier RMNS ${
-								manticoreShipNames.carrier
-							}! ${
-								battleTexts.damageOnShip[
-									Math.floor(Math.random() * battleTexts.damageOnShip.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
+					renderBattleMessageHelper({
+						towardsCombatant: 'player',
+						firedStatus: 'sunk',
+						shipTypeHit: 'carrier',
+					});
 				}
 			} else if (currentShipSymbol === 'B') {
+				// computer hits player's battleship
+				renderBattleMessageHelper({
+					towardsCombatant: 'player',
+					firedStatus: 'hit',
+					shipTypeHit: 'battleship',
+				});
+
 				// comp sinks player's battleship
 				if (sunkShipName === manticoreShipNames.battleship) {
 					// player CIC text that indicates that computer has sunk their battleship
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Tenth Fleet CIC: ${hitsPrecursorString()} the battleship RMNS ${
-								manticoreShipNames.battleship
-							}! Sir, it's gone... Dear God, all those people... `
-						)
-					)(battleMessageElem);
-
-					pipe(appendElemToParent(battleMessageElem))(elemCreator('br')(['spacerElem']));
-
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Admiral ${playerName} to Tenth Fleet: ${
-								battleTexts.playerShipDestroyed[
-									Math.floor(Math.random() * battleTexts.playerShipDestroyed.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
-				} else {
-					// player CIC text that indicates damage to their battleship when computer scores a hit
-					pipe(
-						addTextToElem(
-							`Tenth Fleet CIC: ${
-								tossCoin() ? `Admiral ${playerName}!` : ''
-							} ${hitsPrecursorString()} the battleship RMNS ${
-								manticoreShipNames.battleship
-							}! ${
-								battleTexts.damageOnShip[
-									Math.floor(Math.random() * battleTexts.damageOnShip.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
+					renderBattleMessageHelper({
+						towardsCombatant: 'player',
+						firedStatus: 'sunk',
+						shipTypeHit: 'battleship',
+					});
 				}
 			} else if (currentShipSymbol === 'D') {
 				//there are two destroyers to connect names
@@ -371,52 +290,26 @@ const renderBattleMessageElem = function ({
 					destroyer1Coords.push(shipPartCoords);
 				});
 
+				// computer hits player's destroyer
+				renderBattleMessageHelper({
+					towardsCombatant: 'player',
+					firedStatus: 'hit',
+					shipTypeHit: 'destroyer',
+					shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1,
+				});
+
 				// comp sinks player's destroyer
 				if (
 					sunkShipName === manticoreShipNames.destroyers[0] ||
 					sunkShipName === manticoreShipNames.destroyers[1]
 				) {
 					// player CIC text that indicates that computer has sunk their destroyer
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Tenth Fleet CIC: ${hitsPrecursorString()} the destroyer RMNS ${
-								destroyer1Coords.includes(currentCellCoord)
-									? manticoreShipNames.destroyers[0]
-									: manticoreShipNames.destroyers[1]
-							}! Sir, it's gone... Dear God, all those people... `
-						)
-					)(battleMessageElem);
-
-					pipe(appendElemToParent(battleMessageElem))(elemCreator('br')(['spacerElem']));
-
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Admiral ${playerName} to Tenth Fleet: ${
-								battleTexts.playerShipDestroyed[
-									Math.floor(Math.random() * battleTexts.playerShipDestroyed.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
-				} else {
-					// player CIC text that indicates damage to their destroyer when computer scores a hit
-					pipe(
-						addTextToElem(
-							`Tenth Fleet CIC: ${
-								tossCoin() ? `Admiral ${playerName}!` : ''
-							} ${hitsPrecursorString()} the destroyer RMNS ${
-								destroyer1Coords.includes(currentCellCoord)
-									? manticoreShipNames.destroyers[0]
-									: manticoreShipNames.destroyers[1]
-							}! ${
-								battleTexts.damageOnShip[
-									Math.floor(Math.random() * battleTexts.damageOnShip.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
+					renderBattleMessageHelper({
+						towardsCombatant: 'player',
+						firedStatus: 'sunk',
+						shipTypeHit: 'destroyer',
+						shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1,
+					});
 				}
 			} else if (currentShipSymbol === 'F') {
 				//there are two frigates to connect names
@@ -429,52 +322,26 @@ const renderBattleMessageElem = function ({
 					frigate1Coords.push(shipPartCoords);
 				});
 
+				// computer hits player's frigate
+				renderBattleMessageHelper({
+					towardsCombatant: 'player',
+					firedStatus: 'hit',
+					shipTypeHit: 'frigate',
+					shipNumber: frigate1Coords.includes(currentCellCoord) ? 0 : 1,
+				});
+
 				// comp sinks player's frigate
 				if (
 					sunkShipName === manticoreShipNames.frigates[0] ||
 					sunkShipName === manticoreShipNames.frigates[1]
 				) {
 					// player CIC text that indicates that computer has sunk their frigate
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Tenth Fleet CIC: ${hitsPrecursorString()} the frigate RMNS ${
-								frigate1Coords.includes(currentCellCoord)
-									? manticoreShipNames.frigates[0]
-									: manticoreShipNames.frigates[1]
-							}! Sir, it's gone... Dear God, all those people... `
-						)
-					)(battleMessageElem);
-
-					pipe(appendElemToParent(battleMessageElem))(elemCreator('br')(['spacerElem']));
-
-					pipe(
-						addStyleToElem([['color', '#f0a400']]),
-						addTextToElem(
-							`Admiral ${playerName} to Tenth Fleet: ${
-								battleTexts.playerShipDestroyed[
-									Math.floor(Math.random() * battleTexts.playerShipDestroyed.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
-				} else {
-					// player CIC text that indicates damage to their frigate when computer scores a hit
-					pipe(
-						addTextToElem(
-							`Tenth Fleet CIC: ${
-								tossCoin() ? `Admiral ${playerName}!` : ''
-							} ${hitsPrecursorString()} the frigate RMNS ${
-								frigate1Coords.includes(currentCellCoord)
-									? manticoreShipNames.frigates[0]
-									: manticoreShipNames.frigates[1]
-							}! ${
-								battleTexts.damageOnShip[
-									Math.floor(Math.random() * battleTexts.damageOnShip.length)
-								]
-							}`
-						)
-					)(battleMessageElem);
+					renderBattleMessageHelper({
+						towardsCombatant: 'player',
+						firedStatus: 'sunk',
+						shipTypeHit: 'frigate',
+						shipNumber: frigate1Coords.includes(currentCellCoord) ? 0 : 1,
+					});
 				}
 			}
 		}
@@ -494,9 +361,9 @@ const renderBattleMessageElem = function ({
 
 	//auto-scrolls to the bottom to have the most recent message visible
 	// const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
-	const scrollHeight = battleMessageWrapper?.scrollHeight ?? 0;
+	const scrollHeight = battleMessageContainer?.scrollHeight ?? 0;
 
-	battleMessageWrapper?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
+	battleMessageContainer?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
 };
 export { renderBattleMessageElem };
 
