@@ -123,8 +123,6 @@ function updateCompTacticalOverviewShips() {
 						!compShipsHitCoords.includes(coord) && !compShipsMissesCoords.includes(coord)
 				);
 
-			console.log(`uniqueAdjacentCoords for ${shipType}: `, uniqueAdjacentCoords);
-
 			// if all adjacent cells are hit, the ship is confirmed sunk and the ship is displayed as sunk in the tactical overview
 			if (uniqueAdjacentCoords.length === 0) {
 				// grab the tac overview comp '?' cell and remove it

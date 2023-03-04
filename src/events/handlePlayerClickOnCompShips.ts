@@ -25,11 +25,6 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		localStorage.getItem('totalHitsOnCompShips') ?? ''
 	);
 
-	console.log(
-		'totalHitsOnCompShips from handlePlayerClickOnCompShips(): ',
-		totalHitsOnCompShips
-	);
-
 	const currentCellCoord = this.dataset.cellcomp ?? '';
 	//prevents winner being called when a miss is registered
 	if (compShipsCoords.includes(currentCellCoord)) {

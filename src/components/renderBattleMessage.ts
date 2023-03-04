@@ -48,30 +48,23 @@ const renderBattleMessageElem = function ({
 	if (towardsCombatant === 'comp') {
 		// checks what compShip currentCellCoord is part of, as the compGridCells do not pass in a string textContent to differentiate between the ship types unlike the playerGridCells
 		const compSuperdreadnought: string[] = Object.values(
-			JSON.parse(localStorage.getItem('compSuperdreadnought') ?? '')
+			JSON.parse(localStorage.getItem('compSuperdreadnought') ?? JSON.stringify([]))
 		);
 		const compCarrier: string[] = Object.values(
-			JSON.parse(localStorage.getItem('compCarrier') ?? '')
+			JSON.parse(localStorage.getItem('compCarrier') ?? JSON.stringify([]))
 		);
 		const compBattleship: string[] = Object.values(
-			JSON.parse(localStorage.getItem('compBattleship') ?? '')
+			JSON.parse(localStorage.getItem('compBattleship') ?? JSON.stringify([]))
 		);
 
 		// destroyers consists of an array of objects
-		let compDestroyers: unknown[] = [];
-		JSON.parse(localStorage.getItem('compDestroyers') ?? '').forEach(
-			(destroyer: Destroyer) => {
-				compDestroyers.push(Object.values(destroyer));
-			}
-		);
-		compDestroyers = compDestroyers.flat();
+		const compDestroyers: string[] = JSON.parse(
+			localStorage.getItem('compDestroyers') ?? JSON.stringify([])
+		).flatMap((destroyer: Destroyer) => Object.values(destroyer));
 
-		// frigates consists of an array of objects
-		let compFrigates: unknown[] = [];
-		JSON.parse(localStorage.getItem('compFrigates') ?? '').forEach((frigate: Frigate) => {
-			compFrigates.push(Object.values(frigate));
-		});
-		compFrigates = compFrigates.flat();
+		const compFrigates: string[] = JSON.parse(
+			localStorage.getItem('compFrigates') ?? JSON.stringify([])
+		).flatMap((frigate: Frigate) => Object.values(frigate));
 
 		if (hitOrMiss === 'hit') {
 			// player attacking computer scores a hit
@@ -82,18 +75,6 @@ const renderBattleMessageElem = function ({
 					firedStatus: 'hit',
 					shipTypeHit: 'superdreadnought',
 				});
-
-				// pipe(
-				// 	addTextToElem(
-				// 		`Tenth Fleet CIC: ${
-				// 			tossCoin() ? `Admiral ${playerName}!` : ''
-				// 		} ${hitsPrecursorString()} PNS ${havenShipNames.superdreadnought}! ${
-				// 			battleTexts.hitsOnShip[
-				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-				// 			]
-				// 		}`
-				// 	)
-				// )(battleMessageElem);
 			} else if (compCarrier.includes(currentCellCoord)) {
 				//displays hit on carrier with randomized text
 				renderBattleMessageHelper({
@@ -101,18 +82,6 @@ const renderBattleMessageElem = function ({
 					firedStatus: 'hit',
 					shipTypeHit: 'carrier',
 				});
-
-				// pipe(
-				// 	addTextToElem(
-				// 		`Tenth Fleet CIC: ${
-				// 			tossCoin() ? `Admiral ${playerName}!` : ''
-				// 		} ${hitsPrecursorString()} PNS ${havenShipNames.carrier}! ${
-				// 			battleTexts.hitsOnShip[
-				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-				// 			]
-				// 		}`
-				// 	)
-				// )(battleMessageElem);
 			} else if (compBattleship.includes(currentCellCoord)) {
 				//displays hit on battleship with randomized text
 				renderBattleMessageHelper({
@@ -120,31 +89,16 @@ const renderBattleMessageElem = function ({
 					firedStatus: 'hit',
 					shipTypeHit: 'battleship',
 				});
-
-				// pipe(
-				// 	addTextToElem(
-				// 		`Tenth Fleet CIC: ${
-				// 			tossCoin() ? `Admiral ${playerName}!` : ''
-				// 		} ${hitsPrecursorString()} PNS ${havenShipNames.battleship}! ${
-				// 			battleTexts.hitsOnShip[
-				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-				// 			]
-				// 		}`
-				// 	)
-				// )(battleMessageElem);
 			} else if (compDestroyers.includes(currentCellCoord)) {
 				//there are two destroyers to connect names
-				//checks that current cell that has hit registered is included in either one of the destroyers' or frigates' co-ordinates and assigns corresponding name to the hit rather than randomly calling the names
+				const [destroyer1Coords, _]: string[] = JSON.parse(
+					localStorage.getItem('compDestroyers') ?? JSON.stringify([])
+				).map((destroyer: Destroyer) => Object.values(destroyer));
 
-				const [destroyer1, _]: Destroyer[] = JSON.parse(
-					localStorage.getItem('compDestroyers') ?? ''
+				console.log(
+					'destroyer1Coords flatmapped from renderBattleMessage()',
+					destroyer1Coords
 				);
-
-				// const destroyer1Coords: string[] = [];
-				// Object.values(destroyer1).forEach((shipPartCoords) => {
-				// 	destroyer1Coords.push(shipPartCoords);
-				// });
-				const destroyer1Coords: string[] = Object.values(destroyer1);
 
 				//displays hit on destroyer with randomized text
 				renderBattleMessageHelper({
@@ -153,34 +107,16 @@ const renderBattleMessageElem = function ({
 					shipTypeHit: 'destroyer',
 					shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1,
 				});
-
-				// //only need to check one destroyer
-				// pipe(
-				// 	addTextToElem(
-				// 		`Tenth Fleet CIC: ${
-				// 			tossCoin() ? `Admiral ${playerName}!` : ''
-				// 		} ${hitsPrecursorString()} PNS ${
-				// 			destroyer1Coords.includes(currentCellCoord)
-				// 				? havenShipNames.destroyers[0]
-				// 				: havenShipNames.destroyers[1]
-				// 		}! ${
-				// 			battleTexts.hitsOnShip[
-				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-				// 			]
-				// 		}`
-				// 	)
-				// )(battleMessageElem);
 			} else if (compFrigates.includes(currentCellCoord)) {
 				//there are two frigates to connect names
-				const [frigate1, _]: Frigate[] = JSON.parse(
-					localStorage.getItem('compFrigates') ?? ''
-				);
+				const [frigate1Coords, _]: string[] = JSON.parse(
+					localStorage.getItem('compFrigates') ?? JSON.stringify([])
+				).map((frigate: Frigate) => Object.values(frigate));
 
-				// const frigate1Coords: string[] = [];
-				// Object.values(frigate1).forEach((shipPartCoords) => {
-				// 	frigate1Coords.push(shipPartCoords);
-				// });
-				const frigate1Coords: string[] = Object.values(frigate1);
+				console.log(
+					'frigate1Coords flatmapped from renderBattleMessage()',
+					frigate1Coords
+				);
 
 				//displays hit on frigate with randomized text
 				renderBattleMessageHelper({
@@ -189,23 +125,6 @@ const renderBattleMessageElem = function ({
 					shipTypeHit: 'frigate',
 					shipNumber: frigate1Coords.includes(currentCellCoord) ? 0 : 1,
 				});
-
-				// //only need to check one frigate
-				// pipe(
-				// 	addTextToElem(
-				// 		`Tenth Fleet CIC: ${
-				// 			tossCoin() ? `Admiral ${playerName}!` : ''
-				// 		} ${hitsPrecursorString()} PNS ${
-				// 			frigate1Coords.includes(currentCellCoord)
-				// 				? havenShipNames.frigates[0]
-				// 				: havenShipNames.frigates[1]
-				// 		}! ${
-				// 			battleTexts.hitsOnShip[
-				// 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-				// 			]
-				// 		}`
-				// 	)
-				// )(battleMessageElem);
 			}
 		} else if (hitOrMiss === 'miss') {
 			//player attacking computer misses
@@ -214,16 +133,6 @@ const renderBattleMessageElem = function ({
 				towardsCombatant: 'comp',
 				firedStatus: 'miss',
 			});
-
-			// pipe(
-			// 	addTextToElem(
-			// 		`Tenth Fleet CIC: ${tossCoin() ? `Admiral ${playerName}!` : ''} ${
-			// 			battleTexts.missesOnShip[
-			// 				Math.floor(Math.random() * battleTexts.missesOnShip.length)
-			// 			]
-			// 		}`
-			// 	)
-			// )(battleMessageElem);
 		}
 	} else if (towardsCombatant === 'player') {
 		if (hitOrMiss === 'hit') {
@@ -284,11 +193,7 @@ const renderBattleMessageElem = function ({
 				const [destroyer1, _]: Destroyer[] = JSON.parse(
 					localStorage.getItem('destroyer') ?? ''
 				);
-
-				const destroyer1Coords: string[] = [];
-				Object.values(destroyer1).forEach((shipPartCoords) => {
-					destroyer1Coords.push(shipPartCoords);
-				});
+				const destroyer1Coords: string[] = Object.values(destroyer1);
 
 				// computer hits player's destroyer
 				renderBattleMessageHelper({
@@ -316,11 +221,7 @@ const renderBattleMessageElem = function ({
 				const [frigate1, _]: Frigate[] = JSON.parse(
 					localStorage.getItem('frigate') ?? ''
 				);
-
-				const frigate1Coords: string[] = [];
-				Object.values(frigate1).forEach((shipPartCoords) => {
-					frigate1Coords.push(shipPartCoords);
-				});
+				const frigate1Coords: string[] = Object.values(frigate1);
 
 				// computer hits player's frigate
 				renderBattleMessageHelper({
@@ -345,18 +246,6 @@ const renderBattleMessageElem = function ({
 				}
 			}
 		}
-		// else if (hitOrMiss === 'miss') {
-		// 	//computer attacking player misses
-		// 	pipe(
-		// 		addTextToElem(
-		// 			`Haven Fleet CIC: ${tossCoin() ? `Admiral McQueen!` : ''} ${
-		// 				battleTexts.missesOnShip[
-		// 					Math.floor(Math.random() * battleTexts.missesOnShip.length)
-		// 				]
-		// 			}`
-		// 		)
-		// 	)(battleMessageElem);
-		// }
 	}
 
 	//auto-scrolls to the bottom to have the most recent message visible
@@ -366,40 +255,3 @@ const renderBattleMessageElem = function ({
 	battleMessageContainer?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
 };
 export { renderBattleMessageElem };
-
-/**
-	
-{
-			//display that its players's turn so the messages are more clearly differentiable
-			pipe(
-				addStyleToElem([[`color`, `#f0a400`]]),
-				addTextToElem(`Players's turn: `)
-			)(battleMessageElem);
-
-			//adds a spacer element to separate the player's turn message from the battle message
-			for (let i = 0; i < 2; i += 1) {
-				const spacerElem = elemCreator('br')(['spacerElem']);
-				pipe(appendElemToParent(battleMessageElem))(spacerElem);
-			}
-		}
-
-
-//displays hit on destroyer with randomized text
-				//only need to check one destroyer
-				pipe(
-					addTextToElem(
-						`Haven Fleet CIC: ${
-							tossCoin() ? `Admiral McQueen!` : ''
-						} ${hitsPrecursorString()} the destroyer RMNS ${
-							destroyer1Coords.includes(currentCellCoord)
-								? manticoreShipNames.destroyers[0]
-								: manticoreShipNames.destroyers[1]
-						}! ${
-							battleTexts.hitsOnShip[
-								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-							]
-						}`
-					)
-				)(battleMessageElem);
- 
- */

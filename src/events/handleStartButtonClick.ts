@@ -71,18 +71,11 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 
 	// renders a new info screen for the battle texts
 	const battleMessageWrapper = elemCreator('div')(['battleMessage-wrapper']);
-	pipe(
-		// addStyleToElem([['position', 'relative']]),
-		appendElemToParent(gameBoardContainer)
-	)(battleMessageWrapper);
+	pipe(appendElemToParent(gameBoardContainer))(battleMessageWrapper);
 
 	pipe(
 		addTextToElem('Manticoran Tenth Fleet CIC'),
-		// addStyleToElem([
-		// 	['color', '#00f000'],
-		// 	['position', 'sticky'],
-		// 	['top', '0'],
-		// ]),
+		//
 		appendElemToParent(battleMessageWrapper)
 	)(elemCreator('h2')(['battleMessageTitleElem']));
 

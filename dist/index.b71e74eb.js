@@ -504,14 +504,18 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"h7u1C":[function(require,module,exports) {
 var _addEvtListenerToForm = require("./components/addEvtListenerToForm");
+var _greetingsText = require("./data/greetingsText");
+var _renderTypewriterText = require("./utilities/renderTypewriterText");
 const mainApp = function() {
     (0, _addEvtListenerToForm.addEvtListenerToForm)();
+    const greetingsContainer = document.querySelector(".greetings-container");
+    (0, _renderTypewriterText.renderTypewriterText)((0, _greetingsText.greetingsText), greetingsContainer, 25);
     //clears storage upon refresh
     localStorage.clear();
 };
 document.addEventListener("DOMContentLoaded", mainApp);
 
-},{"./components/addEvtListenerToForm":"lOujp"}],"lOujp":[function(require,module,exports) {
+},{"./components/addEvtListenerToForm":"lOujp","./data/greetingsText":"5lrmx","./utilities/renderTypewriterText":"1OnVq"}],"lOujp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addEvtListenerToForm", ()=>addEvtListenerToForm);
@@ -1264,13 +1268,8 @@ const handleStartButtonClick = function(ev) {
     const battleMessageWrapper = (0, _elementCreators.elemCreator)("div")([
         "battleMessage-wrapper"
     ]);
-    (0, _elementCreators.pipe)(// addStyleToElem([['position', 'relative']]),
-    (0, _elementCreators.appendElemToParent)(gameBoardContainer))(battleMessageWrapper);
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Manticoran Tenth Fleet CIC"), // addStyleToElem([
-    // 	['color', '#00f000'],
-    // 	['position', 'sticky'],
-    // 	['top', '0'],
-    // ]),
+    (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(gameBoardContainer))(battleMessageWrapper);
+    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Manticoran Tenth Fleet CIC"), //
     (0, _elementCreators.appendElemToParent)(battleMessageWrapper))((0, _elementCreators.elemCreator)("h2")([
         "battleMessageTitleElem"
     ]));
@@ -3100,8 +3099,6 @@ function renderTacticalOverview() {
                     "shipName-container"
                 ]);
                 (0, _elementCreators.appendElemToParent)(tacticalOverviewWrapperPlayer)(shipNameContainer);
-                // const smallShipsContainer = elemCreator('p')(['smallShips-container']);
-                // pipe(appendElemToParent(shipNameContainer))(smallShipsContainer);
                 (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`RMNS ${shipName[i]}`), (0, _elementCreators.appendElemToParent)(shipNameContainer))((0, _elementCreators.elemCreator)("p")([
                     "shipName-text"
                 ]));
@@ -3448,7 +3445,6 @@ const handlePlayerClickOnCompShips = function(ev) {
     if (!localStorage.getItem("totalHitsOnCompShips")) localStorage.setItem("totalHitsOnCompShips", JSON.stringify(0));
     const compShipsCoords = JSON.parse(localStorage.getItem("compShipsCoords") ?? "");
     let totalHitsOnCompShips = JSON.parse(localStorage.getItem("totalHitsOnCompShips") ?? "");
-    console.log("totalHitsOnCompShips from handlePlayerClickOnCompShips(): ", totalHitsOnCompShips);
     const currentCellCoord = this.dataset.cellcomp ?? "";
     //prevents winner being called when a miss is registered
     if (compShipsCoords.includes(currentCellCoord)) //checks hit counter to see if its the last hit
@@ -3597,42 +3593,7 @@ const restartGame = function() {
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hDATR":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderBattleMessageElem", ()=>renderBattleMessageElem) /**
-	
-{
-			//display that its players's turn so the messages are more clearly differentiable
-			pipe(
-				addStyleToElem([[`color`, `#f0a400`]]),
-				addTextToElem(`Players's turn: `)
-			)(battleMessageElem);
-
-			//adds a spacer element to separate the player's turn message from the battle message
-			for (let i = 0; i < 2; i += 1) {
-				const spacerElem = elemCreator('br')(['spacerElem']);
-				pipe(appendElemToParent(battleMessageElem))(spacerElem);
-			}
-		}
-
-
-//displays hit on destroyer with randomized text
-				//only need to check one destroyer
-				pipe(
-					addTextToElem(
-						`Haven Fleet CIC: ${
-							tossCoin() ? `Admiral McQueen!` : ''
-						} ${hitsPrecursorString()} the destroyer RMNS ${
-							destroyer1Coords.includes(currentCellCoord)
-								? manticoreShipNames.destroyers[0]
-								: manticoreShipNames.destroyers[1]
-						}! ${
-							battleTexts.hitsOnShip[
-								Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-							]
-						}`
-					)
-				)(battleMessageElem);
- 
- */ ;
+parcelHelpers.export(exports, "renderBattleMessageElem", ()=>renderBattleMessageElem);
 var _elementCreators = require("../utilities/elementCreators");
 var _renderBattleMessageHelper = require("../utilities/renderBattleMessageHelper");
 const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol , towardsCombatant , hitOrMiss , sunkShipName  }) {
@@ -3647,21 +3608,12 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
     (0, _elementCreators.appendElemToParent)(battleMessageContainer)(battleMessageElem);
     if (towardsCombatant === "comp") {
         // checks what compShip currentCellCoord is part of, as the compGridCells do not pass in a string textContent to differentiate between the ship types unlike the playerGridCells
-        const compSuperdreadnought = Object.values(JSON.parse(localStorage.getItem("compSuperdreadnought") ?? ""));
-        const compCarrier = Object.values(JSON.parse(localStorage.getItem("compCarrier") ?? ""));
-        const compBattleship = Object.values(JSON.parse(localStorage.getItem("compBattleship") ?? ""));
+        const compSuperdreadnought = Object.values(JSON.parse(localStorage.getItem("compSuperdreadnought") ?? JSON.stringify([])));
+        const compCarrier = Object.values(JSON.parse(localStorage.getItem("compCarrier") ?? JSON.stringify([])));
+        const compBattleship = Object.values(JSON.parse(localStorage.getItem("compBattleship") ?? JSON.stringify([])));
         // destroyers consists of an array of objects
-        let compDestroyers = [];
-        JSON.parse(localStorage.getItem("compDestroyers") ?? "").forEach((destroyer)=>{
-            compDestroyers.push(Object.values(destroyer));
-        });
-        compDestroyers = compDestroyers.flat();
-        // frigates consists of an array of objects
-        let compFrigates = [];
-        JSON.parse(localStorage.getItem("compFrigates") ?? "").forEach((frigate)=>{
-            compFrigates.push(Object.values(frigate));
-        });
-        compFrigates = compFrigates.flat();
+        const compDestroyers = JSON.parse(localStorage.getItem("compDestroyers") ?? JSON.stringify([])).flatMap((destroyer)=>Object.values(destroyer));
+        const compFrigates = JSON.parse(localStorage.getItem("compFrigates") ?? JSON.stringify([])).flatMap((frigate)=>Object.values(frigate));
         if (hitOrMiss === "hit") {
             // player attacking computer scores a hit
             if (compSuperdreadnought.includes(currentCellCoord)) // displays hit on superdreadnought with randomized text
@@ -3684,13 +3636,8 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
             });
             else if (compDestroyers.includes(currentCellCoord)) {
                 //there are two destroyers to connect names
-                //checks that current cell that has hit registered is included in either one of the destroyers' or frigates' co-ordinates and assigns corresponding name to the hit rather than randomly calling the names
-                const [destroyer1, _] = JSON.parse(localStorage.getItem("compDestroyers") ?? "");
-                // const destroyer1Coords: string[] = [];
-                // Object.values(destroyer1).forEach((shipPartCoords) => {
-                // 	destroyer1Coords.push(shipPartCoords);
-                // });
-                const destroyer1Coords = Object.values(destroyer1);
+                const [destroyer1Coords, _] = JSON.parse(localStorage.getItem("compDestroyers") ?? JSON.stringify([])).map((destroyer)=>Object.values(destroyer));
+                console.log("destroyer1Coords flatmapped from renderBattleMessage()", destroyer1Coords);
                 //displays hit on destroyer with randomized text
                 (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                     towardsCombatant: "comp",
@@ -3698,30 +3645,10 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
                     shipTypeHit: "destroyer",
                     shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1
                 });
-            // //only need to check one destroyer
-            // pipe(
-            // 	addTextToElem(
-            // 		`Tenth Fleet CIC: ${
-            // 			tossCoin() ? `Admiral ${playerName}!` : ''
-            // 		} ${hitsPrecursorString()} PNS ${
-            // 			destroyer1Coords.includes(currentCellCoord)
-            // 				? havenShipNames.destroyers[0]
-            // 				: havenShipNames.destroyers[1]
-            // 		}! ${
-            // 			battleTexts.hitsOnShip[
-            // 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-            // 			]
-            // 		}`
-            // 	)
-            // )(battleMessageElem);
             } else if (compFrigates.includes(currentCellCoord)) {
                 //there are two frigates to connect names
-                const [frigate1, _] = JSON.parse(localStorage.getItem("compFrigates") ?? "");
-                // const frigate1Coords: string[] = [];
-                // Object.values(frigate1).forEach((shipPartCoords) => {
-                // 	frigate1Coords.push(shipPartCoords);
-                // });
-                const frigate1Coords = Object.values(frigate1);
+                const [frigate1Coords, _] = JSON.parse(localStorage.getItem("compFrigates") ?? JSON.stringify([])).map((frigate)=>Object.values(frigate));
+                console.log("frigate1Coords flatmapped from renderBattleMessage()", frigate1Coords);
                 //displays hit on frigate with randomized text
                 (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                     towardsCombatant: "comp",
@@ -3729,22 +3656,6 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
                     shipTypeHit: "frigate",
                     shipNumber: frigate1Coords.includes(currentCellCoord) ? 0 : 1
                 });
-            // //only need to check one frigate
-            // pipe(
-            // 	addTextToElem(
-            // 		`Tenth Fleet CIC: ${
-            // 			tossCoin() ? `Admiral ${playerName}!` : ''
-            // 		} ${hitsPrecursorString()} PNS ${
-            // 			frigate1Coords.includes(currentCellCoord)
-            // 				? havenShipNames.frigates[0]
-            // 				: havenShipNames.frigates[1]
-            // 		}! ${
-            // 			battleTexts.hitsOnShip[
-            // 				Math.floor(Math.random() * battleTexts.hitsOnShip.length)
-            // 			]
-            // 		}`
-            // 	)
-            // )(battleMessageElem);
             }
         } else if (hitOrMiss === "miss") //player attacking computer misses
         //displays miss on computer with randomized text
@@ -3800,10 +3711,7 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
             } else if (currentShipSymbol === "D") {
                 //there are two destroyers to connect names
                 const [destroyer1, _] = JSON.parse(localStorage.getItem("destroyer") ?? "");
-                const destroyer1Coords = [];
-                Object.values(destroyer1).forEach((shipPartCoords)=>{
-                    destroyer1Coords.push(shipPartCoords);
-                });
+                const destroyer1Coords = Object.values(destroyer1);
                 // computer hits player's destroyer
                 (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                     towardsCombatant: "player",
@@ -3822,10 +3730,7 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
             } else if (currentShipSymbol === "F") {
                 //there are two frigates to connect names
                 const [frigate1, _] = JSON.parse(localStorage.getItem("frigate") ?? "");
-                const frigate1Coords = [];
-                Object.values(frigate1).forEach((shipPartCoords)=>{
-                    frigate1Coords.push(shipPartCoords);
-                });
+                const frigate1Coords = Object.values(frigate1);
                 // computer hits player's frigate
                 (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                     towardsCombatant: "player",
@@ -4443,7 +4348,6 @@ function updateCompTacticalOverviewShips() {
                 if (xCoord - 1 >= 0) adjCoords.push(`${xCoord - 1},${yCoord}`);
                 return adjCoords;
             }, []).filter((coord)=>!compShipsHitCoords.includes(coord) && !compShipsMissesCoords.includes(coord));
-            console.log(`uniqueAdjacentCoords for ${shipType}: `, uniqueAdjacentCoords);
             // if all adjacent cells are hit, the ship is confirmed sunk and the ship is displayed as sunk in the tactical overview
             if (uniqueAdjacentCoords.length === 0) {
                 // grab the tac overview comp '?' cell and remove it
@@ -4699,38 +4603,7 @@ function storeCompHitMissCoords(compAttackGuess_, hitOrMiss) {
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"f2Nuf":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "updatePlayerTacticalOverviewCells", ()=>updatePlayerTacticalOverviewCells) /**
- 
-switch (towardsCombatant) {
-		case 'player': {
-			const cellToUpdate: Div = document.querySelector(
-				`[data-${towardsCombatant}ship="${currentCellCoord}"]`
-			);
-			if (cellToUpdate) {
-				cellToUpdate.textContent = '';
-				cellToUpdate.textContent = '💥';
-				cellToUpdate.style.color = '#f0a400';
-			}
-
-			break;
-		}
-		case 'comp': {
-			const cellToUpdate: Div = document.querySelector(
-				`[data-${towardsCombatant}ship="${currentCellCoord}"]`
-			);
-			if (cellToUpdate) {
-				cellToUpdate.textContent = '';
-				cellToUpdate.textContent = '💥';
-				cellToUpdate.style.color = '#f0a400';
-			}
-
-			break;
-		}
-		default:
-			break;
-	}
-
- */ ;
+parcelHelpers.export(exports, "updatePlayerTacticalOverviewCells", ()=>updatePlayerTacticalOverviewCells);
 function updatePlayerTacticalOverviewCells(currentCellCoord) {
     const cellToUpdate = document.querySelector(`[data-playership="${currentCellCoord}"]`);
     if (cellToUpdate) {
@@ -6321,6 +6194,55 @@ const handleSuperdreadnoughtMouseLeave = function(ev) {
     }
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["17ZdQ","h7u1C"], "h7u1C", "parcelRequired10b")
+},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5lrmx":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "greetingsText", ()=>greetingsText);
+const greetingsText = [
+    `In a time of crisis, the Star Kingdom of Manticore faces a grave threat from
+  the treacherous People's Republic of Haven. Their aggression and lust for
+  power has forced us into a war we did not seek. However, as loyal subjects of
+  Her Majesty Queen Elizabeth III, it is our duty to defend our homeland and
+  protect our people from harm!`,
+    //
+    `The enemy seeks to destroy our way of life, but we will not falter! Our brave
+  sailors and soldiers stand ready to defend the Kingdom with honor and courage.
+  We will not rest until the threat of Haven is neutralized, and our people can
+  live in peace and prosperity once again.`,
+    //
+    `We call upon all loyal citizens of the Star Kingdom to rally behind our cause
+  and join us in this fight for our survival! Together, we will show the world
+  that the people of Manticore will never back down in the face of tyranny and
+  oppression!`,
+    //
+    `People's Republic of Haven has assembled a formidable fleet near the Talbott
+  Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to
+  launch an invasion of the Rembrandt Trade Union. The brave people of Rembrandt
+  have reached out to us for assistance in the face of this imminent threat,
+  pledging their loyalty to the Kingdom upon the successful repulsion of the
+  Haven forces. As staunch defenders of peace and justice, we cannot turn a
+  blind eye to their plight and will stand by our allies in their hour of need.
+  Our fleet has been mobilized and will soon join the battle to ensure the
+  safety and sovereignty of the Rembrandt Trade Union.`,
+    //
+    `You have been called upon to engage and defeat the Haven Fleet and secure
+  peace and prosperity for the Star Kingdom and its allies!`, 
+];
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1OnVq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderTypewriterText", ()=>renderTypewriterText);
+function renderTypewriterText(text, element, speed) {
+    const textArray = text.join("\n\n").split("");
+    let i = 0;
+    const timer = setInterval(()=>{
+        if (element) element.textContent += textArray[i];
+        i += 1;
+        if (i >= textArray.length) clearInterval(timer);
+    }, speed);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["17ZdQ","h7u1C"], "h7u1C", "parcelRequired10b")
 
 //# sourceMappingURL=index.b71e74eb.js.map

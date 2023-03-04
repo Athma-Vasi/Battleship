@@ -208,12 +208,13 @@ body {
   flex-flow: column wrap-reverse;
   justify-content: center;
   align-items: center;
+  padding-top: 2rem;
   display: flex;
 }
 
 .battleMessageTitleElem {
   color: var(--colour-appleGreen);
-  padding-top: .5rem;
+  padding-bottom: 1.5rem;
   font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
@@ -300,7 +301,7 @@ body {
   color: #dcdcdc;
   text-align: center;
   place-content: center;
-  font-size: clamp(.75rem, 3vw, 1.25rem);
+  font-size: clamp(.75rem, 3vw, 1rem);
   font-weight: 700;
   display: grid;
 }
@@ -347,7 +348,7 @@ body {
   height: clamp(1.75rem, 3vw, 2.5rem);
   text-align: center;
   place-content: center;
-  font-size: clamp(.75rem, 3vw, 1.25rem);
+  font-size: clamp(.75rem, 3vw, 1rem);
   font-weight: 700;
   display: grid;
 }

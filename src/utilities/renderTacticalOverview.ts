@@ -97,8 +97,6 @@ function renderTacticalOverview() {
 				for (let i = 0; i < 2; i += 1) {
 					const shipNameContainer = elemCreator('div')(['shipName-container']);
 					appendElemToParent(tacticalOverviewWrapperPlayer)(shipNameContainer);
-					// const smallShipsContainer = elemCreator('p')(['smallShips-container']);
-					// pipe(appendElemToParent(shipNameContainer))(smallShipsContainer);
 
 					pipe(
 						addTextToElem(`RMNS ${shipName[i]}`),
