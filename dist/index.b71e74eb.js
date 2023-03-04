@@ -505,17 +505,21 @@ function hmrAcceptRun(bundle, id) {
 },{}],"h7u1C":[function(require,module,exports) {
 var _addEvtListenerToForm = require("./components/addEvtListenerToForm");
 var _greetingsText = require("./data/greetingsText");
-var _renderTypewriterText = require("./utilities/renderTypewriterText");
+var _createTypewriterEffect = require("./utilities/createTypewriterEffect");
+var _elementCreators = require("./utilities/elementCreators");
 const mainApp = function() {
     (0, _addEvtListenerToForm.addEvtListenerToForm)();
     const greetingsContainer = document.querySelector(".greetings-container");
-    (0, _renderTypewriterText.renderTypewriterText)((0, _greetingsText.greetingsText), greetingsContainer, 25);
+    const childElem = (0, _elementCreators.elemCreator)("p")([
+        "greetings"
+    ]);
+    (0, _createTypewriterEffect.testing)(greetingsContainer, (0, _greetingsText.greetingsText), 25);
     //clears storage upon refresh
     localStorage.clear();
 };
 document.addEventListener("DOMContentLoaded", mainApp);
 
-},{"./components/addEvtListenerToForm":"lOujp","./data/greetingsText":"5lrmx","./utilities/renderTypewriterText":"1OnVq"}],"lOujp":[function(require,module,exports) {
+},{"./components/addEvtListenerToForm":"lOujp","./utilities/elementCreators":"H4ivl","./utilities/createTypewriterEffect":"59lY5","./data/greetingsText":"5lrmx"}],"lOujp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addEvtListenerToForm", ()=>addEvtListenerToForm);
@@ -3759,7 +3763,7 @@ const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol 
     });
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../utilities/renderBattleMessageHelper":"mUL1R"}],"mUL1R":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","../utilities/renderBattleMessageHelper":"mUL1R","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"mUL1R":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderBattleMessageHelper", ()=>renderBattleMessageHelper);
@@ -6194,7 +6198,43 @@ const handleSuperdreadnoughtMouseLeave = function(ev) {
     }
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5lrmx":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"59lY5":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "testing", ()=>testing);
+var _elementCreators = require("./elementCreators");
+function createTypewriterEffect(string, elem, speed = 50) {
+    return new Promise((resolve)=>{
+        let i = 0;
+        const interval = setInterval(()=>{
+            if (i >= string.length) {
+                clearInterval(interval);
+                resolve();
+            } else {
+                if (elem) elem.innerHTML += string[i];
+                i += 1;
+            }
+        }, speed);
+    });
+}
+async function asyncForEach(arr, callback) {
+    for await (const [index, val] of arr.entries())await callback(val, index, arr);
+}
+const greetingsContainer = document.querySelector(".greetings-container");
+function testing(containerElem, strings, speed = 50) {
+    asyncForEach(strings, async (text)=>{
+        const greetings = (0, _elementCreators.elemCreator)("p")([
+            "greetings"
+        ]);
+        (0, _elementCreators.appendElemToParent)(containerElem)(greetings);
+        await createTypewriterEffect(text, greetings, speed);
+        (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(greetingsContainer))((0, _elementCreators.elemCreator)("br")([
+            "break"
+        ]));
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl"}],"5lrmx":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "greetingsText", ()=>greetingsText);
@@ -6210,10 +6250,10 @@ const greetingsText = [
   We will not rest until the threat of Haven is neutralized, and our people can
   live in peace and prosperity once again.`,
     //
-    `We call upon all loyal citizens of the Star Kingdom to rally behind our cause
-  and join us in this fight for our survival! Together, we will show the world
-  that the people of Manticore will never back down in the face of tyranny and
-  oppression!`,
+    // `We call upon all loyal citizens of the Star Kingdom to rally behind our cause
+    // and join us in this fight for our survival! Together, we will show the world
+    // that the people of Manticore will never back down in the face of tyranny and
+    // oppression!`,
     //
     `People's Republic of Haven has assembled a formidable fleet near the Talbott
   Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to
@@ -6228,20 +6268,6 @@ const greetingsText = [
     `You have been called upon to engage and defeat the Haven Fleet and secure
   peace and prosperity for the Star Kingdom and its allies!`, 
 ];
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1OnVq":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderTypewriterText", ()=>renderTypewriterText);
-function renderTypewriterText(text, element, speed) {
-    const textArray = text.join("\n\n").split("");
-    let i = 0;
-    const timer = setInterval(()=>{
-        if (element) element.textContent += textArray[i];
-        i += 1;
-        if (i >= textArray.length) clearInterval(timer);
-    }, speed);
-}
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["17ZdQ","h7u1C"], "h7u1C", "parcelRequired10b")
 

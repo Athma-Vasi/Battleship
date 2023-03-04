@@ -96,16 +96,20 @@ body {
 }
 
 .greetings-container {
-  flex-direction: column;
+  width: 100%;
+  color: var(--colour-appleGreen);
+  outline: 1px solid gray;
+  flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  font-size: clamp(.75rem, 3vw, 1.25rem);
   display: flex;
 }
 
 .greetings {
   color: var(--colour-appleGreen);
   width: 100%;
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(.75rem, 3vw, 1.25rem);
 }
 
 #form-name {
@@ -131,18 +135,19 @@ body {
   color: var(--colour-appleAmberDark);
   padding-left: var(--padding-x);
   background-color: #0000;
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(.75rem, 3vw, 1.25rem);
 }
 
 #input-name:focus {
-  border: none;
+  border: 1px solid var(--colour-appleAmberDark);
+  outline: none;
 }
 
 .bttn-name {
   height: var(--input-height);
   width: var(--bttn-width);
   cursor: pointer;
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(.75rem, 3vw, 1.25rem);
 }
 
 .shipBttns-wrapper {
@@ -208,7 +213,7 @@ body {
   flex-flow: column wrap-reverse;
   justify-content: center;
   align-items: center;
-  padding-top: 2rem;
+  padding-top: 3.5rem;
   display: flex;
 }
 

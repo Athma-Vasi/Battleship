@@ -107,13 +107,47 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	width: 100%;
+	flex-wrap: wrap;
+	outline: 1px solid grey;
+
+	color: var(--colour-appleGreen);
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 }
 
 .greetings {
 	color: var(--colour-appleGreen);
-	font-size: clamp(1rem, 3vw, 1.5rem);
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 	width: 100%;
 }
+
+/* .typed-out {
+	overflow: hidden;
+	border-right: 0.25em var(--colour-appleGreen);
+	color: var(--colour-appleGreen);
+	white-space: nowrap;
+	font-size: clamp(1rem, 3vw, 1.5rem);
+	margin: 0 auto;
+	animation: typing 3s steps(100, end), blink-caret 0.75s step-end infinite;	
+}
+
+@keyframes typing {
+	from {
+		width: 0;
+	}
+	to {
+		width: 100%;
+	}
+}
+
+@keyframes blink-caret {
+	from {
+		border-color: transparent;
+	}
+	to {
+		border-color: var(--colour-appleGreen);
+	}
+} */
 
 #form-name {
 	margin-top: var(--padding-y);
@@ -138,17 +172,18 @@ body {
 	background-color: transparent;
 	color: var(--colour-appleAmberDark);
 	padding-left: var(--padding-x);
-	font-size: clamp(1rem, 3vw, 1.5rem);
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 }
 
 #input-name:focus {
-	border: none;
+	border: 1px solid var(--colour-appleAmberDark);
+	outline: none;
 }
 
 .bttn-name {
 	height: var(--input-height);
 	width: var(--bttn-width);
-	font-size: clamp(1rem, 3vw, 1.5rem);
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 	cursor: pointer;
 }
 
@@ -221,7 +256,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding-top: 2rem;
+	padding-top: 3.5rem;
 	flex-wrap: wrap-reverse;
 	width: clamp(17rem, 50vw, 26rem);
 }

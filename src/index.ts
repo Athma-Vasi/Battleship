@@ -1,14 +1,17 @@
 import { addEvtListenerToForm } from './components/addEvtListenerToForm';
 import { greetingsText } from './data/greetingsText';
-import { renderTypewriterText } from './utilities/renderTypewriterText';
+import { testing } from './utilities/createTypewriterEffect';
+import { elemCreator } from './utilities/elementCreators';
+import { Div } from './utilities/types';
 
 const mainApp = function () {
 	addEvtListenerToForm();
 
-	const greetingsContainer: HTMLElement | null =
-		document.querySelector('.greetings-container');
+	const greetingsContainer: Div = document.querySelector('.greetings-container');
 
-	renderTypewriterText(greetingsText, greetingsContainer, 25);
+	const childElem = elemCreator('p')(['greetings']);
+
+	testing(greetingsContainer, greetingsText, 25);
 
 	//clears storage upon refresh
 	localStorage.clear();
