@@ -101,7 +101,6 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  outline: 1px solid gray;
   overflow-y: scroll;
 }
 
@@ -112,7 +111,7 @@ body {
 .typewriter-text {
   color: var(--colour-appleGreen);
   width: 100%;
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(1rem, 3vw, 1.25rem);
 }
 
 #form-name {
@@ -143,7 +142,6 @@ body {
 
 #input-name:focus {
   border: 1px solid var(--colour-appleAmberDark);
-  outline: none;
 }
 
 .bttn-name {
@@ -212,25 +210,27 @@ body {
 }
 
 .battleMessage-wrapper {
-  width: clamp(17rem, 50vw, 26rem);
+  width: clamp(17rem, 50vw, 27rem);
+  outline: 1px solid gray;
   flex-flow: column wrap-reverse;
-  justify-content: center;
+  justify-content: flex-start;
+  align-self: flex-start;
   align-items: center;
-  padding-top: 3.5rem;
+  padding-top: 1.75rem;
   display: flex;
 }
 
 .battleMessageTitleElem {
   color: var(--colour-appleGreen);
-  padding-bottom: 1.5rem;
   font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 .battleMessage-container {
-  height: 100vh;
+  height: clamp(10rem, 75vh, 50rem);
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  font-size: clamp(1rem, 3vw, 1.25rem);
   overflow-y: scroll;
 }
 
@@ -244,7 +244,6 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  outline: 1px solid gray;
   overflow-y: scroll;
 }
 
@@ -264,6 +263,7 @@ body {
 }
 
 .gameBoard-container {
+  outline: 1px solid violet;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -330,7 +330,6 @@ body {
 
 .tacticalOverview-wrapper {
   width: clamp(17rem, 50vw, 26rem);
-  padding-bottom: var(--padding-y);
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
@@ -353,7 +352,7 @@ body {
 .shipName-text {
   color: var(--colour-appleGreen);
   padding-right: var(--padding-x);
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(.75rem, 3vw, 1.25rem);
 }
 
 .tacticalCells-container {

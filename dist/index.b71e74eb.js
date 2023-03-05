@@ -519,7 +519,7 @@ const mainApp = async function() {
 };
 document.addEventListener("DOMContentLoaded", mainApp);
 
-},{"./components/addEvtListenerToForm":"lOujp","./utilities/createTypewriterEffect":"59lY5","./data/greetingsText":"5lrmx"}],"lOujp":[function(require,module,exports) {
+},{"./components/addEvtListenerToForm":"lOujp","./data/greetingsText":"5lrmx","./utilities/createTypewriterEffect":"59lY5"}],"lOujp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addEvtListenerToForm", ()=>addEvtListenerToForm);
@@ -661,7 +661,110 @@ const renderPlayerInfoScreen = function(playerName_) {
     });
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../data/preBattleTexts":"5HSa8","../utilities/createTypewriterEffect":"59lY5"}],"H4ivl":[function(require,module,exports) {
+},{"../data/preBattleTexts":"5HSa8","../utilities/createTypewriterEffect":"59lY5","../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5HSa8":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "preBattleTexts", ()=>preBattleTexts);
+const preBattleTexts = [
+    `By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal sailors: `,
+    //
+    `You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`,
+    //
+    `Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`,
+    //
+    `Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the sailors of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`,
+    //
+    `Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`,
+    //
+    `I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`,
+    //
+    `We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`, 
+];
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"59lY5":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "createTypewriterEffect", ()=>createTypewriterEffect);
+var _elementCreators = require("./elementCreators");
+async function typewriterEffect({ string , childElem , parentElem , speed =50  }) {
+    return new Promise((resolve)=>{
+        let i = 0;
+        const interval = setInterval(()=>{
+            if (i >= string.length) {
+                clearInterval(interval);
+                resolve();
+            } else {
+                if (childElem) (0, _elementCreators.addTextToElem)(string[i])(childElem);
+                i += 1;
+            }
+            const scrollHeight = parentElem?.scrollHeight ?? 0;
+            parentElem?.scroll({
+                top: scrollHeight,
+                left: 0,
+                behavior: "smooth"
+            });
+        }, speed);
+    });
+}
+async function asyncForEach(arr, callback) {
+    for (const [index, val] of arr.entries())await callback(val, index, arr);
+}
+async function createTypewriterEffect({ containerElem , strings , speed =50  }) {
+    asyncForEach(strings, async (string, index)=>{
+        const typewriterElem = (0, _elementCreators.elemCreator)("p")([
+            "typewriter-text"
+        ]);
+        (0, _elementCreators.appendElemToParent)(containerElem)(typewriterElem);
+        await typewriterEffect({
+            string,
+            childElem: typewriterElem,
+            parentElem: containerElem,
+            speed
+        });
+        const length = strings.length;
+        if (index < length - 1) (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(containerElem))((0, _elementCreators.elemCreator)("br")([
+            "break"
+        ]));
+        const scrollHeight = containerElem?.scrollHeight ?? 0;
+        containerElem?.scroll({
+            top: scrollHeight,
+            left: 0,
+            behavior: "smooth"
+        });
+    });
+}
+
+},{"./elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"H4ivl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "elemCreator", ()=>elemCreator);
@@ -729,109 +832,7 @@ const removeEvtListener = (evt)=>(handleEvt)=>(elem)=>{
         };
 const pipe = (...funcs)=>(value)=>funcs.reduce((res, func)=>func(res), value);
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"5HSa8":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "preBattleTexts", ()=>preBattleTexts);
-const preBattleTexts = [
-    `By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `,
-    //
-    `You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`,
-    //
-    `Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`,
-    //
-    `Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the soldiers of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`,
-    //
-    `Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`,
-    //
-    `I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`,
-    //
-    `We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`, 
-];
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"59lY5":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "createTypewriterEffect", ()=>createTypewriterEffect);
-var _elementCreators = require("./elementCreators");
-async function typewriterEffect({ string , childElem , parentElem , speed =50  }) {
-    return new Promise((resolve)=>{
-        let i = 0;
-        const interval = setInterval(()=>{
-            if (i >= string.length) {
-                clearInterval(interval);
-                resolve();
-            } else {
-                if (childElem) (0, _elementCreators.addTextToElem)(string[i])(childElem);
-                i += 1;
-            }
-            const scrollHeight = parentElem?.scrollHeight ?? 0;
-            parentElem?.scroll({
-                top: scrollHeight,
-                left: 0,
-                behavior: "smooth"
-            });
-        }, speed);
-    });
-}
-async function asyncForEach(arr, callback) {
-    for await (const [index, val] of arr.entries())await callback(val, index, arr);
-}
-async function createTypewriterEffect({ containerElem , strings , speed =50  }) {
-    asyncForEach(strings, async (text)=>{
-        const typewriterElem = (0, _elementCreators.elemCreator)("p")([
-            "typewriter-text"
-        ]);
-        (0, _elementCreators.appendElemToParent)(containerElem)(typewriterElem);
-        await typewriterEffect({
-            string: text,
-            childElem: typewriterElem,
-            parentElem: containerElem,
-            speed
-        });
-        (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(containerElem))((0, _elementCreators.elemCreator)("br")([
-            "break"
-        ]));
-        const scrollHeight = containerElem?.scrollHeight ?? 0;
-        containerElem?.scroll({
-            top: scrollHeight,
-            left: 0,
-            behavior: "smooth"
-        });
-    });
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl"}],"3sYtv":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3sYtv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderPlayerShipPlacementBoard", ()=>renderPlayerShipPlacementBoard);
@@ -1358,9 +1359,11 @@ var _renderTacticalOverview = require("../utilities/renderTacticalOverview");
 var _handlePlayerClickOnCompMisses = require("./handlePlayerClickOnCompMisses");
 var _handlePlayerClickOnCompShips = require("./handlePlayerClickOnCompShips");
 const handleStartButtonClick = function(ev) {
+    //scroll to top of window
+    window.scrollTo(0, 0);
     //removes the previous info screen
-    const infoScreenWrapper = document.querySelector(".infoScreen-wrapper");
-    infoScreenWrapper?.remove();
+    const infoScreenContainer = document.querySelector(".infoScreen-container");
+    infoScreenContainer?.remove();
     const preBattleInfoScreen = document.querySelector(".preBattle-infoScreen");
     preBattleInfoScreen?.remove();
     //removes the ship bttns wrapper
@@ -1398,6 +1401,15 @@ const handleStartButtonClick = function(ev) {
     (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Manticoran Tenth Fleet CIC"), //
     (0, _elementCreators.appendElemToParent)(battleMessageWrapper))((0, _elementCreators.elemCreator)("h2")([
         "battleMessageTitleElem"
+    ]));
+    const today = new Date();
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric"
+    });
+    const formattedDate = formatter.format(today);
+    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Imperial Terran-year 1913 ${formattedDate}`), (0, _elementCreators.appendElemToParent)(battleMessageWrapper))((0, _elementCreators.elemCreator)("h4")([
+        "battleMessageElem"
     ]));
     const battleMessageContainer = (0, _elementCreators.elemCreator)("div")([
         "battleMessage-container"
@@ -3672,7 +3684,7 @@ const announceGameWinner = function(winner_) {
         ]), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
             "winner-announcement"
         ]));
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`The cheers of the crew fill the bridge as the last enemy ship explodes in a ball of fire. You have emerged victorious from the heat of battle, your ship battered but still flying. Your skill and courage in the face of overwhelming odds have saved the lives of your crew and secured another victory for the Star Kingdom of Manticore. As you survey the wreckage of the enemy fleet, you know that your actions will go down in history as a shining example of the indomitable spirit of the Manticoran Navy. 
+        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`The cheers of the crew fill the bridge as the last enemy ship explodes in a ball of fire. You have emerged victorious from the heat of battle, your ships battered but still flying. Your skill and courage in the face of overwhelming odds have saved the lives of your crew and secured another victory for the Star Kingdom of Manticore. As you survey the wreckage of the enemy fleet, you know that your actions will go down in history as a shining example of the indomitable spirit of the Manticoran Navy. 
 				
 				Congrats ${winner_}! You have destroyed the Haven Fleet!
 				`), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
@@ -3722,11 +3734,11 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderBattleMessageElem", ()=>renderBattleMessageElem);
 var _elementCreators = require("../utilities/elementCreators");
 var _renderBattleMessageHelper = require("../utilities/renderBattleMessageHelper");
-const renderBattleMessageElem = function({ currentCellCoord , currentShipSymbol , towardsCombatant , hitOrMiss , sunkShipName  }) {
+const renderBattleMessageElem = async function({ currentCellCoord , currentShipSymbol , towardsCombatant , hitOrMiss , sunkShipName  }) {
     const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
     const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
-    const playerName = JSON.parse(localStorage.getItem("playerName") ?? "");
-    const battleMessageWrapper = document.querySelector(".battleMessage-wrapper");
+    // const playerName = JSON.parse(localStorage.getItem('playerName') ?? '');
+    // const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
     const battleMessageContainer = document.querySelector(".battleMessage-container");
     const battleMessageElem = (0, _elementCreators.elemCreator)("p")([
         "battleMessageElem"
@@ -3890,9 +3902,10 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderBattleMessageHelper", ()=>renderBattleMessageHelper);
 var _battleTexts = require("../data/battleTexts");
+var _createTypewriterEffect = require("./createTypewriterEffect");
 var _elementCreators = require("./elementCreators");
 var _tossCoin = require("./tossCoin");
-function renderBattleMessageHelper({ towardsCombatant , firedStatus , shipTypeHit , shipNumber  }) {
+async function renderBattleMessageHelper({ towardsCombatant , firedStatus , shipTypeHit , shipNumber  }) {
     const randHitsStrings = [
         "A hit on",
         "Direct hit on",
@@ -3924,58 +3937,66 @@ function renderBattleMessageHelper({ towardsCombatant , firedStatus , shipTypeHi
         "battleMessageElem"
     ]);
     (0, _elementCreators.appendElemToParent)(battleMessageContainer)(battleMessageElem);
-    {
-        const today = new Date();
-        const formatter = new Intl.DateTimeFormat("en-US", {
-            month: "short",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric"
-        });
-        const formattedDate = formatter.format(today);
-        const dividerElem = (0, _elementCreators.elemCreator)("p")([
-            "dividerElem"
-        ]);
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("_______________________"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#00f000"
-            ]
-        ]), (0, _elementCreators.appendElemToParent)(battleMessageContainer))(dividerElem);
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`T-year 1913 ${formattedDate}`))(battleMessageElem);
-        Array.from({
-            length: 2
-        }).forEach(()=>{
-            (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(battleMessageElem))((0, _elementCreators.elemCreator)("br")([
-                "spacerElem"
-            ]));
-        });
-    }
+    const today = new Date();
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+    });
+    const formattedTime = formatter.format(today);
+    const shipName = towardsCombatant === "comp" ? shipTypeHit && (shipTypeHit === "superdreadnought" ? havenShipNames.superdreadnought : shipTypeHit === "carrier" ? havenShipNames.carrier : shipTypeHit === "battleship" ? havenShipNames.battleship : shipTypeHit === "destroyer" && shipNumber ? havenShipNames.destroyers[shipNumber] : shipTypeHit === "frigate" && shipNumber ? havenShipNames.frigates[shipNumber] : "") : shipTypeHit && (shipTypeHit === "superdreadnought" ? manticoreShipNames.superdreadnought : shipTypeHit === "carrier" ? manticoreShipNames.carrier : shipTypeHit === "battleship" ? manticoreShipNames.battleship : shipTypeHit === "destroyer" && shipNumber ? manticoreShipNames.destroyers[shipNumber] : shipTypeHit === "frigate" && shipNumber ? manticoreShipNames.frigates[shipNumber] : "");
     if (towardsCombatant === "comp") {
-        const shipName = shipTypeHit && (shipTypeHit === "superdreadnought" ? havenShipNames.superdreadnought : shipTypeHit === "carrier" ? havenShipNames.carrier : shipTypeHit === "battleship" ? havenShipNames.battleship : shipTypeHit === "destroyer" && shipNumber ? havenShipNames.destroyers[shipNumber] : shipTypeHit === "frigate" && shipNumber ? havenShipNames.frigates[shipNumber] : "");
         const statusText = firedStatus === "hit" ? (0, _battleTexts.battleTexts).hitsOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).hitsOnShip.length)] : firedStatus === "miss" ? (0, _battleTexts.battleTexts).missesOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).missesOnShip.length)] : firedStatus === "sunk" ? (0, _battleTexts.battleTexts).compShipDestroyed[Math.floor(Math.random() * (0, _battleTexts.battleTexts).compShipDestroyed.length)] : "";
-        if (shipTypeHit) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the PNS ${shipName}! ${statusText}`))(battleMessageElem);
-        else (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${statusText}`))(battleMessageElem);
+        // if ship was hit or sunk
+        if (shipTypeHit) {
+            const battleMessageStrings = [
+                `${formattedTime}:: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the PNS ${shipName}! ${statusText}`, 
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 15
+            });
+        } else {
+            const battleMessageStrings = [
+                `${formattedTime}::	${statusText}`
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 15
+            });
+        }
     } else if (towardsCombatant === "player") {
         // if a miss towards player dont display a message
         if (!shipTypeHit) return;
-        const shipName = shipTypeHit && (shipTypeHit === "superdreadnought" ? manticoreShipNames.superdreadnought : shipTypeHit === "carrier" ? manticoreShipNames.carrier : shipTypeHit === "battleship" ? manticoreShipNames.battleship : shipTypeHit === "destroyer" && shipNumber ? manticoreShipNames.destroyers[shipNumber] : shipNumber && manticoreShipNames.frigates[shipNumber]);
         // only add text if ship was hit or sunk
         const statusText = firedStatus === "hit" ? (0, _battleTexts.battleTexts).damageOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).damageOnShip.length)] : firedStatus === "sunk" ? (0, _battleTexts.battleTexts).playerShipDestroyed[Math.floor(Math.random() * (0, _battleTexts.battleTexts).playerShipDestroyed.length)] : "";
-        if (firedStatus === "hit") (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! ${statusText}`))(battleMessageElem);
-        else if (firedStatus === "sunk") (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ]
-        ]), (0, _elementCreators.addTextToElem)(`${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! Admiral ${playerName}! Core breach detected!
-          ...
-          Sir, she's gone... Dear God, all those people... `))(battleMessageElem);
+        if (firedStatus === "hit") {
+            const battleMessageStrings = [
+                `${formattedTime}::	${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! ${statusText}`, 
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 15
+            });
+        } else if (firedStatus === "sunk") {
+            const battleMessageStrings = [
+                `${formattedTime}::	${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! Admiral ${playerName}! Core breach detected!
+				...
+				Sir, she's gone... Dear God, all those people... `, 
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 15
+            });
+        }
     }
 }
 
-},{"../data/battleTexts":"6YoE9","./elementCreators":"H4ivl","./tossCoin":"jHvvC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6YoE9":[function(require,module,exports) {
+},{"../data/battleTexts":"6YoE9","./createTypewriterEffect":"59lY5","./elementCreators":"H4ivl","./tossCoin":"jHvvC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6YoE9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "battleTexts", ()=>battleTexts);
@@ -4013,54 +4034,53 @@ const battleTexts = {
     ],
     damageOnShip: [
         "Forward hold open to space! Mooring Tractor One's gone! Heavy casualties in Fusion One!",
-        "We've lost Damage Control Three, Sir!",
-        "Missile One is down, Sir! We're down to one tube.",
+        "They've lost Damage Control Three, Sir!",
+        "Missile One is down, Sir! They're down to one tube.",
         "Spinal Four gone, Sir!",
-        "We've lost the secondary fire control sensors!. Primaries unaffected.",
+        "They've lost the secondary fire control sensors!. Primaries unaffected.",
         "Damage control to the bridge! Corpsman to the bridge!",
         "Fusion One, Sir! The mag bottle's fluctuating and can't be shut down from here\u2014something's cut the circuits!",
-        "Sir, we're down to twelve birds for Missile Two, and out of laser heads.",
+        "Sir, They're down to twelve birds for Missile Two, and out of laser heads.",
         "Heavy damage aft! No contact at all with Two-Four or Two-Six.",
-        "Sir, we've lost a beta node; our acceleration is dropping.",
-        "We've lost another beta node, Sir",
-        "Point defense is hurt bad, Sir! We've lost four laser clusters and half our phased radar array.",
-        "We've lost an energy torpedo and Number Two Laser out of the starboard broadside, but at least the starboard sidewall is still up.",
+        "Sir, They've lost a beta node; their acceleration is dropping.",
+        "Theye've lost another beta node, Sir",
+        "Point defense is hurt bad, Sir! They've lost four laser clusters and half their phased radar array.",
+        "They've lost an energy torpedo and Number Two Laser out of the starboard broadside, but at least the starboard sidewall is still up.",
         "Tractor Seven is gone!",
         "Compartments Eight-Niner-Two and Niner-Three open to space. No casualties!",
         "Two hits forward! Laser Three and Five destroyed. Radar Five is gone, Sir! Heavy casualties in Laser Three!",
         "Missile Two-One and Graser One gone! Heavy damage in the boat bay and Berthing Compartment Seven-five!",
-        "We've taken a hit, but we won't let that break our resolve! Medical teams to the casualties, and everyone else stay focused!",
-        //
-        "Port torp tubes are down, Sir! We've lost half of our firepower!",
-        "Sir, we've lost the entire port quarter! The starboard sidewall is holding, but not for long!",
-        "Our starboard broadside is crippled, Sir! We've lost four laser clusters and our neutron cannon!",
-        "We've lost Graser Three and Four, Sir! We're down to just two guns!",
-        "The port wedge generator's gone, Sir! We're losing acceleration!",
-        "Sir, we've lost two-thirds of our point defense capability! The enemy missiles are getting through!",
-        "We've lost the aft fusion bottle, Sir! We're down to just one engine!",
-        "Sir, we've lost our forward array! We can't get a clear reading on the enemy!",
-        "We've lost our main battery, Sir! The enemy ship is still coming!",
-        "We've lost three out of four grav plates, Sir! We're adrift!",
-        "Sir, we've lost all communication with the forward compartments! We don't know what's happening up there!",
-        "The port missile tube's destroyed, Sir! We're down to just one tube and no spares!",
-        "The enemy's hit us with a grav lance, Sir! Our hull's buckling!",
-        "We've lost the port-side maneuvering thrusters, Sir! We can't dodge their fire!",
-        "Sir, we've lost the entire bridge! We're blind and drifting!",
-        "We've lost our aft impellers! Brace for impact!",
-        "Port engines destroyed! We can't maintain acceleration!",
-        "They've taken out our point defense! We're defenseless!",
-        "Fusion reactor's gone critical! Abandon ship!",
-        "We've lost our port sidewall! They're tearing us apart!",
-        "Our maneuvering thrusters are destroyed! We can't dodge their fire!",
-        "We've lost our forward impellers! We're drifting into their fire!",
-        "Direct hit on our main battery! We're powerless!",
-        "They've hit our bridge! We're going down!",
+        "They've taken a hit, but we won't let that break our resolve! Medical teams to the casualties, and everyone else stay focused!",
+        "Port torp tubes are down, Sir! They've lost half of their firepower!",
+        "Sir, They've lost the entire port quarter! The starboard sidewall is holding, but not for long!",
+        "Their starboard broadside is crippled, Sir! They've lost four laser clusters and our neutron cannon!",
+        "They've lost Graser Three and Four, Sir! They're down to just two guns!",
+        "The port wedge generator's gone, Sir! They're losing acceleration!",
+        "Sir, They've lost two-thirds of our point defense capability! The enemy missiles are getting through!",
+        "They've lost the aft fusion bottle, Sir! They're down to just one engine!",
+        "Sir, They've lost our forward array! They can't get a clear reading on the enemy!",
+        "They've lost their main battery, Sir! The enemy ship is still coming!",
+        "They've lost three out of four grav plates, Sir! They're adrift!",
+        "Sir, They've lost all communication with the forward compartments! They don't know what's happening up there!",
+        "The port missile tube's destroyed, Sir! They're down to just one tube and no spares!",
+        "The enemy's hit them with a grav lance, Sir! The hull's buckling!",
+        "They've lost the port-side maneuvering thrusters, Sir! They can't dodge their fire!",
+        "Sir, They've lost the entire bridge! They're blind and drifting!",
+        "They've lost our aft impellers! They're drifting into enemy fire!",
+        "Port engines destroyed! They can't maintain acceleration!",
+        "Enemy has taken out their point defense! They're defenseless!",
+        "Fusion reactor's gone critical!",
+        "They've lost our port sidewall! They're tearing them apart!",
+        "They maneuvering thrusters are destroyed! They can't dodge their fire!",
+        "They've lost their forward impellers! They're drifting into enemy fire!",
+        "Direct hit on their main battery! They're powerless!",
+        "They've hit the bridge! They're going down!",
         "Missiles incoming! Brace for impact!",
-        "They've taken out our sensors! We can't get a lock on them!",
-        "We've lost our main engines! We're dead in the water!",
-        "They've breached our hull! We're venting atmosphere!",
-        "Our missile tubes are destroyed! We're helpless!",
-        "We've lost our port battery! We can't return fire!", 
+        "Enemy has taken out their sensors! We can't get a lock on them!",
+        "They've lost their main engines! They're dead in the water!",
+        "Enemy has breached their hull! They're venting atmosphere!",
+        "Their missile tubes are destroyed! They're helpless!",
+        "They've lost their port battery! They can't return fire!", 
     ],
     missesOnShip: [
         "Dammit! We missed our target! Recalibrate those weapons and try again!",
@@ -4093,7 +4113,6 @@ const battleTexts = {
         "Hard a starboard!",
         "Pursuit vector, maximum acceleration!",
         "General signal to all heavy carriers. Return to formation at once. Repeat, return to formation at once!",
-        //
         "Damn! We missed them!",
         "Target evaded, adjust trajectory!",
         "All forward batteries, recalibrate and fire again!",

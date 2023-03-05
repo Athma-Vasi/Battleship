@@ -108,7 +108,6 @@ body {
 	align-items: flex-start; 
 	flex-wrap: wrap; */
 	width: 100%;
-	outline: 1px solid grey;
 
 	height: 50vh;
 	overflow-y: scroll;
@@ -122,7 +121,7 @@ body {
 
 .typewriter-text {
 	color: var(--colour-appleGreen);
-	font-size: clamp(1rem, 3vw, 1.5rem);
+	font-size: clamp(1rem, 3vw, 1.25rem);
 	width: 100%;
 }
 
@@ -154,7 +153,6 @@ body {
 
 #input-name:focus {
 	border: 1px solid var(--colour-appleAmberDark);
-	outline: none;
 }
 
 .bttn-name {
@@ -229,27 +227,31 @@ body {
 
 /* info screen battle */
 .battleMessage-wrapper {
+	align-self: flex-start;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
-	padding-top: 3.5rem;
+	padding-top: 1.75rem;
 	flex-wrap: wrap-reverse;
-	width: clamp(17rem, 50vw, 26rem);
+	width: clamp(17rem, 50vw, 27rem);
+	outline: 1px solid gray;
+	/* height: 62%; */
 }
 
 .battleMessageTitleElem {
-	padding-bottom: 1.5rem;
+	/* padding-bottom: 1.5rem; */
 	font-size: clamp(1rem, 3vw, 1.5rem);
 	color: var(--colour-appleGreen);
 }
 
 .battleMessage-container {
-	height: 100vh;
+	height: clamp(10rem, 75vh, 50rem);
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
+	font-size: clamp(1rem, 3vw, 1.25rem);
 }
 .battleMessage-container::-webkit-scrollbar {
 	display: none;
@@ -257,7 +259,6 @@ body {
 
 .infoScreen-container {
 	width: 100%;
-	outline: 1px solid grey;
 
 	height: 62vh;
 	overflow-y: scroll;
@@ -285,6 +286,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
+	outline: 1px solid violet;
 }
 
 @media screen and (min-width: 1137px) {
@@ -335,7 +337,6 @@ body {
 	flex-wrap: wrap-reverse;
 	gap: 2rem;
 	max-width: 1100px;
-
 	margin-top: 2rem;
 }
 
@@ -367,7 +368,7 @@ body {
 	align-items: center;
 	flex-wrap: wrap;
 	width: clamp(17rem, 50vw, 26rem);
-	padding-bottom: var(--padding-y);
+	/* padding-bottom: var(--padding-y); */
 }
 
 .tacticalOverview-title {
@@ -384,7 +385,7 @@ body {
 }
 
 .shipName-text {
-	font-size: clamp(1rem, 3vw, 1.5rem);
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 	color: var(--colour-appleGreen);
 	padding-right: var(--padding-x);
 }

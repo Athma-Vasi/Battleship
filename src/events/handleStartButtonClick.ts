@@ -18,9 +18,12 @@ import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 
 const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent) {
+	//scroll to top of window
+	window.scrollTo(0, 0);
+
 	//removes the previous info screen
-	const infoScreenWrapper = document.querySelector('.infoScreen-wrapper');
-	infoScreenWrapper?.remove();
+	const infoScreenContainer = document.querySelector('.infoScreen-container');
+	infoScreenContainer?.remove();
 
 	const preBattleInfoScreen = document.querySelector('.preBattle-infoScreen');
 	preBattleInfoScreen?.remove();
@@ -78,6 +81,18 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 		//
 		appendElemToParent(battleMessageWrapper)
 	)(elemCreator('h2')(['battleMessageTitleElem']));
+
+	const today = new Date();
+	const formatter = new Intl.DateTimeFormat('en-US', {
+		month: 'short',
+		day: 'numeric',
+	});
+	const formattedDate = formatter.format(today);
+
+	pipe(
+		addTextToElem(`Imperial Terran-year 1913 ${formattedDate}`),
+		appendElemToParent(battleMessageWrapper)
+	)(elemCreator('h4')(['battleMessageElem']));
 
 	const battleMessageContainer = elemCreator('div')(['battleMessage-container']);
 	appendElemToParent(battleMessageWrapper)(battleMessageContainer);

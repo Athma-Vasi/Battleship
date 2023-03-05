@@ -1,11 +1,6 @@
 import { battleTexts } from '../data/battleTexts';
-import {
-	elemCreator,
-	appendElemToParent,
-	addTextToElem,
-	pipe,
-	addStyleToElem,
-} from './elementCreators';
+import { createTypewriterEffect } from './createTypewriterEffect';
+import { appendElemToParent, elemCreator } from './elementCreators';
 import { tossCoin } from './tossCoin';
 import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from './types';
 
@@ -16,12 +11,12 @@ type RenderBattleMessageHelperProps = {
 	shipNumber?: number;
 };
 
-function renderBattleMessageHelper({
+async function renderBattleMessageHelper({
 	towardsCombatant,
 	firedStatus,
 	shipTypeHit,
 	shipNumber,
-}: RenderBattleMessageHelperProps): void {
+}: RenderBattleMessageHelperProps): Promise<void> {
 	const randHitsStrings = [
 		'A hit on',
 		'Direct hit on',
@@ -62,46 +57,42 @@ function renderBattleMessageHelper({
 	const battleMessageElem = elemCreator('p')(['battleMessageElem']);
 	appendElemToParent(battleMessageContainer)(battleMessageElem);
 
-	{
-		const today = new Date();
-		const formatter = new Intl.DateTimeFormat('en-US', {
-			month: 'short',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric',
-			second: 'numeric',
-		});
-		const formattedDate = formatter.format(today);
+	const today = new Date();
+	const formatter = new Intl.DateTimeFormat('en-US', {
+		hour: 'numeric',
+		minute: 'numeric',
+		second: 'numeric',
+	});
+	const formattedTime = formatter.format(today);
 
-		const dividerElem = elemCreator('p')(['dividerElem']);
-		pipe(
-			addTextToElem('_______________________'),
-			addStyleToElem([['color', '#00f000']]),
-			appendElemToParent(battleMessageContainer)
-		)(dividerElem);
-
-		pipe(addTextToElem(`T-year 1913 ${formattedDate}`))(battleMessageElem);
-
-		Array.from({ length: 2 }).forEach(() => {
-			pipe(appendElemToParent(battleMessageElem))(elemCreator('br')(['spacerElem']));
-		});
-	}
+	const shipName =
+		towardsCombatant === 'comp'
+			? shipTypeHit &&
+			  (shipTypeHit === 'superdreadnought'
+					? havenShipNames.superdreadnought
+					: shipTypeHit === 'carrier'
+					? havenShipNames.carrier
+					: shipTypeHit === 'battleship'
+					? havenShipNames.battleship
+					: shipTypeHit === 'destroyer' && shipNumber
+					? havenShipNames.destroyers[shipNumber]
+					: shipTypeHit === 'frigate' && shipNumber
+					? havenShipNames.frigates[shipNumber]
+					: '')
+			: shipTypeHit &&
+			  (shipTypeHit === 'superdreadnought'
+					? manticoreShipNames.superdreadnought
+					: shipTypeHit === 'carrier'
+					? manticoreShipNames.carrier
+					: shipTypeHit === 'battleship'
+					? manticoreShipNames.battleship
+					: shipTypeHit === 'destroyer' && shipNumber
+					? manticoreShipNames.destroyers[shipNumber]
+					: shipTypeHit === 'frigate' && shipNumber
+					? manticoreShipNames.frigates[shipNumber]
+					: '');
 
 	if (towardsCombatant === 'comp') {
-		const shipName =
-			shipTypeHit &&
-			(shipTypeHit === 'superdreadnought'
-				? havenShipNames.superdreadnought
-				: shipTypeHit === 'carrier'
-				? havenShipNames.carrier
-				: shipTypeHit === 'battleship'
-				? havenShipNames.battleship
-				: shipTypeHit === 'destroyer' && shipNumber
-				? havenShipNames.destroyers[shipNumber]
-				: shipTypeHit === 'frigate' && shipNumber
-				? havenShipNames.frigates[shipNumber]
-				: '');
-
 		const statusText =
 			firedStatus === 'hit'
 				? battleTexts.hitsOnShip[
@@ -117,34 +108,33 @@ function renderBattleMessageHelper({
 				  ]
 				: '';
 
+		// if ship was hit or sunk
 		if (shipTypeHit) {
-			pipe(
-				addTextToElem(
-					`${
-						tossCoin() ? `Admiral ${playerName}!` : ''
-					} ${hitsPrecursorString()} the PNS ${shipName}! ${statusText}`
-				)
-			)(battleMessageElem);
-		} else {
-			pipe(addTextToElem(`${tossCoin() ? `Admiral ${playerName}!` : ''} ${statusText}`))(
-				battleMessageElem
-			);
+			const battleMessageStrings = [
+				`${formattedTime}:: ${
+					tossCoin() ? `Admiral ${playerName}!` : ''
+				} ${hitsPrecursorString()} the PNS ${shipName}! ${statusText}`,
+			];
+
+			createTypewriterEffect({
+				containerElem: battleMessageContainer,
+				strings: battleMessageStrings,
+				speed: 15,
+			});
+		}
+		// if ship was missed
+		else {
+			const battleMessageStrings = [`${formattedTime}::	${statusText}`];
+
+			createTypewriterEffect({
+				containerElem: battleMessageContainer,
+				strings: battleMessageStrings,
+				speed: 15,
+			});
 		}
 	} else if (towardsCombatant === 'player') {
 		// if a miss towards player dont display a message
 		if (!shipTypeHit) return;
-
-		const shipName =
-			shipTypeHit &&
-			(shipTypeHit === 'superdreadnought'
-				? manticoreShipNames.superdreadnought
-				: shipTypeHit === 'carrier'
-				? manticoreShipNames.carrier
-				: shipTypeHit === 'battleship'
-				? manticoreShipNames.battleship
-				: shipTypeHit === 'destroyer' && shipNumber
-				? manticoreShipNames.destroyers[shipNumber]
-				: shipNumber && manticoreShipNames.frigates[shipNumber]);
 
 		// only add text if ship was hit or sunk
 		const statusText =
@@ -159,22 +149,29 @@ function renderBattleMessageHelper({
 				: '';
 
 		if (firedStatus === 'hit') {
-			pipe(
-				addTextToElem(
-					`${
-						tossCoin() ? `Admiral ${playerName}!` : ''
-					} ${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! ${statusText}`
-				)
-			)(battleMessageElem);
+			const battleMessageStrings = [
+				`${formattedTime}::	${
+					tossCoin() ? `Admiral ${playerName}!` : ''
+				} ${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! ${statusText}`,
+			];
+
+			createTypewriterEffect({
+				containerElem: battleMessageContainer,
+				strings: battleMessageStrings,
+				speed: 15,
+			});
 		} else if (firedStatus === 'sunk') {
-			pipe(
-				addStyleToElem([['color', '#f0a400']]),
-				addTextToElem(
-					`${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! Admiral ${playerName}! Core breach detected!
-          ...
-          Sir, she's gone... Dear God, all those people... `
-				)
-			)(battleMessageElem);
+			const battleMessageStrings = [
+				`${formattedTime}::	${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! Admiral ${playerName}! Core breach detected!
+				...
+				Sir, she's gone... Dear God, all those people... `,
+			];
+
+			createTypewriterEffect({
+				containerElem: battleMessageContainer,
+				strings: battleMessageStrings,
+				speed: 15,
+			});
 		}
 	}
 }

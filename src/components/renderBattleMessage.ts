@@ -22,13 +22,13 @@ type renderBattleMessageElemProps = {
 	sunkShipName?: string;
 };
 
-const renderBattleMessageElem = function ({
+const renderBattleMessageElem = async function ({
 	currentCellCoord,
 	currentShipSymbol,
 	towardsCombatant,
 	hitOrMiss,
 	sunkShipName,
-}: renderBattleMessageElemProps) {
+}: renderBattleMessageElemProps): Promise<void> {
 	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
 		localStorage.getItem('havenShipNames') ?? ''
 	);
@@ -36,9 +36,9 @@ const renderBattleMessageElem = function ({
 		localStorage.getItem('manticoreShipNames') ?? ''
 	);
 
-	const playerName = JSON.parse(localStorage.getItem('playerName') ?? '');
+	// const playerName = JSON.parse(localStorage.getItem('playerName') ?? '');
 
-	const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
+	// const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
 
 	const battleMessageContainer: Div = document.querySelector('.battleMessage-container');
 

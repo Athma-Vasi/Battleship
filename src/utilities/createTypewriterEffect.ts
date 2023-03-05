@@ -34,7 +34,7 @@ async function asyncForEach<T>(
 	arr: T[],
 	callback: (val: T, index: number, array: T[]) => Promise<void>
 ) {
-	for await (const [index, val] of arr.entries()) {
+	for (const [index, val] of arr.entries()) {
 		await callback(val, index, arr);
 	}
 }
@@ -50,18 +50,20 @@ async function createTypewriterEffect({
 	strings,
 	speed = 50,
 }: CreateTypewriterEffectProps) {
-	asyncForEach(strings, async (text) => {
+	asyncForEach(strings, async (string: string, index) => {
 		const typewriterElem = elemCreator('p')(['typewriter-text']);
 		appendElemToParent(containerElem)(typewriterElem);
 
 		await typewriterEffect({
-			string: text,
+			string,
 			childElem: typewriterElem,
 			parentElem: containerElem,
 			speed,
 		});
 
-		pipe(appendElemToParent(containerElem))(elemCreator('br')(['break']));
+		const length = strings.length;
+		if (index < length - 1)
+			pipe(appendElemToParent(containerElem))(elemCreator('br')(['break']));
 
 		const scrollHeight = containerElem?.scrollHeight ?? 0;
 		containerElem?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });

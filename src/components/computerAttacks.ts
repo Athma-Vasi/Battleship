@@ -3,7 +3,6 @@ import { returnSunkShipObj } from '../utilities/returnSunkShipObj';
 import { storeCompHitMissCoords } from '../utilities/storeCompHitMissCoords';
 import { Div } from '../utilities/types';
 import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTacticalOverviewCells';
-
 import { renderBattleMessageElem } from './renderBattleMessage';
 
 const computerAttacks = function (compAttackGuess_: string) {
