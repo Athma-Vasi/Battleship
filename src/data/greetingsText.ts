@@ -17,10 +17,14 @@ const greetingsText = [
 	//
 	`People's Republic of Haven has assembled a formidable fleet near the Talbott
   Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to
-  launch an invasion of the Rembrandt Trade Union. The brave people of Rembrandt
+  launch an invasion of the Rembrandt Trade Union.`,
+	//
+	`The brave people of Rembrandt
   have reached out to us for assistance in the face of this imminent threat,
   pledging their loyalty to the Kingdom upon the successful repulsion of the
-  Haven forces. As staunch defenders of peace and justice, we cannot turn a
+  Haven forces.`,
+	//
+	`As staunch defenders of peace and justice, we cannot turn a
   blind eye to their plight and will stand by our allies in their hour of need.
   Our fleet has been mobilized and will soon join the battle to ensure the
   safety and sovereignty of the Rembrandt Trade Union.`,

@@ -1,12 +1,18 @@
-import { greetingsText } from '../data/greetingsText';
-import { appendElemToParent, elemCreator, pipe } from './elementCreators';
-import { Div } from './types';
+import { addTextToElem, appendElemToParent, elemCreator, pipe } from './elementCreators';
 
-function createTypewriterEffect(
-	string: string,
-	elem: HTMLElement | null,
-	speed = 50
-): Promise<void> {
+type TypewriterEffectProps = {
+	string: string;
+	childElem: HTMLElement | null;
+	parentElem: HTMLElement | null;
+	speed?: number;
+};
+
+async function typewriterEffect({
+	string,
+	childElem,
+	parentElem,
+	speed = 50,
+}: TypewriterEffectProps): Promise<void> {
 	return new Promise((resolve) => {
 		let i = 0;
 		const interval = setInterval(() => {
@@ -14,9 +20,12 @@ function createTypewriterEffect(
 				clearInterval(interval);
 				resolve();
 			} else {
-				if (elem) elem.innerHTML += string[i];
+				if (childElem) addTextToElem(string[i])(childElem);
 				i += 1;
 			}
+
+			const scrollHeight = parentElem?.scrollHeight ?? 0;
+			parentElem?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
 		}, speed);
 	});
 }
@@ -30,17 +39,33 @@ async function asyncForEach<T>(
 	}
 }
 
-const greetingsContainer: Div = document.querySelector('.greetings-container');
+type CreateTypewriterEffectProps = {
+	containerElem: HTMLElement | null;
+	strings: string[];
+	speed?: number;
+};
 
-function testing(containerElem: HTMLElement | null, strings: string[], speed = 50) {
+async function createTypewriterEffect({
+	containerElem,
+	strings,
+	speed = 50,
+}: CreateTypewriterEffectProps) {
 	asyncForEach(strings, async (text) => {
-		const greetings = elemCreator('p')(['greetings']);
-		appendElemToParent(containerElem)(greetings);
+		const typewriterElem = elemCreator('p')(['typewriter-text']);
+		appendElemToParent(containerElem)(typewriterElem);
 
-		await createTypewriterEffect(text, greetings, speed);
+		await typewriterEffect({
+			string: text,
+			childElem: typewriterElem,
+			parentElem: containerElem,
+			speed,
+		});
 
-		pipe(appendElemToParent(greetingsContainer))(elemCreator('br')(['break']));
+		pipe(appendElemToParent(containerElem))(elemCreator('br')(['break']));
+
+		const scrollHeight = containerElem?.scrollHeight ?? 0;
+		containerElem?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
 	});
 }
 
-export { testing };
+export { createTypewriterEffect };

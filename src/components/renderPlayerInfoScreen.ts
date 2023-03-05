@@ -1,9 +1,6 @@
-import {
-	addTextToElem,
-	appendElemToParent,
-	elemCreator,
-	pipe,
-} from '../utilities/elementCreators';
+import { preBattleTexts } from '../data/preBattleTexts';
+import { createTypewriterEffect } from '../utilities/createTypewriterEffect';
+import { appendElemToParent, elemCreator } from '../utilities/elementCreators';
 
 const renderPlayerInfoScreen = function (playerName_: string) {
 	// scroll to top of page
@@ -11,13 +8,40 @@ const renderPlayerInfoScreen = function (playerName_: string) {
 
 	const main: HTMLElement | null = document.querySelector('.main');
 
-	const infoScreenWrapper = elemCreator('div')(['preBattle-infoScreen']);
-	appendElemToParent(main)(infoScreenWrapper);
-
 	const infoScreenContainer = elemCreator('div')(['infoScreen-container']);
-	appendElemToParent(infoScreenWrapper)(infoScreenContainer);
+	appendElemToParent(main)(infoScreenContainer);
 
-	pipe(
+	preBattleTexts.push(`Ready fleet formation, Admiral ${playerName_}.`);
+
+	createTypewriterEffect({
+		containerElem: infoScreenContainer,
+		strings: preBattleTexts,
+		speed: 25,
+	});
+};
+
+export { renderPlayerInfoScreen };
+
+/**
+
+(async function (): Promise<void> {
+		return new Promise((resolve) => {
+			createTypewriterEffect({
+				containerElem: infoScreenContainer,
+				strings: preBattleTexts,
+				speed: 5,
+			});
+		});
+	})().then(() => {
+		pipe(
+			addTextToElem(`Ready fleet formation, Admiral ${playerName_}.`),
+			appendElemToParent(infoScreenContainer)
+		)(elemCreator('p')(['infoScreen-preBattleMssg']));
+	});
+
+ 
+ 
+pipe(
 		addTextToElem(
 			`By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `
 		),
@@ -70,10 +94,5 @@ const renderPlayerInfoScreen = function (playerName_: string) {
 		),
 		appendElemToParent(infoScreenContainer)
 	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(`Ready fleet formation, Admiral ${playerName_}.`),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-};
-export { renderPlayerInfoScreen };
+ 
+ */

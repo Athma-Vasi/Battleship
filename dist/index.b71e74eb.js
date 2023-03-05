@@ -506,20 +506,20 @@ function hmrAcceptRun(bundle, id) {
 var _addEvtListenerToForm = require("./components/addEvtListenerToForm");
 var _greetingsText = require("./data/greetingsText");
 var _createTypewriterEffect = require("./utilities/createTypewriterEffect");
-var _elementCreators = require("./utilities/elementCreators");
-const mainApp = function() {
+const mainApp = async function() {
     (0, _addEvtListenerToForm.addEvtListenerToForm)();
     const greetingsContainer = document.querySelector(".greetings-container");
-    const childElem = (0, _elementCreators.elemCreator)("p")([
-        "greetings"
-    ]);
-    (0, _createTypewriterEffect.testing)(greetingsContainer, (0, _greetingsText.greetingsText), 25);
+    (0, _createTypewriterEffect.createTypewriterEffect)({
+        containerElem: greetingsContainer,
+        strings: (0, _greetingsText.greetingsText),
+        speed: 10
+    });
     //clears storage upon refresh
     localStorage.clear();
 };
 document.addEventListener("DOMContentLoaded", mainApp);
 
-},{"./components/addEvtListenerToForm":"lOujp","./utilities/elementCreators":"H4ivl","./utilities/createTypewriterEffect":"59lY5","./data/greetingsText":"5lrmx"}],"lOujp":[function(require,module,exports) {
+},{"./components/addEvtListenerToForm":"lOujp","./utilities/createTypewriterEffect":"59lY5","./data/greetingsText":"5lrmx"}],"lOujp":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "addEvtListenerToForm", ()=>addEvtListenerToForm);
@@ -568,50 +568,100 @@ const renderShipSelectionPage = function(playerName_) {
 },{"./renderPlayerInfoScreen":"3f75x","./renderPlayerShipPlacementBoard":"3sYtv","./renderShipSelectionBttns":"cYI77","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3f75x":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderPlayerInfoScreen", ()=>renderPlayerInfoScreen);
+parcelHelpers.export(exports, "renderPlayerInfoScreen", ()=>renderPlayerInfoScreen) /**
+
+(async function (): Promise<void> {
+		return new Promise((resolve) => {
+			createTypewriterEffect({
+				containerElem: infoScreenContainer,
+				strings: preBattleTexts,
+				speed: 5,
+			});
+		});
+	})().then(() => {
+		pipe(
+			addTextToElem(`Ready fleet formation, Admiral ${playerName_}.`),
+			appendElemToParent(infoScreenContainer)
+		)(elemCreator('p')(['infoScreen-preBattleMssg']));
+	});
+
+ 
+ 
+pipe(
+		addTextToElem(
+			`By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
+		addTextToElem(`Sailors of Manticore!`),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
+		addTextToElem(
+			`You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
+		addTextToElem(
+			`Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
+		addTextToElem(
+			`Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the soldiers of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
+		addTextToElem(
+			`Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
+		addTextToElem(
+			`I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+
+	pipe(
+		addTextToElem(
+			`We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`
+		),
+		appendElemToParent(infoScreenContainer)
+	)(elemCreator('p')(['infoScreen-preBattleMssg']));
+ 
+ */ ;
+var _preBattleTexts = require("../data/preBattleTexts");
+var _createTypewriterEffect = require("../utilities/createTypewriterEffect");
 var _elementCreators = require("../utilities/elementCreators");
 const renderPlayerInfoScreen = function(playerName_) {
     // scroll to top of page
     window.scrollTo(0, 0);
     const main = document.querySelector(".main");
-    const infoScreenWrapper = (0, _elementCreators.elemCreator)("div")([
-        "preBattle-infoScreen"
-    ]);
-    (0, _elementCreators.appendElemToParent)(main)(infoScreenWrapper);
     const infoScreenContainer = (0, _elementCreators.elemCreator)("div")([
         "infoScreen-container"
     ]);
-    (0, _elementCreators.appendElemToParent)(infoScreenWrapper)(infoScreenContainer);
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Sailors of Manticore!`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the soldiers of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`Ready fleet formation, Admiral ${playerName_}.`), (0, _elementCreators.appendElemToParent)(infoScreenContainer))((0, _elementCreators.elemCreator)("p")([
-        "infoScreen-preBattleMssg"
-    ]));
+    (0, _elementCreators.appendElemToParent)(main)(infoScreenContainer);
+    (0, _preBattleTexts.preBattleTexts).push(`Ready fleet formation, Admiral ${playerName_}.`);
+    (0, _createTypewriterEffect.createTypewriterEffect)({
+        containerElem: infoScreenContainer,
+        strings: (0, _preBattleTexts.preBattleTexts),
+        speed: 25
+    });
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"H4ivl":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../data/preBattleTexts":"5HSa8","../utilities/createTypewriterEffect":"59lY5"}],"H4ivl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "elemCreator", ()=>elemCreator);
@@ -709,7 +759,79 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"3sYtv":[function(require,module,exports) {
+},{}],"5HSa8":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "preBattleTexts", ()=>preBattleTexts);
+const preBattleTexts = [
+    `By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `,
+    //
+    `You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`,
+    //
+    `Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`,
+    //
+    `Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the soldiers of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`,
+    //
+    `Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`,
+    //
+    `I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`,
+    //
+    `We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`, 
+];
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"59lY5":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "createTypewriterEffect", ()=>createTypewriterEffect);
+var _elementCreators = require("./elementCreators");
+async function typewriterEffect({ string , childElem , parentElem , speed =50  }) {
+    return new Promise((resolve)=>{
+        let i = 0;
+        const interval = setInterval(()=>{
+            if (i >= string.length) {
+                clearInterval(interval);
+                resolve();
+            } else {
+                if (childElem) (0, _elementCreators.addTextToElem)(string[i])(childElem);
+                i += 1;
+            }
+            const scrollHeight = parentElem?.scrollHeight ?? 0;
+            parentElem?.scroll({
+                top: scrollHeight,
+                left: 0,
+                behavior: "smooth"
+            });
+        }, speed);
+    });
+}
+async function asyncForEach(arr, callback) {
+    for await (const [index, val] of arr.entries())await callback(val, index, arr);
+}
+async function createTypewriterEffect({ containerElem , strings , speed =50  }) {
+    asyncForEach(strings, async (text)=>{
+        const typewriterElem = (0, _elementCreators.elemCreator)("p")([
+            "typewriter-text"
+        ]);
+        (0, _elementCreators.appendElemToParent)(containerElem)(typewriterElem);
+        await typewriterEffect({
+            string: text,
+            childElem: typewriterElem,
+            parentElem: containerElem,
+            speed
+        });
+        (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(containerElem))((0, _elementCreators.elemCreator)("br")([
+            "break"
+        ]));
+        const scrollHeight = containerElem?.scrollHeight ?? 0;
+        containerElem?.scroll({
+            top: scrollHeight,
+            left: 0,
+            behavior: "smooth"
+        });
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl"}],"3sYtv":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderPlayerShipPlacementBoard", ()=>renderPlayerShipPlacementBoard);
@@ -6198,43 +6320,7 @@ const handleSuperdreadnoughtMouseLeave = function(ev) {
     }
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"59lY5":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "testing", ()=>testing);
-var _elementCreators = require("./elementCreators");
-function createTypewriterEffect(string, elem, speed = 50) {
-    return new Promise((resolve)=>{
-        let i = 0;
-        const interval = setInterval(()=>{
-            if (i >= string.length) {
-                clearInterval(interval);
-                resolve();
-            } else {
-                if (elem) elem.innerHTML += string[i];
-                i += 1;
-            }
-        }, speed);
-    });
-}
-async function asyncForEach(arr, callback) {
-    for await (const [index, val] of arr.entries())await callback(val, index, arr);
-}
-const greetingsContainer = document.querySelector(".greetings-container");
-function testing(containerElem, strings, speed = 50) {
-    asyncForEach(strings, async (text)=>{
-        const greetings = (0, _elementCreators.elemCreator)("p")([
-            "greetings"
-        ]);
-        (0, _elementCreators.appendElemToParent)(containerElem)(greetings);
-        await createTypewriterEffect(text, greetings, speed);
-        (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(greetingsContainer))((0, _elementCreators.elemCreator)("br")([
-            "break"
-        ]));
-    });
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl"}],"5lrmx":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5lrmx":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "greetingsText", ()=>greetingsText);
@@ -6257,10 +6343,14 @@ const greetingsText = [
     //
     `People's Republic of Haven has assembled a formidable fleet near the Talbott
   Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to
-  launch an invasion of the Rembrandt Trade Union. The brave people of Rembrandt
+  launch an invasion of the Rembrandt Trade Union.`,
+    //
+    `The brave people of Rembrandt
   have reached out to us for assistance in the face of this imminent threat,
   pledging their loyalty to the Kingdom upon the successful repulsion of the
-  Haven forces. As staunch defenders of peace and justice, we cannot turn a
+  Haven forces.`,
+    //
+    `As staunch defenders of peace and justice, we cannot turn a
   blind eye to their plight and will stand by our allies in their hour of need.
   Our fleet has been mobilized and will soon join the battle to ensure the
   safety and sovereignty of the Rembrandt Trade Union.`,

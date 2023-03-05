@@ -103,51 +103,28 @@ body {
 }
 
 .greetings-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	/* display: flex;
+	justify-content: center; 
+	align-items: flex-start; 
+	flex-wrap: wrap; */
 	width: 100%;
-	flex-wrap: wrap;
 	outline: 1px solid grey;
 
-	color: var(--colour-appleGreen);
-	font-size: clamp(0.75rem, 3vw, 1.25rem);
+	height: 50vh;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.greetings-container::-webkit-scrollbar {
+	display: none;
 }
 
-.greetings {
+.typewriter-text {
 	color: var(--colour-appleGreen);
-	font-size: clamp(0.75rem, 3vw, 1.25rem);
+	font-size: clamp(1rem, 3vw, 1.5rem);
 	width: 100%;
 }
-
-/* .typed-out {
-	overflow: hidden;
-	border-right: 0.25em var(--colour-appleGreen);
-	color: var(--colour-appleGreen);
-	white-space: nowrap;
-	font-size: clamp(1rem, 3vw, 1.5rem);
-	margin: 0 auto;
-	animation: typing 3s steps(100, end), blink-caret 0.75s step-end infinite;	
-}
-
-@keyframes typing {
-	from {
-		width: 0;
-	}
-	to {
-		width: 100%;
-	}
-}
-
-@keyframes blink-caret {
-	from {
-		border-color: transparent;
-	}
-	to {
-		border-color: var(--colour-appleGreen);
-	}
-} */
 
 #form-name {
 	margin-top: var(--padding-y);
@@ -172,7 +149,7 @@ body {
 	background-color: transparent;
 	color: var(--colour-appleAmberDark);
 	padding-left: var(--padding-x);
-	font-size: clamp(0.75rem, 3vw, 1.25rem);
+	font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 #input-name:focus {
@@ -183,7 +160,7 @@ body {
 .bttn-name {
 	height: var(--input-height);
 	width: var(--bttn-width);
-	font-size: clamp(0.75rem, 3vw, 1.25rem);
+	font-size: clamp(1rem, 3vw, 1.5rem);
 	cursor: pointer;
 }
 
@@ -275,6 +252,20 @@ body {
 	-ms-overflow-style: none;
 }
 .battleMessage-container::-webkit-scrollbar {
+	display: none;
+}
+
+.infoScreen-container {
+	width: 100%;
+	outline: 1px solid grey;
+
+	height: 62vh;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.infoScreen-container::-webkit-scrollbar {
 	display: none;
 }
 
@@ -393,7 +384,7 @@ body {
 }
 
 .shipName-text {
-	font-size: clamp(0.75rem, 3vw, 1.25rem);
+	font-size: clamp(1rem, 3vw, 1.5rem);
 	color: var(--colour-appleGreen);
 	padding-right: var(--padding-x);
 }

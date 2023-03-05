@@ -97,19 +97,22 @@ body {
 
 .greetings-container {
   width: 100%;
-  color: var(--colour-appleGreen);
+  height: 50vh;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   outline: 1px solid gray;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  font-size: clamp(.75rem, 3vw, 1.25rem);
-  display: flex;
+  overflow-y: scroll;
 }
 
-.greetings {
+.greetings-container::-webkit-scrollbar {
+  display: none;
+}
+
+.typewriter-text {
   color: var(--colour-appleGreen);
   width: 100%;
-  font-size: clamp(.75rem, 3vw, 1.25rem);
+  font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 #form-name {
@@ -135,7 +138,7 @@ body {
   color: var(--colour-appleAmberDark);
   padding-left: var(--padding-x);
   background-color: #0000;
-  font-size: clamp(.75rem, 3vw, 1.25rem);
+  font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 #input-name:focus {
@@ -147,7 +150,7 @@ body {
   height: var(--input-height);
   width: var(--bttn-width);
   cursor: pointer;
-  font-size: clamp(.75rem, 3vw, 1.25rem);
+  font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 .shipBttns-wrapper {
@@ -232,6 +235,20 @@ body {
 }
 
 .battleMessage-container::-webkit-scrollbar {
+  display: none;
+}
+
+.infoScreen-container {
+  width: 100%;
+  height: 62vh;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  outline: 1px solid gray;
+  overflow-y: scroll;
+}
+
+.infoScreen-container::-webkit-scrollbar {
   display: none;
 }
 
@@ -336,7 +353,7 @@ body {
 .shipName-text {
   color: var(--colour-appleGreen);
   padding-right: var(--padding-x);
-  font-size: clamp(.75rem, 3vw, 1.25rem);
+  font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 .tacticalCells-container {
