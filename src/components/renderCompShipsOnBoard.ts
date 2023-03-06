@@ -9,16 +9,27 @@ import { CompShipsPlacementChoice, Div, NodesDiv } from '../utilities/types';
 const renderCompShipsOnBoard = function (
 	compShipsPlacementChoice_: CompShipsPlacementChoice
 ) {
-	//used for hit detection
-	if (!localStorage.getItem('compShipsCoords')) {
-		localStorage.setItem('compShipsCoords', JSON.stringify([]));
-	}
+	console.log(
+		'compShipsPlacementChoice_ from renderCompShipsOnBoard: ',
+		compShipsPlacementChoice_
+	);
+	// //used for hit detection
+	// if (!localStorage.getItem('compShipsCoords')) {
+	// 	localStorage.setItem('compShipsCoords', JSON.stringify([]));
+	// }
 
+	// const compShipsCoords: string[] = JSON.parse(
+	// 	localStorage.getItem('compShipsCoords') ?? ''
+	// );
+
+	// //used for hit detection
 	const compShipsCoords: string[] = JSON.parse(
-		localStorage.getItem('compShipsCoords') ?? ''
+		localStorage.getItem('compShipsCoords') ?? JSON.stringify([])
 	);
 
 	Object.entries(compShipsPlacementChoice_).forEach(([ship, shipObj]) => {
+		console.log('ship from renderCompShipsOnBoard: ', ship);
+		console.log('shipObj from renderCompShipsOnBoard: ', shipObj);
 		//if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
 		if (!localStorage.getItem(`comp${ship[0].toUpperCase() + ship.slice(1)}`)) {
 			localStorage.setItem(

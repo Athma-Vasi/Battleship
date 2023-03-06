@@ -234,7 +234,7 @@ body {
 	align-items: center;
 	padding-top: 1.75rem;
 	flex-wrap: wrap-reverse;
-	width: clamp(17rem, 50vw, 27rem);
+	width: clamp(21rem, 50vw, 27rem);
 	outline: 1px solid gray;
 	/* height: 62%; */
 }
@@ -342,8 +342,8 @@ body {
 
 .playerBoard-container,
 .compBoard-container {
-	width: clamp(17rem, 50vw, 26rem);
-	height: clamp(17rem, 50vw, 26rem);
+	width: clamp(21rem, 50vw, 27rem);
+	height: clamp(21rem, 50vw, 27rem);
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
 	grid-template-rows: repeat(10, 1fr);
@@ -367,7 +367,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	flex-wrap: wrap;
-	width: clamp(17rem, 50vw, 26rem);
+	width: clamp(21rem, 50vw, 27rem);
 	/* padding-bottom: var(--padding-y); */
 }
 
@@ -421,8 +421,8 @@ body {
 }
 
 .compBoard-container {
-	width: clamp(17rem, 50vw, 26rem);
-	height: clamp(17rem, 50vw, 26rem);
+	width: clamp(21rem, 50vw, 27rem);
+	height: clamp(21rem, 50vw, 27rem);
 	border: 1px solid var(--colour-appleGreen);
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);

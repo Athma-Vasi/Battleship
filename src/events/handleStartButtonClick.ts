@@ -41,7 +41,8 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 	//renders player and comp board and places the ships
 	renderPlayerBoard();
 	renderCompBoard();
-	placeCompShipsOnBoard(compShipsPlacementChoicesArr);
+	// placeCompShipsOnBoard(compShipsPlacementChoicesArr);
+	placeCompShipsOnBoard();
 
 	//randomizes and store ship names for each battle
 	randomizeAndStoreShipNames(shipNames);

@@ -14,7 +14,7 @@ function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 	//coulda sorted the coords but this is more explicit and easier to read, albeit verbose
 
 	const playerSuperdreadnought: Superdreadnought = JSON.parse(
-		localStorage.getItem('superdreadnought') ?? ''
+		localStorage.getItem('superdreadnought') ?? JSON.stringify([{}])
 	);
 	const playerSuperdreadnoughtCoords = [
 		playerSuperdreadnought.head,
@@ -24,7 +24,9 @@ function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 		playerSuperdreadnought.tail,
 	];
 
-	const playerCarrier: Carrier = JSON.parse(localStorage.getItem('carrier') ?? '');
+	const playerCarrier: Carrier = JSON.parse(
+		localStorage.getItem('carrier') ?? JSON.stringify([{}])
+	);
 	const playerCarrierCoords = [
 		playerCarrier.head,
 		playerCarrier.body1,
@@ -33,7 +35,7 @@ function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 	];
 
 	const playerBattleship: Battleship = JSON.parse(
-		localStorage.getItem('battleship') ?? ''
+		localStorage.getItem('battleship') ?? JSON.stringify([{}])
 	);
 	const playerBattleshipCoords = [
 		playerBattleship.head,
@@ -42,18 +44,20 @@ function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 	];
 
 	const playerDestroyers: Destroyer[] = JSON.parse(
-		localStorage.getItem('destroyer') ?? ''
+		localStorage.getItem('destroyer') ?? JSON.stringify([{}])
 	);
 	const playerDestroyersCoords = [
 		[playerDestroyers[0].head, playerDestroyers[0].tail],
 		[playerDestroyers[1].head, playerDestroyers[1].tail],
 	];
 
-	const playerFrigates: Frigate[] = JSON.parse(localStorage.getItem('frigate') ?? '');
+	const playerFrigates: Frigate[] = JSON.parse(
+		localStorage.getItem('frigate') ?? JSON.stringify([{}])
+	);
 	const playerFrigatesCoords = [[playerFrigates[0].body], [playerFrigates[1].body]];
 
 	const compSuperdreadnought: Superdreadnought = JSON.parse(
-		localStorage.getItem('compSuperdreadnought') ?? ''
+		localStorage.getItem('compSuperdreadnought') ?? JSON.stringify([{}])
 	);
 	const compSuperdreadnoughtCoords = [
 		compSuperdreadnought.head,
@@ -63,7 +67,9 @@ function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 		compSuperdreadnought.tail,
 	];
 
-	const compCarrier: Carrier = JSON.parse(localStorage.getItem('compCarrier') ?? '');
+	const compCarrier: Carrier = JSON.parse(
+		localStorage.getItem('compCarrier') ?? JSON.stringify([{}])
+	);
 	const compCarrierCoords = [
 		compCarrier.head,
 		compCarrier.body1,
@@ -72,7 +78,7 @@ function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 	];
 
 	const compBattleship: Battleship = JSON.parse(
-		localStorage.getItem('compBattleship') ?? ''
+		localStorage.getItem('compBattleship') ?? JSON.stringify([{}])
 	);
 	const compBattleshipCoords = [
 		compBattleship.head,
@@ -81,14 +87,16 @@ function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 	];
 
 	const compDestroyers: Destroyer[] = JSON.parse(
-		localStorage.getItem('compDestroyers') ?? ''
+		localStorage.getItem('compDestroyers') ?? JSON.stringify([{}])
 	);
 	const compDestroyersCoords = [
 		[compDestroyers[0].head, compDestroyers[0].tail],
 		[compDestroyers[1].head, compDestroyers[1].tail],
 	];
 
-	const compFrigates: Frigate[] = JSON.parse(localStorage.getItem('compFrigates') ?? '');
+	const compFrigates: Frigate[] = JSON.parse(
+		localStorage.getItem('compFrigates') ?? JSON.stringify([{}])
+	);
 	const compFrigatesCoords = [[compFrigates[0].body], [compFrigates[1].body]];
 
 	return {

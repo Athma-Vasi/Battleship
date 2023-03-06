@@ -1351,7 +1351,6 @@ parcelHelpers.export(exports, "handleStartButtonClick", ()=>handleStartButtonCli
 var _placeCompShipsOnBoard = require("../components/placeCompShipsOnBoard");
 var _randomizeAndStoreShipNames = require("../components/randomizeAndStoreShipNames");
 var _renderCompBoard = require("../components/renderCompBoard");
-var _compShipsPlacementChoicesArr = require("../data/compShipsPlacementChoicesArr");
 var _shipNames = require("../data/shipNames");
 var _elementCreators = require("../utilities/elementCreators");
 var _renderPlayerBoard = require("../utilities/renderPlayerBoard");
@@ -1376,7 +1375,8 @@ const handleStartButtonClick = function(ev) {
     //renders player and comp board and places the ships
     (0, _renderPlayerBoard.renderPlayerBoard)();
     (0, _renderCompBoard.renderCompBoard)();
-    (0, _placeCompShipsOnBoard.placeCompShipsOnBoard)((0, _compShipsPlacementChoicesArr.compShipsPlacementChoicesArr));
+    // placeCompShipsOnBoard(compShipsPlacementChoicesArr);
+    (0, _placeCompShipsOnBoard.placeCompShipsOnBoard)();
     //randomizes and store ship names for each battle
     (0, _randomizeAndStoreShipNames.randomizeAndStoreShipNames)((0, _shipNames.shipNames));
     if (!localStorage.getItem("isGameRunning")) localStorage.setItem("isGameRunning", JSON.stringify(true));
@@ -1417,28 +1417,246 @@ const handleStartButtonClick = function(ev) {
     (0, _elementCreators.appendElemToParent)(battleMessageWrapper)(battleMessageContainer);
 };
 
-},{"../components/placeCompShipsOnBoard":"dU4Hs","../components/randomizeAndStoreShipNames":"et96r","../components/renderCompBoard":"5e8Dz","../data/compShipsPlacementChoicesArr":"k7Vwa","../data/shipNames":"ekPmF","../utilities/elementCreators":"H4ivl","../utilities/renderPlayerBoard":"bFpjJ","../utilities/renderTacticalOverview":"kMrKG","./handlePlayerClickOnCompMisses":"2HlWb","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dU4Hs":[function(require,module,exports) {
+},{"../components/placeCompShipsOnBoard":"dU4Hs","../components/randomizeAndStoreShipNames":"et96r","../components/renderCompBoard":"5e8Dz","../data/shipNames":"ekPmF","../utilities/elementCreators":"H4ivl","../utilities/renderPlayerBoard":"bFpjJ","../utilities/renderTacticalOverview":"kMrKG","./handlePlayerClickOnCompMisses":"2HlWb","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dU4Hs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "placeCompShipsOnBoard", ()=>placeCompShipsOnBoard);
+var _populateCompShipsCoords = require("../utilities/populateCompShipsCoords");
 var _renderCompShipsOnBoard = require("./renderCompShipsOnBoard");
-const placeCompShipsOnBoard = function(compShipsPlacementChoicesArr_) {
-    const compShipsPlacementChoicesArr = compShipsPlacementChoicesArr_;
-    //selects a random pre-formed compShipPlacement for every game
-    const randCompShipPlacement = compShipsPlacementChoicesArr[Math.floor(Math.random() * compShipsPlacementChoicesArr.length)];
+const placeCompShipsOnBoard = function() {
+    // const compShipsPlacementChoicesArr = compShipsPlacementChoicesArr_;
+    // //selects a random pre-formed compShipPlacement for every game
+    // const randCompShipPlacement =
+    // 	compShipsPlacementChoicesArr[
+    // 		Math.floor(Math.random() * compShipsPlacementChoicesArr.length)
+    // 	];
+    const randCompShipPlacement = (0, _populateCompShipsCoords.populateCompShipsCoords)();
     (0, _renderCompShipsOnBoard.renderCompShipsOnBoard)(randCompShipPlacement);
 };
 
-},{"./renderCompShipsOnBoard":"azqRB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"azqRB":[function(require,module,exports) {
+},{"../utilities/populateCompShipsCoords":"g4e0B","./renderCompShipsOnBoard":"azqRB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g4e0B":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "populateCompShipsCoords", ()=>populateCompShipsCoords) /**
+ 
+  else if (shipType === 'destroyer' || shipType === 'frigate') {
+					shipCoordsArrArr = [];
+					const numOfShips = 2;
+
+					switch (randDirection) {
+						case 'horizontal': {
+							for (let i = 0; i < numOfShips; i += 1) {
+								const tempCoordsArr: [number, number][] = [];
+								for (let j = 0; j < shipLength; j += 1) {
+									tempCoordsArr.push([randCoord[0] + j, randCoord[1]]);
+								}
+								shipCoordsArrArr.push(tempCoordsArr);
+							}
+
+							withinBounds = shipCoordsArrArr.every((coordArr) =>
+								coordArr.every(([x, y]) => x >= 0 && x < 10 && y >= 0 && y < 10)
+							);
+							console.log('withinBounds horizontal', withinBounds);
+							isAnotherShipPresent = shipCoordsArrArr.some((coordArr) =>
+								coordArr.some((coord) => shipsPresentCoords.includes(coord))
+							);
+							console.log('isAnotherShipPresent horizontal', isAnotherShipPresent);
+
+							break;
+						}
+						case 'vertical': {
+							for (let i = 0; i < numOfShips; i += 1) {
+								const tempCoordsArr: [number, number][] = [];
+								for (let j = 0; j < shipLength; j += 1) {
+									tempCoordsArr.push([randCoord[0], randCoord[1] + j]);
+								}
+								shipCoordsArrArr.push(tempCoordsArr);
+							}
+
+							withinBounds = shipCoordsArrArr.every((coordArr) =>
+								coordArr.every(([x, y]) => x >= 0 && x < 10 && y >= 0 && y < 10)
+							);
+							console.log('withinBounds vertical', withinBounds);
+							isAnotherShipPresent = shipCoordsArrArr.some((coordArr) =>
+								coordArr.some((coord) => shipsPresentCoords.includes(coord))
+							);
+							console.log('isAnotherShipPresent vertical', isAnotherShipPresent);
+
+							break;
+						}
+						default:
+							break;
+					}
+				}
+
+  {
+		superdreadnought: {
+			head: '1,0',
+			body1: '2,0',
+			body2: '3,0',
+			body3: '4,0',
+			tail: '5,0',
+		},
+		carrier: { head: '1,2', body1: '2,2', body2: '3,2', tail: '4,2' },
+		battleship: { head: '1,4', body: '2,4', tail: '3,4' },
+		destroyers: [
+			{ head: '1,6', tail: '2,6' },
+			{ head: '1,8', tail: '2,8' },
+		],
+		frigates: [{ body: '4,6' }, { body: '4,8' }],
+	},
+	
+
+ */ ;
+function populateCompShipsCoords() {
+    // creates tuples[] of all possible coordinates
+    const allCoords = [];
+    for(let i2 = 0; i2 < 10; i2 += 1)for(let j = 0; j < 10; j += 1)allCoords.push([
+        j,
+        i2
+    ]);
+    const shipsLengthTuple = [
+        [
+            "superdreadnought",
+            5
+        ],
+        [
+            "carrier",
+            4
+        ],
+        [
+            "battleship",
+            3
+        ],
+        [
+            "destroyer",
+            2
+        ],
+        [
+            "destroyer",
+            2
+        ],
+        [
+            "frigate",
+            1
+        ],
+        [
+            "frigate",
+            1
+        ], 
+    ];
+    const shipsPresentCoords = [];
+    return Object.fromEntries(shipsLengthTuple.reduce((acc, [shipType, shipLength])=>{
+        let withinBounds = false;
+        let isAnotherShipPresent = true;
+        let shipCoordsArr = [];
+        while(!withinBounds || isAnotherShipPresent){
+            shipCoordsArr = [];
+            // returns a random coordinate
+            const randCoord = function() {
+                let randIndex = Math.floor(Math.random() * allCoords.length);
+                while(shipsPresentCoords.includes(allCoords[randIndex]))randIndex = Math.floor(Math.random() * allCoords.length);
+                return allCoords[randIndex];
+            }();
+            // returns a random direction
+            const randDirection = function() {
+                const randIndex = Math.floor(Math.random() * 2);
+                return randIndex === 0 ? "horizontal" : "vertical";
+            }();
+            switch(randDirection){
+                case "horizontal":
+                    for(let i = 0; i < shipLength; i += 1)shipCoordsArr.push([
+                        randCoord[0] + i,
+                        randCoord[1]
+                    ]);
+                    withinBounds = shipCoordsArr.every(([x, y])=>x >= 0 && x < 10 && y >= 0 && y < 10);
+                    isAnotherShipPresent = shipCoordsArr.some((coord)=>shipsPresentCoords.includes(coord));
+                    break;
+                case "vertical":
+                    for(let i1 = 0; i1 < shipLength; i1 += 1)shipCoordsArr.push([
+                        randCoord[0],
+                        randCoord[1] + i1
+                    ]);
+                    withinBounds = shipCoordsArr.every(([x, y])=>x >= 0 && x < 10 && y >= 0 && y < 10);
+                    isAnotherShipPresent = shipCoordsArr.some((coord)=>shipsPresentCoords.includes(coord));
+                    break;
+                default:
+                    break;
+            }
+        }
+        // adds the ship's coords to the shipsPresentCoords array
+        shipCoordsArr.forEach((coord)=>shipsPresentCoords.push(coord));
+        let shipTypeCoordsObj;
+        if (shipType === "superdreadnought" || shipType === "carrier" || shipType === "battleship") {
+            shipTypeCoordsObj = new Map([
+                [
+                    "head",
+                    shipCoordsArr[0].toString()
+                ],
+                [
+                    "tail",
+                    shipCoordsArr[shipCoordsArr.length - 1].toString()
+                ], 
+            ]);
+            for(let i = 1; i < shipCoordsArr.length - 1; i += 1)shipTypeCoordsObj.set(`${shipType === "battleship" ? `body` : `body${i}`}`, shipCoordsArr[i].toString());
+            acc.set(shipType, Object.fromEntries(shipTypeCoordsObj));
+        } else if (shipType === "destroyer" || shipType === "frigate") switch(shipType){
+            case "destroyer":
+                {
+                    const destroyerCoordObj = {
+                        head: shipCoordsArr[0].toString(),
+                        tail: shipCoordsArr[shipCoordsArr.length - 1].toString()
+                    };
+                    const prevDestroyerCoordObjArr = acc.get("destroyers");
+                    if (prevDestroyerCoordObjArr) acc.set("destroyers", prevDestroyerCoordObjArr.concat(destroyerCoordObj));
+                    else acc.set("destroyers", [
+                        destroyerCoordObj
+                    ]);
+                    break;
+                }
+            case "frigate":
+                {
+                    const frigateCoordObj = {
+                        body: shipCoordsArr[0].toString()
+                    };
+                    const prevFrigateCoordObjArr = acc.get("frigates");
+                    if (prevFrigateCoordObjArr) acc.set("frigates", prevFrigateCoordObjArr.concat(frigateCoordObj));
+                    else acc.set("frigates", [
+                        frigateCoordObj
+                    ]);
+                    break;
+                }
+            default:
+                break;
+        }
+        //
+        //
+        //
+        //
+        //
+        return acc;
+    }, new Map()));
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"azqRB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderCompShipsOnBoard", ()=>renderCompShipsOnBoard);
 var _elementCreators = require("../utilities/elementCreators");
 const renderCompShipsOnBoard = function(compShipsPlacementChoice_) {
-    //used for hit detection
-    if (!localStorage.getItem("compShipsCoords")) localStorage.setItem("compShipsCoords", JSON.stringify([]));
-    const compShipsCoords = JSON.parse(localStorage.getItem("compShipsCoords") ?? "");
+    console.log("compShipsPlacementChoice_ from renderCompShipsOnBoard: ", compShipsPlacementChoice_);
+    // //used for hit detection
+    // if (!localStorage.getItem('compShipsCoords')) {
+    // 	localStorage.setItem('compShipsCoords', JSON.stringify([]));
+    // }
+    // const compShipsCoords: string[] = JSON.parse(
+    // 	localStorage.getItem('compShipsCoords') ?? ''
+    // );
+    // //used for hit detection
+    const compShipsCoords = JSON.parse(localStorage.getItem("compShipsCoords") ?? JSON.stringify([]));
     Object.entries(compShipsPlacementChoice_).forEach(([ship1, shipObj])=>{
+        console.log("ship from renderCompShipsOnBoard: ", ship1);
+        console.log("shipObj from renderCompShipsOnBoard: ", shipObj);
         //if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
         if (!localStorage.getItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`)) localStorage.setItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`, JSON.stringify(shipObj));
         //for superdreadnought, carrier, battleship properties whose attributes do not consist of an array
@@ -1561,889 +1779,7 @@ const renderCompBoard = function() {
     ]));
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k7Vwa":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "compShipsPlacementChoicesArr", ()=>compShipsPlacementChoicesArr);
-const compShipsPlacementChoicesArr = [
-    {
-        superdreadnought: {
-            head: "1,0",
-            body1: "2,0",
-            body2: "3,0",
-            body3: "4,0",
-            tail: "5,0"
-        },
-        carrier: {
-            head: "1,2",
-            body1: "2,2",
-            body2: "3,2",
-            tail: "4,2"
-        },
-        battleship: {
-            head: "1,4",
-            body: "2,4",
-            tail: "3,4"
-        },
-        destroyers: [
-            {
-                head: "1,6",
-                tail: "2,6"
-            },
-            {
-                head: "1,8",
-                tail: "2,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "4,6"
-            },
-            {
-                body: "4,8"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "1,2",
-            body1: "1,3",
-            body2: "1,4",
-            body3: "1,5",
-            tail: "1,6"
-        },
-        carrier: {
-            head: "4,2",
-            body1: "4,3",
-            body2: "4,4",
-            tail: "4,5"
-        },
-        battleship: {
-            head: "6,1",
-            body: "7,1",
-            tail: "8,1"
-        },
-        destroyers: [
-            {
-                head: "7,4",
-                tail: "8,4"
-            },
-            {
-                head: "3,7",
-                tail: "3,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "7,7"
-            },
-            {
-                body: "5,8"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "1,1",
-            body1: "1,2",
-            body2: "1,3",
-            body3: "1,4",
-            tail: "1,5"
-        },
-        carrier: {
-            head: "3,2",
-            body1: "3,3",
-            body2: "3,4",
-            tail: "3,5"
-        },
-        battleship: {
-            head: "1,7",
-            body: "2,7",
-            tail: "3,7"
-        },
-        destroyers: [
-            {
-                head: "4,0",
-                tail: "5,0"
-            },
-            {
-                head: "5,2",
-                tail: "5,3"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "5,5"
-            },
-            {
-                body: "5,7"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "1,8",
-            body1: "2,8",
-            body2: "3,8",
-            body3: "4,8",
-            tail: "5,8"
-        },
-        carrier: {
-            head: "6,6",
-            body1: "7,6",
-            body2: "8,6",
-            tail: "9,6"
-        },
-        battleship: {
-            head: "6,4",
-            body: "7,4",
-            tail: "8,4"
-        },
-        destroyers: [
-            {
-                head: "2,6",
-                tail: "3,6"
-            },
-            {
-                head: "2,4",
-                tail: "3,4"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "3,2"
-            },
-            {
-                body: "7,2"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "1,1",
-            body1: "1,2",
-            body2: "1,3",
-            body3: "1,4",
-            tail: "1,5"
-        },
-        carrier: {
-            head: "8,6",
-            body1: "8,7",
-            body2: "8,8",
-            tail: "8,9"
-        },
-        battleship: {
-            head: "6,1",
-            body: "7,1",
-            tail: "8,1"
-        },
-        destroyers: [
-            {
-                head: "6,3",
-                tail: "7,3"
-            },
-            {
-                head: "1,8",
-                tail: "2,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "4,6"
-            },
-            {
-                body: "3,3"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "0,0",
-            body1: "1,0",
-            body2: "2,0",
-            body3: "3,0",
-            tail: "4,0"
-        },
-        carrier: {
-            head: "2,9",
-            body1: "3,9",
-            body2: "4,9",
-            tail: "5,9"
-        },
-        battleship: {
-            head: "0,5",
-            body: "0,6",
-            tail: "0,7"
-        },
-        destroyers: [
-            {
-                head: "8,3",
-                tail: "8,4"
-            },
-            {
-                head: "5,6",
-                tail: "5,7"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "3,2"
-            },
-            {
-                body: "8,9"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "0,7",
-            body1: "1,7",
-            body2: "2,7",
-            body3: "3,7",
-            tail: "4,7"
-        },
-        carrier: {
-            head: "6,9",
-            body1: "7,9",
-            body2: "8,9",
-            tail: "9,9"
-        },
-        battleship: {
-            head: "7,2",
-            body: "7,3",
-            tail: "7,4"
-        },
-        destroyers: [
-            {
-                head: "0,2",
-                tail: "0,3"
-            },
-            {
-                head: "3,1",
-                tail: "3,2"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "3,4"
-            },
-            {
-                body: "9,6"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "8,1",
-            body1: "8,2",
-            body2: "8,3",
-            body3: "8,4",
-            tail: "8,5"
-        },
-        carrier: {
-            head: "0,5",
-            body1: "0,6",
-            body2: "0,7",
-            tail: "0,8"
-        },
-        battleship: {
-            head: "6,6",
-            body: "6,7",
-            tail: "6,8"
-        },
-        destroyers: [
-            {
-                head: "1,1",
-                tail: "1,2"
-            },
-            {
-                head: "3,1",
-                tail: "3,2"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "5,2"
-            },
-            {
-                body: "3,5"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "0,8",
-            body1: "1,8",
-            body2: "2,8",
-            body3: "3,8",
-            tail: "4,8"
-        },
-        carrier: {
-            head: "6,1",
-            body1: "7,1",
-            body2: "8,1",
-            tail: "9,1"
-        },
-        battleship: {
-            head: "0,3",
-            body: "1,3",
-            tail: "2,3"
-        },
-        destroyers: [
-            {
-                head: "8,8",
-                tail: "9,8"
-            },
-            {
-                head: "1,5",
-                tail: "2,5"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "8,3"
-            },
-            {
-                body: "8,5"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "1,1",
-            body1: "2,1",
-            body2: "3,1",
-            body3: "4,1",
-            tail: "5,1"
-        },
-        carrier: {
-            head: "0,3",
-            body1: "0,4",
-            body2: "0,5",
-            tail: "0,6"
-        },
-        battleship: {
-            head: "8,3",
-            body: "8,4",
-            tail: "8,5"
-        },
-        destroyers: [
-            {
-                head: "3,3",
-                tail: "3,4"
-            },
-            {
-                head: "3,7",
-                tail: "3,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "8,0"
-            },
-            {
-                body: "6,9"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "0,8",
-            body1: "1,8",
-            body2: "2,8",
-            body3: "3,8",
-            tail: "4,8"
-        },
-        carrier: {
-            head: "6,1",
-            body1: "7,1",
-            body2: "8,1",
-            tail: "9,1"
-        },
-        battleship: {
-            head: "0,0",
-            body: "0,1",
-            tail: "0,2"
-        },
-        destroyers: [
-            {
-                head: "9,8",
-                tail: "9,9"
-            },
-            {
-                head: "7,6",
-                tail: "7,7"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "9,4"
-            },
-            {
-                body: "5,4"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "9,0",
-            body1: "9,1",
-            body2: "9,2",
-            body3: "9,3",
-            tail: "9,4"
-        },
-        carrier: {
-            head: "3,3",
-            body1: "3,4",
-            body2: "3,5",
-            tail: "3,6"
-        },
-        battleship: {
-            head: "0,7",
-            body: "0,8",
-            tail: "0,9"
-        },
-        destroyers: [
-            {
-                head: "0,0",
-                tail: "0,1"
-            },
-            {
-                head: "9,8",
-                tail: "9,9"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "5,4"
-            },
-            {
-                body: "3,9"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "2,3",
-            body1: "3,3",
-            body2: "4,3",
-            body3: "5,3",
-            tail: "6,3"
-        },
-        carrier: {
-            head: "0,3",
-            body1: "0,4",
-            body2: "0,5",
-            tail: "0,6"
-        },
-        battleship: {
-            head: "8,0",
-            body: "8,1",
-            tail: "8,2"
-        },
-        destroyers: [
-            {
-                head: "2,0",
-                tail: "2,1"
-            },
-            {
-                head: "2,6",
-                tail: "2,7"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "7,6"
-            },
-            {
-                body: "7,8"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "2,9",
-            body1: "3,9",
-            body2: "4,9",
-            body3: "5,9",
-            tail: "6,9"
-        },
-        carrier: {
-            head: "1,2",
-            body1: "1,3",
-            body2: "1,4",
-            tail: "1,5"
-        },
-        battleship: {
-            head: "8,2",
-            body: "8,3",
-            tail: "8,4"
-        },
-        destroyers: [
-            {
-                head: "9,8",
-                tail: "9,9"
-            },
-            {
-                head: "0,7",
-                tail: "0,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "5,3"
-            },
-            {
-                body: "3,5"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "2,5",
-            body1: "2,6",
-            body2: "2,7",
-            body3: "2,8",
-            tail: "2,9"
-        },
-        carrier: {
-            head: "1,2",
-            body1: "2,2",
-            body2: "3,2",
-            tail: "4,2"
-        },
-        battleship: {
-            head: "7,2",
-            body: "7,3",
-            tail: "7,4"
-        },
-        destroyers: [
-            {
-                head: "5,6",
-                tail: "6,6"
-            },
-            {
-                head: "5,8",
-                tail: "6,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "0,0"
-            },
-            {
-                body: "9,9"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "4,3",
-            body1: "4,4",
-            body2: "4,5",
-            body3: "4,6",
-            tail: "4,7"
-        },
-        carrier: {
-            head: "3,9",
-            body1: "4,9",
-            body2: "5,9",
-            tail: "6,9"
-        },
-        battleship: {
-            head: "3,0",
-            body: "4,0",
-            tail: "5,0"
-        },
-        destroyers: [
-            {
-                head: "0,1",
-                tail: "0,2"
-            },
-            {
-                head: "0,8",
-                tail: "0,9"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "7,3"
-            },
-            {
-                body: "7,6"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "9,0",
-            body1: "9,1",
-            body2: "9,2",
-            body3: "9,3",
-            tail: "9,4"
-        },
-        carrier: {
-            head: "5,2",
-            body1: "5,3",
-            body2: "5,4",
-            tail: "5,5"
-        },
-        battleship: {
-            head: "7,1",
-            body: "7,2",
-            tail: "7,3"
-        },
-        destroyers: [
-            {
-                head: "9,8",
-                tail: "9,9"
-            },
-            {
-                head: "7,7",
-                tail: "7,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "1,1"
-            },
-            {
-                body: "1,3"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "2,6",
-            body1: "3,6",
-            body2: "4,6",
-            body3: "5,6",
-            tail: "6,6"
-        },
-        carrier: {
-            head: "2,1",
-            body1: "2,2",
-            body2: "2,3",
-            tail: "2,4"
-        },
-        battleship: {
-            head: "8,6",
-            body: "8,7",
-            tail: "8,8"
-        },
-        destroyers: [
-            {
-                head: "5,2",
-                tail: "5,3"
-            },
-            {
-                head: "7,1",
-                tail: "7,2"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "0,9"
-            },
-            {
-                body: "5,8"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "6,3",
-            body1: "6,4",
-            body2: "6,5",
-            body3: "6,6",
-            tail: "6,7"
-        },
-        carrier: {
-            head: "1,5",
-            body1: "2,5",
-            body2: "3,5",
-            tail: "4,5"
-        },
-        battleship: {
-            head: "4,1",
-            body: "4,2",
-            tail: "4,3"
-        },
-        destroyers: [
-            {
-                head: "1,1",
-                tail: "1,2"
-            },
-            {
-                head: "8,1",
-                tail: "8,2"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "1,8"
-            },
-            {
-                body: "5,8"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "2,3",
-            body1: "3,3",
-            body2: "4,3",
-            body3: "5,3",
-            tail: "6,3"
-        },
-        carrier: {
-            head: "0,3",
-            body1: "0,4",
-            body2: "0,5",
-            tail: "0,6"
-        },
-        battleship: {
-            head: "8,3",
-            body: "8,4",
-            tail: "8,5"
-        },
-        destroyers: [
-            {
-                head: "9,7",
-                tail: "9,8"
-            },
-            {
-                head: "8,8",
-                tail: "7,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "1,1"
-            },
-            {
-                body: "1,3"
-            }
-        ]
-    },
-    // generate random positions of ships from 0,0 to 9,9 in the same pattern as above and with no overlap and in different positions each time
-    {
-        superdreadnought: {
-            head: "2,9",
-            body1: "3,9",
-            body2: "4,9",
-            body3: "5,9",
-            tail: "6,9"
-        },
-        carrier: {
-            head: "0,0",
-            body1: "0,1",
-            body2: "0,2",
-            tail: "0,3"
-        },
-        battleship: {
-            head: "8,9",
-            body: "8,8",
-            tail: "8,7"
-        },
-        destroyers: [
-            {
-                head: "4,4",
-                tail: "4,5"
-            },
-            {
-                head: "7,4",
-                tail: "7,5"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "1,8"
-            },
-            {
-                body: "5,8"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "2,0",
-            body1: "3,0",
-            body2: "4,0",
-            body3: "5,0",
-            tail: "6,0"
-        },
-        carrier: {
-            head: "0,9",
-            body1: "0,8",
-            body2: "0,7",
-            tail: "0,6"
-        },
-        battleship: {
-            head: "8,0",
-            body: "8,1",
-            tail: "8,2"
-        },
-        destroyers: [
-            {
-                head: "9,2",
-                tail: "9,3"
-            },
-            {
-                head: "8,3",
-                tail: "7,3"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "1,1"
-            },
-            {
-                body: "1,3"
-            }
-        ]
-    },
-    {
-        superdreadnought: {
-            head: "2,6",
-            body1: "3,6",
-            body2: "4,6",
-            body3: "5,6",
-            tail: "6,6"
-        },
-        carrier: {
-            head: "0,3",
-            body1: "0,4",
-            body2: "0,5",
-            tail: "0,6"
-        },
-        battleship: {
-            head: "8,6",
-            body: "8,7",
-            tail: "8,8"
-        },
-        destroyers: [
-            {
-                head: "9,7",
-                tail: "9,8"
-            },
-            {
-                head: "8,8",
-                tail: "7,8"
-            }, 
-        ],
-        frigates: [
-            {
-                body: "1,1"
-            },
-            {
-                body: "1,3"
-            }
-        ]
-    }, 
-];
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ekPmF":[function(require,module,exports) {
+},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ekPmF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "shipNames", ()=>shipNames);
@@ -3359,7 +2695,9 @@ function returnPlayerCompShipsCoords() {
     // grab the player and comp ships coords from local storage so we can assign ship cells in the tac overview to the correct ship cells from game board
     //coords are assigned into array in an explicit order at author time to guarantee order sequence
     //coulda sorted the coords but this is more explicit and easier to read, albeit verbose
-    const playerSuperdreadnought = JSON.parse(localStorage.getItem("superdreadnought") ?? "");
+    const playerSuperdreadnought = JSON.parse(localStorage.getItem("superdreadnought") ?? JSON.stringify([
+        {}
+    ]));
     const playerSuperdreadnoughtCoords = [
         playerSuperdreadnought.head,
         playerSuperdreadnought.body1,
@@ -3367,20 +2705,26 @@ function returnPlayerCompShipsCoords() {
         playerSuperdreadnought.body3,
         playerSuperdreadnought.tail, 
     ];
-    const playerCarrier = JSON.parse(localStorage.getItem("carrier") ?? "");
+    const playerCarrier = JSON.parse(localStorage.getItem("carrier") ?? JSON.stringify([
+        {}
+    ]));
     const playerCarrierCoords = [
         playerCarrier.head,
         playerCarrier.body1,
         playerCarrier.body2,
         playerCarrier.tail, 
     ];
-    const playerBattleship = JSON.parse(localStorage.getItem("battleship") ?? "");
+    const playerBattleship = JSON.parse(localStorage.getItem("battleship") ?? JSON.stringify([
+        {}
+    ]));
     const playerBattleshipCoords = [
         playerBattleship.head,
         playerBattleship.body,
         playerBattleship.tail, 
     ];
-    const playerDestroyers = JSON.parse(localStorage.getItem("destroyer") ?? "");
+    const playerDestroyers = JSON.parse(localStorage.getItem("destroyer") ?? JSON.stringify([
+        {}
+    ]));
     const playerDestroyersCoords = [
         [
             playerDestroyers[0].head,
@@ -3391,7 +2735,9 @@ function returnPlayerCompShipsCoords() {
             playerDestroyers[1].tail
         ], 
     ];
-    const playerFrigates = JSON.parse(localStorage.getItem("frigate") ?? "");
+    const playerFrigates = JSON.parse(localStorage.getItem("frigate") ?? JSON.stringify([
+        {}
+    ]));
     const playerFrigatesCoords = [
         [
             playerFrigates[0].body
@@ -3400,7 +2746,9 @@ function returnPlayerCompShipsCoords() {
             playerFrigates[1].body
         ]
     ];
-    const compSuperdreadnought = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? "");
+    const compSuperdreadnought = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? JSON.stringify([
+        {}
+    ]));
     const compSuperdreadnoughtCoords = [
         compSuperdreadnought.head,
         compSuperdreadnought.body1,
@@ -3408,20 +2756,26 @@ function returnPlayerCompShipsCoords() {
         compSuperdreadnought.body3,
         compSuperdreadnought.tail, 
     ];
-    const compCarrier = JSON.parse(localStorage.getItem("compCarrier") ?? "");
+    const compCarrier = JSON.parse(localStorage.getItem("compCarrier") ?? JSON.stringify([
+        {}
+    ]));
     const compCarrierCoords = [
         compCarrier.head,
         compCarrier.body1,
         compCarrier.body2,
         compCarrier.tail, 
     ];
-    const compBattleship = JSON.parse(localStorage.getItem("compBattleship") ?? "");
+    const compBattleship = JSON.parse(localStorage.getItem("compBattleship") ?? JSON.stringify([
+        {}
+    ]));
     const compBattleshipCoords = [
         compBattleship.head,
         compBattleship.body,
         compBattleship.tail, 
     ];
-    const compDestroyers = JSON.parse(localStorage.getItem("compDestroyers") ?? "");
+    const compDestroyers = JSON.parse(localStorage.getItem("compDestroyers") ?? JSON.stringify([
+        {}
+    ]));
     const compDestroyersCoords = [
         [
             compDestroyers[0].head,
@@ -3432,7 +2786,9 @@ function returnPlayerCompShipsCoords() {
             compDestroyers[1].tail
         ], 
     ];
-    const compFrigates = JSON.parse(localStorage.getItem("compFrigates") ?? "");
+    const compFrigates = JSON.parse(localStorage.getItem("compFrigates") ?? JSON.stringify([
+        {}
+    ]));
     const compFrigatesCoords = [
         [
             compFrigates[0].body
