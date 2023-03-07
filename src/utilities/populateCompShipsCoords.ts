@@ -67,11 +67,6 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 							isAnotherShipPresent = shipCoordsArr.some((coord) =>
 								shipsPresentCoordsSet.has(coord.join(','))
 							);
-							// isAnotherShipPresent = shipCoordsArr.reduce((acc, coord) => {
-							// 	if (shipsPresentCoords.includes(coord)) acc = true;
-
-							// 	return acc;
-							// }, false);
 
 							break;
 						}
@@ -88,11 +83,6 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 							isAnotherShipPresent = shipCoordsArr.some((coord) =>
 								shipsPresentCoordsSet.has(coord.join(','))
 							);
-							// isAnotherShipPresent = shipCoordsArr.reduce((acc, coord) => {
-							// 	if (shipsPresentCoords.includes(coord)) acc = true;
-
-							// 	return acc;
-							// }, false);
 
 							break;
 						}
