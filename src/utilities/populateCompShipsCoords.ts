@@ -20,11 +20,7 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 		['frigate', 1],
 	];
 
-	const shipsPresentCoordsSet = new Set<[number, number]>([]);
-	console.log(
-		'shipsPresentCoordsSet from populateCompShipsCoords()',
-		shipsPresentCoordsSet
-	);
+	const shipsPresentCoordsSet = new Set<string>();
 
 	return Object.fromEntries(
 		shipsLengthTuple.reduce(
@@ -43,7 +39,9 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 					// returns a random coordinate
 					const randCoord = (function () {
 						let randIndex = Math.floor(Math.random() * allCoords.length);
-						while (shipsPresentCoordsSet.has(allCoords[randIndex])) {
+						const randCoordStr = allCoords[randIndex].join(',');
+
+						while (shipsPresentCoordsSet.has(randCoordStr)) {
 							randIndex = Math.floor(Math.random() * allCoords.length);
 						}
 						return allCoords[randIndex];
@@ -67,8 +65,13 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 							);
 							// checks if the ship overlaps with another ship
 							isAnotherShipPresent = shipCoordsArr.some((coord) =>
-								shipsPresentCoordsSet.has(coord)
+								shipsPresentCoordsSet.has(coord.join(','))
 							);
+							// isAnotherShipPresent = shipCoordsArr.reduce((acc, coord) => {
+							// 	if (shipsPresentCoords.includes(coord)) acc = true;
+
+							// 	return acc;
+							// }, false);
 
 							break;
 						}
@@ -83,8 +86,13 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 							);
 
 							isAnotherShipPresent = shipCoordsArr.some((coord) =>
-								shipsPresentCoordsSet.has(coord)
+								shipsPresentCoordsSet.has(coord.join(','))
 							);
+							// isAnotherShipPresent = shipCoordsArr.reduce((acc, coord) => {
+							// 	if (shipsPresentCoords.includes(coord)) acc = true;
+
+							// 	return acc;
+							// }, false);
 
 							break;
 						}
@@ -93,8 +101,12 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 					}
 				}
 
-				// adds the ship's coords to the shipsPresentCoordsSet
-				shipCoordsArr.forEach((coord) => shipsPresentCoordsSet.add(coord));
+				// adds the ship's coords to the shipsPresentCoords
+				shipCoordsArr.forEach((coord) => shipsPresentCoordsSet.add(coord.join(',')));
+				console.log(
+					'shipsPresentCoords from populateCompShipsCoords()',
+					shipsPresentCoordsSet
+				);
 
 				let shipTypeCoordsObj: Map<string, string>;
 				// creates a Map object with the ship's type as the key and an object with the ship's coordinates as the value
