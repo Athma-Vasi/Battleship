@@ -8,13 +8,12 @@ function storeCompHitMissCoords(
 			localStorage.setItem('prevCompHitOnPlayerCoord', JSON.stringify(compAttackGuess_));
 
 			const compHitOnPlayerCoordsArr: string[] = JSON.parse(
-				localStorage.getItem('compHitOnPlayerCoordsArr') ?? '[]'
+				localStorage.getItem('compHitOnPlayerCoordsArr') ?? JSON.stringify([])
 			);
-
-			//adds current hit to array
+			// adds current hit to array
 			compHitOnPlayerCoordsArr.push(compAttackGuess_);
 
-			//updates store
+			// updates store
 			localStorage.setItem(
 				'compHitOnPlayerCoordsArr',
 				JSON.stringify(compHitOnPlayerCoordsArr)
@@ -26,13 +25,12 @@ function storeCompHitMissCoords(
 			localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(compAttackGuess_));
 
 			const compMissOnPlayerCoordsArr: string[] = JSON.parse(
-				localStorage.getItem('compMissOnPlayerCoordsArr') ?? '[]'
+				localStorage.getItem('compMissOnPlayerCoordsArr') ?? JSON.stringify([])
 			);
-
-			//adds current miss to array
+			// adds current miss to array
 			compMissOnPlayerCoordsArr.push(compAttackGuess_);
 
-			//updates store
+			// updates store
 			localStorage.setItem(
 				'compMissOnPlayerCoordsArr',
 				JSON.stringify(compMissOnPlayerCoordsArr)

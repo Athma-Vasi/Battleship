@@ -1,7 +1,7 @@
 import { genRandCompAttackGuess } from '../components/genRandCompAttackGuess';
 import { generateAdjacentCoordArr } from './generateAdjacentCoordArr';
 
-function generateProbabilisticFiringCoord() {
+function generateProbabilisticFiringCoord(): string {
 	const prevCompHitOrMiss: 'hit' | 'miss' = localStorage.getItem('prevCompHitOrMiss') as
 		| 'hit'
 		| 'miss';
@@ -26,7 +26,7 @@ function generateProbabilisticFiringCoord() {
 
 	let newFiringCoordinate = '';
 
-	//only runs on first computer turn as prevCompHitOrMiss is undefined
+	// only runs on first computer turn as prevCompHitOrMiss is undefined
 	if (!prevCompHitOrMiss) {
 		newFiringCoordinate = genRandCompAttackGuess(prevCompFiringCoords);
 	} else {
@@ -37,8 +37,8 @@ function generateProbabilisticFiringCoord() {
 			compMissOnPlayerCoordsArr
 		);
 
-		//if all adjacent coords of prev hits have been hit, generate a random guess
-		//else generate a random adjacent coord from the prev hits
+		// if all adjacent coords of prev hits have been hit, generate a random guess
+		// else generate a random adjacent coord from the prev hits
 		newFiringCoordinate =
 			adjacentCoords.length === 0
 				? genRandCompAttackGuess(prevCompFiringCoords)

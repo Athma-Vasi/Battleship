@@ -7,7 +7,7 @@ function generateAdjacentCoordArr(
 	const xCoord = parseInt(prevCompHitOnPlayerCoords[0].replace('"', ''));
 	const yCoord = parseInt(prevCompHitOnPlayerCoords[1].replace('"', ''));
 
-	//generate adjacent coords
+	// generate adjacent coords
 	const adjacentCoords: string[] = [];
 
 	// loop through each of the previous hits and generate adjacent coords

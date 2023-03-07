@@ -118,15 +118,6 @@ function beforeAfterShipCellsFiredUponStatus({
 		  compShipsMissesCoordsSet.has(afterShipCell)
 		: true;
 
-	// console.group('small ships');
-	// console.log('beforeShipCell small ships', beforeShipCell);
-	// console.log('afterShipCell small ships', afterShipCell);
-	// console.log('beforeShipCellWithinBounds small ships', beforeShipCellWithinBounds);
-	// console.log('afterShipCellWithinBounds small ships', afterShipCellWithinBounds);
-	// console.log('isBeforeShipCellFiredUpon small ships', isBeforeShipCellFiredUpon);
-	// console.log('isAfterShipCellFiredUpon small ships', isAfterShipCellFiredUpon);
-	// console.groupEnd();
-
 	return {
 		isBeforeShipCellFiredUpon,
 		isAfterShipCellFiredUpon,

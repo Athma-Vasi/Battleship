@@ -19,7 +19,6 @@ function returnShipSymbolFromCoord({
 		shipSymbol = Object.entries(playerShipCoords).reduce(
 			(acc, [shipName, shipCoords]: [string, string[] | string[][]]) => {
 				const shipCoords_ = shipCoords.flat(3);
-
 				if (shipCoords_.includes(currentCellCoord)) {
 					acc = shipName[0].toUpperCase();
 				}
@@ -34,7 +33,6 @@ function returnShipSymbolFromCoord({
 		shipSymbol = Object.entries(compShipCoords).reduce(
 			(acc, [shipName, shipCoords]: [string, string[] | string[][]]) => {
 				const shipCoords_ = shipCoords.flat(3);
-
 				if (shipCoords_.includes(currentCellCoord)) {
 					acc = shipName[0].toUpperCase();
 				}
@@ -46,34 +44,6 @@ function returnShipSymbolFromCoord({
 	}
 
 	return shipSymbol;
-
-	//
-	//
-	//
 }
 
 export { returnShipSymbolFromCoord };
-
-/**
- 
-  Object.entries(playerShipCoords).forEach(([shipName, shipCoords]) => {
-		const shipCoords_ = shipCoords.flat();
-
-		if (shipCoords_.includes(coord_)) {
-			shipSymbol = shipName[0].toUpperCase();
-			return shipSymbol;
-		}
-	});
-
-	if (shipSymbol === '') {
-		Object.entries(compShipCoords).forEach(([shipName, shipCoords]) => {
-			const shipCoords_ = shipCoords.flat();
-
-			if (shipCoords_.includes(coord_)) {
-				shipSymbol = shipName[0].toUpperCase();
-				return shipSymbol;
-			}
-		});
-	}
-
- */

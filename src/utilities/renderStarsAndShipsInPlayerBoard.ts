@@ -13,7 +13,7 @@ import {
 	Superdreadnought,
 } from './types';
 
-function renderStarsAndShipsInPlayerBoard() {
+function renderStarsAndShipsInPlayerBoard(): void {
 	const superdreadnoughtCoords: Superdreadnought = JSON.parse(
 		localStorage.getItem('superdreadnought') ?? JSON.stringify([])
 	);

@@ -50,8 +50,6 @@ async function renderBattleMessageHelper({
 
 	const playerName = JSON.parse(localStorage.getItem('playerName') ?? '');
 
-	const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
-
 	const battleMessageContainer: Div = document.querySelector('.battleMessage-container');
 
 	const battleMessageElem = elemCreator('p')(['battleMessageElem']);
