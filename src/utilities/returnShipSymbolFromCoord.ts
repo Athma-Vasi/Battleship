@@ -45,8 +45,6 @@ function returnShipSymbolFromCoord({
 		);
 	}
 
-	console.log('shipSymbol: ', shipSymbol);
-
 	return shipSymbol;
 
 	//

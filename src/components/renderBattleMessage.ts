@@ -95,11 +95,6 @@ const renderBattleMessageElem = async function ({
 					localStorage.getItem('compDestroyers') ?? JSON.stringify([])
 				).map((destroyer: Destroyer) => Object.values(destroyer));
 
-				console.log(
-					'destroyer1Coords flatmapped from renderBattleMessage()',
-					destroyer1Coords
-				);
-
 				//displays hit on destroyer with randomized text
 				renderBattleMessageHelper({
 					towardsCombatant: 'comp',
@@ -112,11 +107,6 @@ const renderBattleMessageElem = async function ({
 				const [frigate1Coords, _]: string[] = JSON.parse(
 					localStorage.getItem('compFrigates') ?? JSON.stringify([])
 				).map((frigate: Frigate) => Object.values(frigate));
-
-				console.log(
-					'frigate1Coords flatmapped from renderBattleMessage()',
-					frigate1Coords
-				);
 
 				//displays hit on frigate with randomized text
 				renderBattleMessageHelper({

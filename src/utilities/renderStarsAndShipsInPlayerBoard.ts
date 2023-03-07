@@ -14,36 +14,38 @@ import {
 } from './types';
 
 function renderStarsAndShipsInPlayerBoard() {
-	const playerGameCell: NodesDiv = document.querySelectorAll('.player-gameCell');
-
-	// grab the cells for the player's ships and add the corresponding letter
 	const superdreadnoughtCoords: Superdreadnought = JSON.parse(
-		localStorage.getItem('superdreadnought') || JSON.stringify([])
+		localStorage.getItem('superdreadnought') ?? JSON.stringify([])
 	);
 	const superdreadnoughtCoordsArray = Object.values(superdreadnoughtCoords);
 
 	const battleshipCoords: Battleship = JSON.parse(
-		localStorage.getItem('battleship') || JSON.stringify([])
+		localStorage.getItem('battleship') ?? JSON.stringify([])
 	);
 	const battleshipCoordsArray = Object.values(battleshipCoords);
 
 	const carrierCoords: Carrier = JSON.parse(
-		localStorage.getItem('carrier') || JSON.stringify([])
+		localStorage.getItem('carrier') ?? JSON.stringify([])
 	);
 	const carrierCoordsArray = Object.values(carrierCoords);
 
 	const destroyerCoords: Destroyer[] = JSON.parse(
-		localStorage.getItem('destroyer') || JSON.stringify([])
+		localStorage.getItem('destroyer') ?? JSON.stringify([])
 	);
 	const destroyerCoordsArray = destroyerCoords.flatMap((destroyer) =>
 		Object.values(destroyer)
 	);
 
 	const frigateCoords: Frigate[] = JSON.parse(
-		localStorage.getItem('frigate') || JSON.stringify([])
+		localStorage.getItem('frigate') ?? JSON.stringify([])
 	);
 	const frigateCoordsArray = frigateCoords.flatMap((frigate) => Object.values(frigate));
 
+	// grab the cells for the player's ships and add the corresponding letter
+	const playerGameCell: NodesDiv = document.querySelectorAll('.player-gameCell');
+
+	// if the cell's data-cellplayer attribute is included in the array of coords for the ship, add the corresponding letter to the cell and add the class playerShipPresent
+	// else add a star and class playerShipNotPresent
 	playerGameCell.forEach((cell) => {
 		if (superdreadnoughtCoordsArray.includes(cell.dataset.cellplayer ?? '')) {
 			pipe(

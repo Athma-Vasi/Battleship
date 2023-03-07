@@ -11,8 +11,8 @@ import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTact
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
 const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
-	//initialize the hit counter on first hit
-	//when total hits reaches 18, game ends
+	// initialize the hit counter on first hit
+	// when total hits reaches 18, game ends
 	if (!localStorage.getItem('totalHitsOnCompShips')) {
 		localStorage.setItem('totalHitsOnCompShips', JSON.stringify(0));
 	}
@@ -26,9 +26,9 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	);
 
 	const currentCellCoord = this.dataset.cellcomp ?? '';
-	//prevents winner being called when a miss is registered
+	// prevents winner being called when a miss is registered
 	if (compShipsCoords.includes(currentCellCoord)) {
-		//checks hit counter to see if its the last hit
+		// checks hit counter to see if its the last hit
 		if (totalHitsOnCompShips === 17) {
 			const playerName = JSON.parse(localStorage.getItem('playerName') ?? '');
 
@@ -36,7 +36,7 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		}
 	}
 
-	//used to identify the ship that was hit
+	// used to identify the ship that was hit
 	const playerCompShipsCoords = returnPlayerCompShipsCoords();
 
 	console.log(
@@ -44,7 +44,7 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		playerCompShipsCoords
 	);
 
-	//required so that the renderBattleMessageElem function can display the appropriate message
+	// required so that the renderBattleMessageElem function can display the appropriate message
 	const towardsCombatant = 'comp';
 	const hitOrMiss = 'hit';
 	const currentShipSymbol = returnShipSymbolFromCoord({
@@ -53,7 +53,7 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		towardsCombatant,
 	});
 
-	//stores hits on corresponding ships to determine if a ship has been sunk
+	// stores hits on corresponding ships to determine if a ship has been sunk
 	const sunkShipObj = returnSunkShipObj(
 		currentCellCoord,
 		currentShipSymbol,
@@ -72,12 +72,12 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		sunkShipName,
 	});
 
-	//updates the comp board cell to visually indicate hit
+	// updates the comp board cell to visually indicate hit
 	this.textContent = '';
 	this.textContent = '💥';
 	this.style.color = '#f0a400';
 
-	//prevents clicks on previously hit cells counting towards totalHitsOnCompShips
+	// prevents clicks on previously hit cells counting towards totalHitsOnCompShips
 	if (!localStorage.getItem('compShipsHitCoords')) {
 		localStorage.setItem('compShipsHitCoords', JSON.stringify([]));
 	}
@@ -85,13 +85,13 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 		localStorage.getItem('compShipsHitCoords') ?? ''
 	);
 
-	//updates hit counter only when new hit is not on a previously hit cell, and store
+	// updates hit counter only when new hit is not on a previously hit cell, and store
 	if (!compShipsHitCoords.includes(currentCellCoord)) {
 		//stores the unique hit co-ordinate
 		compShipsHitCoords.push(currentCellCoord);
 		localStorage.setItem('compShipsHitCoords', JSON.stringify(compShipsHitCoords));
 
-		//increments the hit counter and store
+		// increments the hit counter and store
 		totalHitsOnCompShips = totalHitsOnCompShips + 1;
 		localStorage.setItem('totalHitsOnCompShips', JSON.stringify(totalHitsOnCompShips));
 	}
@@ -99,10 +99,10 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 	// update the comp tactical overview
 	updateCompTacticalOverviewShips();
 
-	//all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
-	//the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds
-	//After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue is empty because there are no promises), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
-	//simulates a rudimentary game loop (without a while(boolean) statement) and gives the illusion of time taken for the computer to "think"
+	// all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
+	// the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds
+	// After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue is empty because there are no promises), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
+	// simulates a rudimentary game loop  and gives the illusion of time taken for the computer to "think"
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent');
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent');
 

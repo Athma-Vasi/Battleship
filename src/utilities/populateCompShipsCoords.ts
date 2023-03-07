@@ -1,5 +1,6 @@
 import { CompShipsPlacementChoice } from './types';
 
+// returns an object with the computer's ships' randomly generated coordinates
 function populateCompShipsCoords(): CompShipsPlacementChoice {
 	// creates tuples[] of all possible coordinates
 	const allCoords: [number, number][] = [];
@@ -19,7 +20,7 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 		['frigate', 1],
 	];
 
-	const shipsPresentCoords: [number, number][] = [];
+	const shipsPresentCoordsSet = new Set<[number, number]>([]);
 
 	return Object.fromEntries(
 		shipsLengthTuple.reduce(
@@ -31,13 +32,14 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 				let isAnotherShipPresent = true;
 				let shipCoordsArr: [number, number][] = [];
 
+				// keeps generating random coordinates and direction until the ship fits within the board and doesn't overlap with another ship
 				while (!withinBounds || isAnotherShipPresent) {
 					shipCoordsArr = [];
 
 					// returns a random coordinate
 					const randCoord = (function () {
 						let randIndex = Math.floor(Math.random() * allCoords.length);
-						while (shipsPresentCoords.includes(allCoords[randIndex])) {
+						while (shipsPresentCoordsSet.has(allCoords[randIndex])) {
 							randIndex = Math.floor(Math.random() * allCoords.length);
 						}
 						return allCoords[randIndex];
@@ -51,20 +53,22 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 
 					switch (randDirection) {
 						case 'horizontal': {
+							// generates the ship's coordinates of corresponding length based on the random coordinate and direction
 							for (let i = 0; i < shipLength; i += 1) {
 								shipCoordsArr.push([randCoord[0] + i, randCoord[1]]);
 							}
-
+							// checks if the ship fits within the board
 							withinBounds = shipCoordsArr.every(
 								([x, y]) => x >= 0 && x < 10 && y >= 0 && y < 10
 							);
-
+							// checks if the ship overlaps with another ship
 							isAnotherShipPresent = shipCoordsArr.some((coord) =>
-								shipsPresentCoords.includes(coord)
+								shipsPresentCoordsSet.has(coord)
 							);
 
 							break;
 						}
+						// same as above but for vertical direction
 						case 'vertical': {
 							for (let i = 0; i < shipLength; i += 1) {
 								shipCoordsArr.push([randCoord[0], randCoord[1] + i]);
@@ -75,7 +79,7 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 							);
 
 							isAnotherShipPresent = shipCoordsArr.some((coord) =>
-								shipsPresentCoords.includes(coord)
+								shipsPresentCoordsSet.has(coord)
 							);
 
 							break;
@@ -85,21 +89,24 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 					}
 				}
 
-				// adds the ship's coords to the shipsPresentCoords array
-				shipCoordsArr.forEach((coord) => shipsPresentCoords.push(coord));
+				// adds the ship's coords to the shipsPresentCoordsSet
+				shipCoordsArr.forEach((coord) => shipsPresentCoordsSet.add(coord));
 
 				let shipTypeCoordsObj: Map<string, string>;
-
+				// creates a Map object with the ship's type as the key and an object with the ship's coordinates as the value
+				// superdreadnought, carrier, and battleship are treated separately because they consist of a single object
 				if (
 					shipType === 'superdreadnought' ||
 					shipType === 'carrier' ||
 					shipType === 'battleship'
 				) {
+					// creates a Map object with the ship's type as the key and an object with the ship's coordinates as the value
 					shipTypeCoordsObj = new Map([
 						['head', shipCoordsArr[0].toString()],
 						['tail', shipCoordsArr[shipCoordsArr.length - 1].toString()],
 					]);
 
+					// adds the ship's body coordinates to the Map object
 					for (let i = 1; i < shipCoordsArr.length - 1; i += 1) {
 						shipTypeCoordsObj.set(
 							`${shipType === 'battleship' ? `body` : `body${i}`}`,
@@ -108,7 +115,9 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 					}
 
 					acc.set(shipType, Object.fromEntries(shipTypeCoordsObj));
-				} else if (shipType === 'destroyer' || shipType === 'frigate') {
+				}
+				// destroyer and frigate are treated separately because they consist of an array of objects
+				else if (shipType === 'destroyer' || shipType === 'frigate') {
 					switch (shipType) {
 						case 'destroyer': {
 							const destroyerCoordObj = {
@@ -146,11 +155,6 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 					}
 				}
 
-				//
-				//
-				//
-				//
-				//
 				return acc;
 			},
 			new Map()
@@ -159,75 +163,3 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 }
 
 export { populateCompShipsCoords };
-
-/**
- 
-  else if (shipType === 'destroyer' || shipType === 'frigate') {
-					shipCoordsArrArr = [];
-					const numOfShips = 2;
-
-					switch (randDirection) {
-						case 'horizontal': {
-							for (let i = 0; i < numOfShips; i += 1) {
-								const tempCoordsArr: [number, number][] = [];
-								for (let j = 0; j < shipLength; j += 1) {
-									tempCoordsArr.push([randCoord[0] + j, randCoord[1]]);
-								}
-								shipCoordsArrArr.push(tempCoordsArr);
-							}
-
-							withinBounds = shipCoordsArrArr.every((coordArr) =>
-								coordArr.every(([x, y]) => x >= 0 && x < 10 && y >= 0 && y < 10)
-							);
-							console.log('withinBounds horizontal', withinBounds);
-							isAnotherShipPresent = shipCoordsArrArr.some((coordArr) =>
-								coordArr.some((coord) => shipsPresentCoords.includes(coord))
-							);
-							console.log('isAnotherShipPresent horizontal', isAnotherShipPresent);
-
-							break;
-						}
-						case 'vertical': {
-							for (let i = 0; i < numOfShips; i += 1) {
-								const tempCoordsArr: [number, number][] = [];
-								for (let j = 0; j < shipLength; j += 1) {
-									tempCoordsArr.push([randCoord[0], randCoord[1] + j]);
-								}
-								shipCoordsArrArr.push(tempCoordsArr);
-							}
-
-							withinBounds = shipCoordsArrArr.every((coordArr) =>
-								coordArr.every(([x, y]) => x >= 0 && x < 10 && y >= 0 && y < 10)
-							);
-							console.log('withinBounds vertical', withinBounds);
-							isAnotherShipPresent = shipCoordsArrArr.some((coordArr) =>
-								coordArr.some((coord) => shipsPresentCoords.includes(coord))
-							);
-							console.log('isAnotherShipPresent vertical', isAnotherShipPresent);
-
-							break;
-						}
-						default:
-							break;
-					}
-				}
-
-  {
-		superdreadnought: {
-			head: '1,0',
-			body1: '2,0',
-			body2: '3,0',
-			body3: '4,0',
-			tail: '5,0',
-		},
-		carrier: { head: '1,2', body1: '2,2', body2: '3,2', tail: '4,2' },
-		battleship: { head: '1,4', body: '2,4', tail: '3,4' },
-		destroyers: [
-			{ head: '1,6', tail: '2,6' },
-			{ head: '1,8', tail: '2,8' },
-		],
-		frigates: [{ body: '4,6' }, { body: '4,8' }],
-	},
-	
-
- */

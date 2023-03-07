@@ -9,9 +9,7 @@ import {
 
 function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 	// grab the player and comp ships coords from local storage so we can assign ship cells in the tac overview to the correct ship cells from game board
-
-	//coords are assigned into array in an explicit order at author time to guarantee order sequence
-	//coulda sorted the coords but this is more explicit and easier to read, albeit verbose
+	// coulda sorted the coords but this is more explicit and easier to read, albeit verbose and also guarantees order sequence
 
 	const playerSuperdreadnought: Superdreadnought = JSON.parse(
 		localStorage.getItem('superdreadnought') ?? JSON.stringify([{}])
