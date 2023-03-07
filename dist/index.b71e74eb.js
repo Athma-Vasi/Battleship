@@ -552,14 +552,14 @@ var _renderPlayerShipPlacementBoard = require("./renderPlayerShipPlacementBoard"
 var _renderShipSelectionBttns = require("./renderShipSelectionBttns");
 const renderShipSelectionPage = function(playerName_) {
     const playerName = playerName_;
-    //removes main page content
+    // removes main page content
     const headerLinks = document.querySelector(".header__links");
     headerLinks?.remove();
     const greetingsContainer = document.querySelector(".greetings-container");
     greetingsContainer?.remove();
     const formContainer = document.querySelector("#form-name");
     formContainer?.remove();
-    //renders pre-battle speech and ship placement functionality
+    // renders pre-battle speech and ship placement functionality
     (0, _renderPlayerInfoScreen.renderPlayerInfoScreen)(playerName);
     (0, _renderShipSelectionBttns.renderShipSelectionBttns)();
     (0, _renderPlayerShipPlacementBoard.renderPlayerShipPlacementBoard)();
@@ -568,80 +568,7 @@ const renderShipSelectionPage = function(playerName_) {
 },{"./renderPlayerInfoScreen":"3f75x","./renderPlayerShipPlacementBoard":"3sYtv","./renderShipSelectionBttns":"cYI77","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3f75x":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderPlayerInfoScreen", ()=>renderPlayerInfoScreen) /**
-
-(async function (): Promise<void> {
-		return new Promise((resolve) => {
-			createTypewriterEffect({
-				containerElem: infoScreenContainer,
-				strings: preBattleTexts,
-				speed: 5,
-			});
-		});
-	})().then(() => {
-		pipe(
-			addTextToElem(`Ready fleet formation, Admiral ${playerName_}.`),
-			appendElemToParent(infoScreenContainer)
-		)(elemCreator('p')(['infoScreen-preBattleMssg']));
-	});
-
- 
- 
-pipe(
-		addTextToElem(
-			`By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal soldiers: `
-		),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(`Sailors of Manticore!`),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(
-			`You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`
-		),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(
-			`Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`
-		),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(
-			`Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the soldiers of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`
-		),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(
-			`Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`
-		),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(
-			`I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`
-		),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
-
-	pipe(
-		addTextToElem(
-			`We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`
-		),
-		appendElemToParent(infoScreenContainer)
-	)(elemCreator('p')(['infoScreen-preBattleMssg']));
- 
- */ ;
+parcelHelpers.export(exports, "renderPlayerInfoScreen", ()=>renderPlayerInfoScreen);
 var _preBattleTexts = require("../data/preBattleTexts");
 var _createTypewriterEffect = require("../utilities/createTypewriterEffect");
 var _elementCreators = require("../utilities/elementCreators");
@@ -851,7 +778,7 @@ const renderPlayerShipPlacementBoard = function() {
         "playerBoard-container"
     ]);
     (0, _elementCreators.appendElemToParent)(playerBoardWrapper)(playerBoardContainer);
-    for(let i = 0; i < 10; i += 1)for(let j = 0; j < 10; j += 1)//renders a div per iteration of for-loop and append
+    for(let i = 0; i < 10; i += 1)for(let j = 0; j < 10; j += 1)// renders a div per iteration of for-loop and append
     (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
         [
             "data-cellplayer",
@@ -943,7 +870,7 @@ const renderShipSelectionBttns = function() {
     ]), (0, _elementCreators.appendElemToParent)(shipsBttnContainer))((0, _elementCreators.elemCreator)("button")([
         "bttn-frigate"
     ]));
-    //axis selector button
+    // axis selector button
     (0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleAxisToggleClick.handleAxisToggleClick)), (0, _elementCreators.addTextToElem)("Axis-X"), (0, _elementCreators.addAttributeToElem)([
         [
             "type",
@@ -1271,7 +1198,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "accumulatePlayerShipCoords", ()=>accumulatePlayerShipCoords);
 const accumulatePlayerShipCoords = function(currentShipCoords_) {
     const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "");
-    //adds currentship coordinate to rest of ships
+    // adds currentship coordinate to rest of ships
     currentShipCoords_.forEach((coord)=>playerShipsCoords.push(coord));
     localStorage.setItem("playerShipsCoords", JSON.stringify(playerShipsCoords));
 };
@@ -1283,14 +1210,14 @@ parcelHelpers.export(exports, "checkAllShipsInPlace", ()=>checkAllShipsInPlace);
 var _renderStarsInPlayerBoard = require("./renderStarsInPlayerBoard");
 var _renderStartButton = require("./renderStartButton");
 const checkAllShipsInPlace = function() {
-    //if playerShip co-ordinates does not exist, create it to check its length which is the sum total of length of all player ships
+    // if playerShip co-ordinates does not exist, create it to check its length which is the sum total of length of all player ships
     if (localStorage.getItem("playerShipsCoords")) {
-        const shipsCoordsArr = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "");
-        //if all the player ships have been placed
+        const shipsCoordsArr = JSON.parse(localStorage.getItem("playerShipsCoords") ?? JSON.stringify([]));
+        // if all the player ships have been placed
         if (shipsCoordsArr.length === 18) {
-            //adds stars to player board
+            // adds stars to player board
             (0, _renderStarsInPlayerBoard.renderStarsInPlayerBoard)();
-            //STARTS GAME
+            // STARTS GAME
             (0, _renderStartButton.renderStartButton)();
         }
     }
@@ -1321,14 +1248,14 @@ parcelHelpers.export(exports, "renderStartButton", ()=>renderStartButton);
 var _handleStartButtonClick = require("../events/handleStartButtonClick");
 var _elementCreators = require("../utilities/elementCreators");
 const renderStartButton = function() {
-    //removes the ship selection buttons
+    // removes the ship selection buttons
     const shipsBttnContainer = document.querySelector(".shipsBttn-container");
     shipsBttnContainer?.remove();
-    //removes axis selection button
+    // removes axis selection button
     const axisSelectorBttn = document.querySelector(".bttn-axisSelector");
     axisSelectorBttn?.remove();
     const shipBttnsWrapper = document.querySelector(".shipBttns-wrapper");
-    //renders start game button
+    // renders start game button
     (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Engage!"), (0, _elementCreators.addAttributeToElem)([
         [
             "type",
@@ -1425,7 +1352,6 @@ var _populateCompShipsCoords = require("../utilities/populateCompShipsCoords");
 var _renderCompShipsOnBoard = require("./renderCompShipsOnBoard");
 const placeCompShipsOnBoard = function() {
     const randCompShipPlacement = (0, _populateCompShipsCoords.populateCompShipsCoords)();
-    console.table(randCompShipPlacement);
     (0, _renderCompShipsOnBoard.renderCompShipsOnBoard)(randCompShipPlacement);
 };
 
@@ -1576,12 +1502,12 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderCompShipsOnBoard", ()=>renderCompShipsOnBoard);
 var _elementCreators = require("../utilities/elementCreators");
 const renderCompShipsOnBoard = function(compShipsPlacementChoice_) {
-    // //used for hit detection
+    // used for hit detection
     const compShipsCoords = JSON.parse(localStorage.getItem("compShipsCoords") ?? JSON.stringify([]));
     Object.entries(compShipsPlacementChoice_).forEach(([ship1, shipObj])=>{
-        //if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
+        // if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
         if (!localStorage.getItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`)) localStorage.setItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`, JSON.stringify(shipObj));
-        //for superdreadnought, carrier, battleship properties whose attributes do not consist of an array
+        // for superdreadnought, carrier, battleship properties whose attributes do not consist of an array
         if (!Array.isArray(shipObj)) Object.entries(shipObj).forEach(([shipSection, sectionCoords])=>{
             //grab the corresponding game board cell
             const shipCell = document.querySelector(`[data-cellcomp="${sectionCoords}"]`);
@@ -1596,13 +1522,13 @@ const renderCompShipsOnBoard = function(compShipsPlacementChoice_) {
                     "1px solid #00f000"
                 ]
             ]))(shipCell);
-            //store the co-ordinates
+            // store the co-ordinates
             compShipsCoords.push(sectionCoords);
         });
-        else //for destroyers and frigates properties whose attributes consist of an array
+        else // for destroyers and frigates properties whose attributes consist of an array
         shipObj.forEach((ship)=>{
             Object.entries(ship).forEach(([shipSection, sectionCoords])=>{
-                //grab the corresponding game board cell
+                // grab the corresponding game board cell
                 const shipCell = document.querySelector(`[data-cellcomp="${sectionCoords}"]`);
                 (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                     [
@@ -1615,13 +1541,13 @@ const renderCompShipsOnBoard = function(compShipsPlacementChoice_) {
                         "1px solid #00f000"
                     ]
                 ]))(shipCell);
-                //store the co-ordinates
+                // store the co-ordinates
                 compShipsCoords.push(sectionCoords);
             });
         });
     });
     const compGameCells = document.querySelectorAll(".comp-gameCell");
-    //differentiates between ships and empty spaces
+    // differentiates between ships and empty spaces
     compGameCells.forEach((cell)=>{
         if (!cell.classList.contains("compShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
             [
@@ -1630,7 +1556,7 @@ const renderCompShipsOnBoard = function(compShipsPlacementChoice_) {
             ]
         ]), (0, _elementCreators.addTextToElem)("\u2734"))(cell);
     });
-    //puts the coordinates in storage for future hit detection checks
+    // puts the coordinates in storage for future hit detection checks
     localStorage.setItem("compShipsCoords", JSON.stringify(compShipsCoords));
 };
 
@@ -1639,21 +1565,21 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "randomizeAndStoreShipNames", ()=>randomizeAndStoreShipNames);
 const randomizeAndStoreShipNames = function(shipNames_) {
-    //used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered
+    // used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered
     if (!localStorage.getItem("playerShipNames")) localStorage.setItem("playerShipNames", JSON.stringify([]));
-    //creates a randomized ship name per game session and stores it to be used for the battle messages
+    // creates a randomized ship name per game session and stores it to be used for the battle messages
     Object.entries(shipNames_).forEach(([polity, shipTypes])=>{
         if (polity === "haven") {
             const havenShipNames = new Map();
             Object.entries(shipTypes).forEach(([shipType, shipNamesArr])=>{
-                //need two names for destroyers and frigates
+                // need two names for destroyers and frigates
                 if (shipType === "destroyers" || shipType === "frigates") {
                     const tempShipNamesArr = [
                         shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
                         shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
                     ];
                     havenShipNames.set(shipType, tempShipNamesArr);
-                } else //only one name for superdreadnought, carrier and battleship
+                } else // only one name for superdreadnought, carrier and battleship
                 havenShipNames.set(//changes from plural to singular
                 shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
             });
@@ -1661,14 +1587,14 @@ const randomizeAndStoreShipNames = function(shipNames_) {
         } else if (polity === "manticore") {
             const manticoreShipNames = new Map();
             Object.entries(shipTypes).forEach(([shipType, shipNamesArr])=>{
-                //need two names for destroyers and frigates
+                // need two names for destroyers and frigates
                 if (shipType === "destroyers" || shipType === "frigates") {
                     const tempShipNamesArr = [
                         shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
                         shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
                     ];
                     manticoreShipNames.set(shipType, tempShipNamesArr);
-                } else //only one name for superdreadnought, carrier and battleship
+                } else // only one name for superdreadnought, carrier and battleship
                 manticoreShipNames.set(shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
             });
             localStorage.setItem("manticoreShipNames", JSON.stringify(Object.fromEntries(manticoreShipNames)));
@@ -2813,25 +2739,25 @@ var _generateProbabilisticFiringCoord = require("../utilities/generateProbabilis
 var _announceGameWinner = require("./announceGameWinner");
 var _computerAttacks = require("./computerAttacks");
 const computersTurn = function() {
-    //checks if game has been won
+    // checks if game has been won
     if (!localStorage.getItem("isGameWon")) localStorage.setItem("isGameWon", JSON.stringify(""));
     const isGameWon = JSON.parse(localStorage.getItem("isGameWon") ?? "");
-    //this conditional check is to prevent computer from having a turn after player has destroyed all computer ships
+    // this conditional check is to prevent computer from having a turn after player has destroyed all computer ships
     if (!isGameWon) {
         if (!localStorage.getItem("totalHitsOnPlayerShips")) localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(0));
-        const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "");
+        const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? JSON.stringify([]));
         // const compAttackGuess = genRandCompAttackGuess();
         const compAttackGuess = (0, _generateProbabilisticFiringCoord.generateProbabilisticFiringCoord)();
-        //if compAttackGuess is on a playerShipCoord, then checks the hit counter
-        //avoids registering a win when the computer misses
+        // if compAttackGuess is on a playerShipCoord, then checks the hit counter
+        // avoids registering a win when the computer misses
         if (playerShipsCoords.includes(compAttackGuess)) {
             const totalHitsOnPlayerShips = JSON.parse(localStorage.getItem("totalHitsOnPlayerShips") ?? "");
-            if (totalHitsOnPlayerShips === 17) //calls game winner function
+            if (totalHitsOnPlayerShips === 17) // calls game winner function
             (0, _announceGameWinner.announceGameWinner)("comp");
         }
-        //if no winner, continues attack
+        // if no winner, continues attack
         (0, _computerAttacks.computerAttacks)(compAttackGuess);
-        //if game win condition has not been reached, adds the event listeners back on to continue round
+        // if game win condition has not been reached, adds the event listeners back on to continue round
         const compShipPresent = document.querySelectorAll(".compShipPresent");
         compShipPresent.forEach((cell)=>{
             (0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handlePlayerClickOnCompShips.handlePlayerClickOnCompShips)))(cell);
@@ -2952,7 +2878,7 @@ const announceGameWinner = function(winner_) {
         (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("With heavy heart and profound regret, we must report a defeat in battle. Our valiant crew fought with all their strength and skill, but alas, the enemy proved too strong for us. We honor the memory of those who gave their lives in defense of the Kingdom, and we pledge to continue the fight with renewed determination. We shall not rest until victory is ours!"), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
             "winner-announcement"
         ]));
-        //removes event listeners after win
+        // removes event listeners after win
         (0, _preventClicksAfterWin.preventClicksAfterWin)();
     } else {
         (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`VICTORY!`), (0, _elementCreators.addStyleToElem)([
@@ -2974,7 +2900,7 @@ const announceGameWinner = function(winner_) {
     (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Restart"), (0, _elementCreators.addEvtListener)("click")((0, _restartGame.restartGame)), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("button")([
         "bttn-restart"
     ]));
-    //prevents computers turn from adding evt listeners back on
+    // prevents computers turn from adding evt listeners back on
     localStorage.setItem("isGameWon", JSON.stringify(true));
 };
 
@@ -3016,8 +2942,6 @@ var _renderBattleMessageHelper = require("../utilities/renderBattleMessageHelper
 const renderBattleMessageElem = async function({ currentCellCoord , currentShipSymbol , towardsCombatant , hitOrMiss , sunkShipName  }) {
     const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
     const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
-    // const playerName = JSON.parse(localStorage.getItem('playerName') ?? '');
-    // const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
     const battleMessageContainer = document.querySelector(".battleMessage-container");
     const battleMessageElem = (0, _elementCreators.elemCreator)("p")([
         "battleMessageElem"
@@ -3039,22 +2963,22 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
                 firedStatus: "hit",
                 shipTypeHit: "superdreadnought"
             });
-            else if (compCarrier.includes(currentCellCoord)) //displays hit on carrier with randomized text
+            else if (compCarrier.includes(currentCellCoord)) // displays hit on carrier with randomized text
             (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                 towardsCombatant: "comp",
                 firedStatus: "hit",
                 shipTypeHit: "carrier"
             });
-            else if (compBattleship.includes(currentCellCoord)) //displays hit on battleship with randomized text
+            else if (compBattleship.includes(currentCellCoord)) // displays hit on battleship with randomized text
             (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                 towardsCombatant: "comp",
                 firedStatus: "hit",
                 shipTypeHit: "battleship"
             });
             else if (compDestroyers.includes(currentCellCoord)) {
-                //there are two destroyers to connect names
+                // there are two destroyers to connect names
                 const [destroyer1Coords, _] = JSON.parse(localStorage.getItem("compDestroyers") ?? JSON.stringify([])).map((destroyer)=>Object.values(destroyer));
-                //displays hit on destroyer with randomized text
+                // displays hit on destroyer with randomized text
                 (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                     towardsCombatant: "comp",
                     firedStatus: "hit",
@@ -3062,9 +2986,9 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
                     shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1
                 });
             } else if (compFrigates.includes(currentCellCoord)) {
-                //there are two frigates to connect names
+                // there are two frigates to connect names
                 const [frigate1Coords, _] = JSON.parse(localStorage.getItem("compFrigates") ?? JSON.stringify([])).map((frigate)=>Object.values(frigate));
-                //displays hit on frigate with randomized text
+                // displays hit on frigate with randomized text
                 (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
                     towardsCombatant: "comp",
                     firedStatus: "hit",
@@ -3072,15 +2996,15 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
                     shipNumber: frigate1Coords.includes(currentCellCoord) ? 0 : 1
                 });
             }
-        } else if (hitOrMiss === "miss") //player attacking computer misses
-        //displays miss on computer with randomized text
+        } else if (hitOrMiss === "miss") // player attacking computer misses
+        // displays miss on computer with randomized text
         (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
             towardsCombatant: "comp",
             firedStatus: "miss"
         });
     } else if (towardsCombatant === "player") {
         if (hitOrMiss === "hit") {
-            //if computer attacking player registers a hit
+            // if computer attacking player registers a hit
             if (currentShipSymbol === "S") {
                 // computer hits player's superdreadnought
                 (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
@@ -3124,7 +3048,7 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
                     shipTypeHit: "battleship"
                 });
             } else if (currentShipSymbol === "D") {
-                //there are two destroyers to connect names
+                // there are two destroyers to connect names
                 const [destroyer1, _] = JSON.parse(localStorage.getItem("destroyer") ?? "");
                 const destroyer1Coords = Object.values(destroyer1);
                 // computer hits player's destroyer
@@ -3143,7 +3067,7 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
                     shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1
                 });
             } else if (currentShipSymbol === "F") {
-                //there are two frigates to connect names
+                // there are two frigates to connect names
                 const [frigate1, _] = JSON.parse(localStorage.getItem("frigate") ?? "");
                 const frigate1Coords = Object.values(frigate1);
                 // computer hits player's frigate
@@ -3165,7 +3089,6 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
         }
     }
     //auto-scrolls to the bottom to have the most recent message visible
-    // const battleMessageWrapper: Div = document.querySelector('.battleMessage-wrapper');
     const scrollHeight = battleMessageContainer?.scrollHeight ?? 0;
     battleMessageContainer?.scroll({
         top: scrollHeight,
@@ -4154,46 +4077,11 @@ function generateProbabilisticFiringCoord() {
 },{"../components/genRandCompAttackGuess":"cOUsP","./generateAdjacentCoordArr":"5lblu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cOUsP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess) /**
- 
-	let compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(
-		Math.random() * 10
-	)}`;
-	// //stores comp guesses to avoid hits on previously targeted co-ordinates
-	// if (!localStorage.getItem('compAttackGuesses')) {
-	// 	localStorage.setItem('compAttackGuesses', JSON.stringify([]));
-	// }
-	// const compAttackGuesses: string[] = JSON.parse(
-	// 	localStorage.getItem('compAttackGuesses') ?? ''
-	// );
-
-	//checks if guess is in previous guesses, if so runs the random function again
-	//avoids guessing the same co-ordinates
-	let isUniqueCoordinate = false;
-
-	while (!isUniqueCoordinate) {
-		if (prevCompFiringCoords.includes(compAttackGuess)) {
-			//if the guessed co-ordinate has already been tried
-			isUniqueCoordinate = false;
-
-			compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(
-				Math.random() * 10
-			)}`;
-		} else {
-			isUniqueCoordinate = true;
-			// //stores unique co-ordinate
-			// compAttackGuesses.push(compAttackGuess);
-			// localStorage.setItem('compAttackGuesses', JSON.stringify(compAttackGuesses));
-		}
-	}
-
-	return compAttackGuess;
-
- */ ;
+parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess);
 const genRandCompAttackGuess = function(prevCompFiringCoords) {
     let compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
-    //checks if guess is in previous guesses, if so runs the random function again
-    //avoids guessing the same co-ordinates
+    // checks if guess is in previous guesses, if so runs the random function again
+    // avoids guessing the same co-ordinates
     let isUniqueCoordinate = false;
     while(!isUniqueCoordinate)if (prevCompFiringCoords.includes(compAttackGuess)) {
         //if the guessed co-ordinate has already been tried
@@ -4244,8 +4132,8 @@ var _renderBattleMessage = require("./renderBattleMessage");
 const computerAttacks = function(compAttackGuess_) {
     const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "[]");
     let totalHitsOnPlayerShips = JSON.parse(localStorage.getItem("totalHitsOnPlayerShips") ?? "0");
-    //compAttackGuess_ is assumed to be unique at this point
-    //checks if playerShip is present
+    // compAttackGuess_ is assumed to be unique at this point
+    // checks if playerShip is present
     if (playerShipsCoords.includes(compAttackGuess_)) {
         const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
         const currentCellCoord = compAttackGuess_;
@@ -4254,10 +4142,10 @@ const computerAttacks = function(compAttackGuess_) {
         const hitOrMiss = "hit";
         // update tactical overview ship cells to visually indicate hit
         (0, _updatePlayerTacticalOverviewCells.updatePlayerTacticalOverviewCells)(currentCellCoord);
-        //stores hits on corresponding ships to determine if a ship has been sunk
+        // stores hits on corresponding ships to determine if a ship has been sunk
         const sunkShipObj = (0, _returnSunkShipObj.returnSunkShipObj)(currentCellCoord, currentShipSymbol, towardsCombatant);
         const sunkShipName = sunkShipObj.player === null ? sunkShipObj.comp : sunkShipObj.player;
-        //calls function to display battle message when computer registers a hit on a player ship
+        // calls function to display battle message when computer registers a hit on a player ship
         (0, _renderBattleMessage.renderBattleMessageElem)({
             currentCellCoord,
             currentShipSymbol,
@@ -4265,31 +4153,20 @@ const computerAttacks = function(compAttackGuess_) {
             hitOrMiss,
             sunkShipName
         });
-        //updates playercell to visually indicate hit
+        // updates playercell to visually indicate hit
         if (playerShipCell) {
             playerShipCell.textContent = "";
             playerShipCell.textContent = "\uD83D\uDCA5";
         }
-        //updates hit counter and store
+        // updates hit counter and store
         totalHitsOnPlayerShips = totalHitsOnPlayerShips + 1;
         localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(totalHitsOnPlayerShips));
-        //store the current hit co-ordinates and hit type to assist comp firing solution
+        // stores the current hit co-ordinates and hit type to assist comp firing solution
         (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "hit");
     } else {
         //if its a miss
         const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
-        // const currentCellCoord = compAttackGuess_;
-        // const currentShipSymbol = playerShipCell?.textContent ?? '';
-        // const towardsCombatant = 'player';
-        // const hitOrMiss = 'miss';
-        // //calls function to display battle message when computer does not hit a player ship
-        // renderBattleMessageElem({
-        // 	currentCellCoord,
-        // 	currentShipSymbol,
-        // 	towardsCombatant,
-        // 	hitOrMiss,
-        // });
-        //assigns '✖' to currently missed co-ordinate and colors it  amber
+        // assigns '✖' to currently missed co-ordinate and colors it  amber
         if (playerShipCell) {
             playerShipCell.textContent = "";
             playerShipCell.textContent = "\u2716";
@@ -4300,9 +4177,9 @@ const computerAttacks = function(compAttackGuess_) {
                 ]
             ]))(playerShipCell);
         }
-        //initializes storage for previously missed co-ordinates
+        // initializes storage for previously missed co-ordinates
         if (!localStorage.getItem("prevCompMissOnPlayerCoord")) localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(""));
-        //grabs the previous miss co-ordinates in order to turn them back into gray
+        // grabs the previous miss co-ordinates in order to turn them back into gray
         const prevCompMissOnPlayerCoord = JSON.parse(localStorage.getItem("prevCompMissOnPlayerCoord") ?? "");
         const prevCompMissOnPlayerCell = document.querySelector(`[data-cellplayer="${prevCompMissOnPlayerCoord}"]`);
         (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -4311,8 +4188,6 @@ const computerAttacks = function(compAttackGuess_) {
                 "gainsboro"
             ]
         ]))(prevCompMissOnPlayerCell);
-        // //stores current miss co-ordinates in order to highlight the current round's co-ordinates
-        // localStorage.setItem('prevCompMissOnPlayerCoord', JSON.stringify(currentCellCoord));
         //store the current miss co-ordinates and hit type to assist comp firing solution
         (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "miss");
     }
@@ -4368,18 +4243,18 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "doesShipPlacementOverlap", ()=>doesShipPlacementOverlap);
 const doesShipPlacementOverlap = function(shipLength_, currentAxis_, currentX_, currentY_) {
-    //initializes on first call for overlap detection
+    // initializes on first call for overlap detection
     if (!localStorage.getItem("playerShipsCoords")) localStorage.setItem("playerShipsCoords", JSON.stringify([]));
     const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "");
     if (currentAxis_ === "Axis-X") {
-        for(let i = 0; i < shipLength_; i += 1)//overlap detection
+        for(let i = 0; i < shipLength_; i += 1)// overlap detection
         if (playerShipsCoords.includes(`${Number(currentX_) + i},${currentY_}`)) {
-            alert("A ship is already present at these coordinates. Please choose another area.");
+            alert("A ship is already present at these coordinates. Please choose another area.  (\uFF61 \u2022\u0301\uFE3F\u2022\u0300\uFF61 )");
             return true;
         }
     } else if (currentAxis_ === "Axis-Y") {
         for(let i = 0; i < shipLength_; i += 1)if (playerShipsCoords.includes(`${currentX_},${Number(currentY_) + i}`)) {
-            alert("A ship is already present at these coordinates. Please choose another area.");
+            alert("A ship is already present at these coordinates. Please choose another area.  (\uFF61 \u2022\u0301\uFE3F\u2022\u0300\uFF61 )");
             return true;
         }
     }
@@ -4390,7 +4265,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "isCorrectNumberOfShips", ()=>isCorrectNumberOfShips);
 const isCorrectNumberOfShips = function(ship_, amount_) {
-    //capitalizes first letters
+    // capitalizes first letters
     const ship = ship_[0].toUpperCase() + ship_.slice(1);
     const amount = amount_[0].toUpperCase() + amount_.slice(1);
     if (amount_ === "single") {
@@ -5959,11 +5834,6 @@ const greetingsText = [
   sailors and soldiers stand ready to defend the Kingdom with honor and courage.
   We will not rest until the threat of Haven is neutralized, and our people can
   live in peace and prosperity once again.`,
-    //
-    // `We call upon all loyal citizens of the Star Kingdom to rally behind our cause
-    // and join us in this fight for our survival! Together, we will show the world
-    // that the people of Manticore will never back down in the face of tyranny and
-    // oppression!`,
     //
     `People's Republic of Haven has assembled a formidable fleet near the Talbott
   Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to

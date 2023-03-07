@@ -3,7 +3,7 @@ import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompS
 import { pipe, removeEvtListener } from '../utilities/elementCreators';
 import { NodesDiv } from '../utilities/types';
 
-const preventClicksAfterWin = function () {
+const preventClicksAfterWin = function (): void {
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent');
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent');
 

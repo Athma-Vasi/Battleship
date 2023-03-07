@@ -1,18 +1,18 @@
 import { ShipNamesPool } from '../utilities/types';
 
-const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool) {
-	//used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered
+const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool): void {
+	// used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered
 	if (!localStorage.getItem('playerShipNames')) {
 		localStorage.setItem('playerShipNames', JSON.stringify([]));
 	}
 
-	//creates a randomized ship name per game session and stores it to be used for the battle messages
+	// creates a randomized ship name per game session and stores it to be used for the battle messages
 	Object.entries(shipNames_).forEach(([polity, shipTypes]) => {
 		if (polity === 'haven') {
 			const havenShipNames = new Map();
 
 			Object.entries(shipTypes).forEach(([shipType, shipNamesArr]) => {
-				//need two names for destroyers and frigates
+				// need two names for destroyers and frigates
 				if (shipType === 'destroyers' || shipType === 'frigates') {
 					const tempShipNamesArr = [
 						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
@@ -21,7 +21,7 @@ const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool) {
 
 					havenShipNames.set(shipType, tempShipNamesArr);
 				} else {
-					//only one name for superdreadnought, carrier and battleship
+					// only one name for superdreadnought, carrier and battleship
 					havenShipNames.set(
 						//changes from plural to singular
 						shipType.slice(0, -1),
@@ -38,7 +38,7 @@ const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool) {
 			const manticoreShipNames = new Map();
 
 			Object.entries(shipTypes).forEach(([shipType, shipNamesArr]) => {
-				//need two names for destroyers and frigates
+				// need two names for destroyers and frigates
 				if (shipType === 'destroyers' || shipType === 'frigates') {
 					const tempShipNamesArr = [
 						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
@@ -47,7 +47,7 @@ const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool) {
 
 					manticoreShipNames.set(shipType, tempShipNamesArr);
 				} else {
-					//only one name for superdreadnought, carrier and battleship
+					// only one name for superdreadnought, carrier and battleship
 					manticoreShipNames.set(
 						shipType.slice(0, -1),
 						shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]

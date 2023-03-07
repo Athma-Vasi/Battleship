@@ -3,10 +3,10 @@ import { renderPlayerInfoScreen } from './renderPlayerInfoScreen';
 import { renderPlayerShipPlacementBoard } from './renderPlayerShipPlacementBoard';
 import { renderShipSelectionBttns } from './renderShipSelectionBttns';
 
-const renderShipSelectionPage = function (playerName_: string) {
+const renderShipSelectionPage = function (playerName_: string): void {
 	const playerName = playerName_;
 
-	//removes main page content
+	// removes main page content
 	const headerLinks = document.querySelector('.header__links');
 	headerLinks?.remove();
 	const greetingsContainer = document.querySelector('.greetings-container');
@@ -14,7 +14,7 @@ const renderShipSelectionPage = function (playerName_: string) {
 	const formContainer: Div = document.querySelector('#form-name');
 	formContainer?.remove();
 
-	//renders pre-battle speech and ship placement functionality
+	// renders pre-battle speech and ship placement functionality
 	renderPlayerInfoScreen(playerName);
 	renderShipSelectionBttns();
 	renderPlayerShipPlacementBoard();

@@ -10,11 +10,6 @@ const greetingsText = [
   We will not rest until the threat of Haven is neutralized, and our people can
   live in peace and prosperity once again.`,
 	//
-	// `We call upon all loyal citizens of the Star Kingdom to rally behind our cause
-	// and join us in this fight for our survival! Together, we will show the world
-	// that the people of Manticore will never back down in the face of tyranny and
-	// oppression!`,
-	//
 	`People's Republic of Haven has assembled a formidable fleet near the Talbott
   Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to
   launch an invasion of the Rembrandt Trade Union.`,

@@ -10,7 +10,7 @@ import { Div } from '../utilities/types';
 import { preventClicksAfterWin } from './preventClicksAfterWin';
 import { restartGame } from './restartGame';
 
-const announceGameWinner = function (winner_: string) {
+const announceGameWinner = function (winner_: string): void {
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	const infoScreenWrapper: Div = document.querySelector('.infoScreen-wrapper');
@@ -33,7 +33,7 @@ const announceGameWinner = function (winner_: string) {
 			appendElemToParent(winnerContainer)
 		)(elemCreator('p')(['winner-announcement']));
 
-		//removes event listeners after win
+		// removes event listeners after win
 		preventClicksAfterWin();
 	} else {
 		pipe(
@@ -61,7 +61,7 @@ const announceGameWinner = function (winner_: string) {
 		appendElemToParent(winnerContainer)
 	)(elemCreator('button')(['bttn-restart']));
 
-	//prevents computers turn from adding evt listeners back on
+	// prevents computers turn from adding evt listeners back on
 	localStorage.setItem('isGameWon', JSON.stringify(true));
 };
 export { announceGameWinner };

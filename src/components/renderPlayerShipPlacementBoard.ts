@@ -5,7 +5,7 @@ import {
 	pipe,
 } from '../utilities/elementCreators';
 
-const renderPlayerShipPlacementBoard = function () {
+const renderPlayerShipPlacementBoard = function (): void {
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	const bothBoardsContainer = elemCreator('div')(['bothBoards-container']);
@@ -19,7 +19,7 @@ const renderPlayerShipPlacementBoard = function () {
 
 	for (let i = 0; i < 10; i += 1) {
 		for (let j = 0; j < 10; j += 1) {
-			//renders a div per iteration of for-loop and append
+			// renders a div per iteration of for-loop and append
 			pipe(
 				addAttributeToElem([['data-cellplayer', `${j},${i}`]]),
 				appendElemToParent(playerBoardContainer)

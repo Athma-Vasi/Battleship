@@ -2,7 +2,7 @@ const isCorrectNumberOfShips = function (
 	ship_: string,
 	amount_: string
 ): boolean | undefined {
-	//capitalizes first letters
+	// capitalizes first letters
 	const ship = ship_[0].toUpperCase() + ship_.slice(1);
 	const amount = amount_[0].toUpperCase() + amount_.slice(1);
 

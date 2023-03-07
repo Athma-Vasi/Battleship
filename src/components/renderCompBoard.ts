@@ -6,7 +6,7 @@ import {
 } from '../utilities/elementCreators';
 import { Div } from '../utilities/types';
 
-const renderCompBoard = function () {
+const renderCompBoard = function (): void {
 	const gameBoardContainer: Div = document.querySelector('.gameBoard-container');
 
 	const compBoardWrapper = elemCreator('div')(['compBoard-wrapper']);

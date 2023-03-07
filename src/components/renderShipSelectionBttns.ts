@@ -13,7 +13,7 @@ import {
 	pipe,
 } from '../utilities/elementCreators';
 
-const renderShipSelectionBttns = function () {
+const renderShipSelectionBttns = function (): void {
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	const shipBttnsWrapper = elemCreator('div')(['shipBttns-wrapper']);
@@ -72,7 +72,7 @@ const renderShipSelectionBttns = function () {
 		appendElemToParent(shipsBttnContainer)
 	)(elemCreator('button')(['bttn-frigate']));
 
-	//axis selector button
+	// axis selector button
 	pipe(
 		addEvtListener('click')(handleAxisToggleClick),
 		addTextToElem('Axis-X'),
