@@ -1425,6 +1425,7 @@ var _populateCompShipsCoords = require("../utilities/populateCompShipsCoords");
 var _renderCompShipsOnBoard = require("./renderCompShipsOnBoard");
 const placeCompShipsOnBoard = function() {
     const randCompShipPlacement = (0, _populateCompShipsCoords.populateCompShipsCoords)();
+    console.table(randCompShipPlacement);
     (0, _renderCompShipsOnBoard.renderCompShipsOnBoard)(randCompShipPlacement);
 };
 
@@ -1471,6 +1472,7 @@ function populateCompShipsCoords() {
         ], 
     ];
     const shipsPresentCoordsSet = new Set([]);
+    console.log("shipsPresentCoordsSet from populateCompShipsCoords()", shipsPresentCoordsSet);
     return Object.fromEntries(shipsLengthTuple.reduce((acc, [shipType, shipLength])=>{
         let withinBounds = false;
         let isAnotherShipPresent = true;
@@ -3690,6 +3692,77 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateCompTacticalOverviewShips", ()=>updateCompTacticalOverviewShips) /**
  
+	// need  to sort the coords because they were grabbed from an object and
+				// js does not guarantee the order of the keys in an object
+				const coordsArrClone = structuredClone(coordsArr);
+				const sortedCoordsArr = coordsArrClone.sort((a, b) => {
+					const aX = parseInt(a.split(',')[0].replace('"', ''));
+					const aY = parseInt(a.split(',')[1].replace('"', ''));
+					const bX = parseInt(b.split(',')[0].replace('"', ''));
+					const bY = parseInt(b.split(',')[1].replace('"', ''));
+
+					if (aX < bX) return -1;
+					if (aX > bX) return 1;
+					if (aY < bY) return -1;
+					if (aY > bY) return 1;
+
+					return 0;
+				});
+
+				// determine the direction of the ship
+				const firstCoord = sortedCoordsArr[0];
+				const lastCoord = sortedCoordsArr[sortedCoordsArr.length - 1];
+
+				const firstCoordXY = firstCoord.split(',');
+				const lastCoordXY = lastCoord.split(',');
+				const firstCoordX = parseInt(firstCoordXY[0].replace('"', ''));
+				const firstCoordY = parseInt(firstCoordXY[1].replace('"', ''));
+				const lastCoordX = parseInt(lastCoordXY[0].replace('"', ''));
+				const lastCoordY = parseInt(lastCoordXY[1].replace('"', ''));
+				const isHorizontal = firstCoordY === lastCoordY;
+				// const isVertical = firstCoordX === lastCoordX;
+
+				// determine the cells just before and just after the ship
+				const beforeShipCell = isHorizontal
+					? `${firstCoordX - 1},${firstCoordY}`
+					: `${firstCoordX},${firstCoordY - 1}`;
+				const beforeShipCellX = parseInt(beforeShipCell.split(',')[0]);
+				const beforeShipCellY = parseInt(beforeShipCell.split(',')[1]);
+				const beforeShipCellWithinBounds = isHorizontal
+					? beforeShipCellX <= 9 && beforeShipCellX >= 0
+					: beforeShipCellY <= 9 && beforeShipCellY >= 0;
+				// if the cell is not within bounds, it is considered to have been fired upon
+				const isBeforeShipCellFiredUpon = beforeShipCellWithinBounds
+					? compShipsHitCoordsSet.has(beforeShipCell) ||
+					  compShipsMissesCoordsSet.has(beforeShipCell)
+					: true;
+
+				const afterShipCell = isHorizontal
+					? `${lastCoordX + 1},${lastCoordY}`
+					: `${lastCoordX},${lastCoordY + 1}`;
+				const afterShipCellX = parseInt(afterShipCell.split(',')[0]);
+				const afterShipCellY = parseInt(afterShipCell.split(',')[1]);
+				const afterShipCellWithinBounds = isHorizontal
+					? afterShipCellX <= 9 && afterShipCellX >= 0
+					: afterShipCellY <= 9 && afterShipCellY >= 0;
+				// if the cell is not within bounds, it is considered to have been fired upon
+				const isAfterShipCellFiredUpon = afterShipCellWithinBounds
+					? compShipsHitCoordsSet.has(afterShipCell) ||
+					  compShipsMissesCoordsSet.has(afterShipCell)
+					: true;
+
+				console.group('small ships');
+				console.log('shipType', shipType);
+				console.log('beforeShipCell small ships', beforeShipCell);
+				console.log('afterShipCell small ships', afterShipCell);
+				console.log('beforeShipCellWithinBounds small ships', beforeShipCellWithinBounds);
+				console.log('afterShipCellWithinBounds small ships', afterShipCellWithinBounds);
+				console.log('isBeforeShipCellFiredUpon small ships', isBeforeShipCellFiredUpon);
+				console.log('isAfterShipCellFiredUpon small ships', isAfterShipCellFiredUpon);
+				console.groupEnd();
+
+ */  /**
+ 
 	// at each fire by player towards computer, the computer ships coords are checked to see if all adjacent cells are hit, if so, a message is displayed to player
 	// this ensures that player does not easily determine the type of ship and whether it is sunk or not by the number of hits on the ship
 
@@ -3829,6 +3902,7 @@ parcelHelpers.export(exports, "updateCompTacticalOverviewShips", ()=>updateCompT
 	});
 
  */ ;
+var _beforeAfterShipCellsFiredUponStatus = require("./beforeAfterShipCellsFiredUponStatus");
 var _elementCreators = require("./elementCreators");
 function updateCompTacticalOverviewShips() {
     const superdreadnoughtCoords = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? JSON.stringify([]));
@@ -3837,11 +3911,6 @@ function updateCompTacticalOverviewShips() {
     const battleshipCoordsArray = Object.values(battleshipCoords);
     const carrierCoords = JSON.parse(localStorage.getItem("compCarrier") ?? JSON.stringify([]));
     const carrierCoordsArray = Object.values(carrierCoords);
-    console.group("compShipCoordsArray");
-    console.log("superdreadnoughtCoordsArray", superdreadnoughtCoordsArray);
-    console.log("battleshipCoordsArray", battleshipCoordsArray);
-    console.log("carrierCoordsArray", carrierCoordsArray);
-    console.groupEnd();
     const destroyerCoords = JSON.parse(localStorage.getItem("compDestroyers") ?? JSON.stringify([]));
     const destroyerCoordsArray = destroyerCoords.map((destroyer)=>Object.values(destroyer));
     const frigateCoords = JSON.parse(localStorage.getItem("compFrigates") ?? JSON.stringify([]));
@@ -3849,11 +3918,11 @@ function updateCompTacticalOverviewShips() {
     // coords of player misses on computer ships
     const compShipsMissesCoords = JSON.parse(localStorage.getItem("compShipsMissesCoords") ?? JSON.stringify([]));
     const compShipsMissesCoordsSet = new Set(compShipsMissesCoords);
-    console.log("compShipsMissesCoordsSet", compShipsMissesCoordsSet);
+    // console.log('compShipsMissesCoordsSet', compShipsMissesCoordsSet);
     // coords of player hits on computer ships
     const compShipsHitCoords = JSON.parse(localStorage.getItem("compShipsHitCoords") ?? JSON.stringify([]));
     const compShipsHitCoordsSet = new Set(compShipsHitCoords);
-    console.log("compShipsHitCoordsSet", compShipsHitCoordsSet);
+    // console.log('compShipsHitCoordsSet', compShipsHitCoordsSet);
     const shipTypesCoords = [
         [
             "Superdreadnought",
@@ -3875,53 +3944,13 @@ function updateCompTacticalOverviewShips() {
         }, true);
         // if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
         if (isEveryShipCoordHit) {
-            // need  to sort the coords because they were grabbed from an object and
-            // js does not guarantee the order of the keys in an object
-            const coordsClone = structuredClone(coords);
-            const sortedCoords = coordsClone.sort((a, b)=>{
-                const aX = parseInt(a.split(",")[0]);
-                const aY = parseInt(a.split(",")[1]);
-                const bX = parseInt(b.split(",")[0]);
-                const bY = parseInt(b.split(",")[1]);
-                if (aX < bX) return -1;
-                if (aX > bX) return 1;
-                if (aY < bY) return -1;
-                if (aY > bY) return 1;
-                return 0;
+            // sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
+            const { isBeforeShipCellFiredUpon , isAfterShipCellFiredUpon  } = (0, _beforeAfterShipCellsFiredUponStatus.beforeAfterShipCellsFiredUponStatus)({
+                shipType,
+                coordsArr: coords,
+                compShipsHitCoordsSet,
+                compShipsMissesCoordsSet
             });
-            console.log("sorted coords", sortedCoords);
-            // determine the direction of the ship
-            const firstCoord = sortedCoords[0];
-            const lastCoord = sortedCoords[sortedCoords.length - 1];
-            const firstCoordXY = firstCoord.split(",");
-            const lastCoordXY = lastCoord.split(",");
-            const firstCoordX = parseInt(firstCoordXY[0].replace('"', ""));
-            const firstCoordY = parseInt(firstCoordXY[1].replace('"', ""));
-            const lastCoordX = parseInt(lastCoordXY[0].replace('"', ""));
-            const lastCoordY = parseInt(lastCoordXY[1].replace('"', ""));
-            const isHorizontal = firstCoordY === lastCoordY;
-            // const isVertical = firstCoordX === lastCoordX;
-            // determine the cells just before the starting cell and whether they are within bounds and have been fired upon
-            const beforeShipCell = isHorizontal ? `${firstCoordX - 1},${firstCoordY}` : `${firstCoordX},${firstCoordY - 1}`;
-            const beforeShipCellX = parseInt(beforeShipCell.split(",")[0]);
-            const beforeShipCellY = parseInt(beforeShipCell.split(",")[1]);
-            const beforeShipCellWithinBounds = isHorizontal ? beforeShipCellX <= 9 && beforeShipCellX >= 0 : beforeShipCellY <= 9 && beforeShipCellY >= 0;
-            // if the cell is not within bounds, it is considered to have been fired upon
-            const isBeforeShipCellFiredUpon = beforeShipCellWithinBounds ? compShipsHitCoordsSet.has(beforeShipCell) || compShipsMissesCoordsSet.has(beforeShipCell) : true;
-            // determine the cells just after the ending cell and whether they are within bounds and have been fired upon
-            const afterShipCell = isHorizontal ? `${lastCoordX + 1},${lastCoordY}` : `${lastCoordX},${lastCoordY + 1}`;
-            const afterShipCellX = parseInt(afterShipCell.split(",")[0]);
-            const afterShipCellY = parseInt(afterShipCell.split(",")[1]);
-            const afterShipCellWithinBounds = isHorizontal ? afterShipCellX <= 9 && afterShipCellX >= 0 : afterShipCellY <= 9 && afterShipCellY >= 0;
-            // if the cell is not within bounds, it is considered to have been fired upon
-            const isAfterShipCellFiredUpon = afterShipCellWithinBounds ? compShipsHitCoordsSet.has(afterShipCell) || compShipsMissesCoordsSet.has(afterShipCell) : true;
-            console.group("big ships");
-            console.log("shipType", shipType);
-            console.log("beforeShipCell big ships", beforeShipCell);
-            console.log("afterShipCell big ships", afterShipCell);
-            console.log("beforeShipCellWithinBounds big ships", beforeShipCellWithinBounds);
-            console.log("afterShipCellWithinBounds big ships", afterShipCellWithinBounds);
-            console.groupEnd();
             // if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
             if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
                 // grab the tac overview comp '?' cell and remove it
@@ -3961,65 +3990,25 @@ function updateCompTacticalOverviewShips() {
                 if (!compShipsHitCoordsSet.has(coord)) acc = false;
                 return acc;
             }, true);
-            console.log(`isEveryShipCoordHit for ${shipType}: `, isEveryShipCoordHit);
+            // console.log(`isEveryShipCoordHit for ${shipType}: `, isEveryShipCoordHit);
             // if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
             if (isEveryShipCoordHit) {
-                // need  to sort the coords because they were grabbed from an object and
-                // js does not guarantee the order of the keys in an object
-                const coordsArrClone = structuredClone(coordsArr);
-                const sortedCoordsArr = coordsArrClone.sort((a, b)=>{
-                    const aX = parseInt(a.split(",")[0].replace('"', ""));
-                    const aY = parseInt(a.split(",")[1].replace('"', ""));
-                    const bX = parseInt(b.split(",")[0].replace('"', ""));
-                    const bY = parseInt(b.split(",")[1].replace('"', ""));
-                    if (aX < bX) return -1;
-                    if (aX > bX) return 1;
-                    if (aY < bY) return -1;
-                    if (aY > bY) return 1;
-                    return 0;
+                // sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
+                const { isBeforeShipCellFiredUpon , isAfterShipCellFiredUpon  } = (0, _beforeAfterShipCellsFiredUponStatus.beforeAfterShipCellsFiredUponStatus)({
+                    shipType,
+                    coordsArr,
+                    compShipsHitCoordsSet,
+                    compShipsMissesCoordsSet
                 });
-                // determine the direction of the ship
-                const firstCoord = sortedCoordsArr[0];
-                const lastCoord = sortedCoordsArr[sortedCoordsArr.length - 1];
-                const firstCoordXY = firstCoord.split(",");
-                const lastCoordXY = lastCoord.split(",");
-                const firstCoordX = parseInt(firstCoordXY[0].replace('"', ""));
-                const firstCoordY = parseInt(firstCoordXY[1].replace('"', ""));
-                const lastCoordX = parseInt(lastCoordXY[0].replace('"', ""));
-                const lastCoordY = parseInt(lastCoordXY[1].replace('"', ""));
-                const isHorizontal = firstCoordY === lastCoordY;
-                // const isVertical = firstCoordX === lastCoordX;
-                // determine the cells just before and just after the ship
-                const beforeShipCell = isHorizontal ? `${firstCoordX - 1},${firstCoordY}` : `${firstCoordX},${firstCoordY - 1}`;
-                const beforeShipCellX = parseInt(beforeShipCell.split(",")[0]);
-                const beforeShipCellY = parseInt(beforeShipCell.split(",")[1]);
-                const beforeShipCellWithinBounds = isHorizontal ? beforeShipCellX <= 9 && beforeShipCellX >= 0 : beforeShipCellY <= 9 && beforeShipCellY >= 0;
-                // if the cell is not within bounds, it is considered to have been fired upon
-                const isBeforeShipCellFiredUpon = beforeShipCellWithinBounds ? compShipsHitCoordsSet.has(beforeShipCell) || compShipsMissesCoordsSet.has(beforeShipCell) : true;
-                const afterShipCell = isHorizontal ? `${lastCoordX + 1},${lastCoordY}` : `${lastCoordX},${lastCoordY + 1}`;
-                const afterShipCellX = parseInt(afterShipCell.split(",")[0]);
-                const afterShipCellY = parseInt(afterShipCell.split(",")[1]);
-                const afterShipCellWithinBounds = isHorizontal ? afterShipCellX <= 9 && afterShipCellX >= 0 : afterShipCellY <= 9 && afterShipCellY >= 0;
-                // if the cell is not within bounds, it is considered to have been fired upon
-                const isAfterShipCellFiredUpon = afterShipCellWithinBounds ? compShipsHitCoordsSet.has(afterShipCell) || compShipsMissesCoordsSet.has(afterShipCell) : true;
-                console.group("small ships");
-                console.log("shipType", shipType);
-                console.log("beforeShipCell small ships", beforeShipCell);
-                console.log("afterShipCell small ships", afterShipCell);
-                console.log("beforeShipCellWithinBounds small ships", beforeShipCellWithinBounds);
-                console.log("afterShipCellWithinBounds small ships", afterShipCellWithinBounds);
-                console.log("isBeforeShipCellFiredUpon small ships", isBeforeShipCellFiredUpon);
-                console.log("isAfterShipCellFiredUpon small ships", isAfterShipCellFiredUpon);
-                console.groupEnd();
                 // if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
                 if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
                     // grab the tac overview comp '?' cell and remove it
                     const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}_${idx}"]`);
-                    console.group("inside if statement small ships");
-                    console.log("questionMarkCell small ships", questionMarkCell);
-                    console.log("shipType small ships", shipType);
-                    console.log("idx small ships", idx);
-                    console.groupEnd();
+                    // console.group('inside if statement small ships');
+                    // console.log('questionMarkCell small ships', questionMarkCell);
+                    // console.log('shipType small ships', shipType);
+                    // console.log('idx small ships', idx);
+                    // console.groupEnd();
                     if (questionMarkCell) questionMarkCell.remove();
                     // display sunk ship with '💥' emoji
                     for(let i = 0; i < coordsArr.length; i += 1){
@@ -4044,7 +4033,96 @@ function updateCompTacticalOverviewShips() {
 //
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl"}],"2fd56":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl","./beforeAfterShipCellsFiredUponStatus":"4Fmie"}],"4Fmie":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "beforeAfterShipCellsFiredUponStatus", ()=>beforeAfterShipCellsFiredUponStatus);
+function beforeAfterShipCellsFiredUponStatus({ shipType , coordsArr , compShipsHitCoordsSet , compShipsMissesCoordsSet  }) {
+    // since frigates are only one cells each, both directions must be checked
+    // to determine if the frigate is surrounded
+    if (shipType === "Frigates") {
+        // no sorting as frigate coords are only one cell each
+        const frigateCell = coordsArr[0];
+        const frigateCellX = parseInt(frigateCell.split(",")[0]);
+        const frigateCellY = parseInt(frigateCell.split(",")[1]);
+        // top cell
+        const topCell = `${frigateCellX},${frigateCellY - 1}`;
+        const topCellWithinBounds = parseInt(topCell.split(",")[1]) >= 0;
+        // right cell
+        const rightCell = `${frigateCellX + 1},${frigateCellY}`;
+        const rightCellWithinBounds = parseInt(rightCell.split(",")[0]) <= 9;
+        // bottom cell
+        const bottomCell = `${frigateCellX},${frigateCellY + 1}`;
+        const bottomCellWithinBounds = parseInt(bottomCell.split(",")[1]) <= 9;
+        // left cell
+        const leftCell = `${frigateCellX - 1},${frigateCellY}`;
+        const leftCellWithinBounds = parseInt(leftCell.split(",")[0]) >= 0;
+        // if the cells are not within bounds, they are considered to have been fired upon
+        const isTopCellFiredUpon = topCellWithinBounds ? compShipsHitCoordsSet.has(topCell) || compShipsMissesCoordsSet.has(topCell) : true;
+        const isRightCellFiredUpon = rightCellWithinBounds ? compShipsHitCoordsSet.has(rightCell) || compShipsMissesCoordsSet.has(rightCell) : true;
+        const isBottomCellFiredUpon = bottomCellWithinBounds ? compShipsHitCoordsSet.has(bottomCell) || compShipsMissesCoordsSet.has(bottomCell) : true;
+        const isLeftCellFiredUpon = leftCellWithinBounds ? compShipsHitCoordsSet.has(leftCell) || compShipsMissesCoordsSet.has(leftCell) : true;
+        const isBeforeShipCellFiredUpon = isTopCellFiredUpon && isLeftCellFiredUpon;
+        const isAfterShipCellFiredUpon = isRightCellFiredUpon && isBottomCellFiredUpon;
+        return {
+            isBeforeShipCellFiredUpon,
+            isAfterShipCellFiredUpon
+        };
+    }
+    // following is for all other ship types except frigates
+    // need  to sort the coords because they were grabbed from an object and
+    // js does not guarantee the order of the keys in an object
+    const coordsArrClone = structuredClone(coordsArr);
+    const sortedCoordsArr = coordsArrClone.sort((a, b)=>{
+        const aX = parseInt(a.split(",")[0].replace('"', ""));
+        const aY = parseInt(a.split(",")[1].replace('"', ""));
+        const bX = parseInt(b.split(",")[0].replace('"', ""));
+        const bY = parseInt(b.split(",")[1].replace('"', ""));
+        if (aX < bX) return -1;
+        if (aX > bX) return 1;
+        if (aY < bY) return -1;
+        if (aY > bY) return 1;
+        return 0;
+    });
+    // determine the direction of the ship
+    const firstCoord = sortedCoordsArr[0];
+    const lastCoord = sortedCoordsArr[sortedCoordsArr.length - 1];
+    const firstCoordXY = firstCoord.split(",");
+    const lastCoordXY = lastCoord.split(",");
+    const firstCoordX = parseInt(firstCoordXY[0].replace('"', ""));
+    const firstCoordY = parseInt(firstCoordXY[1].replace('"', ""));
+    const lastCoordX = parseInt(lastCoordXY[0].replace('"', ""));
+    const lastCoordY = parseInt(lastCoordXY[1].replace('"', ""));
+    const isHorizontal = firstCoordY === lastCoordY;
+    // const isVertical = firstCoordX === lastCoordX;
+    // determine the cells just before and just after the ship
+    const beforeShipCell = isHorizontal ? `${firstCoordX - 1},${firstCoordY}` : `${firstCoordX},${firstCoordY - 1}`;
+    const beforeShipCellX = parseInt(beforeShipCell.split(",")[0]);
+    const beforeShipCellY = parseInt(beforeShipCell.split(",")[1]);
+    const beforeShipCellWithinBounds = isHorizontal ? beforeShipCellX <= 9 && beforeShipCellX >= 0 : beforeShipCellY <= 9 && beforeShipCellY >= 0;
+    // if the cell is not within bounds, it is considered to have been fired upon
+    const isBeforeShipCellFiredUpon = beforeShipCellWithinBounds ? compShipsHitCoordsSet.has(beforeShipCell) || compShipsMissesCoordsSet.has(beforeShipCell) : true;
+    const afterShipCell = isHorizontal ? `${lastCoordX + 1},${lastCoordY}` : `${lastCoordX},${lastCoordY + 1}`;
+    const afterShipCellX = parseInt(afterShipCell.split(",")[0]);
+    const afterShipCellY = parseInt(afterShipCell.split(",")[1]);
+    const afterShipCellWithinBounds = isHorizontal ? afterShipCellX <= 9 && afterShipCellX >= 0 : afterShipCellY <= 9 && afterShipCellY >= 0;
+    // if the cell is not within bounds, it is considered to have been fired upon
+    const isAfterShipCellFiredUpon = afterShipCellWithinBounds ? compShipsHitCoordsSet.has(afterShipCell) || compShipsMissesCoordsSet.has(afterShipCell) : true;
+    // console.group('small ships');
+    // console.log('beforeShipCell small ships', beforeShipCell);
+    // console.log('afterShipCell small ships', afterShipCell);
+    // console.log('beforeShipCellWithinBounds small ships', beforeShipCellWithinBounds);
+    // console.log('afterShipCellWithinBounds small ships', afterShipCellWithinBounds);
+    // console.log('isBeforeShipCellFiredUpon small ships', isBeforeShipCellFiredUpon);
+    // console.log('isAfterShipCellFiredUpon small ships', isAfterShipCellFiredUpon);
+    // console.groupEnd();
+    return {
+        isBeforeShipCellFiredUpon,
+        isAfterShipCellFiredUpon
+    };
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2fd56":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord);

@@ -21,6 +21,10 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 	];
 
 	const shipsPresentCoordsSet = new Set<[number, number]>([]);
+	console.log(
+		'shipsPresentCoordsSet from populateCompShipsCoords()',
+		shipsPresentCoordsSet
+	);
 
 	return Object.fromEntries(
 		shipsLengthTuple.reduce(

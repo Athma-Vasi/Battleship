@@ -93,6 +93,8 @@ type RandomizedManticoreShipNames = {
 };
 
 type ShipType = 'Superdreadnought' | 'Carrier' | 'Battleship' | 'Destroyers' | 'Frigates';
+type BigShips = 'Superdreadnought' | 'Carrier' | 'Battleship';
+type SmallShips = 'Destroyers' | 'Frigates';
 
 type PlayerCompShipsCoords = {
 	playerShipCoords: {
@@ -149,6 +151,8 @@ export {
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
 	ShipType,
+	BigShips,
+	SmallShips,
 	PlayerCompShipsCoords,
 	ShipHits,
 };
