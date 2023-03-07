@@ -4,7 +4,7 @@ import {
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
-import { Button, Div, NodesDiv } from '../utilities/types';
+import { Button, NodesDiv } from '../utilities/types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierBttnClick } from './handleCarrierBttnClick';
 import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';
@@ -13,13 +13,13 @@ import { handleFrigateMouseEnter } from './handleFrigateMouseEnter';
 import { handleFrigateMouseLeave } from './handleFrigateMouseLeave';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
-const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
+const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent): void {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');
 
-	//disables this button after clicking
+	// disables this button after clicking
 	this.disabled = true;
 
-	//visually indicates that 'this' button is selected
+	// visually indicates that 'this' button is selected
 	pipe(
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
@@ -27,8 +27,8 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 		])
 	)(this);
 
-	//disables events on other shipButtons while selected
-	//prevents double selection
+	// disables events on other shipButtons while selected
+	// prevents double selection
 	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought');
 	if (superdreadnoughtBttn)
 		pipe(
@@ -73,7 +73,7 @@ const handleFrigateBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 			removeEvtListener('click')(handleDestroyerBttnClick)
 		)(destroyerBttn);
 
-	//assigns event listeners to each player game cell after clicking destroyer button
+	// assigns event listeners to each player game cell after clicking destroyer button
 	playerGameCells.forEach((player) =>
 		pipe(
 			addEvtListener('click')(handleFrigateCellClick),

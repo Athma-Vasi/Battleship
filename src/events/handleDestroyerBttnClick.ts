@@ -4,7 +4,7 @@ import {
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
-import { Button, Div, NodesDiv } from '../utilities/types';
+import { Button, NodesDiv } from '../utilities/types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierBttnClick } from './handleCarrierBttnClick';
 import { handleDestroyerCellClick } from './handleDestroyerCellClick';
@@ -13,10 +13,13 @@ import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave';
 import { handleFrigateBttnClick } from './handleFrigateBttnClick';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
-const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
+const handleDestroyerBttnClick = function (
+	this: HTMLButtonElement,
+	ev: MouseEvent
+): void {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');
 
-	//assigns event listeners to each player game cell after clicking destroyer button
+	// assigns event listeners to each player game cell after clicking destroyer button
 	playerGameCells.forEach((player) =>
 		pipe(
 			addEvtListener('click')(handleDestroyerCellClick),
@@ -25,10 +28,10 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 		)(player)
 	);
 
-	//disables this button after clicking
+	// disables this button after clicking
 	this.disabled = true;
 
-	//visually indicates that 'this' button is selected
+	// visually indicates that 'this' button is selected
 	pipe(
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
@@ -36,8 +39,8 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 		])
 	)(this);
 
-	//disables clicking on other shipButtons while selected
-	//prevents double selection
+	// disables clicking on other shipButtons while selected
+	// prevents double selection
 	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought');
 	if (superdreadnoughtBttn)
 		pipe(
@@ -82,4 +85,5 @@ const handleDestroyerBttnClick = function (this: HTMLButtonElement, ev: MouseEve
 			removeEvtListener('click')(handleFrigateBttnClick)
 		)(frigateBttn);
 };
+
 export { handleDestroyerBttnClick };

@@ -538,7 +538,7 @@ const receiveFormName = function(ev) {
     ev.preventDefault();
     const formData = new FormData(this);
     const playerName = formData.get("form-name-input")?.toString() ?? "";
-    //stores playerName to use for battle texts
+    // stores playerName to use for battle texts
     if (!localStorage.getItem("playerName")) localStorage.setItem("playerName", JSON.stringify(playerName));
     (0, _renderShipSelectionPage.renderShipSelectionPage)(playerName);
 };
@@ -915,9 +915,9 @@ var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleBattleshipBttnClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //disables this button after clicking
+    // disables this button after clicking
     this.disabled = true;
-    //visually indicates that 'this' button is selected
+    // visually indicates that 'this' button is selected
     (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
             "border",
@@ -928,8 +928,8 @@ const handleBattleshipBttnClick = function(ev) {
             "#f0a400"
         ], 
     ]))(this);
-    //disables clicking on other shipButtons while selected
-    //prevents double selection
+    // disables clicking on other shipButtons while selected
+    // prevents double selection
     const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
     if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
@@ -990,7 +990,7 @@ const handleBattleshipBttnClick = function(ev) {
             "not-allowed"
         ], 
     ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-    //assigns event listeners to each player game cell after clicking battleship button
+    // assigns event listeners to each player game cell after clicking battleship button
     playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipCellClick.handleBattleshipCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleBattleshipMouseEnter.handleBattleshipMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleBattleshipMouseLeave.handleBattleshipMouseLeave)))(player));
 };
 
@@ -1011,29 +1011,29 @@ var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleBattleshipCellClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //initializes the ship object upon first call
+    // initializes the ship object upon first call
     if (!localStorage.getItem("battleship")) localStorage.setItem("battleship", JSON.stringify(""));
     let battleship = JSON.parse(localStorage.getItem("battleship") ?? "");
     const battleshipCoords = [];
     const ship = "battleship";
     const amount = "single";
-    //for horizontal placement
+    // for horizontal placement
     if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //grid boundary detection
+        // grid boundary detection
         if (Number(currentX) > 7) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(3, currentAxis, currentX, currentY)) return null;
-        //places battleship on the grid
+        // places battleship on the grid
         for(let i = 0; i < 3; i += 1){
             const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
             if (nextCell) nextCell.textContent = "";
@@ -1054,8 +1054,8 @@ const handleBattleshipCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("B"))(nextCell);
             battleshipCoords.push(`${Number(currentX) + i},${currentY}`);
         }
-        //prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, "single")) //updates battleship object attributes
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, "single")) // updates battleship object attributes
         battleship = {
             head: battleshipCoords[0],
             body: battleshipCoords[1],
@@ -1063,17 +1063,17 @@ const handleBattleshipCellClick = function(ev) {
         };
         localStorage.setItem("isSingleBattleship", JSON.stringify(false));
     } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //grid boundary detection
+        // grid boundary detection
         if (Number(currentY) > 7) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(3, currentAxis, currentX, currentY)) return null;
         for(let i = 0; i < 3; i += 1){
-            //places battleship on the grid
+            // places battleship on the grid
             const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
-            //prevents duplicate letters being placed
+            // prevents duplicate letters being placed
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
@@ -1092,8 +1092,8 @@ const handleBattleshipCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("B"))(nextCell);
             battleshipCoords.push(`${currentX},${Number(currentY) + i}`);
         }
-        //prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, "single")) //updates battleship object attributes
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, "single")) // updates battleship object attributes
         battleship = {
             head: battleshipCoords[0],
             body: battleshipCoords[1],
@@ -1101,12 +1101,12 @@ const handleBattleshipCellClick = function(ev) {
         };
         localStorage.setItem("isSingleBattleship", JSON.stringify(false));
     }
-    //stores battleship
+    // stores battleship
     localStorage.setItem("battleship", JSON.stringify(battleship));
-    //stores current ship coords to pool of all ship coords
+    // stores current ship coords to pool of all ship coords
     (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(battleshipCoords);
     if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === true) {
-        //after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
         const battleshipBttn = document.querySelector(".bttn-battleship");
         (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -1122,7 +1122,7 @@ const handleBattleshipCellClick = function(ev) {
                 "not-allowed"
             ], 
         ]))(battleshipBttn);
-        //enables events on other shipButtons after battleship has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        // enables events on other shipButtons after battleship has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
         const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
         if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -1183,12 +1183,12 @@ const handleBattleshipCellClick = function(ev) {
                 "pointer"
             ], 
         ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-        //removes event listeners after battleship has been placed
+        // removes event listeners after battleship has been placed
         playerGameCells.forEach((player)=>{
             (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleBattleshipCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleBattleshipMouseEnter.handleBattleshipMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleBattleshipMouseLeave.handleBattleshipMouseLeave)))(player);
         });
     }
-    //if all ships placed, renders start button
+    // if all ships placed, renders start button
     (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
 };
 
@@ -1285,21 +1285,21 @@ var _renderTacticalOverview = require("../utilities/renderTacticalOverview");
 var _handlePlayerClickOnCompMisses = require("./handlePlayerClickOnCompMisses");
 var _handlePlayerClickOnCompShips = require("./handlePlayerClickOnCompShips");
 const handleStartButtonClick = function(ev) {
-    //scroll to top of window
+    // scroll to top of window
     window.scrollTo(0, 0);
-    //removes the previous info screen
+    // removes the previous info screen
     const infoScreenContainer = document.querySelector(".infoScreen-container");
     infoScreenContainer?.remove();
     const preBattleInfoScreen = document.querySelector(".preBattle-infoScreen");
     preBattleInfoScreen?.remove();
-    //removes the ship bttns wrapper
+    // removes the ship bttns wrapper
     const shipBttnsWrapper = document.querySelector(".shipBttns-wrapper");
     shipBttnsWrapper?.remove();
     const bothBoardsContainer = document.querySelector(".bothBoards-container");
     bothBoardsContainer?.remove();
-    //remove the start button
+    // remove the start button
     this.remove();
-    //renders player and comp board and places the ships
+    // renders player and comp board and places the ships
     (0, _renderPlayerBoard.renderPlayerBoard)();
     (0, _renderCompBoard.renderCompBoard)();
     // placeCompShipsOnBoard(compShipsPlacementChoicesArr);
@@ -1307,12 +1307,12 @@ const handleStartButtonClick = function(ev) {
     //randomizes and store ship names for each battle
     (0, _randomizeAndStoreShipNames.randomizeAndStoreShipNames)((0, _shipNames.shipNames));
     if (!localStorage.getItem("isGameRunning")) localStorage.setItem("isGameRunning", JSON.stringify(true));
-    //adds evt listeners to comp game board cells
+    // adds evt listeners to comp game board cells
     const compShipPresentCells = document.querySelectorAll(".compShipPresent");
     compShipPresentCells.forEach((cell)=>(0, _elementCreators.addEvtListener)("click")((0, _handlePlayerClickOnCompShips.handlePlayerClickOnCompShips))(cell));
     const compShipNotPresentCells = document.querySelectorAll(".compShipNotPresent");
     compShipNotPresentCells.forEach((cell)=>(0, _elementCreators.addEvtListener)("click")((0, _handlePlayerClickOnCompMisses.handlePlayerClickOnCompMisses))(cell));
-    //renders a new info screen for the battle texts
+    // renders a new info screen for the battle texts
     const main = document.querySelector(".main");
     (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(main))((0, _elementCreators.elemCreator)("div")([
         "infoScreen-wrapper"
@@ -1325,8 +1325,7 @@ const handleStartButtonClick = function(ev) {
         "battleMessage-wrapper"
     ]);
     (0, _elementCreators.pipe)((0, _elementCreators.appendElemToParent)(gameBoardContainer))(battleMessageWrapper);
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Manticoran Tenth Fleet CIC"), //
-    (0, _elementCreators.appendElemToParent)(battleMessageWrapper))((0, _elementCreators.elemCreator)("h2")([
+    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Manticoran Tenth Fleet CIC"), (0, _elementCreators.appendElemToParent)(battleMessageWrapper))((0, _elementCreators.elemCreator)("h2")([
         "battleMessageTitleElem"
     ]));
     const today = new Date();
@@ -2827,7 +2826,7 @@ const handlePlayerClickOnCompShips = function(ev) {
     const compShipsHitCoords = JSON.parse(localStorage.getItem("compShipsHitCoords") ?? "");
     // updates hit counter only when new hit is not on a previously hit cell, and store
     if (!compShipsHitCoords.includes(currentCellCoord)) {
-        //stores the unique hit co-ordinate
+        // stores the unique hit co-ordinate
         compShipsHitCoords.push(currentCellCoord);
         localStorage.setItem("compShipsHitCoords", JSON.stringify(compShipsHitCoords));
         // increments the hit counter and store
@@ -4291,14 +4290,14 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleBattleshipMouseEnter", ()=>handleBattleshipMouseEnter);
 var _elementCreators = require("../utilities/elementCreators");
 const handleBattleshipMouseEnter = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 3; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
         if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("B"), (0, _elementCreators.addStyleToElem)([
@@ -4333,17 +4332,17 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleBattleshipMouseLeave", ()=>handleBattleshipMouseLeave);
 var _elementCreators = require("../utilities/elementCreators");
 const handleBattleshipMouseLeave = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 3; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -4360,7 +4359,7 @@ const handleBattleshipMouseLeave = function(ev) {
     }
     else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 3; i1 += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -4391,9 +4390,9 @@ var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleCarrierBttnClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //disables button after clicking once
+    // disables button after clicking once
     this.disabled = true;
-    //visually indicates that 'this' button is selected
+    // visually indicates that 'this' button is selected
     (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
             "border",
@@ -4404,8 +4403,8 @@ const handleCarrierBttnClick = function(ev) {
             "#f0a400"
         ], 
     ]))(this);
-    //disables clicking on other shipButtons while selected
-    //prevents double selection
+    // disables clicking on other shipButtons while selected
+    // prevents double selection
     const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
     if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
@@ -4466,7 +4465,7 @@ const handleCarrierBttnClick = function(ev) {
             "not-allowed"
         ], 
     ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-    //assigns event listener to each player game cell after clicking superdreadnought button
+    // assigns event listener to each player game cell after clicking superdreadnought button
     playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleCarrierCellClick.handleCarrierCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleCarrierMouseEnter.handleCarrierMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleCarrierMouseLeave.handleCarrierMouseLeave)))(player));
 };
 
@@ -4487,32 +4486,32 @@ var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleCarrierCellClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //initializes the carrier object upon first call
+    // initializes the carrier object upon first call
     if (!localStorage.getItem("carrier")) localStorage.setItem("carrier", JSON.stringify([]));
     let carrier = JSON.parse(localStorage.getItem("carrier") ?? "");
     const carrierCoords = [];
     const ship = "carrier";
     const amount = "single";
-    //for horizontal placement
+    // for horizontal placement
     if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //grid boundary detection
+        // grid boundary detection
         if (Number(currentX) > 6) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(4, currentAxis, currentX, currentY)) return null;
-        //places carrier on grid
+        // places carrier on grid
         for(let i = 0; i < 4; i += 1){
             const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-            //prevents duplicate letters being placed
+            // prevents duplicate letters being placed
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
@@ -4531,7 +4530,7 @@ const handleCarrierCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("C"))(nextCell);
             carrierCoords.push(`${Number(currentX) + i},${currentY}`);
         }
-        //prevents updating after first click
+        // prevents updating after first click
         if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) //update carrier object attributes
         carrier = {
             head: carrierCoords[0],
@@ -4546,9 +4545,9 @@ const handleCarrierCellClick = function(ev) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(4, currentAxis, currentX, currentY)) return null;
-        //places carrier on grid
+        // places carrier on grid
         for(let i = 0; i < 4; i += 1){
             const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
             //prevents duplicate letters being placed
@@ -4570,8 +4569,8 @@ const handleCarrierCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("C"))(nextCell);
             carrierCoords.push(`${currentX},${Number(currentY) + i}`);
         }
-        //prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) //updates carrier object attributes
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates carrier object attributes
         carrier = {
             head: carrierCoords[0],
             body1: carrierCoords[1],
@@ -4580,12 +4579,12 @@ const handleCarrierCellClick = function(ev) {
         };
         localStorage.setItem("isSingleCarrier", JSON.stringify(false));
     }
-    //stores carrier
+    // stores carrier
     localStorage.setItem("carrier", JSON.stringify(carrier));
-    //stores current ship coords to pool of all ship coords
+    // stores current ship coords to pool of all ship coords
     (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(carrierCoords);
     if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === true) {
-        //after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
         const carrierBttn = document.querySelector(".bttn-carrier");
         (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -4601,7 +4600,7 @@ const handleCarrierCellClick = function(ev) {
                 "not-allowed"
             ], 
         ]))(carrierBttn);
-        //enables events on other shipButtons after carrier has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        // enables events on other shipButtons after carrier has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
         const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
         if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -4662,7 +4661,7 @@ const handleCarrierCellClick = function(ev) {
                 "pointer"
             ], 
         ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-        //removes event listeners after single carrier has been placed
+        // removes event listeners after single carrier has been placed
         playerGameCells.forEach((player)=>{
             (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleCarrierCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleCarrierMouseEnter.handleCarrierMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleCarrierMouseLeave.handleCarrierMouseLeave)))(player);
         });
@@ -4677,14 +4676,14 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleCarrierMouseEnter", ()=>handleCarrierMouseEnter);
 var _elementCreators = require("../utilities/elementCreators");
 const handleCarrierMouseEnter = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 4; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
         if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("C"), (0, _elementCreators.addStyleToElem)([
@@ -4719,17 +4718,17 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleCarrierMouseLeave", ()=>handleCarrierMouseLeave);
 var _elementCreators = require("../utilities/elementCreators");
 const handleCarrierMouseLeave = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 4; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -4746,7 +4745,7 @@ const handleCarrierMouseLeave = function(ev) {
     }
     else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 4; i1 += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -4777,11 +4776,11 @@ var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleDestroyerBttnClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //assigns event listeners to each player game cell after clicking destroyer button
+    // assigns event listeners to each player game cell after clicking destroyer button
     playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerCellClick.handleDestroyerCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleDestroyerMouseEnter.handleDestroyerMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleDestroyerMouseLeave.handleDestroyerMouseLeave)))(player));
-    //disables this button after clicking
+    // disables this button after clicking
     this.disabled = true;
-    //visually indicates that 'this' button is selected
+    // visually indicates that 'this' button is selected
     (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
             "border",
@@ -4792,8 +4791,8 @@ const handleDestroyerBttnClick = function(ev) {
             "#f0a400"
         ], 
     ]))(this);
-    //disables clicking on other shipButtons while selected
-    //prevents double selection
+    // disables clicking on other shipButtons while selected
+    // prevents double selection
     const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
     if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
@@ -4873,32 +4872,32 @@ var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleDestroyerCellClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //initializes the ship object upon first call
+    // initializes the ship object upon first call
     if (!localStorage.getItem("destroyer")) localStorage.setItem("destroyer", JSON.stringify([]));
     const destroyer = JSON.parse(localStorage.getItem("destroyer") ?? "");
     const destroyerCoords = [];
     const ship = "destroyer";
     const amount = "double";
-    //for horizontal placement
+    // for horizontal placement
     if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
         //grid boundary detection
         if (Number(currentX) > 8) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(2, currentAxis, currentX, currentY)) return null;
-        //places destroyer on the grid
+        // places destroyer on the grid
         for(let i = 0; i < 2; i += 1){
             const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-            //prevents duplicate letters being placed
+            // prevents duplicate letters being placed
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
@@ -4917,23 +4916,23 @@ const handleDestroyerCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("D"))(nextCell);
             destroyerCoords.push(`${Number(currentX) + i},${currentY}`);
         }
-        //only updates if there are 2 or less ships
+        // only updates if there are 2 or less ships
         if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) destroyer.push({
             head: destroyerCoords[0],
             tail: destroyerCoords[1]
         });
     } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //grid boundary detection
+        // grid boundary detection
         if (Number(currentY) > 8) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(2, currentAxis, currentX, currentY)) return null;
         for(let i = 0; i < 2; i += 1){
-            //places destroyer on the grid
+            // places destroyer on the grid
             const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
-            //prevents duplicate letters being placed
+            // prevents duplicate letters being placed
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
@@ -4952,18 +4951,18 @@ const handleDestroyerCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("D"))(nextCell);
             destroyerCoords.push(`${currentX},${Number(currentY) + i}`);
         }
-        //only updates if there are 2 or less ships
+        // only updates if there are 2 or less ships
         if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) destroyer.push({
             head: destroyerCoords[0],
             tail: destroyerCoords[1]
         });
     } else if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) return null;
-    //stores destroyer
+    // stores destroyer
     localStorage.setItem("destroyer", JSON.stringify(destroyer));
-    //stores current ship coords to pool of all ship coords
+    // stores current ship coords to pool of all ship coords
     (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(destroyerCoords);
     if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) {
-        //after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
         const destroyerBttn = document.querySelector(".bttn-destroyer");
         (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -4979,7 +4978,7 @@ const handleDestroyerCellClick = function(ev) {
                 "not-allowed"
             ], 
         ]))(destroyerBttn);
-        //enables events on other shipButtons after both destroyers have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        // enables events on other shipButtons after both destroyers have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
         const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
         if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -5055,14 +5054,14 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleDestroyerMouseEnter", ()=>handleDestroyerMouseEnter);
 var _elementCreators = require("../utilities/elementCreators");
 const handleDestroyerMouseEnter = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 2; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
         if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("D"), (0, _elementCreators.addStyleToElem)([
@@ -5097,17 +5096,17 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleDestroyerMouseLeave", ()=>handleDestroyerMouseLeave);
 var _elementCreators = require("../utilities/elementCreators");
 const handleDestroyerMouseLeave = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 2; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -5124,7 +5123,7 @@ const handleDestroyerMouseLeave = function(ev) {
     }
     else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 2; i1 += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -5155,9 +5154,9 @@ var _handleFrigateMouseLeave = require("./handleFrigateMouseLeave");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleFrigateBttnClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //disables this button after clicking
+    // disables this button after clicking
     this.disabled = true;
-    //visually indicates that 'this' button is selected
+    // visually indicates that 'this' button is selected
     (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
             "border",
@@ -5168,8 +5167,8 @@ const handleFrigateBttnClick = function(ev) {
             "#f0a400"
         ], 
     ]))(this);
-    //disables events on other shipButtons while selected
-    //prevents double selection
+    // disables events on other shipButtons while selected
+    // prevents double selection
     const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
     if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
@@ -5230,7 +5229,7 @@ const handleFrigateBttnClick = function(ev) {
             "not-allowed"
         ], 
     ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
-    //assigns event listeners to each player game cell after clicking destroyer button
+    // assigns event listeners to each player game cell after clicking destroyer button
     playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleFrigateCellClick.handleFrigateCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleFrigateMouseEnter.handleFrigateMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleFrigateMouseLeave.handleFrigateMouseLeave)))(player));
 };
 
@@ -5251,25 +5250,25 @@ var _handleFrigateMouseLeave = require("./handleFrigateMouseLeave");
 var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
 const handleFrigateCellClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent ?? "";
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //initializes the ship object upon first call
+    // initializes the ship object upon first call
     if (!localStorage.getItem("frigate")) localStorage.setItem("frigate", JSON.stringify([]));
     const frigate = JSON.parse(localStorage.getItem("frigate") ?? "");
     const frigateCoords = [];
     const ship = "frigate";
     const amount = "double";
     if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(1, currentAxis, currentX, currentY)) return null;
-        //places frigate on the grid
+        // places frigate on the grid
         const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
-        //prevents duplicate letters being placed
+        // prevents duplicate letters being placed
         if (nextCell) nextCell.textContent = "";
         (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
             [
@@ -5287,17 +5286,17 @@ const handleFrigateCellClick = function(ev) {
             ], 
         ]), (0, _elementCreators.addTextToElem)("F"))(nextCell);
         frigateCoords.push(`${currentX},${currentY}`);
-        //only updates if there are 2 or less ships
+        // only updates if there are 2 or less ships
         if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) frigate.push({
             body: frigateCoords[0]
         });
     } else if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) return null;
-    //stores frigate
+    // stores frigate
     localStorage.setItem("frigate", JSON.stringify(frigate));
-    //stores current ship coords to pool of all ship coords
+    // stores current ship coords to pool of all ship coords
     (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(frigateCoords);
     if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) {
-        //after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
         const frigateBttn = document.querySelector(".bttn-frigate");
         (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -5309,7 +5308,7 @@ const handleFrigateCellClick = function(ev) {
                 "gainsboro"
             ], 
         ]))(frigateBttn);
-        //enables events on other shipButtons after both frigates have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        // enables events on other shipButtons after both frigates have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
         const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
         if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -5385,11 +5384,11 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleFrigateMouseEnter", ()=>handleFrigateMouseEnter);
 var _elementCreators = require("../utilities/elementCreators");
 const handleFrigateMouseEnter = function(ev) {
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes cell on hover
+    // changes cell on hover
     const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
     if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("F"), (0, _elementCreators.addStyleToElem)([
         [
@@ -5409,13 +5408,13 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleFrigateMouseLeave", ()=>handleFrigateMouseLeave);
 var _elementCreators = require("../utilities/elementCreators");
 const handleFrigateMouseLeave = function(ev) {
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes cell on hover
+    // changes cell on hover
     const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
-    //avoids changing cells of ships already present
+    // avoids changing cells of ships already present
     if (!nextCell?.classList.contains("playerShipPresent")) {
         if (nextCell) nextCell.textContent = "";
         (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -5445,9 +5444,9 @@ var _handleSuperdreadnoughtMouseEnter = require("./handleSuperdreadnoughtMouseEn
 var _handleSuperdreadnoughtMouseLeave = require("./handleSuperdreadnoughtMouseLeave");
 const handleSuperdreadnoughtBttnClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //disables this button after clicking
+    // disables this button after clicking
     this.disabled = true;
-    //visually indicates that 'this' button is selected
+    // visually indicates that 'this' button is selected
     (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
             "border",
@@ -5458,8 +5457,8 @@ const handleSuperdreadnoughtBttnClick = function(ev) {
             "#f0a400"
         ], 
     ]))(this);
-    //disables clicking on other shipButtons while selected
-    //prevents double selection
+    // disables clicking on other shipButtons while selected
+    // prevents double selection
     const carrierBttn = document.querySelector(".bttn-carrier");
     if (carrierBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
         [
@@ -5520,7 +5519,7 @@ const handleSuperdreadnoughtBttnClick = function(ev) {
             "not-allowed"
         ], 
     ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-    //assigns event listeners to each player game cell after clicking superdreadnought button
+    // assigns event listeners to each player game cell after clicking superdreadnought button
     playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtCellClick.handleSuperdreadnoughtCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleSuperdreadnoughtMouseEnter.handleSuperdreadnoughtMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleSuperdreadnoughtMouseLeave.handleSuperdreadnoughtMouseLeave)))(player));
 };
 
@@ -5541,32 +5540,32 @@ var _handleSuperdreadnoughtMouseEnter = require("./handleSuperdreadnoughtMouseEn
 var _handleSuperdreadnoughtMouseLeave = require("./handleSuperdreadnoughtMouseLeave");
 const handleSuperdreadnoughtCellClick = function(ev) {
     const playerGameCells = document.querySelectorAll(".player-gameCell");
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //initializes the carrier object upon first call
+    // initializes the carrier object upon first call
     if (!localStorage.getItem("superdreadnought")) localStorage.setItem("superdreadnought", JSON.stringify(""));
     let superdreadnought = JSON.parse(localStorage.getItem("superdreadnought") ?? "");
     const superdreadnoughtCoords = [];
     const ship = "superdreadnought";
     const amount = "single";
-    //for horizontal placement
+    // for horizontal placement
     if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //grid boundary detection
+        // grid boundary detection
         if (Number(currentX) > 5) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(5, currentAxis, currentX, currentY)) return null;
-        //places superdreadnought on the grid
+        // places superdreadnought on the grid
         for(let i = 0; i < 5; i += 1){
             const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-            //prevents duplicate letters being placed
+            // prevents duplicate letters being placed
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
@@ -5585,8 +5584,8 @@ const handleSuperdreadnoughtCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("S"))(nextCell);
             superdreadnoughtCoords.push(`${Number(currentX) + i},${currentY}`);
         }
-        //prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) //updates superdreadnought object attributes
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates superdreadnought object attributes
         superdreadnought = {
             head: superdreadnoughtCoords[0],
             body1: superdreadnoughtCoords[1],
@@ -5596,17 +5595,17 @@ const handleSuperdreadnoughtCellClick = function(ev) {
         };
         localStorage.setItem("isSingleSuperdreadnought", JSON.stringify(false));
     } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, "single")) {
-        //grid boundary detection
+        // grid boundary detection
         if (Number(currentY) > 5) {
             alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
             return null;
         }
-        //overlap detection
+        // overlap detection
         if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(5, currentAxis, currentX, currentY)) return null;
-        //places superdreadnought on the grid
+        // places superdreadnought on the grid
         for(let i = 0; i < 5; i += 1){
             const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
-            //prevents duplicate letters being placed
+            // prevents duplicate letters being placed
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
                 [
@@ -5625,8 +5624,8 @@ const handleSuperdreadnoughtCellClick = function(ev) {
             ]), (0, _elementCreators.addTextToElem)("S"))(nextCell);
             superdreadnoughtCoords.push(`${currentX},${Number(currentY) + i}`);
         }
-        //prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) //updates superdreadnought object attributes
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates superdreadnought object attributes
         superdreadnought = {
             head: superdreadnoughtCoords[0],
             body1: superdreadnoughtCoords[1],
@@ -5636,12 +5635,12 @@ const handleSuperdreadnoughtCellClick = function(ev) {
         };
         localStorage.setItem("isSingleSuperdreadnought", JSON.stringify(false));
     }
-    //stores superdreadnought
+    // stores superdreadnought
     localStorage.setItem("superdreadnought", JSON.stringify(superdreadnought));
-    //stores current ship coords to pool of all ship coords
+    // stores current ship coords to pool of all ship coords
     (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(superdreadnoughtCoords);
     if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === true) {
-        //after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
         const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
         (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -5657,7 +5656,7 @@ const handleSuperdreadnoughtCellClick = function(ev) {
                 "not-allowed"
             ], 
         ]))(superdreadnoughtBttn);
-        //enables events on other shipButtons after superdreadnought has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        // enables events on other shipButtons after superdreadnought has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
         const carrierBttn = document.querySelector(".bttn-carrier");
         if (carrierBttn && carrierBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
             [
@@ -5718,12 +5717,12 @@ const handleSuperdreadnoughtCellClick = function(ev) {
                 "pointer"
             ], 
         ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-        //removes event listeners after single superdreadnought has been placed
+        // removes event listeners after single superdreadnought has been placed
         playerGameCells.forEach((player)=>{
             (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleSuperdreadnoughtCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleSuperdreadnoughtMouseEnter.handleSuperdreadnoughtMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleSuperdreadnoughtMouseLeave.handleSuperdreadnoughtMouseLeave)))(player);
         });
     }
-    //if all ships placed, renders start button
+    // if all ships placed, renders start button
     (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
 };
 
@@ -5733,14 +5732,14 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleSuperdreadnoughtMouseEnter", ()=>handleSuperdreadnoughtMouseEnter);
 var _elementCreators = require("../utilities/elementCreators");
 const handleSuperdreadnoughtMouseEnter = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 5; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
         if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("S"), (0, _elementCreators.addStyleToElem)([
@@ -5775,17 +5774,17 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleSuperdreadnoughtMouseLeave", ()=>handleSuperdreadnoughtMouseLeave);
 var _elementCreators = require("../utilities/elementCreators");
 const handleSuperdreadnoughtMouseLeave = function(ev) {
-    //grabs the current state of the axis button
+    // grabs the current state of the axis button
     const axisSelector = document.querySelector(".bttn-axisSelector");
     const currentAxis = axisSelector?.textContent;
-    //grabs the current cell co-ordinate
+    // grabs the current cell co-ordinate
     const currentCell = this.dataset.cellplayer?.split(",");
     const currentX = currentCell?.[0] ?? "";
     const currentY = currentCell?.[1] ?? "";
-    //changes consecutive cells in corresponding axes on hover
+    // changes consecutive cells in corresponding axes on hover
     if (currentAxis === "Axis-X") for(let i = 0; i < 5; i += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
@@ -5802,7 +5801,7 @@ const handleSuperdreadnoughtMouseLeave = function(ev) {
     }
     else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 5; i1 += 1){
         const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        //avoids changing cells of ships already present
+        // avoids changing cells of ships already present
         if (!nextCell?.classList.contains("playerShipPresent")) {
             if (nextCell) nextCell.textContent = "";
             (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([

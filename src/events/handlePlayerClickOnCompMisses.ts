@@ -5,7 +5,10 @@ import { Div, NodesDiv } from '../utilities/types';
 import { updateCompTacticalOverviewShips } from '../utilities/updateCompTacticalOverviewShips';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 
-const handlePlayerClickOnCompMisses = function (this: HTMLDivElement, ev: MouseEvent) {
+const handlePlayerClickOnCompMisses = function (
+	this: HTMLDivElement,
+	ev: MouseEvent
+): void {
 	const currentCellCoord = this.dataset.cellcomp ?? '';
 	const currentShipSymbol = this.textContent ?? '';
 	const towardsCombatant = 'comp';

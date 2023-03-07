@@ -4,7 +4,7 @@ import {
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
-import { Button, Div, NodesDiv } from '../utilities/types';
+import { Button, NodesDiv } from '../utilities/types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierCellClick } from './handleCarrierCellClick';
 import { handleCarrierMouseEnter } from './handleCarrierMouseEnter';
@@ -13,13 +13,13 @@ import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';
 import { handleFrigateBttnClick } from './handleFrigateBttnClick';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
-const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
+const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent): void {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');
 
-	//disables button after clicking once
+	// disables button after clicking once
 	this.disabled = true;
 
-	//visually indicates that 'this' button is selected
+	// visually indicates that 'this' button is selected
 	pipe(
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
@@ -27,8 +27,8 @@ const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 		])
 	)(this);
 
-	//disables clicking on other shipButtons while selected
-	//prevents double selection
+	// disables clicking on other shipButtons while selected
+	// prevents double selection
 	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought');
 	if (superdreadnoughtBttn)
 		pipe(
@@ -73,7 +73,7 @@ const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 			removeEvtListener('click')(handleFrigateBttnClick)
 		)(frigateBttn);
 
-	//assigns event listener to each player game cell after clicking superdreadnought button
+	// assigns event listener to each player game cell after clicking superdreadnought button
 	playerGameCells.forEach((player) =>
 		pipe(
 			addEvtListener('click')(handleCarrierCellClick),
@@ -82,4 +82,5 @@ const handleCarrierBttnClick = function (this: HTMLButtonElement, ev: MouseEvent
 		)(player)
 	);
 };
+
 export { handleCarrierBttnClick };

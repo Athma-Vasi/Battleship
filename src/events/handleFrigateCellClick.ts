@@ -18,19 +18,22 @@ import { handleFrigateMouseEnter } from './handleFrigateMouseEnter';
 import { handleFrigateMouseLeave } from './handleFrigateMouseLeave';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
-const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
+const handleFrigateCellClick = function (
+	this: HTMLDivElement,
+	ev: MouseEvent
+): null | undefined {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');
 
-	//grabs the current state of the axis button
+	// grabs the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector');
 	const currentAxis = axisSelector?.textContent ?? '';
 
-	//grabs the current cell co-ordinate
+	// grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',');
 	const currentX = currentCell?.[0] ?? '';
 	const currentY = currentCell?.[1] ?? '';
 
-	//initializes the ship object upon first call
+	// initializes the ship object upon first call
 	if (!localStorage.getItem('frigate')) {
 		localStorage.setItem('frigate', JSON.stringify([]));
 	}
@@ -42,14 +45,14 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 	const amount = 'double';
 
 	if (isCorrectNumberOfShips(ship, amount)) {
-		//overlap detection
+		// overlap detection
 		if (doesShipPlacementOverlap(1, currentAxis, currentX, currentY)) return null;
 
-		//places frigate on the grid
+		// places frigate on the grid
 		const nextCell: Div = document.querySelector(
 			`[data-cellplayer="${currentX},${currentY}"]`
 		);
-		//prevents duplicate letters being placed
+		// prevents duplicate letters being placed
 		if (nextCell) nextCell.textContent = '';
 
 		pipe(
@@ -63,7 +66,7 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 
 		frigateCoords.push(`${currentX},${currentY}`);
 
-		//only updates if there are 2 or less ships
+		// only updates if there are 2 or less ships
 		if (isCorrectNumberOfShips(ship, amount)) {
 			frigate.push({ body: frigateCoords[0] });
 		}
@@ -71,14 +74,14 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 		return null;
 	}
 
-	//stores frigate
+	// stores frigate
 	localStorage.setItem('frigate', JSON.stringify(frigate));
 
-	//stores current ship coords to pool of all ship coords
+	// stores current ship coords to pool of all ship coords
 	accumulatePlayerShipCoords(frigateCoords);
 
 	if (isCorrectNumberOfShips(ship, amount) === false) {
-		//after 'this' button has been clicked, sets the color to grey to visually indicate finished
+		// after 'this' button has been clicked, sets the color to grey to visually indicate finished
 		const frigateBttn: Button = document.querySelector('.bttn-frigate');
 		pipe(
 			addStyleToElem([
@@ -87,7 +90,7 @@ const handleFrigateCellClick = function (this: HTMLDivElement, ev: MouseEvent) {
 			])
 		)(frigateBttn);
 
-		//enables events on other shipButtons after both frigates have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+		// enables events on other shipButtons after both frigates have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
 		const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought');
 		if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true)
 			pipe(

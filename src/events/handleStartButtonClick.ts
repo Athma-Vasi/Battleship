@@ -1,11 +1,9 @@
 import { placeCompShipsOnBoard } from '../components/placeCompShipsOnBoard';
 import { randomizeAndStoreShipNames } from '../components/randomizeAndStoreShipNames';
 import { renderCompBoard } from '../components/renderCompBoard';
-import { compShipsPlacementChoicesArr } from '../data/compShipsPlacementChoicesArr';
 import { shipNames } from '../data/shipNames';
 import {
 	addEvtListener,
-	addStyleToElem,
 	addTextToElem,
 	appendElemToParent,
 	elemCreator,
@@ -17,28 +15,28 @@ import { Div, NodesDiv } from '../utilities/types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 
-const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent) {
-	//scroll to top of window
+const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent): void {
+	// scroll to top of window
 	window.scrollTo(0, 0);
 
-	//removes the previous info screen
+	// removes the previous info screen
 	const infoScreenContainer = document.querySelector('.infoScreen-container');
 	infoScreenContainer?.remove();
 
 	const preBattleInfoScreen = document.querySelector('.preBattle-infoScreen');
 	preBattleInfoScreen?.remove();
 
-	//removes the ship bttns wrapper
+	// removes the ship bttns wrapper
 	const shipBttnsWrapper = document.querySelector('.shipBttns-wrapper');
 	shipBttnsWrapper?.remove();
 
 	const bothBoardsContainer = document.querySelector('.bothBoards-container');
 	bothBoardsContainer?.remove();
 
-	//remove the start button
+	// remove the start button
 	this.remove();
 
-	//renders player and comp board and places the ships
+	// renders player and comp board and places the ships
 	renderPlayerBoard();
 	renderCompBoard();
 	// placeCompShipsOnBoard(compShipsPlacementChoicesArr);
@@ -51,7 +49,7 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 		localStorage.setItem('isGameRunning', JSON.stringify(true));
 	}
 
-	//adds evt listeners to comp game board cells
+	// adds evt listeners to comp game board cells
 	const compShipPresentCells: NodesDiv = document.querySelectorAll('.compShipPresent');
 	compShipPresentCells.forEach((cell) =>
 		addEvtListener('click')(handlePlayerClickOnCompShips)(cell)
@@ -63,7 +61,7 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 		addEvtListener('click')(handlePlayerClickOnCompMisses)(cell)
 	);
 
-	//renders a new info screen for the battle texts
+	// renders a new info screen for the battle texts
 	const main: HTMLElement | null = document.querySelector('.main');
 
 	pipe(appendElemToParent(main))(elemCreator('div')(['infoScreen-wrapper']));
@@ -79,7 +77,6 @@ const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent
 
 	pipe(
 		addTextToElem('Manticoran Tenth Fleet CIC'),
-		//
 		appendElemToParent(battleMessageWrapper)
 	)(elemCreator('h2')(['battleMessageTitleElem']));
 

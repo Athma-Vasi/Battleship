@@ -1,18 +1,18 @@
 import { addStyleToElem, pipe } from '../utilities/elementCreators';
 import { Div } from '../utilities/types';
 
-const handleFrigateMouseLeave = function (this: HTMLDivElement, ev: MouseEvent) {
-	//grabs the current cell co-ordinate
+const handleFrigateMouseLeave = function (this: HTMLDivElement, ev: MouseEvent): void {
+	// grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',');
 	const currentX = currentCell?.[0] ?? '';
 	const currentY = currentCell?.[1] ?? '';
 
-	//changes cell on hover
+	// changes cell on hover
 	const nextCell: Div = document.querySelector(
 		`[data-cellplayer="${currentX},${currentY}"]`
 	);
 
-	//avoids changing cells of ships already present
+	// avoids changing cells of ships already present
 	if (!nextCell?.classList.contains('playerShipPresent')) {
 		if (nextCell) nextCell.textContent = '';
 		pipe(

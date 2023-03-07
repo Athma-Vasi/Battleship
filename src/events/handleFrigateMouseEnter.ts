@@ -1,13 +1,13 @@
 import { addStyleToElem, addTextToElem, pipe } from '../utilities/elementCreators';
 import { Div } from '../utilities/types';
 
-const handleFrigateMouseEnter = function (this: HTMLDivElement, ev: MouseEvent) {
-	//grabs the current cell co-ordinate
+const handleFrigateMouseEnter = function (this: HTMLDivElement, ev: MouseEvent): void {
+	// grabs the current cell co-ordinate
 	const currentCell = this.dataset.cellplayer?.split(',');
 	const currentX = currentCell?.[0] ?? '';
 	const currentY = currentCell?.[1] ?? '';
 
-	//changes cell on hover
+	// changes cell on hover
 	const nextCell: Div = document.querySelector(
 		`[data-cellplayer="${currentX},${currentY}"]`
 	);

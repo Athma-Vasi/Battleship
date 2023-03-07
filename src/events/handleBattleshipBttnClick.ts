@@ -4,7 +4,7 @@ import {
 	pipe,
 	removeEvtListener,
 } from '../utilities/elementCreators';
-import { Button, Div, NodesDiv } from '../utilities/types';
+import { Button, NodesDiv } from '../utilities/types';
 import { handleBattleshipCellClick } from './handleBattleshipCellClick';
 import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter';
 import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave';
@@ -13,13 +13,16 @@ import { handleDestroyerBttnClick } from './handleDestroyerBttnClick';
 import { handleFrigateBttnClick } from './handleFrigateBttnClick';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
-const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEvent) {
+const handleBattleshipBttnClick = function (
+	this: HTMLButtonElement,
+	ev: MouseEvent
+): void {
 	const playerGameCells: NodesDiv = document.querySelectorAll('.player-gameCell');
 
-	//disables this button after clicking
+	// disables this button after clicking
 	this.disabled = true;
 
-	//visually indicates that 'this' button is selected
+	// visually indicates that 'this' button is selected
 	pipe(
 		addStyleToElem([
 			['border', '1px solid #f0a400'],
@@ -27,8 +30,8 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 		])
 	)(this);
 
-	//disables clicking on other shipButtons while selected
-	//prevents double selection
+	// disables clicking on other shipButtons while selected
+	// prevents double selection
 	const superdreadnoughtBttn: Button = document.querySelector('.bttn-superdreadnought');
 	if (superdreadnoughtBttn)
 		pipe(
@@ -73,7 +76,7 @@ const handleBattleshipBttnClick = function (this: HTMLButtonElement, ev: MouseEv
 			removeEvtListener('click')(handleFrigateBttnClick)
 		)(frigateBttn);
 
-	//assigns event listeners to each player game cell after clicking battleship button
+	// assigns event listeners to each player game cell after clicking battleship button
 	playerGameCells.forEach((player) =>
 		pipe(
 			addEvtListener('click')(handleBattleshipCellClick),

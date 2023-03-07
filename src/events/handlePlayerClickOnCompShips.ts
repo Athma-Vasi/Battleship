@@ -10,7 +10,10 @@ import { updateCompTacticalOverviewShips } from '../utilities/updateCompTactical
 import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTacticalOverviewCells';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
-const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEvent) {
+const handlePlayerClickOnCompShips = function (
+	this: HTMLDivElement,
+	ev: MouseEvent
+): void {
 	// initialize the hit counter on first hit
 	// when total hits reaches 18, game ends
 	if (!localStorage.getItem('totalHitsOnCompShips')) {
@@ -87,7 +90,7 @@ const handlePlayerClickOnCompShips = function (this: HTMLDivElement, ev: MouseEv
 
 	// updates hit counter only when new hit is not on a previously hit cell, and store
 	if (!compShipsHitCoords.includes(currentCellCoord)) {
-		//stores the unique hit co-ordinate
+		// stores the unique hit co-ordinate
 		compShipsHitCoords.push(currentCellCoord);
 		localStorage.setItem('compShipsHitCoords', JSON.stringify(compShipsHitCoords));
 

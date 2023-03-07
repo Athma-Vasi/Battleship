@@ -1,4 +1,4 @@
-const handleAxisToggleClick = function (this: HTMLButtonElement, ev: MouseEvent) {
+const handleAxisToggleClick = function (this: HTMLButtonElement, ev: MouseEvent): void {
 	const currentText = this.textContent;
 
 	if (currentText === 'Axis-X') {
