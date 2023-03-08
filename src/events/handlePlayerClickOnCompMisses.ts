@@ -68,6 +68,6 @@ const handlePlayerClickOnCompMisses = function (
 	});
 
 	//computers turn
-	setTimeout(computersTurn, 0);
+	setTimeout(computersTurn, 2000);
 };
 export { handlePlayerClickOnCompMisses };

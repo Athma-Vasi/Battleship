@@ -115,6 +115,6 @@ const handlePlayerClickOnCompShips = function (
 		pipe(removeEvtListener('click')(handlePlayerClickOnCompMisses))(cell);
 	});
 
-	setTimeout(computersTurn, 0);
+	setTimeout(computersTurn, 2000);
 };
 export { handlePlayerClickOnCompShips };
