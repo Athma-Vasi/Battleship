@@ -1358,6 +1358,7 @@ const placeCompShipsOnBoard = function() {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "populateCompShipsCoords", ()=>populateCompShipsCoords);
+var _returnRandomOrientation = require("./returnRandomOrientation");
 // returns an object with the computer's ships' randomly generated coordinates
 function populateCompShipsCoords() {
     // creates tuples[] of all possible coordinates
@@ -1401,24 +1402,24 @@ function populateCompShipsCoords() {
         let withinBounds = false;
         let isAnotherShipPresent = true;
         let shipCoordsArr = [];
-        // keeps generating random coordinates and direction until the ship fits within the board and doesn't overlap with another ship
+        // keeps generating random coordinates and orientation until the ship fits within the board and doesn't overlap with another ship
         while(!withinBounds || isAnotherShipPresent){
             shipCoordsArr = [];
             // returns a random coordinate
             const randCoord = function() {
                 let randIndex = Math.floor(Math.random() * allCoords.length);
-                const randCoordStr = allCoords[randIndex].join(",");
-                while(shipsPresentCoordsSet.has(randCoordStr))randIndex = Math.floor(Math.random() * allCoords.length);
+                let randCoordStr = allCoords[randIndex].join(",");
+                while(shipsPresentCoordsSet.has(randCoordStr)){
+                    randIndex = Math.floor(Math.random() * allCoords.length);
+                    randCoordStr = allCoords[randIndex].join(",");
+                }
                 return allCoords[randIndex];
             }();
-            // returns a random direction
-            const randDirection = function() {
-                const randIndex = Math.floor(Math.random() * 2);
-                return randIndex === 0 ? "horizontal" : "vertical";
-            }();
-            switch(randDirection){
+            // returns a random orientation
+            const randOrientation = (0, _returnRandomOrientation.returnRandomOrientation)();
+            switch(randOrientation){
                 case "horizontal":
-                    // generates the ship's coordinates of corresponding length based on the random coordinate and direction
+                    // generates the ship's coordinates of corresponding length based on the random coordinate and orientation
                     for(let i = 0; i < shipLength; i += 1)shipCoordsArr.push([
                         randCoord[0] + i,
                         randCoord[1]
@@ -1428,7 +1429,7 @@ function populateCompShipsCoords() {
                     // checks if the ship overlaps with another ship
                     isAnotherShipPresent = shipCoordsArr.some((coord)=>shipsPresentCoordsSet.has(coord.join(",")));
                     break;
-                // same as above but for vertical direction
+                // same as above but for vertical orientation
                 case "vertical":
                     for(let i1 = 0; i1 < shipLength; i1 += 1)shipCoordsArr.push([
                         randCoord[0],
@@ -1493,6 +1494,15 @@ function populateCompShipsCoords() {
         }
         return acc;
     }, new Map()));
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./returnRandomOrientation":"92wBj"}],"92wBj":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "returnRandomOrientation", ()=>returnRandomOrientation);
+function returnRandomOrientation() {
+    const randIndex = Math.floor(Math.random() * 2);
+    return randIndex === 0 ? "horizontal" : "vertical";
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"azqRB":[function(require,module,exports) {
@@ -2242,6 +2252,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderTacticalOverview", ()=>renderTacticalOverview);
 var _elementCreators = require("./elementCreators");
 var _returnPlayerCompShipsCoords = require("./returnPlayerCompShipsCoords");
+var _shuffleArray = require("./shuffleArray");
 function renderTacticalOverview() {
     const gamePlayerBoardWrapper = document.querySelector(".gamePlayerBoard-wrapper");
     const compBoardWrapper = document.querySelector(".compBoard-wrapper");
@@ -2269,13 +2280,13 @@ function renderTacticalOverview() {
         "tacticalOverview-title"
     ]);
     (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Havenite Navy Grendelsbane Fleet"), (0, _elementCreators.appendElemToParent)(tacticalOverviewContainerComp))(tacticalOverviewTitleComp);
-    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? JSON.stringify([
+    const manticoreShipNamesCoords = JSON.parse(localStorage.getItem("manticoreShipNames") ?? JSON.stringify([
         {}
     ]));
     // grab the ship coords from the board to use them in the tac overview cells to update hits
     const { playerShipCoords  } = (0, _returnPlayerCompShipsCoords.returnPlayerCompShipsCoords)();
     // loop through the player ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
-    Object.entries(manticoreShipNames).forEach(([shipType, shipName])=>{
+    Object.entries(manticoreShipNamesCoords).forEach(([shipType, shipName])=>{
         //handle superdreadnought, carrier, battleship first
         if (!Array.isArray(shipName)) {
             const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
@@ -2334,11 +2345,14 @@ function renderTacticalOverview() {
             }
         }
     });
-    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? JSON.stringify([
+    const havenShipNamesCoords = JSON.parse(localStorage.getItem("havenShipNames") ?? JSON.stringify([
         {}
     ]));
+    const havenShipTypeNamesArr = Object.entries(havenShipNamesCoords);
+    // shuffle array
+    const shuffledHavenShipTypeNamesCoordsArr = (0, _shuffleArray.shuffleArray)(havenShipTypeNamesArr);
     // loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
-    Object.entries(havenShipNames).forEach(([shipType, shipName])=>{
+    shuffledHavenShipTypeNamesCoordsArr.forEach(([shipType, shipName])=>{
         // handle superdreadnought, carrier, battleship first
         if (!Array.isArray(shipName)) {
             const shipNameContainer = (0, _elementCreators.elemCreator)("div")([
@@ -2425,7 +2439,7 @@ function renderTacticalOverview() {
     });
 }
 
-},{"./elementCreators":"H4ivl","./returnPlayerCompShipsCoords":"j1hhz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"j1hhz":[function(require,module,exports) {
+},{"./elementCreators":"H4ivl","./returnPlayerCompShipsCoords":"j1hhz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./shuffleArray":"jjbpU"}],"j1hhz":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "returnPlayerCompShipsCoords", ()=>returnPlayerCompShipsCoords);
@@ -2550,6 +2564,28 @@ function returnPlayerCompShipsCoords() {
             frigates: compFrigatesCoords
         }
     };
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jjbpU":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "shuffleArray", ()=>shuffleArray);
+/**
+ * Clones an array using structured clone algorithm
+ * then shuffles the cloned array using the Durstenfeld shuffle algorithm (Fisher-Yates shuffle)
+ * see https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+ * @param array of generic type T
+ * @returns new array of generic type T
+ */ function shuffleArray(array) {
+    const shuffledArray = structuredClone(array);
+    for(let i = shuffledArray.length - 1; i > 0; i -= 1){
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [
+            shuffledArray[j],
+            shuffledArray[i]
+        ];
+    }
+    return shuffledArray;
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2HlWb":[function(require,module,exports) {
@@ -3392,6 +3428,7 @@ parcelHelpers.export(exports, "updateCompTacticalOverviewShips", ()=>updateCompT
 var _beforeAfterShipCellsFiredUponStatus = require("./beforeAfterShipCellsFiredUponStatus");
 var _elementCreators = require("./elementCreators");
 function updateCompTacticalOverviewShips() {
+    // grab all coords of comp ships
     const superdreadnoughtCoords = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? JSON.stringify([]));
     const superdreadnoughtCoordsArray = Object.values(superdreadnoughtCoords);
     const battleshipCoords = JSON.parse(localStorage.getItem("compBattleship") ?? JSON.stringify([]));
@@ -3509,7 +3546,7 @@ function updateCompTacticalOverviewShips() {
     });
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./elementCreators":"H4ivl","./beforeAfterShipCellsFiredUponStatus":"4Fmie"}],"4Fmie":[function(require,module,exports) {
+},{"./beforeAfterShipCellsFiredUponStatus":"4Fmie","./elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Fmie":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "beforeAfterShipCellsFiredUponStatus", ()=>beforeAfterShipCellsFiredUponStatus);
@@ -3595,12 +3632,13 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord);
 var _genRandCompAttackGuess = require("../components/genRandCompAttackGuess");
-var _generateAdjacentCoordArr = require("./generateAdjacentCoordArr");
+var _generateFiringSolution = require("./generateFiringSolution");
 function generateProbabilisticFiringCoord() {
     const prevCompHitOrMiss = localStorage.getItem("prevCompHitOrMiss");
-    const prevCompFireOnPlayerCoord = prevCompHitOrMiss === "hit" ? localStorage.getItem("prevCompHitOnPlayerCoord") ?? "" : localStorage.getItem("prevCompMissOnPlayerCoord") ?? "";
     const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? "[]");
+    const compHitOnPlayerCoordsSet = new Set(compHitOnPlayerCoordsArr);
     const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? "[]");
+    const compMissOnPlayerCoordsSet = new Set(compMissOnPlayerCoordsArr);
     const prevCompFiringCoords = [
         compHitOnPlayerCoordsArr,
         compMissOnPlayerCoordsArr, 
@@ -3608,17 +3646,19 @@ function generateProbabilisticFiringCoord() {
     let newFiringCoordinate = "";
     // only runs on first computer turn as prevCompHitOrMiss is undefined
     if (!prevCompHitOrMiss) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
+    else // if there havent been any hits yet, generate a random guess
+    if (compHitOnPlayerCoordsArr.length === 0) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
     else {
-        // if the previous guess was a hit, generate adjacent coords of all previous hits
-        const adjacentCoords = (0, _generateAdjacentCoordArr.generateAdjacentCoordArr)(prevCompFireOnPlayerCoord, compHitOnPlayerCoordsArr, compMissOnPlayerCoordsArr);
-        // if all adjacent coords of prev hits have been hit, generate a random guess
-        // else generate a random adjacent coord from the prev hits
-        newFiringCoordinate = adjacentCoords.length === 0 ? (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords) : adjacentCoords[Math.floor(Math.random() * adjacentCoords.length)];
+        newFiringCoordinate = (0, _generateFiringSolution.generateFiringSolution)({
+            compHitOnPlayerCoordsSet,
+            compMissOnPlayerCoordsSet
+        });
+        newFiringCoordinate = newFiringCoordinate === "" ? (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords) : newFiringCoordinate;
     }
     return newFiringCoordinate;
 }
 
-},{"../components/genRandCompAttackGuess":"cOUsP","./generateAdjacentCoordArr":"5lblu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cOUsP":[function(require,module,exports) {
+},{"../components/genRandCompAttackGuess":"cOUsP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./generateFiringSolution":"dec9r"}],"cOUsP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess);
@@ -3635,33 +3675,67 @@ const genRandCompAttackGuess = function(prevCompFiringCoords) {
     return compAttackGuess;
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5lblu":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dec9r":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateAdjacentCoordArr", ()=>generateAdjacentCoordArr);
-function generateAdjacentCoordArr(prevCompFireOnPlayerCoord, compHitOnPlayerCoordsArr, compMissOnPlayerCoordsArr) {
-    const prevCompHitOnPlayerCoords = prevCompFireOnPlayerCoord.split(",");
-    const xCoord1 = parseInt(prevCompHitOnPlayerCoords[0].replace('"', ""));
-    const yCoord1 = parseInt(prevCompHitOnPlayerCoords[1].replace('"', ""));
-    // generate adjacent coords
+parcelHelpers.export(exports, "generateFiringSolution", ()=>generateFiringSolution);
+var _generateAdjacentCoordsArr = require("./generateAdjacentCoordsArr");
+function generateFiringSolution({ compHitOnPlayerCoordsSet , compMissOnPlayerCoordsSet  }) {
+    // generate a cloud of all adjacent coords of all previous hits
+    // each of these adjacent coords that have not been previously fired upon will be used to generate ranked tuples
+    const uniqueAdjacentCoords = Array.from(compHitOnPlayerCoordsSet).flatMap((coord)=>(0, _generateAdjacentCoordsArr.generateAdjacentCoordsArr)(coord)).filter((coord)=>!compMissOnPlayerCoordsSet.has(coord) && !compHitOnPlayerCoordsSet.has(coord));
+    // if there are no unique adjacent coords, meaning all surrounding coords
+    // have been hit, return an empty string so that the caller can call the
+    // random coord guess function
+    if (uniqueAdjacentCoords.length === 0) return "";
+    // create ranked tuples of the adjacent coords
+    const adjCoordsRankedTuples = uniqueAdjacentCoords.reduce((rankedTuples, uniqueAdjCoord)=>{
+        // for each of the unique adjacent coords, we generate another cloud of
+        // adjacent coords but this time with a radius of 2 and we count the
+        // number of times these new coords intersect with previous hits
+        // this approach favours coords that are on the same axes as prev hits
+        // and can more reliably hit the adjacent coord in the same axis rather
+        // than hunting in another axis
+        const newAdjCoords = (0, _generateAdjacentCoordsArr.generateAdjacentCoordsArr)(uniqueAdjCoord, 2);
+        const coordScore = newAdjCoords.reduce((score, newAdjCoord)=>{
+            if (compHitOnPlayerCoordsSet.has(newAdjCoord)) score += 1;
+            return score;
+        }, 0);
+        rankedTuples.push([
+            uniqueAdjCoord,
+            coordScore
+        ]);
+        return rankedTuples;
+    }, []);
+    const sortedAdjCoordsRankedTuples = adjCoordsRankedTuples.sort((a, b)=>b[1] - a[1]);
+    return sortedAdjCoordsRankedTuples[0][0];
+}
+
+},{"./generateAdjacentCoordsArr":"f0uBi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"f0uBi":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "generateAdjacentCoordsArr", ()=>generateAdjacentCoordsArr);
+function generateAdjacentCoordsArr(coord, length = 1) {
+    const xyCoords = coord.split(",");
+    const xCoord = parseInt(xyCoords[0].replace('"', ""));
+    const yCoord = parseInt(xyCoords[1].replace('"', ""));
+    // generate adjacent coords of specified length based on coord location
     const adjacentCoords = [];
-    // loop through each of the previous hits and generate adjacent coords
-    compHitOnPlayerCoordsArr.forEach((coord)=>{
-        const xyCoords = coord.split(",");
-        const xCoord = parseInt(xyCoords[0].replace('"', ""));
-        const yCoord = parseInt(xyCoords[1].replace('"', ""));
-        //top
-        if (yCoord - 1 >= 0) adjacentCoords.push(`${xCoord},${yCoord - 1}`);
-        //right
-        if (xCoord + 1 <= 9) adjacentCoords.push(`${xCoord + 1},${yCoord}`);
-        //bottom
-        if (yCoord + 1 <= 9) adjacentCoords.push(`${xCoord},${yCoord + 1}`);
-        //left
-        if (xCoord - 1 >= 0) adjacentCoords.push(`${xCoord - 1},${yCoord}`);
-    });
-    //filter the coords that have already been hit or missed
-    const uniqueAdjacentCoords = adjacentCoords.filter((coord)=>!compHitOnPlayerCoordsArr.includes(coord) && !compMissOnPlayerCoordsArr.includes(coord));
-    return uniqueAdjacentCoords;
+    for(let i = 1; i <= length; i += 1){
+        // top
+        const topCoord = `${xCoord},${yCoord - i}`;
+        if (yCoord - i >= 0) adjacentCoords.push(topCoord);
+        // right
+        const rightCoord = `${xCoord + i},${yCoord}`;
+        if (xCoord + i <= 9) adjacentCoords.push(rightCoord);
+        // bottom
+        const bottomCoord = `${xCoord},${yCoord + i}`;
+        if (yCoord + i <= 9) adjacentCoords.push(bottomCoord);
+        // left
+        const leftCoord = `${xCoord - i},${yCoord}`;
+        if (xCoord - i >= 0) adjacentCoords.push(leftCoord);
+    }
+    return adjacentCoords;
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6ZQM8":[function(require,module,exports) {

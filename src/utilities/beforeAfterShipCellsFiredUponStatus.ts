@@ -1,5 +1,5 @@
 type BeforeAfterShipCellsFiredUponStatusProps = {
-	shipType: 'Superdreadnought' | 'Carrier' | 'Battleship' | 'Destroyers' | 'Frigates';
+	shipType?: 'Superdreadnought' | 'Carrier' | 'Battleship' | 'Destroyers' | 'Frigates';
 	coordsArr: string[];
 	compShipsHitCoordsSet: Set<string>;
 	compShipsMissesCoordsSet: Set<string>;

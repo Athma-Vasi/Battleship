@@ -7,6 +7,7 @@ import {
 	pipe,
 } from './elementCreators';
 import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
+import { shuffleArray } from './shuffleArray';
 import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from './types';
 
 function renderTacticalOverview(): void {
@@ -42,7 +43,7 @@ function renderTacticalOverview(): void {
 		appendElemToParent(tacticalOverviewContainerComp)
 	)(tacticalOverviewTitleComp);
 
-	const manticoreShipNames: RandomizedManticoreShipNames = JSON.parse(
+	const manticoreShipNamesCoords: RandomizedManticoreShipNames = JSON.parse(
 		localStorage.getItem('manticoreShipNames') ?? JSON.stringify([{}])
 	);
 
@@ -50,7 +51,7 @@ function renderTacticalOverview(): void {
 	const { playerShipCoords } = returnPlayerCompShipsCoords();
 
 	// loop through the player ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
-	Object.entries(manticoreShipNames).forEach(
+	Object.entries(manticoreShipNamesCoords).forEach(
 		([shipType, shipName]: [string, string | string[]]) => {
 			//handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
@@ -121,12 +122,17 @@ function renderTacticalOverview(): void {
 		}
 	);
 
-	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
+	const havenShipNamesCoords: RandomizedHavenShipNames = JSON.parse(
 		localStorage.getItem('havenShipNames') ?? JSON.stringify([{}])
 	);
 
+	const havenShipTypeNamesArr: [string, string | string[]][] =
+		Object.entries(havenShipNamesCoords);
+	// shuffle array
+	const shuffledHavenShipTypeNamesCoordsArr = shuffleArray(havenShipTypeNamesArr);
+
 	// loop through the comp ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
-	Object.entries(havenShipNames).forEach(
+	shuffledHavenShipTypeNamesCoordsArr.forEach(
 		([shipType, shipName]: [string, string | string[]]) => {
 			// handle superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {

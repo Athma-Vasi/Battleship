@@ -18,6 +18,7 @@ import {
 } from './types';
 
 function updateCompTacticalOverviewShips(): void {
+	// grab all coords of comp ships
 	const superdreadnoughtCoords: Superdreadnought = JSON.parse(
 		localStorage.getItem('compSuperdreadnought') ?? JSON.stringify([])
 	);
@@ -114,59 +115,61 @@ function updateCompTacticalOverviewShips(): void {
 		}
 	});
 
-	const shipTypesCoordsArrArr: [SmallShips, string[][]][] = [
+	const shipTypesCoordsArrArr: [SmallShips, Array<string[]>][] = [
 		['Destroyers', destroyerCoordsArray],
 		['Frigates', frigateCoordsArray],
 	];
 
-	shipTypesCoordsArrArr.forEach(([shipType, coordsArrArr]: [SmallShips, string[][]]) => {
-		coordsArrArr.forEach((coordsArr: string[], idx: number) => {
-			const isEveryShipCoordHit = coordsArr.reduce((acc, coord) => {
-				if (!compShipsHitCoordsSet.has(coord)) acc = false;
+	shipTypesCoordsArrArr.forEach(
+		([shipType, coordsArrArr]: [SmallShips, Array<string[]>]) => {
+			coordsArrArr.forEach((coordsArr: string[], idx: number) => {
+				const isEveryShipCoordHit = coordsArr.reduce((acc, coord) => {
+					if (!compShipsHitCoordsSet.has(coord)) acc = false;
 
-				return acc;
-			}, true);
+					return acc;
+				}, true);
 
-			// if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
-			if (isEveryShipCoordHit) {
-				// sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
-				const { isBeforeShipCellFiredUpon, isAfterShipCellFiredUpon } =
-					beforeAfterShipCellsFiredUponStatus({
-						shipType,
-						coordsArr,
-						compShipsHitCoordsSet,
-						compShipsMissesCoordsSet,
-					});
+				// if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
+				if (isEveryShipCoordHit) {
+					// sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
+					const { isBeforeShipCellFiredUpon, isAfterShipCellFiredUpon } =
+						beforeAfterShipCellsFiredUponStatus({
+							shipType,
+							coordsArr,
+							compShipsHitCoordsSet,
+							compShipsMissesCoordsSet,
+						});
 
-				// if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
-				if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
-					// grab the tac overview comp '?' cell and remove it
-					const questionMarkCell: Para = document.querySelector(
-						`[data-compshipquestion="${shipType}_${idx}"]`
-					);
-
-					if (questionMarkCell) questionMarkCell.remove();
-
-					// display sunk ship with '💥' emoji
-					for (let i = 0; i < coordsArr.length; i += 1) {
-						const hiddenCell: Div = document.querySelector(
-							`[data-compshipcell="${shipType}_${idx}_${i}"]`
+					// if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
+					if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
+						// grab the tac overview comp '?' cell and remove it
+						const questionMarkCell: Para = document.querySelector(
+							`[data-compshipquestion="${shipType}_${idx}"]`
 						);
-						if (hiddenCell && hiddenCell.style.display === 'none') {
-							pipe(
-								removeStyleFromElem('display'),
-								addStyleToElem([
-									['display', 'visible'],
-									['color', '#f0a400'],
-								]),
-								addTextToElem('💥')
-							)(hiddenCell);
+
+						if (questionMarkCell) questionMarkCell.remove();
+
+						// display sunk ship with '💥' emoji
+						for (let i = 0; i < coordsArr.length; i += 1) {
+							const hiddenCell: Div = document.querySelector(
+								`[data-compshipcell="${shipType}_${idx}_${i}"]`
+							);
+							if (hiddenCell && hiddenCell.style.display === 'none') {
+								pipe(
+									removeStyleFromElem('display'),
+									addStyleToElem([
+										['display', 'visible'],
+										['color', '#f0a400'],
+									]),
+									addTextToElem('💥')
+								)(hiddenCell);
+							}
 						}
 					}
 				}
-			}
-		});
-	});
+			});
+		}
+	);
 }
 
 export { updateCompTacticalOverviewShips };

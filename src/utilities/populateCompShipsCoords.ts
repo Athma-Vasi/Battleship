@@ -1,3 +1,4 @@
+import { returnRandomOrientation } from './returnRandomOrientation';
 import { CompShipsPlacementChoice } from './types';
 
 // returns an object with the computer's ships' randomly generated coordinates
@@ -32,30 +33,28 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 				let isAnotherShipPresent = true;
 				let shipCoordsArr: [number, number][] = [];
 
-				// keeps generating random coordinates and direction until the ship fits within the board and doesn't overlap with another ship
+				// keeps generating random coordinates and orientation until the ship fits within the board and doesn't overlap with another ship
 				while (!withinBounds || isAnotherShipPresent) {
 					shipCoordsArr = [];
 
 					// returns a random coordinate
 					const randCoord = (function () {
 						let randIndex = Math.floor(Math.random() * allCoords.length);
-						const randCoordStr = allCoords[randIndex].join(',');
+						let randCoordStr = allCoords[randIndex].join(',');
 
 						while (shipsPresentCoordsSet.has(randCoordStr)) {
 							randIndex = Math.floor(Math.random() * allCoords.length);
+							randCoordStr = allCoords[randIndex].join(',');
 						}
 						return allCoords[randIndex];
 					})();
 
-					// returns a random direction
-					const randDirection = (function () {
-						const randIndex = Math.floor(Math.random() * 2);
-						return randIndex === 0 ? 'horizontal' : 'vertical';
-					})();
+					// returns a random orientation
+					const randOrientation = returnRandomOrientation();
 
-					switch (randDirection) {
+					switch (randOrientation) {
 						case 'horizontal': {
-							// generates the ship's coordinates of corresponding length based on the random coordinate and direction
+							// generates the ship's coordinates of corresponding length based on the random coordinate and orientation
 							for (let i = 0; i < shipLength; i += 1) {
 								shipCoordsArr.push([randCoord[0] + i, randCoord[1]]);
 							}
@@ -70,7 +69,7 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 
 							break;
 						}
-						// same as above but for vertical direction
+						// same as above but for vertical orientation
 						case 'vertical': {
 							for (let i = 0; i < shipLength; i += 1) {
 								shipCoordsArr.push([randCoord[0], randCoord[1] + i]);
@@ -92,7 +91,9 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 				}
 
 				// adds the ship's coords to the shipsPresentCoords
-				shipCoordsArr.forEach((coord) => shipsPresentCoordsSet.add(coord.join(',')));
+				shipCoordsArr.forEach((coord: [number, number]) =>
+					shipsPresentCoordsSet.add(coord.join(','))
+				);
 				console.log(
 					'shipsPresentCoords from populateCompShipsCoords()',
 					shipsPresentCoordsSet

@@ -33,7 +33,7 @@ async function typewriterEffect({
 async function asyncForEach<T>(
 	arr: T[],
 	callback: (val: T, index: number, array: T[]) => Promise<void>
-) {
+): Promise<void> {
 	for (const [index, val] of arr.entries()) {
 		await callback(val, index, arr);
 	}
