@@ -1,6 +1,3 @@
-import { placeCompShipsOnBoard } from '../components/placeCompShipsOnBoard';
-import { randomizeAndStoreShipNames } from '../components/randomizeAndStoreShipNames';
-import { renderCompBoard } from '../components/renderCompBoard';
 import { shipNames } from '../data/shipNames';
 import {
 	addEvtListener,
@@ -8,10 +5,13 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators';
-import { renderPlayerBoard } from '../utilities/renderPlayerBoard';
-import { renderTacticalOverview } from '../utilities/renderTacticalOverview';
-import { Div, NodesDiv } from '../utilities/types';
+} from '../functions/elementCreators';
+import { placeCompShipsOnBoard } from '../functions/placeCompShipsOnBoard';
+import { randomizeAndStoreShipNames } from '../functions/randomizeAndStoreShipNames';
+import { renderCompBoard } from '../functions/renderCompBoard';
+import { renderPlayerBoard } from '../functions/renderPlayerBoard';
+import { renderTacticalOverview } from '../functions/renderTacticalOverview';
+import { Div, NodesDiv } from '../functions/types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 

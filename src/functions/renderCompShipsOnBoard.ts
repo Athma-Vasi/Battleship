@@ -3,8 +3,8 @@ import {
 	addStyleToElem,
 	addTextToElem,
 	pipe,
-} from '../utilities/elementCreators';
-import { CompShipsPlacementChoice, Div, NodesDiv } from '../utilities/types';
+} from '../functions/elementCreators';
+import { CompShipsPlacementChoice, Div, NodesDiv } from '../functions/types';
 
 const renderCompShipsOnBoard = function (
 	compShipsPlacementChoice_: CompShipsPlacementChoice

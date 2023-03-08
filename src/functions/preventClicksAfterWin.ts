@@ -1,7 +1,7 @@
 import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips';
-import { pipe, removeEvtListener } from '../utilities/elementCreators';
-import { NodesDiv } from '../utilities/types';
+import { pipe, removeEvtListener } from '../functions/elementCreators';
+import { NodesDiv } from '../functions/types';
 
 const preventClicksAfterWin = function (): void {
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent');

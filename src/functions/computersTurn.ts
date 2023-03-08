@@ -1,8 +1,8 @@
 import { handlePlayerClickOnCompMisses } from '../events/handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompShips';
-import { addEvtListener, pipe } from '../utilities/elementCreators';
-import { generateProbabilisticFiringCoord } from '../utilities/generateProbabilisticFiringCoord';
-import { NodesDiv } from '../utilities/types';
+import { addEvtListener, pipe } from '../functions/elementCreators';
+import { generateProbabilisticFiringCoord } from '../functions/generateProbabilisticFiringCoord';
+import { NodesDiv } from '../functions/types';
 import { announceGameWinner } from './announceGameWinner';
 import { computerAttacks } from './computerAttacks';
 

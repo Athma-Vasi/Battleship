@@ -1,8 +1,8 @@
-import { computersTurn } from '../components/computersTurn';
-import { renderBattleMessageElem } from '../components/renderBattleMessage';
-import { addStyleToElem, pipe, removeEvtListener } from '../utilities/elementCreators';
-import { Div, NodesDiv } from '../utilities/types';
-import { updateCompTacticalOverviewShips } from '../utilities/updateCompTacticalOverviewShips';
+import { computersTurn } from '../functions/computersTurn';
+import { addStyleToElem, pipe, removeEvtListener } from '../functions/elementCreators';
+import { renderBattleMessageElem } from '../functions/renderBattleMessage';
+import { Div, NodesDiv } from '../functions/types';
+import { updateCompTacticalOverviewShips } from '../functions/updateCompTacticalOverviewShips';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 
 const handlePlayerClickOnCompMisses = function (

@@ -1,4 +1,4 @@
-import { ShipNamesPool } from '../utilities/types';
+import { ShipNamesPool } from '../functions/types';
 
 const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool): void {
 	// used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered

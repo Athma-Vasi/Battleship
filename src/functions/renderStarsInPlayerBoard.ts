@@ -1,5 +1,5 @@
-import { addAttributeToElem, addTextToElem, pipe } from '../utilities/elementCreators';
-import { NodesDiv } from '../utilities/types';
+import { addAttributeToElem, addTextToElem, pipe } from '../functions/elementCreators';
+import { NodesDiv } from '../functions/types';
 
 const renderStarsInPlayerBoard = function (): void {
 	const playerGameCell: NodesDiv = document.querySelectorAll('.player-gameCell');

@@ -8,7 +8,7 @@ type GenerateFiringSolutionProps = {
 function generateFiringSolution({
 	compHitOnPlayerCoordsSet,
 	compMissOnPlayerCoordsSet,
-}: GenerateFiringSolutionProps) {
+}: GenerateFiringSolutionProps): string {
 	// generate a cloud of all adjacent coords of all previous hits
 	// each of these adjacent coords that have not been previously fired upon will be used to generate ranked tuples
 	const uniqueAdjacentCoords: string[] = Array.from(compHitOnPlayerCoordsSet)

@@ -1,4 +1,4 @@
-import { renderShipSelectionPage } from '../components/renderShipSelectionPage';
+import { renderShipSelectionPage } from '../functions/renderShipSelectionPage';
 
 const receiveFormName = function (this: HTMLFormElement, ev: SubmitEvent): void {
 	ev.preventDefault();

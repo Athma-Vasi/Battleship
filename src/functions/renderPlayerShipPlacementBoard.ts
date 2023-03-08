@@ -3,7 +3,7 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators';
+} from '../functions/elementCreators';
 
 const renderPlayerShipPlacementBoard = function (): void {
 	const main: HTMLElement | null = document.querySelector('.main');

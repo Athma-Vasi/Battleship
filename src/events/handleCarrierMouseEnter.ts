@@ -1,5 +1,5 @@
-import { addStyleToElem, addTextToElem, pipe } from '../utilities/elementCreators';
-import { Div } from '../utilities/types';
+import { addStyleToElem, addTextToElem, pipe } from '../functions/elementCreators';
+import { Div } from '../functions/types';
 
 const handleCarrierMouseEnter = function (this: HTMLDivElement, ev: MouseEvent): void {
 	// grabs the current state of the axis button

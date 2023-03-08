@@ -1,4 +1,4 @@
-import { populateCompShipsCoords } from '../utilities/populateCompShipsCoords';
+import { populateCompShipsCoords } from '../functions/populateCompShipsCoords';
 import { renderCompShipsOnBoard } from './renderCompShipsOnBoard';
 
 const placeCompShipsOnBoard = function (): void {

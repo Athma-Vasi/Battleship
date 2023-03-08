@@ -6,8 +6,8 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators';
-import { Button, Div } from '../utilities/types';
+} from '../functions/elementCreators';
+import { Button, Div } from '../functions/types';
 
 const renderStartButton = function (): void {
 	// removes the ship selection buttons

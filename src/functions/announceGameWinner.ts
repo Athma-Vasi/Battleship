@@ -5,8 +5,8 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators';
-import { Div } from '../utilities/types';
+} from '../functions/elementCreators';
+import { Div } from '../functions/types';
 import { preventClicksAfterWin } from './preventClicksAfterWin';
 import { restartGame } from './restartGame';
 

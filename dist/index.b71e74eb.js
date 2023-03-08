@@ -503,109 +503,54 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"h7u1C":[function(require,module,exports) {
-var _addEvtListenerToForm = require("./components/addEvtListenerToForm");
 var _greetingsText = require("./data/greetingsText");
-var _createTypewriterEffect = require("./utilities/createTypewriterEffect");
+var _addEvtListenerToForm = require("./functions/addEvtListenerToForm");
+var _createTypewriterEffect = require("./functions/createTypewriterEffect");
 const mainApp = async function() {
     (0, _addEvtListenerToForm.addEvtListenerToForm)();
     const greetingsContainer = document.querySelector(".greetings-container");
     (0, _createTypewriterEffect.createTypewriterEffect)({
         containerElem: greetingsContainer,
         strings: (0, _greetingsText.greetingsText),
-        speed: 10
+        speed: 25
     });
     //clears storage upon refresh
     localStorage.clear();
 };
 document.addEventListener("DOMContentLoaded", mainApp);
 
-},{"./components/addEvtListenerToForm":"lOujp","./data/greetingsText":"5lrmx","./utilities/createTypewriterEffect":"59lY5"}],"lOujp":[function(require,module,exports) {
+},{"./data/greetingsText":"5lrmx","./functions/createTypewriterEffect":"9yJB4","./functions/addEvtListenerToForm":"c3S9g"}],"5lrmx":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "addEvtListenerToForm", ()=>addEvtListenerToForm);
-var _receiveFormName = require("../events/receiveFormName");
-const addEvtListenerToForm = function() {
-    const formName = document.querySelector("#form-name");
-    formName?.addEventListener("submit", (0, _receiveFormName.receiveFormName));
-};
-
-},{"../events/receiveFormName":"2gRSB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2gRSB":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "receiveFormName", ()=>receiveFormName);
-var _renderShipSelectionPage = require("../components/renderShipSelectionPage");
-const receiveFormName = function(ev) {
-    ev.preventDefault();
-    const formData = new FormData(this);
-    const playerName = formData.get("form-name-input")?.toString() ?? "";
-    // stores playerName to use for battle texts
-    if (!localStorage.getItem("playerName")) localStorage.setItem("playerName", JSON.stringify(playerName));
-    (0, _renderShipSelectionPage.renderShipSelectionPage)(playerName);
-};
-
-},{"../components/renderShipSelectionPage":"eHKos","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eHKos":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderShipSelectionPage", ()=>renderShipSelectionPage);
-var _renderPlayerInfoScreen = require("./renderPlayerInfoScreen");
-var _renderPlayerShipPlacementBoard = require("./renderPlayerShipPlacementBoard");
-var _renderShipSelectionBttns = require("./renderShipSelectionBttns");
-const renderShipSelectionPage = function(playerName_) {
-    const playerName = playerName_;
-    // removes main page content
-    const headerLinks = document.querySelector(".header__links");
-    headerLinks?.remove();
-    const greetingsContainer = document.querySelector(".greetings-container");
-    greetingsContainer?.remove();
-    const formContainer = document.querySelector("#form-name");
-    formContainer?.remove();
-    // renders pre-battle speech and ship placement functionality
-    (0, _renderPlayerInfoScreen.renderPlayerInfoScreen)(playerName);
-    (0, _renderShipSelectionBttns.renderShipSelectionBttns)();
-    (0, _renderPlayerShipPlacementBoard.renderPlayerShipPlacementBoard)();
-};
-
-},{"./renderPlayerInfoScreen":"3f75x","./renderPlayerShipPlacementBoard":"3sYtv","./renderShipSelectionBttns":"cYI77","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3f75x":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderPlayerInfoScreen", ()=>renderPlayerInfoScreen);
-var _preBattleTexts = require("../data/preBattleTexts");
-var _createTypewriterEffect = require("../utilities/createTypewriterEffect");
-var _elementCreators = require("../utilities/elementCreators");
-const renderPlayerInfoScreen = function(playerName_) {
-    // scroll to top of page
-    window.scrollTo(0, 0);
-    const main = document.querySelector(".main");
-    const infoScreenContainer = (0, _elementCreators.elemCreator)("div")([
-        "infoScreen-container"
-    ]);
-    (0, _elementCreators.appendElemToParent)(main)(infoScreenContainer);
-    (0, _preBattleTexts.preBattleTexts).push(`Ready fleet formation, Admiral ${playerName_}.`);
-    (0, _createTypewriterEffect.createTypewriterEffect)({
-        containerElem: infoScreenContainer,
-        strings: (0, _preBattleTexts.preBattleTexts),
-        speed: 25
-    });
-};
-
-},{"../data/preBattleTexts":"5HSa8","../utilities/createTypewriterEffect":"59lY5","../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5HSa8":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "preBattleTexts", ()=>preBattleTexts);
-const preBattleTexts = [
-    `By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal sailors: `,
+parcelHelpers.export(exports, "greetingsText", ()=>greetingsText);
+const greetingsText = [
+    `In a time of crisis, the Star Kingdom of Manticore faces a grave threat from
+  the treacherous People's Republic of Haven. Their aggression and lust for
+  power has forced us into a war we did not seek. However, as loyal subjects of
+  Her Majesty Queen Elizabeth III, it is our duty to defend our homeland and
+  protect our people from harm!`,
     //
-    `You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`,
+    `The enemy seeks to destroy our way of life, but we will not falter! Our brave
+  sailors and soldiers stand ready to defend the Kingdom with honor and courage.
+  We will not rest until the threat of Haven is neutralized, and our people can
+  live in peace and prosperity once again.`,
     //
-    `Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`,
+    `People's Republic of Haven has assembled a formidable fleet near the Talbott
+  Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to
+  launch an invasion of the Rembrandt Trade Union.`,
     //
-    `Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the sailors of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`,
+    `The brave people of Rembrandt
+  have reached out to us for assistance in the face of this imminent threat,
+  pledging their loyalty to the Kingdom upon the successful repulsion of the
+  Haven forces.`,
     //
-    `Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`,
+    `As staunch defenders of peace and justice, we cannot turn a
+  blind eye to their plight and will stand by our allies in their hour of need.
+  Our fleet has been mobilized and will soon join the battle to ensure the
+  safety and sovereignty of the Rembrandt Trade Union.`,
     //
-    `I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`,
-    //
-    `We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`, 
+    `You have been called upon to engage and defeat the Haven Fleet and secure
+  peace and prosperity for the Star Kingdom and its allies!`, 
 ];
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
@@ -638,7 +583,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"59lY5":[function(require,module,exports) {
+},{}],"9yJB4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createTypewriterEffect", ()=>createTypewriterEffect);
@@ -691,7 +636,7 @@ async function createTypewriterEffect({ containerElem , strings , speed =50  }) 
     });
 }
 
-},{"./elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"H4ivl":[function(require,module,exports) {
+},{"./elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aeBTs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "elemCreator", ()=>elemCreator);
@@ -759,11 +704,100 @@ const removeEvtListener = (evt)=>(handleEvt)=>(elem)=>{
         };
 const pipe = (...funcs)=>(value)=>funcs.reduce((res, func)=>func(res), value);
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3sYtv":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c3S9g":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "addEvtListenerToForm", ()=>addEvtListenerToForm);
+var _receiveFormName = require("../events/receiveFormName");
+const addEvtListenerToForm = function() {
+    const formName = document.querySelector("#form-name");
+    formName?.addEventListener("submit", (0, _receiveFormName.receiveFormName));
+};
+
+},{"../events/receiveFormName":"2gRSB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2gRSB":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "receiveFormName", ()=>receiveFormName);
+var _renderShipSelectionPage = require("../functions/renderShipSelectionPage");
+const receiveFormName = function(ev) {
+    ev.preventDefault();
+    const formData = new FormData(this);
+    const playerName = formData.get("form-name-input")?.toString() ?? "";
+    // stores playerName to use for battle texts
+    if (!localStorage.getItem("playerName")) localStorage.setItem("playerName", JSON.stringify(playerName));
+    (0, _renderShipSelectionPage.renderShipSelectionPage)(playerName);
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/renderShipSelectionPage":"5tGPc"}],"5tGPc":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderShipSelectionPage", ()=>renderShipSelectionPage);
+var _renderPlayerInfoScreen = require("./renderPlayerInfoScreen");
+var _renderPlayerShipPlacementBoard = require("./renderPlayerShipPlacementBoard");
+var _renderShipSelectionBttns = require("./renderShipSelectionBttns");
+const renderShipSelectionPage = function(playerName_) {
+    const playerName = playerName_;
+    // removes main page content
+    const headerLinks = document.querySelector(".header__links");
+    headerLinks?.remove();
+    const greetingsContainer = document.querySelector(".greetings-container");
+    greetingsContainer?.remove();
+    const formContainer = document.querySelector("#form-name");
+    formContainer?.remove();
+    // renders pre-battle speech and ship placement functionality
+    (0, _renderPlayerInfoScreen.renderPlayerInfoScreen)(playerName);
+    (0, _renderShipSelectionBttns.renderShipSelectionBttns)();
+    (0, _renderPlayerShipPlacementBoard.renderPlayerShipPlacementBoard)();
+};
+
+},{"./renderPlayerInfoScreen":"50Kqt","./renderPlayerShipPlacementBoard":"2VAf7","./renderShipSelectionBttns":"5VAJL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"50Kqt":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderPlayerInfoScreen", ()=>renderPlayerInfoScreen);
+var _preBattleTexts = require("../data/preBattleTexts");
+var _createTypewriterEffect = require("../functions/createTypewriterEffect");
+var _elementCreators = require("../functions/elementCreators");
+const renderPlayerInfoScreen = function(playerName_) {
+    // scroll to top of page
+    window.scrollTo(0, 0);
+    const main = document.querySelector(".main");
+    const infoScreenContainer = (0, _elementCreators.elemCreator)("div")([
+        "infoScreen-container"
+    ]);
+    (0, _elementCreators.appendElemToParent)(main)(infoScreenContainer);
+    (0, _preBattleTexts.preBattleTexts).push(`Ready fleet formation, Admiral ${playerName_}.`);
+    (0, _createTypewriterEffect.createTypewriterEffect)({
+        containerElem: infoScreenContainer,
+        strings: (0, _preBattleTexts.preBattleTexts),
+        speed: 25
+    });
+};
+
+},{"../data/preBattleTexts":"5HSa8","../functions/createTypewriterEffect":"9yJB4","../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5HSa8":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "preBattleTexts", ()=>preBattleTexts);
+const preBattleTexts = [
+    `By the Grace of God, Queen of Manticore, Protector of the Realm, Elizabeth III, to all her loyal sailors: `,
+    //
+    `You stand on the precipice of a great battle, a battle that has been months in the making. The galaxy watches with bated breath as we prepare to face our enemy, the tyrannical People's Republic of Haven. But we do not stand alone. The hopes and prayers of all those who cherish freedom and liberty march with us into battle.`,
+    //
+    `Shall we allow our audacious enemies to violate with impunity the territory of the Kingdom? Will you permit the fleet to escape which has carried terror into your families? You will not!`,
+    //
+    `Let our enemies tremble at the sound of our thundering grasers! Let them cower before our fierce determination and unbreakable will! For we are the sailors of Manticore, and we will not allow our kingdom to be violated or our families to be terrorized!`,
+    //
+    `Our cause is just, our determination unbreakable, and our courage unwavering. We fight not just for our kingdom, but for the ideals that it represents: justice, freedom, and the rule of law. Our enemy seeks to trample these ideals underfoot, but we will not let them!`,
+    //
+    `I have faith in you, my fellow sailors. I have seen your bravery, your tenacity, and your skill. You are the best of the best, the defenders of our beloved Manticore. And so I say to you, go forth into battle with heads held high, with hearts filled with the spirit of Manticore. The eyes of the galaxy are upon us, and we will not disappoint. Victory is within our grasp, and we shall seize it with all our might!`,
+    //
+    `We are the defenders of the Star Kingdom of Manticore, and we will fight to protect our people and our home. We will stand strong against the enemy, and we will not rest until they are defeated and our kingdom is safe!`, 
+];
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2VAf7":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderPlayerShipPlacementBoard", ()=>renderPlayerShipPlacementBoard);
-var _elementCreators = require("../utilities/elementCreators");
+var _elementCreators = require("../functions/elementCreators");
 const renderPlayerShipPlacementBoard = function() {
     const main = document.querySelector(".main");
     const bothBoardsContainer = (0, _elementCreators.elemCreator)("div")([
@@ -789,7 +823,7 @@ const renderPlayerShipPlacementBoard = function() {
     ]));
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cYI77":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5VAJL":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderShipSelectionBttns", ()=>renderShipSelectionBttns);
@@ -799,7 +833,7 @@ var _handleCarrierBttnClick = require("../events/handleCarrierBttnClick");
 var _handleDestroyerBttnClick = require("../events/handleDestroyerBttnClick");
 var _handleFrigateBttnClick = require("../events/handleFrigateBttnClick");
 var _handleSuperdreadnoughtBttnClick = require("../events/handleSuperdreadnoughtBttnClick");
-var _elementCreators = require("../utilities/elementCreators");
+var _elementCreators = require("../functions/elementCreators");
 const renderShipSelectionBttns = function() {
     const main = document.querySelector(".main");
     const shipBttnsWrapper = (0, _elementCreators.elemCreator)("div")([
@@ -886,7 +920,7 @@ const renderShipSelectionBttns = function() {
     ]));
 };
 
-},{"../events/handleAxisToggleClick":"CL021","../events/handleBattleshipBttnClick":"4YxkI","../events/handleCarrierBttnClick":"38NmJ","../events/handleDestroyerBttnClick":"1zjy0","../events/handleFrigateBttnClick":"4QZ7c","../events/handleSuperdreadnoughtBttnClick":"iL6A7","../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"CL021":[function(require,module,exports) {
+},{"../events/handleAxisToggleClick":"CL021","../events/handleBattleshipBttnClick":"4YxkI","../events/handleCarrierBttnClick":"38NmJ","../events/handleDestroyerBttnClick":"1zjy0","../events/handleFrigateBttnClick":"4QZ7c","../events/handleSuperdreadnoughtBttnClick":"iL6A7","../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"CL021":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleAxisToggleClick", ()=>handleAxisToggleClick);
@@ -905,7 +939,7 @@ const handleAxisToggleClick = function(ev) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleBattleshipBttnClick", ()=>handleBattleshipBttnClick);
-var _elementCreators = require("../utilities/elementCreators");
+var _elementCreators = require("../functions/elementCreators");
 var _handleBattleshipCellClick = require("./handleBattleshipCellClick");
 var _handleBattleshipMouseEnter = require("./handleBattleshipMouseEnter");
 var _handleBattleshipMouseLeave = require("./handleBattleshipMouseLeave");
@@ -994,15 +1028,15 @@ const handleBattleshipBttnClick = function(ev) {
     playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipCellClick.handleBattleshipCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleBattleshipMouseEnter.handleBattleshipMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleBattleshipMouseLeave.handleBattleshipMouseLeave)))(player));
 };
 
-},{"../utilities/elementCreators":"H4ivl","./handleBattleshipCellClick":"8b5eS","./handleBattleshipMouseEnter":"20QiK","./handleBattleshipMouseLeave":"byPhE","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8b5eS":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","./handleBattleshipCellClick":"8b5eS","./handleBattleshipMouseEnter":"20QiK","./handleBattleshipMouseLeave":"byPhE","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8b5eS":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleBattleshipCellClick", ()=>handleBattleshipCellClick);
-var _accumulatePlayerShipCoords = require("../components/accumulatePlayerShipCoords");
-var _checkAllShipsInPlace = require("../components/checkAllShipsInPlace");
-var _doesShipPlacementOverlap = require("../components/doesShipPlacementOverlap");
-var _isCorrectNumberOfShips = require("../components/isCorrectNumberOfShips");
-var _elementCreators = require("../utilities/elementCreators");
+var _accumulatePlayerShipCoords = require("../functions/accumulatePlayerShipCoords");
+var _checkAllShipsInPlace = require("../functions/checkAllShipsInPlace");
+var _doesShipPlacementOverlap = require("../functions/doesShipPlacementOverlap");
+var _elementCreators = require("../functions/elementCreators");
+var _isCorrectNumberOfShips = require("../functions/isCorrectNumberOfShips");
 var _handleBattleshipMouseEnter = require("./handleBattleshipMouseEnter");
 var _handleBattleshipMouseLeave = require("./handleBattleshipMouseLeave");
 var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
@@ -1192,7 +1226,7 @@ const handleBattleshipCellClick = function(ev) {
     (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
 };
 
-},{"../components/accumulatePlayerShipCoords":"9lJOj","../components/checkAllShipsInPlace":"6FcJc","../components/doesShipPlacementOverlap":"iGKQQ","../components/isCorrectNumberOfShips":"21vDW","../utilities/elementCreators":"H4ivl","./handleBattleshipMouseEnter":"20QiK","./handleBattleshipMouseLeave":"byPhE","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9lJOj":[function(require,module,exports) {
+},{"../functions/accumulatePlayerShipCoords":"9d9Cn","../functions/elementCreators":"aeBTs","./handleBattleshipMouseEnter":"20QiK","./handleBattleshipMouseLeave":"byPhE","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/checkAllShipsInPlace":"iOceV","../functions/doesShipPlacementOverlap":"aQTs9","../functions/isCorrectNumberOfShips":"cdvYs"}],"9d9Cn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "accumulatePlayerShipCoords", ()=>accumulatePlayerShipCoords);
@@ -1203,7 +1237,1541 @@ const accumulatePlayerShipCoords = function(currentShipCoords_) {
     localStorage.setItem("playerShipsCoords", JSON.stringify(playerShipsCoords));
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6FcJc":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"20QiK":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleBattleshipMouseEnter", ()=>handleBattleshipMouseEnter);
+var _elementCreators = require("../functions/elementCreators");
+const handleBattleshipMouseEnter = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 3; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("B"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 3; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("B"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"byPhE":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleBattleshipMouseLeave", ()=>handleBattleshipMouseLeave);
+var _elementCreators = require("../functions/elementCreators");
+const handleBattleshipMouseLeave = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 3; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 3; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"38NmJ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleCarrierBttnClick", ()=>handleCarrierBttnClick);
+var _elementCreators = require("../functions/elementCreators");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierCellClick = require("./handleCarrierCellClick");
+var _handleCarrierMouseEnter = require("./handleCarrierMouseEnter");
+var _handleCarrierMouseLeave = require("./handleCarrierMouseLeave");
+var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
+var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
+var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
+const handleCarrierBttnClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // disables button after clicking once
+    this.disabled = true;
+    // visually indicates that 'this' button is selected
+    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid #f0a400"
+        ],
+        [
+            "color",
+            "#f0a400"
+        ], 
+    ]))(this);
+    // disables clicking on other shipButtons while selected
+    // prevents double selection
+    const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
+    if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
+    const battleshipBttn = document.querySelector(".bttn-battleship");
+    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+    const destroyerBttn = document.querySelector(".bttn-destroyer");
+    if (destroyerBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
+    const frigateBttn = document.querySelector(".bttn-frigate");
+    if (frigateBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
+    // assigns event listener to each player game cell after clicking superdreadnought button
+    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleCarrierCellClick.handleCarrierCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleCarrierMouseEnter.handleCarrierMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleCarrierMouseLeave.handleCarrierMouseLeave)))(player));
+};
+
+},{"../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierCellClick":"2p5Tx","./handleCarrierMouseEnter":"g59nL","./handleCarrierMouseLeave":"ehhzX","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2p5Tx":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleCarrierCellClick", ()=>handleCarrierCellClick);
+var _accumulatePlayerShipCoords = require("../functions/accumulatePlayerShipCoords");
+var _checkAllShipsInPlace = require("../functions/checkAllShipsInPlace");
+var _doesShipPlacementOverlap = require("../functions/doesShipPlacementOverlap");
+var _elementCreators = require("../functions/elementCreators");
+var _isCorrectNumberOfShips = require("../functions/isCorrectNumberOfShips");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierMouseEnter = require("./handleCarrierMouseEnter");
+var _handleCarrierMouseLeave = require("./handleCarrierMouseLeave");
+var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
+var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
+var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
+const handleCarrierCellClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // initializes the carrier object upon first call
+    if (!localStorage.getItem("carrier")) localStorage.setItem("carrier", JSON.stringify([]));
+    let carrier = JSON.parse(localStorage.getItem("carrier") ?? "");
+    const carrierCoords = [];
+    const ship = "carrier";
+    const amount = "single";
+    // for horizontal placement
+    if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
+        // grid boundary detection
+        if (Number(currentX) > 6) {
+            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
+            return null;
+        }
+        // overlap detection
+        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(4, currentAxis, currentX, currentY)) return null;
+        // places carrier on grid
+        for(let i = 0; i < 4; i += 1){
+            const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+            // prevents duplicate letters being placed
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "class",
+                    "playerShipPresent player-gameCell"
+                ]
+            ]), (0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "#f0a400"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]), (0, _elementCreators.addTextToElem)("C"))(nextCell);
+            carrierCoords.push(`${Number(currentX) + i},${currentY}`);
+        }
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) //update carrier object attributes
+        carrier = {
+            head: carrierCoords[0],
+            body1: carrierCoords[1],
+            body2: carrierCoords[2],
+            tail: carrierCoords[3]
+        };
+        localStorage.setItem("isSingleCarrier", JSON.stringify(false));
+    } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
+        //grid boundary detection
+        if (Number(currentY) > 6) {
+            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
+            return null;
+        }
+        // overlap detection
+        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(4, currentAxis, currentX, currentY)) return null;
+        // places carrier on grid
+        for(let i = 0; i < 4; i += 1){
+            const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
+            //prevents duplicate letters being placed
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "class",
+                    "playerShipPresent player-gameCell"
+                ]
+            ]), (0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "#f0a400"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]), (0, _elementCreators.addTextToElem)("C"))(nextCell);
+            carrierCoords.push(`${currentX},${Number(currentY) + i}`);
+        }
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates carrier object attributes
+        carrier = {
+            head: carrierCoords[0],
+            body1: carrierCoords[1],
+            body2: carrierCoords[2],
+            tail: carrierCoords[3]
+        };
+        localStorage.setItem("isSingleCarrier", JSON.stringify(false));
+    }
+    // stores carrier
+    localStorage.setItem("carrier", JSON.stringify(carrier));
+    // stores current ship coords to pool of all ship coords
+    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(carrierCoords);
+    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === true) {
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        const carrierBttn = document.querySelector(".bttn-carrier");
+        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid gainsboro"
+            ],
+            [
+                "color",
+                "gainsboro"
+            ],
+            [
+                "cursor",
+                "not-allowed"
+            ], 
+        ]))(carrierBttn);
+        // enables events on other shipButtons after carrier has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
+        if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
+        const battleshipBttn = document.querySelector(".bttn-battleship");
+        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+        const destroyerBttn = document.querySelector(".bttn-destroyer");
+        if (destroyerBttn && destroyerBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
+        const frigateBttn = document.querySelector(".bttn-frigate");
+        if (frigateBttn && frigateBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
+        // removes event listeners after single carrier has been placed
+        playerGameCells.forEach((player)=>{
+            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleCarrierCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleCarrierMouseEnter.handleCarrierMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleCarrierMouseLeave.handleCarrierMouseLeave)))(player);
+        });
+    }
+    //if all ships placed, renders start button
+    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
+};
+
+},{"../functions/accumulatePlayerShipCoords":"9d9Cn","../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierMouseEnter":"g59nL","./handleCarrierMouseLeave":"ehhzX","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/checkAllShipsInPlace":"iOceV","../functions/doesShipPlacementOverlap":"aQTs9","../functions/isCorrectNumberOfShips":"cdvYs"}],"g59nL":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleCarrierMouseEnter", ()=>handleCarrierMouseEnter);
+var _elementCreators = require("../functions/elementCreators");
+const handleCarrierMouseEnter = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 4; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("C"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 4; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("C"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ehhzX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleCarrierMouseLeave", ()=>handleCarrierMouseLeave);
+var _elementCreators = require("../functions/elementCreators");
+const handleCarrierMouseLeave = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 4; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 4; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1zjy0":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleDestroyerBttnClick", ()=>handleDestroyerBttnClick);
+var _elementCreators = require("../functions/elementCreators");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
+var _handleDestroyerCellClick = require("./handleDestroyerCellClick");
+var _handleDestroyerMouseEnter = require("./handleDestroyerMouseEnter");
+var _handleDestroyerMouseLeave = require("./handleDestroyerMouseLeave");
+var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
+var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
+const handleDestroyerBttnClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // assigns event listeners to each player game cell after clicking destroyer button
+    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerCellClick.handleDestroyerCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleDestroyerMouseEnter.handleDestroyerMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleDestroyerMouseLeave.handleDestroyerMouseLeave)))(player));
+    // disables this button after clicking
+    this.disabled = true;
+    // visually indicates that 'this' button is selected
+    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid #f0a400"
+        ],
+        [
+            "color",
+            "#f0a400"
+        ], 
+    ]))(this);
+    // disables clicking on other shipButtons while selected
+    // prevents double selection
+    const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
+    if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
+    const carrierBttn = document.querySelector(".bttn-carrier");
+    if (carrierBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
+    const battleshipBttn = document.querySelector(".bttn-battleship");
+    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+    const frigateBttn = document.querySelector(".bttn-frigate");
+    if (frigateBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
+};
+
+},{"../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerCellClick":"3xwCD","./handleDestroyerMouseEnter":"9ER26","./handleDestroyerMouseLeave":"7Pn09","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3xwCD":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleDestroyerCellClick", ()=>handleDestroyerCellClick);
+var _accumulatePlayerShipCoords = require("../functions/accumulatePlayerShipCoords");
+var _checkAllShipsInPlace = require("../functions/checkAllShipsInPlace");
+var _doesShipPlacementOverlap = require("../functions/doesShipPlacementOverlap");
+var _elementCreators = require("../functions/elementCreators");
+var _isCorrectNumberOfShips = require("../functions/isCorrectNumberOfShips");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
+var _handleDestroyerMouseEnter = require("./handleDestroyerMouseEnter");
+var _handleDestroyerMouseLeave = require("./handleDestroyerMouseLeave");
+var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
+var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
+const handleDestroyerCellClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // initializes the ship object upon first call
+    if (!localStorage.getItem("destroyer")) localStorage.setItem("destroyer", JSON.stringify([]));
+    const destroyer = JSON.parse(localStorage.getItem("destroyer") ?? "");
+    const destroyerCoords = [];
+    const ship = "destroyer";
+    const amount = "double";
+    // for horizontal placement
+    if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
+        //grid boundary detection
+        if (Number(currentX) > 8) {
+            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
+            return null;
+        }
+        // overlap detection
+        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(2, currentAxis, currentX, currentY)) return null;
+        // places destroyer on the grid
+        for(let i = 0; i < 2; i += 1){
+            const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+            // prevents duplicate letters being placed
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "class",
+                    "playerShipPresent player-gameCell"
+                ]
+            ]), (0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "#f0a400"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]), (0, _elementCreators.addTextToElem)("D"))(nextCell);
+            destroyerCoords.push(`${Number(currentX) + i},${currentY}`);
+        }
+        // only updates if there are 2 or less ships
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) destroyer.push({
+            head: destroyerCoords[0],
+            tail: destroyerCoords[1]
+        });
+    } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
+        // grid boundary detection
+        if (Number(currentY) > 8) {
+            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
+            return null;
+        }
+        // overlap detection
+        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(2, currentAxis, currentX, currentY)) return null;
+        for(let i = 0; i < 2; i += 1){
+            // places destroyer on the grid
+            const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
+            // prevents duplicate letters being placed
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "class",
+                    "playerShipPresent player-gameCell"
+                ]
+            ]), (0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "#f0a400"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]), (0, _elementCreators.addTextToElem)("D"))(nextCell);
+            destroyerCoords.push(`${currentX},${Number(currentY) + i}`);
+        }
+        // only updates if there are 2 or less ships
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) destroyer.push({
+            head: destroyerCoords[0],
+            tail: destroyerCoords[1]
+        });
+    } else if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) return null;
+    // stores destroyer
+    localStorage.setItem("destroyer", JSON.stringify(destroyer));
+    // stores current ship coords to pool of all ship coords
+    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(destroyerCoords);
+    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) {
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        const destroyerBttn = document.querySelector(".bttn-destroyer");
+        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid gainsboro"
+            ],
+            [
+                "color",
+                "gainsboro"
+            ],
+            [
+                "cursor",
+                "not-allowed"
+            ], 
+        ]))(destroyerBttn);
+        // enables events on other shipButtons after both destroyers have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
+        if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
+        const carrierBttn = document.querySelector(".bttn-carrier");
+        if (carrierBttn && carrierBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
+        const battleshipBttn = document.querySelector(".bttn-battleship");
+        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+        const frigateBttn = document.querySelector(".bttn-frigate");
+        if (frigateBttn && frigateBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
+        //removes event listeners after both destroyers have been placed
+        playerGameCells.forEach((player)=>{
+            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleDestroyerCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleDestroyerMouseEnter.handleDestroyerMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleDestroyerMouseLeave.handleDestroyerMouseLeave)))(player);
+        });
+    }
+    //if all ships placed, renders start button
+    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
+};
+
+},{"../functions/accumulatePlayerShipCoords":"9d9Cn","../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerMouseEnter":"9ER26","./handleDestroyerMouseLeave":"7Pn09","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/checkAllShipsInPlace":"iOceV","../functions/doesShipPlacementOverlap":"aQTs9","../functions/isCorrectNumberOfShips":"cdvYs"}],"9ER26":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleDestroyerMouseEnter", ()=>handleDestroyerMouseEnter);
+var _elementCreators = require("../functions/elementCreators");
+const handleDestroyerMouseEnter = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 2; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("D"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 2; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("D"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Pn09":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleDestroyerMouseLeave", ()=>handleDestroyerMouseLeave);
+var _elementCreators = require("../functions/elementCreators");
+const handleDestroyerMouseLeave = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 2; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 2; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4QZ7c":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleFrigateBttnClick", ()=>handleFrigateBttnClick);
+var _elementCreators = require("../functions/elementCreators");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
+var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
+var _handleFrigateCellClick = require("./handleFrigateCellClick");
+var _handleFrigateMouseEnter = require("./handleFrigateMouseEnter");
+var _handleFrigateMouseLeave = require("./handleFrigateMouseLeave");
+var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
+const handleFrigateBttnClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // disables this button after clicking
+    this.disabled = true;
+    // visually indicates that 'this' button is selected
+    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid #f0a400"
+        ],
+        [
+            "color",
+            "#f0a400"
+        ], 
+    ]))(this);
+    // disables events on other shipButtons while selected
+    // prevents double selection
+    const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
+    if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
+    const carrierBttn = document.querySelector(".bttn-carrier");
+    if (carrierBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
+    const battleshipBttn = document.querySelector(".bttn-battleship");
+    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+    const destroyerBttn = document.querySelector(".bttn-destroyer");
+    if (destroyerBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
+    // assigns event listeners to each player game cell after clicking destroyer button
+    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleFrigateCellClick.handleFrigateCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleFrigateMouseEnter.handleFrigateMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleFrigateMouseLeave.handleFrigateMouseLeave)))(player));
+};
+
+},{"../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateCellClick":"cP3IQ","./handleFrigateMouseEnter":"3BZaH","./handleFrigateMouseLeave":"eaXxI","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cP3IQ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleFrigateCellClick", ()=>handleFrigateCellClick);
+var _accumulatePlayerShipCoords = require("../functions/accumulatePlayerShipCoords");
+var _checkAllShipsInPlace = require("../functions/checkAllShipsInPlace");
+var _doesShipPlacementOverlap = require("../functions/doesShipPlacementOverlap");
+var _elementCreators = require("../functions/elementCreators");
+var _isCorrectNumberOfShips = require("../functions/isCorrectNumberOfShips");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
+var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
+var _handleFrigateMouseEnter = require("./handleFrigateMouseEnter");
+var _handleFrigateMouseLeave = require("./handleFrigateMouseLeave");
+var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
+const handleFrigateCellClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent ?? "";
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // initializes the ship object upon first call
+    if (!localStorage.getItem("frigate")) localStorage.setItem("frigate", JSON.stringify([]));
+    const frigate = JSON.parse(localStorage.getItem("frigate") ?? "");
+    const frigateCoords = [];
+    const ship = "frigate";
+    const amount = "double";
+    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
+        // overlap detection
+        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(1, currentAxis, currentX, currentY)) return null;
+        // places frigate on the grid
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
+        // prevents duplicate letters being placed
+        if (nextCell) nextCell.textContent = "";
+        (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+            [
+                "class",
+                "playerShipPresent player-gameCell"
+            ]
+        ]), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "default"
+            ], 
+        ]), (0, _elementCreators.addTextToElem)("F"))(nextCell);
+        frigateCoords.push(`${currentX},${currentY}`);
+        // only updates if there are 2 or less ships
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) frigate.push({
+            body: frigateCoords[0]
+        });
+    } else if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) return null;
+    // stores frigate
+    localStorage.setItem("frigate", JSON.stringify(frigate));
+    // stores current ship coords to pool of all ship coords
+    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(frigateCoords);
+    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) {
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        const frigateBttn = document.querySelector(".bttn-frigate");
+        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid gainsboro"
+            ],
+            [
+                "color",
+                "gainsboro"
+            ], 
+        ]))(frigateBttn);
+        // enables events on other shipButtons after both frigates have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
+        if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
+        const carrierBttn = document.querySelector(".bttn-carrier");
+        if (carrierBttn && carrierBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
+        const battleshipBttn = document.querySelector(".bttn-battleship");
+        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+        const destroyerBttn = document.querySelector(".bttn-destroyer");
+        if (destroyerBttn && destroyerBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
+        //removes event listeners after both frigates have been placed
+        playerGameCells.forEach((player)=>{
+            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleFrigateCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleFrigateMouseEnter.handleFrigateMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleFrigateMouseLeave.handleFrigateMouseLeave)))(player);
+        });
+    }
+    //if all ships placed, renders start button
+    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
+};
+
+},{"../functions/accumulatePlayerShipCoords":"9d9Cn","../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateMouseEnter":"3BZaH","./handleFrigateMouseLeave":"eaXxI","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/checkAllShipsInPlace":"iOceV","../functions/doesShipPlacementOverlap":"aQTs9","../functions/isCorrectNumberOfShips":"cdvYs"}],"3BZaH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleFrigateMouseEnter", ()=>handleFrigateMouseEnter);
+var _elementCreators = require("../functions/elementCreators");
+const handleFrigateMouseEnter = function(ev) {
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes cell on hover
+    const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
+    if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("F"), (0, _elementCreators.addStyleToElem)([
+        [
+            "color",
+            "#f0a400"
+        ],
+        [
+            "cursor",
+            "crosshair"
+        ], 
+    ]))(nextCell);
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eaXxI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleFrigateMouseLeave", ()=>handleFrigateMouseLeave);
+var _elementCreators = require("../functions/elementCreators");
+const handleFrigateMouseLeave = function(ev) {
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes cell on hover
+    const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
+    // avoids changing cells of ships already present
+    if (!nextCell?.classList.contains("playerShipPresent")) {
+        if (nextCell) nextCell.textContent = "";
+        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "gainsboro"
+            ],
+            [
+                "cursor",
+                "default"
+            ], 
+        ]))(nextCell);
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iL6A7":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleSuperdreadnoughtBttnClick", ()=>handleSuperdreadnoughtBttnClick);
+var _elementCreators = require("../functions/elementCreators");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
+var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
+var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
+var _handleSuperdreadnoughtCellClick = require("./handleSuperdreadnoughtCellClick");
+var _handleSuperdreadnoughtMouseEnter = require("./handleSuperdreadnoughtMouseEnter");
+var _handleSuperdreadnoughtMouseLeave = require("./handleSuperdreadnoughtMouseLeave");
+const handleSuperdreadnoughtBttnClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // disables this button after clicking
+    this.disabled = true;
+    // visually indicates that 'this' button is selected
+    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid #f0a400"
+        ],
+        [
+            "color",
+            "#f0a400"
+        ], 
+    ]))(this);
+    // disables clicking on other shipButtons while selected
+    // prevents double selection
+    const carrierBttn = document.querySelector(".bttn-carrier");
+    if (carrierBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
+    const battleshipBttn = document.querySelector(".bttn-battleship");
+    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+    const destroyerBttn = document.querySelector(".bttn-destroyer");
+    if (destroyerBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
+    const frigateBttn = document.querySelector(".bttn-frigate");
+    if (frigateBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        [
+            "border",
+            "1px solid gainsboro"
+        ],
+        [
+            "color",
+            "gainsboro"
+        ],
+        [
+            "cursor",
+            "not-allowed"
+        ], 
+    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
+    // assigns event listeners to each player game cell after clicking superdreadnought button
+    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtCellClick.handleSuperdreadnoughtCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleSuperdreadnoughtMouseEnter.handleSuperdreadnoughtMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleSuperdreadnoughtMouseLeave.handleSuperdreadnoughtMouseLeave)))(player));
+};
+
+},{"../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtCellClick":"6MyCS","./handleSuperdreadnoughtMouseEnter":"qHolt","./handleSuperdreadnoughtMouseLeave":"4nkbf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6MyCS":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleSuperdreadnoughtCellClick", ()=>handleSuperdreadnoughtCellClick);
+var _accumulatePlayerShipCoords = require("../functions/accumulatePlayerShipCoords");
+var _checkAllShipsInPlace = require("../functions/checkAllShipsInPlace");
+var _doesShipPlacementOverlap = require("../functions/doesShipPlacementOverlap");
+var _elementCreators = require("../functions/elementCreators");
+var _isCorrectNumberOfShips = require("../functions/isCorrectNumberOfShips");
+var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
+var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
+var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
+var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
+var _handleSuperdreadnoughtMouseEnter = require("./handleSuperdreadnoughtMouseEnter");
+var _handleSuperdreadnoughtMouseLeave = require("./handleSuperdreadnoughtMouseLeave");
+const handleSuperdreadnoughtCellClick = function(ev) {
+    const playerGameCells = document.querySelectorAll(".player-gameCell");
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // initializes the carrier object upon first call
+    if (!localStorage.getItem("superdreadnought")) localStorage.setItem("superdreadnought", JSON.stringify(""));
+    let superdreadnought = JSON.parse(localStorage.getItem("superdreadnought") ?? "");
+    const superdreadnoughtCoords = [];
+    const ship = "superdreadnought";
+    const amount = "single";
+    // for horizontal placement
+    if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
+        // grid boundary detection
+        if (Number(currentX) > 5) {
+            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
+            return null;
+        }
+        // overlap detection
+        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(5, currentAxis, currentX, currentY)) return null;
+        // places superdreadnought on the grid
+        for(let i = 0; i < 5; i += 1){
+            const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+            // prevents duplicate letters being placed
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "class",
+                    "playerShipPresent player-gameCell"
+                ]
+            ]), (0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "#f0a400"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]), (0, _elementCreators.addTextToElem)("S"))(nextCell);
+            superdreadnoughtCoords.push(`${Number(currentX) + i},${currentY}`);
+        }
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates superdreadnought object attributes
+        superdreadnought = {
+            head: superdreadnoughtCoords[0],
+            body1: superdreadnoughtCoords[1],
+            body2: superdreadnoughtCoords[2],
+            body3: superdreadnoughtCoords[3],
+            tail: superdreadnoughtCoords[4]
+        };
+        localStorage.setItem("isSingleSuperdreadnought", JSON.stringify(false));
+    } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, "single")) {
+        // grid boundary detection
+        if (Number(currentY) > 5) {
+            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
+            return null;
+        }
+        // overlap detection
+        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(5, currentAxis, currentX, currentY)) return null;
+        // places superdreadnought on the grid
+        for(let i = 0; i < 5; i += 1){
+            const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
+            // prevents duplicate letters being placed
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "class",
+                    "playerShipPresent player-gameCell"
+                ]
+            ]), (0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "#f0a400"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]), (0, _elementCreators.addTextToElem)("S"))(nextCell);
+            superdreadnoughtCoords.push(`${currentX},${Number(currentY) + i}`);
+        }
+        // prevents updating after first click
+        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates superdreadnought object attributes
+        superdreadnought = {
+            head: superdreadnoughtCoords[0],
+            body1: superdreadnoughtCoords[1],
+            body2: superdreadnoughtCoords[2],
+            body3: superdreadnoughtCoords[3],
+            tail: superdreadnoughtCoords[4]
+        };
+        localStorage.setItem("isSingleSuperdreadnought", JSON.stringify(false));
+    }
+    // stores superdreadnought
+    localStorage.setItem("superdreadnought", JSON.stringify(superdreadnought));
+    // stores current ship coords to pool of all ship coords
+    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(superdreadnoughtCoords);
+    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === true) {
+        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
+        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
+        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid gainsboro"
+            ],
+            [
+                "color",
+                "gainsboro"
+            ],
+            [
+                "cursor",
+                "not-allowed"
+            ], 
+        ]))(superdreadnoughtBttn);
+        // enables events on other shipButtons after superdreadnought has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
+        const carrierBttn = document.querySelector(".bttn-carrier");
+        if (carrierBttn && carrierBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
+        const battleshipBttn = document.querySelector(".bttn-battleship");
+        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
+        const destroyerBttn = document.querySelector(".bttn-destroyer");
+        if (destroyerBttn && destroyerBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
+        const frigateBttn = document.querySelector(".bttn-frigate");
+        if (frigateBttn && frigateBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "border",
+                "1px solid #00f000"
+            ],
+            [
+                "color",
+                "#00f000"
+            ],
+            [
+                "cursor",
+                "pointer"
+            ], 
+        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
+        // removes event listeners after single superdreadnought has been placed
+        playerGameCells.forEach((player)=>{
+            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleSuperdreadnoughtCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleSuperdreadnoughtMouseEnter.handleSuperdreadnoughtMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleSuperdreadnoughtMouseLeave.handleSuperdreadnoughtMouseLeave)))(player);
+        });
+    }
+    // if all ships placed, renders start button
+    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
+};
+
+},{"../functions/accumulatePlayerShipCoords":"9d9Cn","../functions/elementCreators":"aeBTs","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtMouseEnter":"qHolt","./handleSuperdreadnoughtMouseLeave":"4nkbf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/checkAllShipsInPlace":"iOceV","../functions/doesShipPlacementOverlap":"aQTs9","../functions/isCorrectNumberOfShips":"cdvYs"}],"qHolt":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleSuperdreadnoughtMouseEnter", ()=>handleSuperdreadnoughtMouseEnter);
+var _elementCreators = require("../functions/elementCreators");
+const handleSuperdreadnoughtMouseEnter = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 5; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("S"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 5; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("S"), (0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "#f0a400"
+            ],
+            [
+                "cursor",
+                "crosshair"
+            ], 
+        ]))(nextCell);
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4nkbf":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "handleSuperdreadnoughtMouseLeave", ()=>handleSuperdreadnoughtMouseLeave);
+var _elementCreators = require("../functions/elementCreators");
+const handleSuperdreadnoughtMouseLeave = function(ev) {
+    // grabs the current state of the axis button
+    const axisSelector = document.querySelector(".bttn-axisSelector");
+    const currentAxis = axisSelector?.textContent;
+    // grabs the current cell co-ordinate
+    const currentCell = this.dataset.cellplayer?.split(",");
+    const currentX = currentCell?.[0] ?? "";
+    const currentY = currentCell?.[1] ?? "";
+    // changes consecutive cells in corresponding axes on hover
+    if (currentAxis === "Axis-X") for(let i = 0; i < 5; i += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 5; i1 += 1){
+        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
+        // avoids changing cells of ships already present
+        if (!nextCell?.classList.contains("playerShipPresent")) {
+            if (nextCell) nextCell.textContent = "";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "gainsboro"
+                ],
+                [
+                    "cursor",
+                    "default"
+                ], 
+            ]))(nextCell);
+        }
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iOceV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "checkAllShipsInPlace", ()=>checkAllShipsInPlace);
@@ -1223,11 +2791,11 @@ const checkAllShipsInPlace = function() {
     }
 };
 
-},{"./renderStarsInPlayerBoard":"aZtIU","./renderStartButton":"bfo7r","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aZtIU":[function(require,module,exports) {
+},{"./renderStarsInPlayerBoard":"7WJ4g","./renderStartButton":"aRkr9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7WJ4g":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderStarsInPlayerBoard", ()=>renderStarsInPlayerBoard);
-var _elementCreators = require("../utilities/elementCreators");
+var _elementCreators = require("../functions/elementCreators");
 const renderStarsInPlayerBoard = function() {
     const playerGameCell = document.querySelectorAll(".player-gameCell");
     // adds stars and a corresponding class to differentiate the cells which do not consist of a player ship
@@ -1241,12 +2809,12 @@ const renderStarsInPlayerBoard = function() {
     });
 };
 
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bfo7r":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aRkr9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderStartButton", ()=>renderStartButton);
 var _handleStartButtonClick = require("../events/handleStartButtonClick");
-var _elementCreators = require("../utilities/elementCreators");
+var _elementCreators = require("../functions/elementCreators");
 const renderStartButton = function() {
     // removes the ship selection buttons
     const shipsBttnContainer = document.querySelector(".shipsBttn-container");
@@ -1271,17 +2839,17 @@ const renderStartButton = function() {
     ]));
 };
 
-},{"../events/handleStartButtonClick":"gYeDe","../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gYeDe":[function(require,module,exports) {
+},{"../events/handleStartButtonClick":"gYeDe","../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gYeDe":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handleStartButtonClick", ()=>handleStartButtonClick);
-var _placeCompShipsOnBoard = require("../components/placeCompShipsOnBoard");
-var _randomizeAndStoreShipNames = require("../components/randomizeAndStoreShipNames");
-var _renderCompBoard = require("../components/renderCompBoard");
 var _shipNames = require("../data/shipNames");
-var _elementCreators = require("../utilities/elementCreators");
-var _renderPlayerBoard = require("../utilities/renderPlayerBoard");
-var _renderTacticalOverview = require("../utilities/renderTacticalOverview");
+var _elementCreators = require("../functions/elementCreators");
+var _placeCompShipsOnBoard = require("../functions/placeCompShipsOnBoard");
+var _randomizeAndStoreShipNames = require("../functions/randomizeAndStoreShipNames");
+var _renderCompBoard = require("../functions/renderCompBoard");
+var _renderPlayerBoard = require("../functions/renderPlayerBoard");
+var _renderTacticalOverview = require("../functions/renderTacticalOverview");
 var _handlePlayerClickOnCompMisses = require("./handlePlayerClickOnCompMisses");
 var _handlePlayerClickOnCompShips = require("./handlePlayerClickOnCompShips");
 const handleStartButtonClick = function(ev) {
@@ -1343,300 +2911,7 @@ const handleStartButtonClick = function(ev) {
     (0, _elementCreators.appendElemToParent)(battleMessageWrapper)(battleMessageContainer);
 };
 
-},{"../components/placeCompShipsOnBoard":"dU4Hs","../components/randomizeAndStoreShipNames":"et96r","../components/renderCompBoard":"5e8Dz","../data/shipNames":"ekPmF","../utilities/elementCreators":"H4ivl","../utilities/renderPlayerBoard":"bFpjJ","../utilities/renderTacticalOverview":"kMrKG","./handlePlayerClickOnCompMisses":"2HlWb","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dU4Hs":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "placeCompShipsOnBoard", ()=>placeCompShipsOnBoard);
-var _populateCompShipsCoords = require("../utilities/populateCompShipsCoords");
-var _renderCompShipsOnBoard = require("./renderCompShipsOnBoard");
-const placeCompShipsOnBoard = function() {
-    const randCompShipPlacement = (0, _populateCompShipsCoords.populateCompShipsCoords)();
-    (0, _renderCompShipsOnBoard.renderCompShipsOnBoard)(randCompShipPlacement);
-};
-
-},{"../utilities/populateCompShipsCoords":"g4e0B","./renderCompShipsOnBoard":"azqRB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g4e0B":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "populateCompShipsCoords", ()=>populateCompShipsCoords);
-var _returnRandomOrientation = require("./returnRandomOrientation");
-// returns an object with the computer's ships' randomly generated coordinates
-function populateCompShipsCoords() {
-    // creates tuples[] of all possible coordinates
-    const allCoords = [];
-    for(let i2 = 0; i2 < 10; i2 += 1)for(let j = 0; j < 10; j += 1)allCoords.push([
-        j,
-        i2
-    ]);
-    const shipsLengthTuple = [
-        [
-            "superdreadnought",
-            5
-        ],
-        [
-            "carrier",
-            4
-        ],
-        [
-            "battleship",
-            3
-        ],
-        [
-            "destroyer",
-            2
-        ],
-        [
-            "destroyer",
-            2
-        ],
-        [
-            "frigate",
-            1
-        ],
-        [
-            "frigate",
-            1
-        ], 
-    ];
-    const shipsPresentCoordsSet = new Set();
-    return Object.fromEntries(shipsLengthTuple.reduce((acc, [shipType, shipLength])=>{
-        let withinBounds = false;
-        let isAnotherShipPresent = true;
-        let shipCoordsArr = [];
-        // keeps generating random coordinates and orientation until the ship fits within the board and doesn't overlap with another ship
-        while(!withinBounds || isAnotherShipPresent){
-            shipCoordsArr = [];
-            // returns a random coordinate
-            const randCoord = function() {
-                let randIndex = Math.floor(Math.random() * allCoords.length);
-                let randCoordStr = allCoords[randIndex].join(",");
-                while(shipsPresentCoordsSet.has(randCoordStr)){
-                    randIndex = Math.floor(Math.random() * allCoords.length);
-                    randCoordStr = allCoords[randIndex].join(",");
-                }
-                return allCoords[randIndex];
-            }();
-            // returns a random orientation
-            const randOrientation = (0, _returnRandomOrientation.returnRandomOrientation)();
-            switch(randOrientation){
-                case "horizontal":
-                    // generates the ship's coordinates of corresponding length based on the random coordinate and orientation
-                    for(let i = 0; i < shipLength; i += 1)shipCoordsArr.push([
-                        randCoord[0] + i,
-                        randCoord[1]
-                    ]);
-                    // checks if the ship fits within the board
-                    withinBounds = shipCoordsArr.every(([x, y])=>x >= 0 && x < 10 && y >= 0 && y < 10);
-                    // checks if the ship overlaps with another ship
-                    isAnotherShipPresent = shipCoordsArr.some((coord)=>shipsPresentCoordsSet.has(coord.join(",")));
-                    break;
-                // same as above but for vertical orientation
-                case "vertical":
-                    for(let i1 = 0; i1 < shipLength; i1 += 1)shipCoordsArr.push([
-                        randCoord[0],
-                        randCoord[1] + i1
-                    ]);
-                    withinBounds = shipCoordsArr.every(([x, y])=>x >= 0 && x < 10 && y >= 0 && y < 10);
-                    isAnotherShipPresent = shipCoordsArr.some((coord)=>shipsPresentCoordsSet.has(coord.join(",")));
-                    break;
-                default:
-                    break;
-            }
-        }
-        // adds the ship's coords to the shipsPresentCoords
-        shipCoordsArr.forEach((coord)=>shipsPresentCoordsSet.add(coord.join(",")));
-        console.log("shipsPresentCoords from populateCompShipsCoords()", shipsPresentCoordsSet);
-        let shipTypeCoordsObj;
-        // creates a Map object with the ship's type as the key and an object with the ship's coordinates as the value
-        // superdreadnought, carrier, and battleship are treated separately because they consist of a single object
-        if (shipType === "superdreadnought" || shipType === "carrier" || shipType === "battleship") {
-            // creates a Map object with the ship's type as the key and an object with the ship's coordinates as the value
-            shipTypeCoordsObj = new Map([
-                [
-                    "head",
-                    shipCoordsArr[0].toString()
-                ],
-                [
-                    "tail",
-                    shipCoordsArr[shipCoordsArr.length - 1].toString()
-                ], 
-            ]);
-            // adds the ship's body coordinates to the Map object
-            for(let i = 1; i < shipCoordsArr.length - 1; i += 1)shipTypeCoordsObj.set(`${shipType === "battleship" ? `body` : `body${i}`}`, shipCoordsArr[i].toString());
-            acc.set(shipType, Object.fromEntries(shipTypeCoordsObj));
-        } else if (shipType === "destroyer" || shipType === "frigate") switch(shipType){
-            case "destroyer":
-                {
-                    const destroyerCoordObj = {
-                        head: shipCoordsArr[0].toString(),
-                        tail: shipCoordsArr[shipCoordsArr.length - 1].toString()
-                    };
-                    const prevDestroyerCoordObjArr = acc.get("destroyers");
-                    if (prevDestroyerCoordObjArr) acc.set("destroyers", prevDestroyerCoordObjArr.concat(destroyerCoordObj));
-                    else acc.set("destroyers", [
-                        destroyerCoordObj
-                    ]);
-                    break;
-                }
-            case "frigate":
-                {
-                    const frigateCoordObj = {
-                        body: shipCoordsArr[0].toString()
-                    };
-                    const prevFrigateCoordObjArr = acc.get("frigates");
-                    if (prevFrigateCoordObjArr) acc.set("frigates", prevFrigateCoordObjArr.concat(frigateCoordObj));
-                    else acc.set("frigates", [
-                        frigateCoordObj
-                    ]);
-                    break;
-                }
-            default:
-                break;
-        }
-        return acc;
-    }, new Map()));
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./returnRandomOrientation":"92wBj"}],"92wBj":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "returnRandomOrientation", ()=>returnRandomOrientation);
-function returnRandomOrientation() {
-    const randIndex = Math.floor(Math.random() * 2);
-    return randIndex === 0 ? "horizontal" : "vertical";
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"azqRB":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderCompShipsOnBoard", ()=>renderCompShipsOnBoard);
-var _elementCreators = require("../utilities/elementCreators");
-const renderCompShipsOnBoard = function(compShipsPlacementChoice_) {
-    // used for hit detection
-    const compShipsCoords = JSON.parse(localStorage.getItem("compShipsCoords") ?? JSON.stringify([]));
-    Object.entries(compShipsPlacementChoice_).forEach(([ship1, shipObj])=>{
-        // if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
-        if (!localStorage.getItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`)) localStorage.setItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`, JSON.stringify(shipObj));
-        // for superdreadnought, carrier, battleship properties whose attributes do not consist of an array
-        if (!Array.isArray(shipObj)) Object.entries(shipObj).forEach(([shipSection, sectionCoords])=>{
-            //grab the corresponding game board cell
-            const shipCell = document.querySelector(`[data-cellcomp="${sectionCoords}"]`);
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "class",
-                    "compShipPresent comp-gameCell"
-                ]
-            ]), (0, _elementCreators.addTextToElem)("\u2734"), (0, _elementCreators.addStyleToElem)([
-                [
-                    "border",
-                    "1px solid #00f000"
-                ]
-            ]))(shipCell);
-            // store the co-ordinates
-            compShipsCoords.push(sectionCoords);
-        });
-        else // for destroyers and frigates properties whose attributes consist of an array
-        shipObj.forEach((ship)=>{
-            Object.entries(ship).forEach(([shipSection, sectionCoords])=>{
-                // grab the corresponding game board cell
-                const shipCell = document.querySelector(`[data-cellcomp="${sectionCoords}"]`);
-                (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                    [
-                        "class",
-                        "compShipPresent comp-gameCell"
-                    ]
-                ]), (0, _elementCreators.addTextToElem)("\u2734"), (0, _elementCreators.addStyleToElem)([
-                    [
-                        "border",
-                        "1px solid #00f000"
-                    ]
-                ]))(shipCell);
-                // store the co-ordinates
-                compShipsCoords.push(sectionCoords);
-            });
-        });
-    });
-    const compGameCells = document.querySelectorAll(".comp-gameCell");
-    // differentiates between ships and empty spaces
-    compGameCells.forEach((cell)=>{
-        if (!cell.classList.contains("compShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-            [
-                "class",
-                "compShipNotPresent comp-gameCell"
-            ]
-        ]), (0, _elementCreators.addTextToElem)("\u2734"))(cell);
-    });
-    // puts the coordinates in storage for future hit detection checks
-    localStorage.setItem("compShipsCoords", JSON.stringify(compShipsCoords));
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"et96r":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "randomizeAndStoreShipNames", ()=>randomizeAndStoreShipNames);
-const randomizeAndStoreShipNames = function(shipNames_) {
-    // used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered
-    if (!localStorage.getItem("playerShipNames")) localStorage.setItem("playerShipNames", JSON.stringify([]));
-    // creates a randomized ship name per game session and stores it to be used for the battle messages
-    Object.entries(shipNames_).forEach(([polity, shipTypes])=>{
-        if (polity === "haven") {
-            const havenShipNames = new Map();
-            Object.entries(shipTypes).forEach(([shipType, shipNamesArr])=>{
-                // need two names for destroyers and frigates
-                if (shipType === "destroyers" || shipType === "frigates") {
-                    const tempShipNamesArr = [
-                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
-                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
-                    ];
-                    havenShipNames.set(shipType, tempShipNamesArr);
-                } else // only one name for superdreadnought, carrier and battleship
-                havenShipNames.set(//changes from plural to singular
-                shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
-            });
-            localStorage.setItem("havenShipNames", JSON.stringify(Object.fromEntries(havenShipNames)));
-        } else if (polity === "manticore") {
-            const manticoreShipNames = new Map();
-            Object.entries(shipTypes).forEach(([shipType, shipNamesArr])=>{
-                // need two names for destroyers and frigates
-                if (shipType === "destroyers" || shipType === "frigates") {
-                    const tempShipNamesArr = [
-                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
-                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
-                    ];
-                    manticoreShipNames.set(shipType, tempShipNamesArr);
-                } else // only one name for superdreadnought, carrier and battleship
-                manticoreShipNames.set(shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
-            });
-            localStorage.setItem("manticoreShipNames", JSON.stringify(Object.fromEntries(manticoreShipNames)));
-        }
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5e8Dz":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderCompBoard", ()=>renderCompBoard);
-var _elementCreators = require("../utilities/elementCreators");
-const renderCompBoard = function() {
-    const gameBoardContainer = document.querySelector(".gameBoard-container");
-    const compBoardWrapper = (0, _elementCreators.elemCreator)("div")([
-        "compBoard-wrapper"
-    ]);
-    (0, _elementCreators.appendElemToParent)(gameBoardContainer)(compBoardWrapper);
-    const compBoardContainer = (0, _elementCreators.elemCreator)("div")([
-        "compBoard-container"
-    ]);
-    (0, _elementCreators.appendElemToParent)(compBoardWrapper)(compBoardContainer);
-    for(let i = 0; i < 10; i += 1)for(let j = 0; j < 10; j += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-        [
-            "data-cellcomp",
-            `${j},${i}`
-        ]
-    ]), (0, _elementCreators.appendElemToParent)(compBoardContainer))((0, _elementCreators.elemCreator)("div")([
-        "comp-gameCell"
-    ]));
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ekPmF":[function(require,module,exports) {
+},{"../data/shipNames":"ekPmF","../functions/elementCreators":"aeBTs","../functions/renderPlayerBoard":"isJFB","../functions/renderTacticalOverview":"cpLJC","./handlePlayerClickOnCompMisses":"2HlWb","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/placeCompShipsOnBoard":"4ghRE","../functions/randomizeAndStoreShipNames":"kBXaE","../functions/renderCompBoard":"chzyQ"}],"ekPmF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "shipNames", ()=>shipNames);
@@ -2124,7 +3399,7 @@ const shipNames = {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bFpjJ":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"isJFB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderPlayerBoard", ()=>renderPlayerBoard);
@@ -2156,7 +3431,7 @@ function renderPlayerBoard() {
     (0, _renderStarsAndShipsInPlayerBoard.renderStarsAndShipsInPlayerBoard)();
 }
 
-},{"./elementCreators":"H4ivl","./renderStarsAndShipsInPlayerBoard":"ksuZK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ksuZK":[function(require,module,exports) {
+},{"./elementCreators":"aeBTs","./renderStarsAndShipsInPlayerBoard":"cpqBF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cpqBF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderStarsAndShipsInPlayerBoard", ()=>renderStarsAndShipsInPlayerBoard);
@@ -2246,7 +3521,7 @@ function renderStarsAndShipsInPlayerBoard() {
     });
 }
 
-},{"./elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kMrKG":[function(require,module,exports) {
+},{"./elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cpLJC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderTacticalOverview", ()=>renderTacticalOverview);
@@ -2439,7 +3714,7 @@ function renderTacticalOverview() {
     });
 }
 
-},{"./elementCreators":"H4ivl","./returnPlayerCompShipsCoords":"j1hhz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./shuffleArray":"jjbpU"}],"j1hhz":[function(require,module,exports) {
+},{"./elementCreators":"aeBTs","./returnPlayerCompShipsCoords":"gvSOo","./shuffleArray":"uu9YW","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gvSOo":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "returnPlayerCompShipsCoords", ()=>returnPlayerCompShipsCoords);
@@ -2566,7 +3841,7 @@ function returnPlayerCompShipsCoords() {
     };
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jjbpU":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"uu9YW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "shuffleArray", ()=>shuffleArray);
@@ -2592,10 +3867,10 @@ parcelHelpers.export(exports, "shuffleArray", ()=>shuffleArray);
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handlePlayerClickOnCompMisses", ()=>handlePlayerClickOnCompMisses);
-var _computersTurn = require("../components/computersTurn");
-var _renderBattleMessage = require("../components/renderBattleMessage");
-var _elementCreators = require("../utilities/elementCreators");
-var _updateCompTacticalOverviewShips = require("../utilities/updateCompTacticalOverviewShips");
+var _computersTurn = require("../functions/computersTurn");
+var _elementCreators = require("../functions/elementCreators");
+var _renderBattleMessage = require("../functions/renderBattleMessage");
+var _updateCompTacticalOverviewShips = require("../functions/updateCompTacticalOverviewShips");
 var _handlePlayerClickOnCompShips = require("./handlePlayerClickOnCompShips");
 const handlePlayerClickOnCompMisses = function(ev) {
     const currentCellCoord = this.dataset.cellcomp ?? "";
@@ -2652,59 +3927,224 @@ const handlePlayerClickOnCompMisses = function(ev) {
     setTimeout((0, _computersTurn.computersTurn), 0);
 };
 
-},{"../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","../utilities/updateCompTacticalOverviewShips":"3ytuC","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kGr2j":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","../functions/updateCompTacticalOverviewShips":"3dM43","./handlePlayerClickOnCompShips":"uEG8W","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/computersTurn":"6iO9p","../functions/renderBattleMessage":"jrIRe"}],"3dM43":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "computersTurn", ()=>computersTurn);
-var _handlePlayerClickOnCompMisses = require("../events/handlePlayerClickOnCompMisses");
-var _handlePlayerClickOnCompShips = require("../events/handlePlayerClickOnCompShips");
-var _elementCreators = require("../utilities/elementCreators");
-var _generateProbabilisticFiringCoord = require("../utilities/generateProbabilisticFiringCoord");
-var _announceGameWinner = require("./announceGameWinner");
-var _computerAttacks = require("./computerAttacks");
-const computersTurn = function() {
-    // checks if game has been won
-    if (!localStorage.getItem("isGameWon")) localStorage.setItem("isGameWon", JSON.stringify(""));
-    const isGameWon = JSON.parse(localStorage.getItem("isGameWon") ?? "");
-    // this conditional check is to prevent computer from having a turn after player has destroyed all computer ships
-    if (!isGameWon) {
-        if (!localStorage.getItem("totalHitsOnPlayerShips")) localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(0));
-        const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? JSON.stringify([]));
-        // const compAttackGuess = genRandCompAttackGuess();
-        const compAttackGuess = (0, _generateProbabilisticFiringCoord.generateProbabilisticFiringCoord)();
-        // if compAttackGuess is on a playerShipCoord, then checks the hit counter
-        // avoids registering a win when the computer misses
-        if (playerShipsCoords.includes(compAttackGuess)) {
-            const totalHitsOnPlayerShips = JSON.parse(localStorage.getItem("totalHitsOnPlayerShips") ?? "");
-            if (totalHitsOnPlayerShips === 17) // calls game winner function
-            (0, _announceGameWinner.announceGameWinner)("comp");
+parcelHelpers.export(exports, "updateCompTacticalOverviewShips", ()=>updateCompTacticalOverviewShips);
+var _beforeAfterShipCellsFiredUponStatus = require("./beforeAfterShipCellsFiredUponStatus");
+var _elementCreators = require("./elementCreators");
+function updateCompTacticalOverviewShips() {
+    // grab all coords of comp ships
+    const superdreadnoughtCoords = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? JSON.stringify([]));
+    const superdreadnoughtCoordsArray = Object.values(superdreadnoughtCoords);
+    const battleshipCoords = JSON.parse(localStorage.getItem("compBattleship") ?? JSON.stringify([]));
+    const battleshipCoordsArray = Object.values(battleshipCoords);
+    const carrierCoords = JSON.parse(localStorage.getItem("compCarrier") ?? JSON.stringify([]));
+    const carrierCoordsArray = Object.values(carrierCoords);
+    const destroyerCoords = JSON.parse(localStorage.getItem("compDestroyers") ?? JSON.stringify([]));
+    const destroyerCoordsArray = destroyerCoords.map((destroyer)=>Object.values(destroyer));
+    const frigateCoords = JSON.parse(localStorage.getItem("compFrigates") ?? JSON.stringify([]));
+    const frigateCoordsArray = frigateCoords.map((frigate)=>Object.values(frigate));
+    // coords of player misses on computer ships
+    const compShipsMissesCoords = JSON.parse(localStorage.getItem("compShipsMissesCoords") ?? JSON.stringify([]));
+    const compShipsMissesCoordsSet = new Set(compShipsMissesCoords);
+    // coords of player hits on computer ships
+    const compShipsHitCoords = JSON.parse(localStorage.getItem("compShipsHitCoords") ?? JSON.stringify([]));
+    const compShipsHitCoordsSet = new Set(compShipsHitCoords);
+    const shipTypesCoords = [
+        [
+            "Superdreadnought",
+            superdreadnoughtCoordsArray
+        ],
+        [
+            "Battleship",
+            battleshipCoordsArray
+        ],
+        [
+            "Carrier",
+            carrierCoordsArray
+        ], 
+    ];
+    shipTypesCoords.forEach(([shipType, coords])=>{
+        const isEveryShipCoordHit = coords.reduce((acc, coord)=>{
+            if (!compShipsHitCoordsSet.has(coord)) acc = false;
+            return acc;
+        }, true);
+        // if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
+        if (isEveryShipCoordHit) {
+            // sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
+            const { isBeforeShipCellFiredUpon , isAfterShipCellFiredUpon  } = (0, _beforeAfterShipCellsFiredUponStatus.beforeAfterShipCellsFiredUponStatus)({
+                shipType,
+                coordsArr: coords,
+                compShipsHitCoordsSet,
+                compShipsMissesCoordsSet
+            });
+            // if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
+            if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
+                // grab the tac overview comp '?' cell and remove it
+                const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}"]`);
+                if (questionMarkCell) questionMarkCell.remove();
+                const lengthOfCells = shipType === "Superdreadnought" ? 5 : shipType === "Carrier" ? 4 : 3;
+                // display sunk ship with '💥' emoji
+                for(let i = 0; i < lengthOfCells; i += 1){
+                    const hiddenCell = document.querySelector(`[data-compshipcell="${shipType}_${i}"]`);
+                    if (hiddenCell && hiddenCell.style.display === "none") (0, _elementCreators.pipe)((0, _elementCreators.removeStyleFromElem)("display"), (0, _elementCreators.addStyleToElem)([
+                        [
+                            "display",
+                            "visible"
+                        ],
+                        [
+                            "color",
+                            "#f0a400"
+                        ], 
+                    ]), (0, _elementCreators.addTextToElem)("\uD83D\uDCA5"))(hiddenCell);
+                }
+            }
         }
-        // if no winner, continues attack
-        (0, _computerAttacks.computerAttacks)(compAttackGuess);
-        // if game win condition has not been reached, adds the event listeners back on to continue round
-        const compShipPresent = document.querySelectorAll(".compShipPresent");
-        compShipPresent.forEach((cell)=>{
-            (0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handlePlayerClickOnCompShips.handlePlayerClickOnCompShips)))(cell);
+    });
+    const shipTypesCoordsArrArr = [
+        [
+            "Destroyers",
+            destroyerCoordsArray
+        ],
+        [
+            "Frigates",
+            frigateCoordsArray
+        ], 
+    ];
+    shipTypesCoordsArrArr.forEach(([shipType, coordsArrArr])=>{
+        coordsArrArr.forEach((coordsArr, idx)=>{
+            const isEveryShipCoordHit = coordsArr.reduce((acc, coord)=>{
+                if (!compShipsHitCoordsSet.has(coord)) acc = false;
+                return acc;
+            }, true);
+            // if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
+            if (isEveryShipCoordHit) {
+                // sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
+                const { isBeforeShipCellFiredUpon , isAfterShipCellFiredUpon  } = (0, _beforeAfterShipCellsFiredUponStatus.beforeAfterShipCellsFiredUponStatus)({
+                    shipType,
+                    coordsArr,
+                    compShipsHitCoordsSet,
+                    compShipsMissesCoordsSet
+                });
+                // if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
+                if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
+                    // grab the tac overview comp '?' cell and remove it
+                    const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}_${idx}"]`);
+                    if (questionMarkCell) questionMarkCell.remove();
+                    // display sunk ship with '💥' emoji
+                    for(let i = 0; i < coordsArr.length; i += 1){
+                        const hiddenCell = document.querySelector(`[data-compshipcell="${shipType}_${idx}_${i}"]`);
+                        if (hiddenCell && hiddenCell.style.display === "none") (0, _elementCreators.pipe)((0, _elementCreators.removeStyleFromElem)("display"), (0, _elementCreators.addStyleToElem)([
+                            [
+                                "display",
+                                "visible"
+                            ],
+                            [
+                                "color",
+                                "#f0a400"
+                            ], 
+                        ]), (0, _elementCreators.addTextToElem)("\uD83D\uDCA5"))(hiddenCell);
+                    }
+                }
+            }
         });
-        const compShipNotPresent = document.querySelectorAll(".compShipNotPresent");
-        compShipNotPresent.forEach((cell)=>{
-            (0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handlePlayerClickOnCompMisses.handlePlayerClickOnCompMisses)))(cell);
-        });
-    }
-};
+    });
+}
 
-},{"../events/handlePlayerClickOnCompMisses":"2HlWb","../events/handlePlayerClickOnCompShips":"uEG8W","../utilities/elementCreators":"H4ivl","../utilities/generateProbabilisticFiringCoord":"2fd56","./announceGameWinner":"503Ay","./computerAttacks":"6ZQM8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"uEG8W":[function(require,module,exports) {
+},{"./beforeAfterShipCellsFiredUponStatus":"2ylZY","./elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2ylZY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "beforeAfterShipCellsFiredUponStatus", ()=>beforeAfterShipCellsFiredUponStatus);
+function beforeAfterShipCellsFiredUponStatus({ shipType , coordsArr , compShipsHitCoordsSet , compShipsMissesCoordsSet  }) {
+    // since frigates are only one cells each, both directions must be checked
+    // to determine if the frigate is surrounded
+    if (shipType === "Frigates") {
+        // no sorting as frigate coords are only one cell each
+        const frigateCell = coordsArr[0];
+        const frigateCellX = parseInt(frigateCell.split(",")[0]);
+        const frigateCellY = parseInt(frigateCell.split(",")[1]);
+        // top cell
+        const topCell = `${frigateCellX},${frigateCellY - 1}`;
+        const topCellWithinBounds = parseInt(topCell.split(",")[1]) >= 0;
+        // right cell
+        const rightCell = `${frigateCellX + 1},${frigateCellY}`;
+        const rightCellWithinBounds = parseInt(rightCell.split(",")[0]) <= 9;
+        // bottom cell
+        const bottomCell = `${frigateCellX},${frigateCellY + 1}`;
+        const bottomCellWithinBounds = parseInt(bottomCell.split(",")[1]) <= 9;
+        // left cell
+        const leftCell = `${frigateCellX - 1},${frigateCellY}`;
+        const leftCellWithinBounds = parseInt(leftCell.split(",")[0]) >= 0;
+        // if the cells are not within bounds, they are considered to have been fired upon
+        const isTopCellFiredUpon = topCellWithinBounds ? compShipsHitCoordsSet.has(topCell) || compShipsMissesCoordsSet.has(topCell) : true;
+        const isRightCellFiredUpon = rightCellWithinBounds ? compShipsHitCoordsSet.has(rightCell) || compShipsMissesCoordsSet.has(rightCell) : true;
+        const isBottomCellFiredUpon = bottomCellWithinBounds ? compShipsHitCoordsSet.has(bottomCell) || compShipsMissesCoordsSet.has(bottomCell) : true;
+        const isLeftCellFiredUpon = leftCellWithinBounds ? compShipsHitCoordsSet.has(leftCell) || compShipsMissesCoordsSet.has(leftCell) : true;
+        const isBeforeShipCellFiredUpon = isTopCellFiredUpon && isLeftCellFiredUpon;
+        const isAfterShipCellFiredUpon = isRightCellFiredUpon && isBottomCellFiredUpon;
+        return {
+            isBeforeShipCellFiredUpon,
+            isAfterShipCellFiredUpon
+        };
+    }
+    // following is for all other ship types except frigates
+    // need  to sort the coords because they were grabbed from an object and
+    // js does not guarantee the order of the keys in an object
+    const coordsArrClone = structuredClone(coordsArr);
+    const sortedCoordsArr = coordsArrClone.sort((a, b)=>{
+        const aX = parseInt(a.split(",")[0].replace('"', ""));
+        const aY = parseInt(a.split(",")[1].replace('"', ""));
+        const bX = parseInt(b.split(",")[0].replace('"', ""));
+        const bY = parseInt(b.split(",")[1].replace('"', ""));
+        if (aX < bX) return -1;
+        if (aX > bX) return 1;
+        if (aY < bY) return -1;
+        if (aY > bY) return 1;
+        return 0;
+    });
+    // determine the direction of the ship
+    const firstCoord = sortedCoordsArr[0];
+    const lastCoord = sortedCoordsArr[sortedCoordsArr.length - 1];
+    const firstCoordXY = firstCoord.split(",");
+    const lastCoordXY = lastCoord.split(",");
+    const firstCoordX = parseInt(firstCoordXY[0].replace('"', ""));
+    const firstCoordY = parseInt(firstCoordXY[1].replace('"', ""));
+    const lastCoordX = parseInt(lastCoordXY[0].replace('"', ""));
+    const lastCoordY = parseInt(lastCoordXY[1].replace('"', ""));
+    const isHorizontal = firstCoordY === lastCoordY;
+    // const isVertical = firstCoordX === lastCoordX;
+    // determine the cells just before and just after the ship
+    const beforeShipCell = isHorizontal ? `${firstCoordX - 1},${firstCoordY}` : `${firstCoordX},${firstCoordY - 1}`;
+    const beforeShipCellX = parseInt(beforeShipCell.split(",")[0]);
+    const beforeShipCellY = parseInt(beforeShipCell.split(",")[1]);
+    const beforeShipCellWithinBounds = isHorizontal ? beforeShipCellX <= 9 && beforeShipCellX >= 0 : beforeShipCellY <= 9 && beforeShipCellY >= 0;
+    // if the cell is not within bounds, it is considered to have been fired upon
+    const isBeforeShipCellFiredUpon = beforeShipCellWithinBounds ? compShipsHitCoordsSet.has(beforeShipCell) || compShipsMissesCoordsSet.has(beforeShipCell) : true;
+    const afterShipCell = isHorizontal ? `${lastCoordX + 1},${lastCoordY}` : `${lastCoordX},${lastCoordY + 1}`;
+    const afterShipCellX = parseInt(afterShipCell.split(",")[0]);
+    const afterShipCellY = parseInt(afterShipCell.split(",")[1]);
+    const afterShipCellWithinBounds = isHorizontal ? afterShipCellX <= 9 && afterShipCellX >= 0 : afterShipCellY <= 9 && afterShipCellY >= 0;
+    // if the cell is not within bounds, it is considered to have been fired upon
+    const isAfterShipCellFiredUpon = afterShipCellWithinBounds ? compShipsHitCoordsSet.has(afterShipCell) || compShipsMissesCoordsSet.has(afterShipCell) : true;
+    return {
+        isBeforeShipCellFiredUpon,
+        isAfterShipCellFiredUpon
+    };
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"uEG8W":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "handlePlayerClickOnCompShips", ()=>handlePlayerClickOnCompShips);
-var _announceGameWinner = require("../components/announceGameWinner");
-var _computersTurn = require("../components/computersTurn");
-var _renderBattleMessage = require("../components/renderBattleMessage");
-var _elementCreators = require("../utilities/elementCreators");
-var _returnPlayerCompShipsCoords = require("../utilities/returnPlayerCompShipsCoords");
-var _returnShipSymbolFromCoord = require("../utilities/returnShipSymbolFromCoord");
-var _returnSunkShipObj = require("../utilities/returnSunkShipObj");
-var _updateCompTacticalOverviewShips = require("../utilities/updateCompTacticalOverviewShips");
+var _announceGameWinner = require("../functions/announceGameWinner");
+var _computersTurn = require("../functions/computersTurn");
+var _elementCreators = require("../functions/elementCreators");
+var _renderBattleMessage = require("../functions/renderBattleMessage");
+var _returnPlayerCompShipsCoords = require("../functions/returnPlayerCompShipsCoords");
+var _returnShipSymbolFromCoord = require("../functions/returnShipSymbolFromCoord");
+var _returnSunkShipObj = require("../functions/returnSunkShipObj");
+var _updateCompTacticalOverviewShips = require("../functions/updateCompTacticalOverviewShips");
 var _handlePlayerClickOnCompMisses = require("./handlePlayerClickOnCompMisses");
 const handlePlayerClickOnCompShips = function(ev) {
     // initialize the hit counter on first hit
@@ -2775,11 +4215,120 @@ const handlePlayerClickOnCompShips = function(ev) {
     setTimeout((0, _computersTurn.computersTurn), 0);
 };
 
-},{"../components/announceGameWinner":"503Ay","../components/computersTurn":"kGr2j","../components/renderBattleMessage":"hDATR","../utilities/elementCreators":"H4ivl","../utilities/returnPlayerCompShipsCoords":"j1hhz","../utilities/returnShipSymbolFromCoord":"gdJC8","../utilities/returnSunkShipObj":"FtKRn","../utilities/updateCompTacticalOverviewShips":"3ytuC","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"503Ay":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","../functions/returnPlayerCompShipsCoords":"gvSOo","../functions/returnShipSymbolFromCoord":"8gE8M","../functions/returnSunkShipObj":"kI7rO","../functions/updateCompTacticalOverviewShips":"3dM43","./handlePlayerClickOnCompMisses":"2HlWb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../functions/announceGameWinner":"kPsJ9","../functions/computersTurn":"6iO9p","../functions/renderBattleMessage":"jrIRe"}],"8gE8M":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "returnShipSymbolFromCoord", ()=>returnShipSymbolFromCoord);
+function returnShipSymbolFromCoord({ playerCompShipsCoords , currentCellCoord , towardsCombatant  }) {
+    const { playerShipCoords , compShipCoords  } = playerCompShipsCoords;
+    let shipSymbol = "";
+    if (towardsCombatant === "player") shipSymbol = Object.entries(playerShipCoords).reduce((acc, [shipName, shipCoords])=>{
+        const shipCoords_ = shipCoords.flat(3);
+        if (shipCoords_.includes(currentCellCoord)) acc = shipName[0].toUpperCase();
+        return acc;
+    }, "");
+    if (towardsCombatant === "comp") shipSymbol = Object.entries(compShipCoords).reduce((acc, [shipName, shipCoords])=>{
+        const shipCoords_ = shipCoords.flat(3);
+        if (shipCoords_.includes(currentCellCoord)) acc = shipName[0].toUpperCase();
+        return acc;
+    }, "");
+    return shipSymbol;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kI7rO":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "returnSunkShipObj", ()=>returnSunkShipObj);
+var _returnPlayerCompShipsCoords = require("./returnPlayerCompShipsCoords");
+// returns an object with the sunk ship name if a ship has been sunk
+function returnSunkShipObj(currentCellCoord, currentShipSymbol, towardsCombatant) {
+    const playerCompShipsCoords = (0, _returnPlayerCompShipsCoords.returnPlayerCompShipsCoords)();
+    // store hits on ships to determine if a ship has been sunk
+    const shipHits = JSON.parse(localStorage.getItem("shipHits") ?? JSON.stringify({
+        playerShips: {
+            superdreadnought: 0,
+            carrier: 0,
+            battleship: 0,
+            destroyers: [
+                0,
+                0
+            ],
+            frigates: [
+                0,
+                0
+            ]
+        },
+        compShips: {
+            superdreadnought: 0,
+            carrier: 0,
+            battleship: 0,
+            destroyers: [
+                0,
+                0
+            ],
+            frigates: [
+                0,
+                0
+            ]
+        }
+    }));
+    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
+    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
+    const sunkShipObj = {
+        player: null,
+        comp: null
+    };
+    if (towardsCombatant === "player") switch(currentShipSymbol){
+        case "S":
+            shipHits.playerShips.superdreadnought < 4 ? shipHits.playerShips.superdreadnought += 1 : sunkShipObj.player = manticoreShipNames.superdreadnought;
+            break;
+        case "C":
+            shipHits.playerShips.carrier < 3 ? shipHits.playerShips.carrier += 1 : sunkShipObj.player = manticoreShipNames.carrier;
+            break;
+        case "B":
+            shipHits.playerShips.battleship < 2 ? shipHits.playerShips.battleship += 1 : sunkShipObj.player = manticoreShipNames.battleship;
+            break;
+        case "D":
+            if (playerCompShipsCoords.playerShipCoords.destroyers[0].includes(currentCellCoord)) shipHits.playerShips.destroyers[0] < 1 ? shipHits.playerShips.destroyers[0] += 1 : sunkShipObj.player = manticoreShipNames.destroyers[0];
+            else shipHits.playerShips.destroyers[1] < 1 ? shipHits.playerShips.destroyers[1] += 1 : sunkShipObj.player = manticoreShipNames.destroyers[1];
+            break;
+        case "F":
+            if (playerCompShipsCoords.playerShipCoords.frigates[0].includes(currentCellCoord)) sunkShipObj.player = manticoreShipNames.frigates[0];
+            else sunkShipObj.player = manticoreShipNames.frigates[1];
+            break;
+        default:
+            break;
+    }
+    else switch(currentShipSymbol){
+        case "S":
+            shipHits.compShips.superdreadnought < 4 ? shipHits.compShips.superdreadnought += 1 : sunkShipObj.comp = havenShipNames.superdreadnought;
+            break;
+        case "C":
+            shipHits.compShips.carrier < 3 ? shipHits.compShips.carrier += 1 : sunkShipObj.comp = havenShipNames.carrier;
+            break;
+        case "B":
+            shipHits.compShips.battleship < 2 ? shipHits.compShips.battleship += 1 : sunkShipObj.comp = havenShipNames.battleship;
+            break;
+        case "D":
+            if (playerCompShipsCoords.compShipCoords.destroyers[0].includes(currentCellCoord)) shipHits.compShips.destroyers[0] < 1 ? shipHits.compShips.destroyers[0] += 1 : sunkShipObj.comp = havenShipNames.destroyers[0];
+            else shipHits.compShips.destroyers[1] < 1 ? shipHits.compShips.destroyers[1] += 1 : sunkShipObj.comp = havenShipNames.destroyers[1];
+            break;
+        case "F":
+            if (playerCompShipsCoords.compShipCoords.frigates[0].includes(currentCellCoord)) sunkShipObj.comp = havenShipNames.frigates[0];
+            else sunkShipObj.comp = havenShipNames.frigates[1];
+            break;
+        default:
+            break;
+    }
+    localStorage.setItem("shipHits", JSON.stringify(shipHits));
+    return sunkShipObj;
+}
+
+},{"./returnPlayerCompShipsCoords":"gvSOo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kPsJ9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "announceGameWinner", ()=>announceGameWinner);
-var _elementCreators = require("../utilities/elementCreators");
+var _elementCreators = require("../functions/elementCreators");
 var _preventClicksAfterWin = require("./preventClicksAfterWin");
 var _restartGame = require("./restartGame");
 const announceGameWinner = function(winner_) {
@@ -2828,13 +4377,13 @@ const announceGameWinner = function(winner_) {
     localStorage.setItem("isGameWon", JSON.stringify(true));
 };
 
-},{"../utilities/elementCreators":"H4ivl","./preventClicksAfterWin":"8zxk8","./restartGame":"kObX3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8zxk8":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","./preventClicksAfterWin":"ciegP","./restartGame":"a1pIK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ciegP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "preventClicksAfterWin", ()=>preventClicksAfterWin);
 var _handlePlayerClickOnCompMisses = require("../events/handlePlayerClickOnCompMisses");
 var _handlePlayerClickOnCompShips = require("../events/handlePlayerClickOnCompShips");
-var _elementCreators = require("../utilities/elementCreators");
+var _elementCreators = require("../functions/elementCreators");
 const preventClicksAfterWin = function() {
     const compShipPresent = document.querySelectorAll(".compShipPresent");
     const compShipNotPresent = document.querySelectorAll(".compShipNotPresent");
@@ -2847,7 +4396,7 @@ const preventClicksAfterWin = function() {
     });
 };
 
-},{"../events/handlePlayerClickOnCompMisses":"2HlWb","../events/handlePlayerClickOnCompShips":"uEG8W","../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kObX3":[function(require,module,exports) {
+},{"../events/handlePlayerClickOnCompMisses":"2HlWb","../events/handlePlayerClickOnCompShips":"uEG8W","../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a1pIK":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "restartGame", ()=>restartGame);
@@ -2857,12 +4406,282 @@ const restartGame = function() {
     self.location.reload();
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hDATR":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6iO9p":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "computersTurn", ()=>computersTurn);
+var _handlePlayerClickOnCompMisses = require("../events/handlePlayerClickOnCompMisses");
+var _handlePlayerClickOnCompShips = require("../events/handlePlayerClickOnCompShips");
+var _elementCreators = require("../functions/elementCreators");
+var _generateProbabilisticFiringCoord = require("../functions/generateProbabilisticFiringCoord");
+var _announceGameWinner = require("./announceGameWinner");
+var _computerAttacks = require("./computerAttacks");
+const computersTurn = function() {
+    // checks if game has been won
+    if (!localStorage.getItem("isGameWon")) localStorage.setItem("isGameWon", JSON.stringify(""));
+    const isGameWon = JSON.parse(localStorage.getItem("isGameWon") ?? "");
+    // this conditional check is to prevent computer from having a turn after player has destroyed all computer ships
+    if (!isGameWon) {
+        if (!localStorage.getItem("totalHitsOnPlayerShips")) localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(0));
+        const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? JSON.stringify([]));
+        // const compAttackGuess = genRandCompAttackGuess();
+        const compAttackGuess = (0, _generateProbabilisticFiringCoord.generateProbabilisticFiringCoord)();
+        // if compAttackGuess is on a playerShipCoord, then checks the hit counter
+        // avoids registering a win when the computer misses
+        if (playerShipsCoords.includes(compAttackGuess)) {
+            const totalHitsOnPlayerShips = JSON.parse(localStorage.getItem("totalHitsOnPlayerShips") ?? "");
+            if (totalHitsOnPlayerShips === 17) // calls game winner function
+            (0, _announceGameWinner.announceGameWinner)("comp");
+        }
+        // if no winner, continues attack
+        (0, _computerAttacks.computerAttacks)(compAttackGuess);
+        // if game win condition has not been reached, adds the event listeners back on to continue round
+        const compShipPresent = document.querySelectorAll(".compShipPresent");
+        compShipPresent.forEach((cell)=>{
+            (0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handlePlayerClickOnCompShips.handlePlayerClickOnCompShips)))(cell);
+        });
+        const compShipNotPresent = document.querySelectorAll(".compShipNotPresent");
+        compShipNotPresent.forEach((cell)=>{
+            (0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handlePlayerClickOnCompMisses.handlePlayerClickOnCompMisses)))(cell);
+        });
+    }
+};
+
+},{"../events/handlePlayerClickOnCompMisses":"2HlWb","../events/handlePlayerClickOnCompShips":"uEG8W","../functions/elementCreators":"aeBTs","../functions/generateProbabilisticFiringCoord":"itekX","./announceGameWinner":"kPsJ9","./computerAttacks":"hACem","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"itekX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord);
+var _generateFiringSolution = require("./generateFiringSolution");
+var _genRandCompAttackGuess = require("./genRandCompAttackGuess");
+function generateProbabilisticFiringCoord() {
+    const prevCompHitOrMiss = localStorage.getItem("prevCompHitOrMiss");
+    const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? "[]");
+    const compHitOnPlayerCoordsSet = new Set(compHitOnPlayerCoordsArr);
+    const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? "[]");
+    const compMissOnPlayerCoordsSet = new Set(compMissOnPlayerCoordsArr);
+    const prevCompFiringCoords = [
+        compHitOnPlayerCoordsArr,
+        compMissOnPlayerCoordsArr, 
+    ].flat();
+    let newFiringCoordinate = "";
+    // only runs on first computer turn as prevCompHitOrMiss is undefined
+    if (!prevCompHitOrMiss) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
+    else // if there havent been any hits yet, generate a random guess
+    if (compHitOnPlayerCoordsArr.length === 0) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
+    else {
+        newFiringCoordinate = (0, _generateFiringSolution.generateFiringSolution)({
+            compHitOnPlayerCoordsSet,
+            compMissOnPlayerCoordsSet
+        });
+        newFiringCoordinate = newFiringCoordinate === "" ? (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords) : newFiringCoordinate;
+    }
+    return newFiringCoordinate;
+}
+
+},{"./generateFiringSolution":"1Zq0M","./genRandCompAttackGuess":"cqQtw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1Zq0M":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "generateFiringSolution", ()=>generateFiringSolution);
+var _generateAdjacentCoordsArr = require("./generateAdjacentCoordsArr");
+function generateFiringSolution({ compHitOnPlayerCoordsSet , compMissOnPlayerCoordsSet  }) {
+    // generate a cloud of all adjacent coords of all previous hits
+    // each of these adjacent coords that have not been previously fired upon will be used to generate ranked tuples
+    const uniqueAdjacentCoords = Array.from(compHitOnPlayerCoordsSet).flatMap((coord)=>(0, _generateAdjacentCoordsArr.generateAdjacentCoordsArr)(coord)).filter((coord)=>!compMissOnPlayerCoordsSet.has(coord) && !compHitOnPlayerCoordsSet.has(coord));
+    // if there are no unique adjacent coords, meaning all surrounding coords
+    // have been hit, return an empty string so that the caller can call the
+    // random coord guess function
+    if (uniqueAdjacentCoords.length === 0) return "";
+    // create ranked tuples of the adjacent coords
+    const adjCoordsRankedTuples = uniqueAdjacentCoords.reduce((rankedTuples, uniqueAdjCoord)=>{
+        // for each of the unique adjacent coords, we generate another cloud of
+        // adjacent coords but this time with a radius of 2 and we count the
+        // number of times these new coords intersect with previous hits
+        // this approach favours coords that are on the same axes as prev hits
+        // and can more reliably hit the adjacent coord in the same axis rather
+        // than hunting in another axis
+        const newAdjCoords = (0, _generateAdjacentCoordsArr.generateAdjacentCoordsArr)(uniqueAdjCoord, 2);
+        const coordScore = newAdjCoords.reduce((score, newAdjCoord)=>{
+            if (compHitOnPlayerCoordsSet.has(newAdjCoord)) score += 1;
+            return score;
+        }, 0);
+        rankedTuples.push([
+            uniqueAdjCoord,
+            coordScore
+        ]);
+        return rankedTuples;
+    }, []);
+    const sortedAdjCoordsRankedTuples = adjCoordsRankedTuples.sort((a, b)=>b[1] - a[1]);
+    return sortedAdjCoordsRankedTuples[0][0];
+}
+
+},{"./generateAdjacentCoordsArr":"juaMP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"juaMP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "generateAdjacentCoordsArr", ()=>generateAdjacentCoordsArr);
+function generateAdjacentCoordsArr(coord, length = 1) {
+    const xyCoords = coord.split(",");
+    const xCoord = parseInt(xyCoords[0].replace('"', ""));
+    const yCoord = parseInt(xyCoords[1].replace('"', ""));
+    // generate adjacent coords of specified length based on coord location
+    const adjacentCoords = [];
+    for(let i = 1; i <= length; i += 1){
+        // top
+        const topCoord = `${xCoord},${yCoord - i}`;
+        if (yCoord - i >= 0) adjacentCoords.push(topCoord);
+        // right
+        const rightCoord = `${xCoord + i},${yCoord}`;
+        if (xCoord + i <= 9) adjacentCoords.push(rightCoord);
+        // bottom
+        const bottomCoord = `${xCoord},${yCoord + i}`;
+        if (yCoord + i <= 9) adjacentCoords.push(bottomCoord);
+        // left
+        const leftCoord = `${xCoord - i},${yCoord}`;
+        if (xCoord - i >= 0) adjacentCoords.push(leftCoord);
+    }
+    return adjacentCoords;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cqQtw":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess);
+const genRandCompAttackGuess = function(prevCompFiringCoords) {
+    let compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
+    // checks if guess is in previous guesses, if so runs the random function again
+    // avoids guessing the same co-ordinates
+    let isUniqueCoordinate = false;
+    while(!isUniqueCoordinate)if (prevCompFiringCoords.includes(compAttackGuess)) {
+        //if the guessed co-ordinate has already been tried
+        isUniqueCoordinate = false;
+        compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
+    } else isUniqueCoordinate = true;
+    return compAttackGuess;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hACem":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "computerAttacks", ()=>computerAttacks);
+var _elementCreators = require("../functions/elementCreators");
+var _returnSunkShipObj = require("../functions/returnSunkShipObj");
+var _storeCompHitMissCoords = require("../functions/storeCompHitMissCoords");
+var _updatePlayerTacticalOverviewCells = require("../functions/updatePlayerTacticalOverviewCells");
+var _renderBattleMessage = require("./renderBattleMessage");
+const computerAttacks = function(compAttackGuess_) {
+    const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "[]");
+    let totalHitsOnPlayerShips = JSON.parse(localStorage.getItem("totalHitsOnPlayerShips") ?? "0");
+    // compAttackGuess_ is assumed to be unique at this point
+    // checks if playerShip is present
+    if (playerShipsCoords.includes(compAttackGuess_)) {
+        const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
+        const currentCellCoord = compAttackGuess_;
+        const currentShipSymbol = playerShipCell?.textContent ?? "";
+        const towardsCombatant = "player";
+        const hitOrMiss = "hit";
+        // update tactical overview ship cells to visually indicate hit
+        (0, _updatePlayerTacticalOverviewCells.updatePlayerTacticalOverviewCells)(currentCellCoord);
+        // stores hits on corresponding ships to determine if a ship has been sunk
+        const sunkShipObj = (0, _returnSunkShipObj.returnSunkShipObj)(currentCellCoord, currentShipSymbol, towardsCombatant);
+        const sunkShipName = sunkShipObj.player === null ? sunkShipObj.comp : sunkShipObj.player;
+        // calls function to display battle message when computer registers a hit on a player ship
+        (0, _renderBattleMessage.renderBattleMessageElem)({
+            currentCellCoord,
+            currentShipSymbol,
+            towardsCombatant,
+            hitOrMiss,
+            sunkShipName
+        });
+        // updates playercell to visually indicate hit
+        if (playerShipCell) {
+            playerShipCell.textContent = "";
+            playerShipCell.textContent = "\uD83D\uDCA5";
+        }
+        // updates hit counter and store
+        totalHitsOnPlayerShips = totalHitsOnPlayerShips + 1;
+        localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(totalHitsOnPlayerShips));
+        // stores the current hit co-ordinates and hit type to assist comp firing solution
+        (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "hit");
+    } else {
+        //if its a miss
+        const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
+        // assigns '✖' to currently missed co-ordinate and colors it  amber
+        if (playerShipCell) {
+            playerShipCell.textContent = "";
+            playerShipCell.textContent = "\u2716";
+            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+                [
+                    "color",
+                    "#f0a400"
+                ]
+            ]))(playerShipCell);
+        }
+        // initializes storage for previously missed co-ordinates
+        if (!localStorage.getItem("prevCompMissOnPlayerCoord")) localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(""));
+        // grabs the previous miss co-ordinates in order to turn them back into gray
+        const prevCompMissOnPlayerCoord = JSON.parse(localStorage.getItem("prevCompMissOnPlayerCoord") ?? "");
+        const prevCompMissOnPlayerCell = document.querySelector(`[data-cellplayer="${prevCompMissOnPlayerCoord}"]`);
+        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+            [
+                "color",
+                "gainsboro"
+            ]
+        ]))(prevCompMissOnPlayerCell);
+        //store the current miss co-ordinates and hit type to assist comp firing solution
+        (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "miss");
+    }
+};
+
+},{"../functions/elementCreators":"aeBTs","../functions/returnSunkShipObj":"kI7rO","../functions/storeCompHitMissCoords":"6cokW","../functions/updatePlayerTacticalOverviewCells":"ltwMd","./renderBattleMessage":"jrIRe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6cokW":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "storeCompHitMissCoords", ()=>storeCompHitMissCoords);
+function storeCompHitMissCoords(compAttackGuess_, hitOrMiss) {
+    localStorage.setItem("prevCompHitOrMiss", hitOrMiss);
+    switch(hitOrMiss){
+        case "hit":
+            {
+                localStorage.setItem("prevCompHitOnPlayerCoord", JSON.stringify(compAttackGuess_));
+                const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? JSON.stringify([]));
+                // adds current hit to array
+                compHitOnPlayerCoordsArr.push(compAttackGuess_);
+                // updates store
+                localStorage.setItem("compHitOnPlayerCoordsArr", JSON.stringify(compHitOnPlayerCoordsArr));
+                break;
+            }
+        case "miss":
+            {
+                localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(compAttackGuess_));
+                const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? JSON.stringify([]));
+                // adds current miss to array
+                compMissOnPlayerCoordsArr.push(compAttackGuess_);
+                // updates store
+                localStorage.setItem("compMissOnPlayerCoordsArr", JSON.stringify(compMissOnPlayerCoordsArr));
+                break;
+            }
+        default:
+            break;
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ltwMd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updatePlayerTacticalOverviewCells", ()=>updatePlayerTacticalOverviewCells);
+function updatePlayerTacticalOverviewCells(currentCellCoord) {
+    const cellToUpdate = document.querySelector(`[data-playership="${currentCellCoord}"]`);
+    if (cellToUpdate) {
+        cellToUpdate.textContent = "";
+        cellToUpdate.textContent = "\uD83D\uDCA5";
+        cellToUpdate.style.color = "#f0a400";
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jrIRe":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderBattleMessageElem", ()=>renderBattleMessageElem);
-var _elementCreators = require("../utilities/elementCreators");
-var _renderBattleMessageHelper = require("../utilities/renderBattleMessageHelper");
+var _elementCreators = require("../functions/elementCreators");
+var _renderBattleMessageHelper = require("../functions/renderBattleMessageHelper");
 const renderBattleMessageElem = async function({ currentCellCoord , currentShipSymbol , towardsCombatant , hitOrMiss , sunkShipName  }) {
     const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
     const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
@@ -3021,7 +4840,7 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
     });
 };
 
-},{"../utilities/elementCreators":"H4ivl","../utilities/renderBattleMessageHelper":"mUL1R","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"mUL1R":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","../functions/renderBattleMessageHelper":"jDEhZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jDEhZ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "renderBattleMessageHelper", ()=>renderBattleMessageHelper);
@@ -3119,7 +4938,7 @@ async function renderBattleMessageHelper({ towardsCombatant , firedStatus , ship
     }
 }
 
-},{"../data/battleTexts":"6YoE9","./createTypewriterEffect":"59lY5","./elementCreators":"H4ivl","./tossCoin":"jHvvC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6YoE9":[function(require,module,exports) {
+},{"../data/battleTexts":"6YoE9","./createTypewriterEffect":"9yJB4","./elementCreators":"aeBTs","./tossCoin":"amf2O","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6YoE9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "battleTexts", ()=>battleTexts);
@@ -3304,7 +5123,7 @@ const battleTexts = {
     ]
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jHvvC":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"amf2O":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "tossCoin", ()=>tossCoin);
@@ -3312,551 +5131,300 @@ function tossCoin() {
     return Math.random() > 0.5;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gdJC8":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4ghRE":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "returnShipSymbolFromCoord", ()=>returnShipSymbolFromCoord);
-function returnShipSymbolFromCoord({ playerCompShipsCoords , currentCellCoord , towardsCombatant  }) {
-    const { playerShipCoords , compShipCoords  } = playerCompShipsCoords;
-    let shipSymbol = "";
-    if (towardsCombatant === "player") shipSymbol = Object.entries(playerShipCoords).reduce((acc, [shipName, shipCoords])=>{
-        const shipCoords_ = shipCoords.flat(3);
-        if (shipCoords_.includes(currentCellCoord)) acc = shipName[0].toUpperCase();
-        return acc;
-    }, "");
-    if (towardsCombatant === "comp") shipSymbol = Object.entries(compShipCoords).reduce((acc, [shipName, shipCoords])=>{
-        const shipCoords_ = shipCoords.flat(3);
-        if (shipCoords_.includes(currentCellCoord)) acc = shipName[0].toUpperCase();
-        return acc;
-    }, "");
-    return shipSymbol;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"FtKRn":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "returnSunkShipObj", ()=>returnSunkShipObj);
-var _returnPlayerCompShipsCoords = require("./returnPlayerCompShipsCoords");
-// returns an object with the sunk ship name if a ship has been sunk
-function returnSunkShipObj(currentCellCoord, currentShipSymbol, towardsCombatant) {
-    const playerCompShipsCoords = (0, _returnPlayerCompShipsCoords.returnPlayerCompShipsCoords)();
-    // store hits on ships to determine if a ship has been sunk
-    const shipHits = JSON.parse(localStorage.getItem("shipHits") ?? JSON.stringify({
-        playerShips: {
-            superdreadnought: 0,
-            carrier: 0,
-            battleship: 0,
-            destroyers: [
-                0,
-                0
-            ],
-            frigates: [
-                0,
-                0
-            ]
-        },
-        compShips: {
-            superdreadnought: 0,
-            carrier: 0,
-            battleship: 0,
-            destroyers: [
-                0,
-                0
-            ],
-            frigates: [
-                0,
-                0
-            ]
-        }
-    }));
-    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
-    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
-    const sunkShipObj = {
-        player: null,
-        comp: null
-    };
-    if (towardsCombatant === "player") switch(currentShipSymbol){
-        case "S":
-            shipHits.playerShips.superdreadnought < 4 ? shipHits.playerShips.superdreadnought += 1 : sunkShipObj.player = manticoreShipNames.superdreadnought;
-            break;
-        case "C":
-            shipHits.playerShips.carrier < 3 ? shipHits.playerShips.carrier += 1 : sunkShipObj.player = manticoreShipNames.carrier;
-            break;
-        case "B":
-            shipHits.playerShips.battleship < 2 ? shipHits.playerShips.battleship += 1 : sunkShipObj.player = manticoreShipNames.battleship;
-            break;
-        case "D":
-            if (playerCompShipsCoords.playerShipCoords.destroyers[0].includes(currentCellCoord)) shipHits.playerShips.destroyers[0] < 1 ? shipHits.playerShips.destroyers[0] += 1 : sunkShipObj.player = manticoreShipNames.destroyers[0];
-            else shipHits.playerShips.destroyers[1] < 1 ? shipHits.playerShips.destroyers[1] += 1 : sunkShipObj.player = manticoreShipNames.destroyers[1];
-            break;
-        case "F":
-            if (playerCompShipsCoords.playerShipCoords.frigates[0].includes(currentCellCoord)) sunkShipObj.player = manticoreShipNames.frigates[0];
-            else sunkShipObj.player = manticoreShipNames.frigates[1];
-            break;
-        default:
-            break;
-    }
-    else switch(currentShipSymbol){
-        case "S":
-            shipHits.compShips.superdreadnought < 4 ? shipHits.compShips.superdreadnought += 1 : sunkShipObj.comp = havenShipNames.superdreadnought;
-            break;
-        case "C":
-            shipHits.compShips.carrier < 3 ? shipHits.compShips.carrier += 1 : sunkShipObj.comp = havenShipNames.carrier;
-            break;
-        case "B":
-            shipHits.compShips.battleship < 2 ? shipHits.compShips.battleship += 1 : sunkShipObj.comp = havenShipNames.battleship;
-            break;
-        case "D":
-            if (playerCompShipsCoords.compShipCoords.destroyers[0].includes(currentCellCoord)) shipHits.compShips.destroyers[0] < 1 ? shipHits.compShips.destroyers[0] += 1 : sunkShipObj.comp = havenShipNames.destroyers[0];
-            else shipHits.compShips.destroyers[1] < 1 ? shipHits.compShips.destroyers[1] += 1 : sunkShipObj.comp = havenShipNames.destroyers[1];
-            break;
-        case "F":
-            if (playerCompShipsCoords.compShipCoords.frigates[0].includes(currentCellCoord)) sunkShipObj.comp = havenShipNames.frigates[0];
-            else sunkShipObj.comp = havenShipNames.frigates[1];
-            break;
-        default:
-            break;
-    }
-    localStorage.setItem("shipHits", JSON.stringify(shipHits));
-    return sunkShipObj;
-}
-
-},{"./returnPlayerCompShipsCoords":"j1hhz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3ytuC":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "updateCompTacticalOverviewShips", ()=>updateCompTacticalOverviewShips);
-var _beforeAfterShipCellsFiredUponStatus = require("./beforeAfterShipCellsFiredUponStatus");
-var _elementCreators = require("./elementCreators");
-function updateCompTacticalOverviewShips() {
-    // grab all coords of comp ships
-    const superdreadnoughtCoords = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? JSON.stringify([]));
-    const superdreadnoughtCoordsArray = Object.values(superdreadnoughtCoords);
-    const battleshipCoords = JSON.parse(localStorage.getItem("compBattleship") ?? JSON.stringify([]));
-    const battleshipCoordsArray = Object.values(battleshipCoords);
-    const carrierCoords = JSON.parse(localStorage.getItem("compCarrier") ?? JSON.stringify([]));
-    const carrierCoordsArray = Object.values(carrierCoords);
-    const destroyerCoords = JSON.parse(localStorage.getItem("compDestroyers") ?? JSON.stringify([]));
-    const destroyerCoordsArray = destroyerCoords.map((destroyer)=>Object.values(destroyer));
-    const frigateCoords = JSON.parse(localStorage.getItem("compFrigates") ?? JSON.stringify([]));
-    const frigateCoordsArray = frigateCoords.map((frigate)=>Object.values(frigate));
-    // coords of player misses on computer ships
-    const compShipsMissesCoords = JSON.parse(localStorage.getItem("compShipsMissesCoords") ?? JSON.stringify([]));
-    const compShipsMissesCoordsSet = new Set(compShipsMissesCoords);
-    // coords of player hits on computer ships
-    const compShipsHitCoords = JSON.parse(localStorage.getItem("compShipsHitCoords") ?? JSON.stringify([]));
-    const compShipsHitCoordsSet = new Set(compShipsHitCoords);
-    const shipTypesCoords = [
-        [
-            "Superdreadnought",
-            superdreadnoughtCoordsArray
-        ],
-        [
-            "Battleship",
-            battleshipCoordsArray
-        ],
-        [
-            "Carrier",
-            carrierCoordsArray
-        ], 
-    ];
-    shipTypesCoords.forEach(([shipType, coords])=>{
-        const isEveryShipCoordHit = coords.reduce((acc, coord)=>{
-            if (!compShipsHitCoordsSet.has(coord)) acc = false;
-            return acc;
-        }, true);
-        // if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
-        if (isEveryShipCoordHit) {
-            // sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
-            const { isBeforeShipCellFiredUpon , isAfterShipCellFiredUpon  } = (0, _beforeAfterShipCellsFiredUponStatus.beforeAfterShipCellsFiredUponStatus)({
-                shipType,
-                coordsArr: coords,
-                compShipsHitCoordsSet,
-                compShipsMissesCoordsSet
-            });
-            // if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
-            if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
-                // grab the tac overview comp '?' cell and remove it
-                const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}"]`);
-                if (questionMarkCell) questionMarkCell.remove();
-                const lengthOfCells = shipType === "Superdreadnought" ? 5 : shipType === "Carrier" ? 4 : 3;
-                // display sunk ship with '💥' emoji
-                for(let i = 0; i < lengthOfCells; i += 1){
-                    const hiddenCell = document.querySelector(`[data-compshipcell="${shipType}_${i}"]`);
-                    if (hiddenCell && hiddenCell.style.display === "none") (0, _elementCreators.pipe)((0, _elementCreators.removeStyleFromElem)("display"), (0, _elementCreators.addStyleToElem)([
-                        [
-                            "display",
-                            "visible"
-                        ],
-                        [
-                            "color",
-                            "#f0a400"
-                        ], 
-                    ]), (0, _elementCreators.addTextToElem)("\uD83D\uDCA5"))(hiddenCell);
-                }
-            }
-        }
-    });
-    const shipTypesCoordsArrArr = [
-        [
-            "Destroyers",
-            destroyerCoordsArray
-        ],
-        [
-            "Frigates",
-            frigateCoordsArray
-        ], 
-    ];
-    shipTypesCoordsArrArr.forEach(([shipType, coordsArrArr])=>{
-        coordsArrArr.forEach((coordsArr, idx)=>{
-            const isEveryShipCoordHit = coordsArr.reduce((acc, coord)=>{
-                if (!compShipsHitCoordsSet.has(coord)) acc = false;
-                return acc;
-            }, true);
-            // if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
-            if (isEveryShipCoordHit) {
-                // sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
-                const { isBeforeShipCellFiredUpon , isAfterShipCellFiredUpon  } = (0, _beforeAfterShipCellsFiredUponStatus.beforeAfterShipCellsFiredUponStatus)({
-                    shipType,
-                    coordsArr,
-                    compShipsHitCoordsSet,
-                    compShipsMissesCoordsSet
-                });
-                // if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
-                if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
-                    // grab the tac overview comp '?' cell and remove it
-                    const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}_${idx}"]`);
-                    if (questionMarkCell) questionMarkCell.remove();
-                    // display sunk ship with '💥' emoji
-                    for(let i = 0; i < coordsArr.length; i += 1){
-                        const hiddenCell = document.querySelector(`[data-compshipcell="${shipType}_${idx}_${i}"]`);
-                        if (hiddenCell && hiddenCell.style.display === "none") (0, _elementCreators.pipe)((0, _elementCreators.removeStyleFromElem)("display"), (0, _elementCreators.addStyleToElem)([
-                            [
-                                "display",
-                                "visible"
-                            ],
-                            [
-                                "color",
-                                "#f0a400"
-                            ], 
-                        ]), (0, _elementCreators.addTextToElem)("\uD83D\uDCA5"))(hiddenCell);
-                    }
-                }
-            }
-        });
-    });
-}
-
-},{"./beforeAfterShipCellsFiredUponStatus":"4Fmie","./elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Fmie":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "beforeAfterShipCellsFiredUponStatus", ()=>beforeAfterShipCellsFiredUponStatus);
-function beforeAfterShipCellsFiredUponStatus({ shipType , coordsArr , compShipsHitCoordsSet , compShipsMissesCoordsSet  }) {
-    // since frigates are only one cells each, both directions must be checked
-    // to determine if the frigate is surrounded
-    if (shipType === "Frigates") {
-        // no sorting as frigate coords are only one cell each
-        const frigateCell = coordsArr[0];
-        const frigateCellX = parseInt(frigateCell.split(",")[0]);
-        const frigateCellY = parseInt(frigateCell.split(",")[1]);
-        // top cell
-        const topCell = `${frigateCellX},${frigateCellY - 1}`;
-        const topCellWithinBounds = parseInt(topCell.split(",")[1]) >= 0;
-        // right cell
-        const rightCell = `${frigateCellX + 1},${frigateCellY}`;
-        const rightCellWithinBounds = parseInt(rightCell.split(",")[0]) <= 9;
-        // bottom cell
-        const bottomCell = `${frigateCellX},${frigateCellY + 1}`;
-        const bottomCellWithinBounds = parseInt(bottomCell.split(",")[1]) <= 9;
-        // left cell
-        const leftCell = `${frigateCellX - 1},${frigateCellY}`;
-        const leftCellWithinBounds = parseInt(leftCell.split(",")[0]) >= 0;
-        // if the cells are not within bounds, they are considered to have been fired upon
-        const isTopCellFiredUpon = topCellWithinBounds ? compShipsHitCoordsSet.has(topCell) || compShipsMissesCoordsSet.has(topCell) : true;
-        const isRightCellFiredUpon = rightCellWithinBounds ? compShipsHitCoordsSet.has(rightCell) || compShipsMissesCoordsSet.has(rightCell) : true;
-        const isBottomCellFiredUpon = bottomCellWithinBounds ? compShipsHitCoordsSet.has(bottomCell) || compShipsMissesCoordsSet.has(bottomCell) : true;
-        const isLeftCellFiredUpon = leftCellWithinBounds ? compShipsHitCoordsSet.has(leftCell) || compShipsMissesCoordsSet.has(leftCell) : true;
-        const isBeforeShipCellFiredUpon = isTopCellFiredUpon && isLeftCellFiredUpon;
-        const isAfterShipCellFiredUpon = isRightCellFiredUpon && isBottomCellFiredUpon;
-        return {
-            isBeforeShipCellFiredUpon,
-            isAfterShipCellFiredUpon
-        };
-    }
-    // following is for all other ship types except frigates
-    // need  to sort the coords because they were grabbed from an object and
-    // js does not guarantee the order of the keys in an object
-    const coordsArrClone = structuredClone(coordsArr);
-    const sortedCoordsArr = coordsArrClone.sort((a, b)=>{
-        const aX = parseInt(a.split(",")[0].replace('"', ""));
-        const aY = parseInt(a.split(",")[1].replace('"', ""));
-        const bX = parseInt(b.split(",")[0].replace('"', ""));
-        const bY = parseInt(b.split(",")[1].replace('"', ""));
-        if (aX < bX) return -1;
-        if (aX > bX) return 1;
-        if (aY < bY) return -1;
-        if (aY > bY) return 1;
-        return 0;
-    });
-    // determine the direction of the ship
-    const firstCoord = sortedCoordsArr[0];
-    const lastCoord = sortedCoordsArr[sortedCoordsArr.length - 1];
-    const firstCoordXY = firstCoord.split(",");
-    const lastCoordXY = lastCoord.split(",");
-    const firstCoordX = parseInt(firstCoordXY[0].replace('"', ""));
-    const firstCoordY = parseInt(firstCoordXY[1].replace('"', ""));
-    const lastCoordX = parseInt(lastCoordXY[0].replace('"', ""));
-    const lastCoordY = parseInt(lastCoordXY[1].replace('"', ""));
-    const isHorizontal = firstCoordY === lastCoordY;
-    // const isVertical = firstCoordX === lastCoordX;
-    // determine the cells just before and just after the ship
-    const beforeShipCell = isHorizontal ? `${firstCoordX - 1},${firstCoordY}` : `${firstCoordX},${firstCoordY - 1}`;
-    const beforeShipCellX = parseInt(beforeShipCell.split(",")[0]);
-    const beforeShipCellY = parseInt(beforeShipCell.split(",")[1]);
-    const beforeShipCellWithinBounds = isHorizontal ? beforeShipCellX <= 9 && beforeShipCellX >= 0 : beforeShipCellY <= 9 && beforeShipCellY >= 0;
-    // if the cell is not within bounds, it is considered to have been fired upon
-    const isBeforeShipCellFiredUpon = beforeShipCellWithinBounds ? compShipsHitCoordsSet.has(beforeShipCell) || compShipsMissesCoordsSet.has(beforeShipCell) : true;
-    const afterShipCell = isHorizontal ? `${lastCoordX + 1},${lastCoordY}` : `${lastCoordX},${lastCoordY + 1}`;
-    const afterShipCellX = parseInt(afterShipCell.split(",")[0]);
-    const afterShipCellY = parseInt(afterShipCell.split(",")[1]);
-    const afterShipCellWithinBounds = isHorizontal ? afterShipCellX <= 9 && afterShipCellX >= 0 : afterShipCellY <= 9 && afterShipCellY >= 0;
-    // if the cell is not within bounds, it is considered to have been fired upon
-    const isAfterShipCellFiredUpon = afterShipCellWithinBounds ? compShipsHitCoordsSet.has(afterShipCell) || compShipsMissesCoordsSet.has(afterShipCell) : true;
-    return {
-        isBeforeShipCellFiredUpon,
-        isAfterShipCellFiredUpon
-    };
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2fd56":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateProbabilisticFiringCoord", ()=>generateProbabilisticFiringCoord);
-var _genRandCompAttackGuess = require("../components/genRandCompAttackGuess");
-var _generateFiringSolution = require("./generateFiringSolution");
-function generateProbabilisticFiringCoord() {
-    const prevCompHitOrMiss = localStorage.getItem("prevCompHitOrMiss");
-    const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? "[]");
-    const compHitOnPlayerCoordsSet = new Set(compHitOnPlayerCoordsArr);
-    const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? "[]");
-    const compMissOnPlayerCoordsSet = new Set(compMissOnPlayerCoordsArr);
-    const prevCompFiringCoords = [
-        compHitOnPlayerCoordsArr,
-        compMissOnPlayerCoordsArr, 
-    ].flat();
-    let newFiringCoordinate = "";
-    // only runs on first computer turn as prevCompHitOrMiss is undefined
-    if (!prevCompHitOrMiss) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
-    else // if there havent been any hits yet, generate a random guess
-    if (compHitOnPlayerCoordsArr.length === 0) newFiringCoordinate = (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords);
-    else {
-        newFiringCoordinate = (0, _generateFiringSolution.generateFiringSolution)({
-            compHitOnPlayerCoordsSet,
-            compMissOnPlayerCoordsSet
-        });
-        newFiringCoordinate = newFiringCoordinate === "" ? (0, _genRandCompAttackGuess.genRandCompAttackGuess)(prevCompFiringCoords) : newFiringCoordinate;
-    }
-    return newFiringCoordinate;
-}
-
-},{"../components/genRandCompAttackGuess":"cOUsP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./generateFiringSolution":"dec9r"}],"cOUsP":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "genRandCompAttackGuess", ()=>genRandCompAttackGuess);
-const genRandCompAttackGuess = function(prevCompFiringCoords) {
-    let compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
-    // checks if guess is in previous guesses, if so runs the random function again
-    // avoids guessing the same co-ordinates
-    let isUniqueCoordinate = false;
-    while(!isUniqueCoordinate)if (prevCompFiringCoords.includes(compAttackGuess)) {
-        //if the guessed co-ordinate has already been tried
-        isUniqueCoordinate = false;
-        compAttackGuess = `${Math.floor(Math.random() * 10)},${Math.floor(Math.random() * 10)}`;
-    } else isUniqueCoordinate = true;
-    return compAttackGuess;
+parcelHelpers.export(exports, "placeCompShipsOnBoard", ()=>placeCompShipsOnBoard);
+var _populateCompShipsCoords = require("../functions/populateCompShipsCoords");
+var _renderCompShipsOnBoard = require("./renderCompShipsOnBoard");
+const placeCompShipsOnBoard = function() {
+    const randCompShipPlacement = (0, _populateCompShipsCoords.populateCompShipsCoords)();
+    (0, _renderCompShipsOnBoard.renderCompShipsOnBoard)(randCompShipPlacement);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dec9r":[function(require,module,exports) {
+},{"../functions/populateCompShipsCoords":"5xy84","./renderCompShipsOnBoard":"1kKMD","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5xy84":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateFiringSolution", ()=>generateFiringSolution);
-var _generateAdjacentCoordsArr = require("./generateAdjacentCoordsArr");
-function generateFiringSolution({ compHitOnPlayerCoordsSet , compMissOnPlayerCoordsSet  }) {
-    // generate a cloud of all adjacent coords of all previous hits
-    // each of these adjacent coords that have not been previously fired upon will be used to generate ranked tuples
-    const uniqueAdjacentCoords = Array.from(compHitOnPlayerCoordsSet).flatMap((coord)=>(0, _generateAdjacentCoordsArr.generateAdjacentCoordsArr)(coord)).filter((coord)=>!compMissOnPlayerCoordsSet.has(coord) && !compHitOnPlayerCoordsSet.has(coord));
-    // if there are no unique adjacent coords, meaning all surrounding coords
-    // have been hit, return an empty string so that the caller can call the
-    // random coord guess function
-    if (uniqueAdjacentCoords.length === 0) return "";
-    // create ranked tuples of the adjacent coords
-    const adjCoordsRankedTuples = uniqueAdjacentCoords.reduce((rankedTuples, uniqueAdjCoord)=>{
-        // for each of the unique adjacent coords, we generate another cloud of
-        // adjacent coords but this time with a radius of 2 and we count the
-        // number of times these new coords intersect with previous hits
-        // this approach favours coords that are on the same axes as prev hits
-        // and can more reliably hit the adjacent coord in the same axis rather
-        // than hunting in another axis
-        const newAdjCoords = (0, _generateAdjacentCoordsArr.generateAdjacentCoordsArr)(uniqueAdjCoord, 2);
-        const coordScore = newAdjCoords.reduce((score, newAdjCoord)=>{
-            if (compHitOnPlayerCoordsSet.has(newAdjCoord)) score += 1;
-            return score;
-        }, 0);
-        rankedTuples.push([
-            uniqueAdjCoord,
-            coordScore
-        ]);
-        return rankedTuples;
-    }, []);
-    const sortedAdjCoordsRankedTuples = adjCoordsRankedTuples.sort((a, b)=>b[1] - a[1]);
-    return sortedAdjCoordsRankedTuples[0][0];
-}
-
-},{"./generateAdjacentCoordsArr":"f0uBi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"f0uBi":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "generateAdjacentCoordsArr", ()=>generateAdjacentCoordsArr);
-function generateAdjacentCoordsArr(coord, length = 1) {
-    const xyCoords = coord.split(",");
-    const xCoord = parseInt(xyCoords[0].replace('"', ""));
-    const yCoord = parseInt(xyCoords[1].replace('"', ""));
-    // generate adjacent coords of specified length based on coord location
-    const adjacentCoords = [];
-    for(let i = 1; i <= length; i += 1){
-        // top
-        const topCoord = `${xCoord},${yCoord - i}`;
-        if (yCoord - i >= 0) adjacentCoords.push(topCoord);
-        // right
-        const rightCoord = `${xCoord + i},${yCoord}`;
-        if (xCoord + i <= 9) adjacentCoords.push(rightCoord);
-        // bottom
-        const bottomCoord = `${xCoord},${yCoord + i}`;
-        if (yCoord + i <= 9) adjacentCoords.push(bottomCoord);
-        // left
-        const leftCoord = `${xCoord - i},${yCoord}`;
-        if (xCoord - i >= 0) adjacentCoords.push(leftCoord);
-    }
-    return adjacentCoords;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6ZQM8":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "computerAttacks", ()=>computerAttacks);
-var _elementCreators = require("../utilities/elementCreators");
-var _returnSunkShipObj = require("../utilities/returnSunkShipObj");
-var _storeCompHitMissCoords = require("../utilities/storeCompHitMissCoords");
-var _updatePlayerTacticalOverviewCells = require("../utilities/updatePlayerTacticalOverviewCells");
-var _renderBattleMessage = require("./renderBattleMessage");
-const computerAttacks = function(compAttackGuess_) {
-    const playerShipsCoords = JSON.parse(localStorage.getItem("playerShipsCoords") ?? "[]");
-    let totalHitsOnPlayerShips = JSON.parse(localStorage.getItem("totalHitsOnPlayerShips") ?? "0");
-    // compAttackGuess_ is assumed to be unique at this point
-    // checks if playerShip is present
-    if (playerShipsCoords.includes(compAttackGuess_)) {
-        const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
-        const currentCellCoord = compAttackGuess_;
-        const currentShipSymbol = playerShipCell?.textContent ?? "";
-        const towardsCombatant = "player";
-        const hitOrMiss = "hit";
-        // update tactical overview ship cells to visually indicate hit
-        (0, _updatePlayerTacticalOverviewCells.updatePlayerTacticalOverviewCells)(currentCellCoord);
-        // stores hits on corresponding ships to determine if a ship has been sunk
-        const sunkShipObj = (0, _returnSunkShipObj.returnSunkShipObj)(currentCellCoord, currentShipSymbol, towardsCombatant);
-        const sunkShipName = sunkShipObj.player === null ? sunkShipObj.comp : sunkShipObj.player;
-        // calls function to display battle message when computer registers a hit on a player ship
-        (0, _renderBattleMessage.renderBattleMessageElem)({
-            currentCellCoord,
-            currentShipSymbol,
-            towardsCombatant,
-            hitOrMiss,
-            sunkShipName
-        });
-        // updates playercell to visually indicate hit
-        if (playerShipCell) {
-            playerShipCell.textContent = "";
-            playerShipCell.textContent = "\uD83D\uDCA5";
+parcelHelpers.export(exports, "populateCompShipsCoords", ()=>populateCompShipsCoords);
+var _returnRandomOrientation = require("./returnRandomOrientation");
+// returns an object with the computer's ships' randomly generated coordinates
+function populateCompShipsCoords() {
+    // creates tuples[] of all possible coordinates
+    const allCoords = [];
+    for(let i2 = 0; i2 < 10; i2 += 1)for(let j = 0; j < 10; j += 1)allCoords.push([
+        j,
+        i2
+    ]);
+    const shipsLengthTuple = [
+        [
+            "superdreadnought",
+            5
+        ],
+        [
+            "carrier",
+            4
+        ],
+        [
+            "battleship",
+            3
+        ],
+        [
+            "destroyer",
+            2
+        ],
+        [
+            "destroyer",
+            2
+        ],
+        [
+            "frigate",
+            1
+        ],
+        [
+            "frigate",
+            1
+        ], 
+    ];
+    const shipsPresentCoordsSet = new Set();
+    return Object.fromEntries(shipsLengthTuple.reduce((acc, [shipType, shipLength])=>{
+        let withinBounds = false;
+        let isAnotherShipPresent = true;
+        let shipCoordsArr = [];
+        // keeps generating random coordinates and orientation until the ship fits within the board and doesn't overlap with another ship
+        while(!withinBounds || isAnotherShipPresent){
+            shipCoordsArr = [];
+            // returns a random coordinate
+            const randCoord = function() {
+                let randIndex = Math.floor(Math.random() * allCoords.length);
+                let randCoordStr = allCoords[randIndex].join(",");
+                while(shipsPresentCoordsSet.has(randCoordStr)){
+                    randIndex = Math.floor(Math.random() * allCoords.length);
+                    randCoordStr = allCoords[randIndex].join(",");
+                }
+                return allCoords[randIndex];
+            }();
+            // returns a random orientation
+            const randOrientation = (0, _returnRandomOrientation.returnRandomOrientation)();
+            switch(randOrientation){
+                case "horizontal":
+                    // generates the ship's coordinates of corresponding length based on the random coordinate and orientation
+                    for(let i = 0; i < shipLength; i += 1)shipCoordsArr.push([
+                        randCoord[0] + i,
+                        randCoord[1]
+                    ]);
+                    // checks if the ship fits within the board
+                    withinBounds = shipCoordsArr.every(([x, y])=>x >= 0 && x < 10 && y >= 0 && y < 10);
+                    // checks if the ship overlaps with another ship
+                    isAnotherShipPresent = shipCoordsArr.some((coord)=>shipsPresentCoordsSet.has(coord.join(",")));
+                    break;
+                // same as above but for vertical orientation
+                case "vertical":
+                    for(let i1 = 0; i1 < shipLength; i1 += 1)shipCoordsArr.push([
+                        randCoord[0],
+                        randCoord[1] + i1
+                    ]);
+                    withinBounds = shipCoordsArr.every(([x, y])=>x >= 0 && x < 10 && y >= 0 && y < 10);
+                    isAnotherShipPresent = shipCoordsArr.some((coord)=>shipsPresentCoordsSet.has(coord.join(",")));
+                    break;
+                default:
+                    break;
+            }
         }
-        // updates hit counter and store
-        totalHitsOnPlayerShips = totalHitsOnPlayerShips + 1;
-        localStorage.setItem("totalHitsOnPlayerShips", JSON.stringify(totalHitsOnPlayerShips));
-        // stores the current hit co-ordinates and hit type to assist comp firing solution
-        (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "hit");
-    } else {
-        //if its a miss
-        const playerShipCell = document.querySelector(`[data-cellplayer="${compAttackGuess_}"]`);
-        // assigns '✖' to currently missed co-ordinate and colors it  amber
-        if (playerShipCell) {
-            playerShipCell.textContent = "";
-            playerShipCell.textContent = "\u2716";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        // adds the ship's coords to the shipsPresentCoords
+        shipCoordsArr.forEach((coord)=>shipsPresentCoordsSet.add(coord.join(",")));
+        console.log("shipsPresentCoords from populateCompShipsCoords()", shipsPresentCoordsSet);
+        let shipTypeCoordsObj;
+        // creates a Map object with the ship's type as the key and an object with the ship's coordinates as the value
+        // superdreadnought, carrier, and battleship are treated separately because they consist of a single object
+        if (shipType === "superdreadnought" || shipType === "carrier" || shipType === "battleship") {
+            // creates a Map object with the ship's type as the key and an object with the ship's coordinates as the value
+            shipTypeCoordsObj = new Map([
                 [
-                    "color",
-                    "#f0a400"
-                ]
-            ]))(playerShipCell);
+                    "head",
+                    shipCoordsArr[0].toString()
+                ],
+                [
+                    "tail",
+                    shipCoordsArr[shipCoordsArr.length - 1].toString()
+                ], 
+            ]);
+            // adds the ship's body coordinates to the Map object
+            for(let i = 1; i < shipCoordsArr.length - 1; i += 1)shipTypeCoordsObj.set(`${shipType === "battleship" ? `body` : `body${i}`}`, shipCoordsArr[i].toString());
+            acc.set(shipType, Object.fromEntries(shipTypeCoordsObj));
+        } else if (shipType === "destroyer" || shipType === "frigate") switch(shipType){
+            case "destroyer":
+                {
+                    const destroyerCoordObj = {
+                        head: shipCoordsArr[0].toString(),
+                        tail: shipCoordsArr[shipCoordsArr.length - 1].toString()
+                    };
+                    const prevDestroyerCoordObjArr = acc.get("destroyers");
+                    if (prevDestroyerCoordObjArr) acc.set("destroyers", prevDestroyerCoordObjArr.concat(destroyerCoordObj));
+                    else acc.set("destroyers", [
+                        destroyerCoordObj
+                    ]);
+                    break;
+                }
+            case "frigate":
+                {
+                    const frigateCoordObj = {
+                        body: shipCoordsArr[0].toString()
+                    };
+                    const prevFrigateCoordObjArr = acc.get("frigates");
+                    if (prevFrigateCoordObjArr) acc.set("frigates", prevFrigateCoordObjArr.concat(frigateCoordObj));
+                    else acc.set("frigates", [
+                        frigateCoordObj
+                    ]);
+                    break;
+                }
+            default:
+                break;
         }
-        // initializes storage for previously missed co-ordinates
-        if (!localStorage.getItem("prevCompMissOnPlayerCoord")) localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(""));
-        // grabs the previous miss co-ordinates in order to turn them back into gray
-        const prevCompMissOnPlayerCoord = JSON.parse(localStorage.getItem("prevCompMissOnPlayerCoord") ?? "");
-        const prevCompMissOnPlayerCell = document.querySelector(`[data-cellplayer="${prevCompMissOnPlayerCoord}"]`);
-        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
+        return acc;
+    }, new Map()));
+}
+
+},{"./returnRandomOrientation":"99baI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"99baI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "returnRandomOrientation", ()=>returnRandomOrientation);
+function returnRandomOrientation() {
+    const randIndex = Math.floor(Math.random() * 2);
+    return randIndex === 0 ? "horizontal" : "vertical";
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1kKMD":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderCompShipsOnBoard", ()=>renderCompShipsOnBoard);
+var _elementCreators = require("../functions/elementCreators");
+const renderCompShipsOnBoard = function(compShipsPlacementChoice_) {
+    // used for hit detection
+    const compShipsCoords = JSON.parse(localStorage.getItem("compShipsCoords") ?? JSON.stringify([]));
+    Object.entries(compShipsPlacementChoice_).forEach(([ship1, shipObj])=>{
+        // if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
+        if (!localStorage.getItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`)) localStorage.setItem(`comp${ship1[0].toUpperCase() + ship1.slice(1)}`, JSON.stringify(shipObj));
+        // for superdreadnought, carrier, battleship properties whose attributes do not consist of an array
+        if (!Array.isArray(shipObj)) Object.entries(shipObj).forEach(([shipSection, sectionCoords])=>{
+            //grab the corresponding game board cell
+            const shipCell = document.querySelector(`[data-cellcomp="${sectionCoords}"]`);
+            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                [
+                    "class",
+                    "compShipPresent comp-gameCell"
+                ]
+            ]), (0, _elementCreators.addTextToElem)("\u2734"), (0, _elementCreators.addStyleToElem)([
+                [
+                    "border",
+                    "1px solid #00f000"
+                ]
+            ]))(shipCell);
+            // store the co-ordinates
+            compShipsCoords.push(sectionCoords);
+        });
+        else // for destroyers and frigates properties whose attributes consist of an array
+        shipObj.forEach((ship)=>{
+            Object.entries(ship).forEach(([shipSection, sectionCoords])=>{
+                // grab the corresponding game board cell
+                const shipCell = document.querySelector(`[data-cellcomp="${sectionCoords}"]`);
+                (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+                    [
+                        "class",
+                        "compShipPresent comp-gameCell"
+                    ]
+                ]), (0, _elementCreators.addTextToElem)("\u2734"), (0, _elementCreators.addStyleToElem)([
+                    [
+                        "border",
+                        "1px solid #00f000"
+                    ]
+                ]))(shipCell);
+                // store the co-ordinates
+                compShipsCoords.push(sectionCoords);
+            });
+        });
+    });
+    const compGameCells = document.querySelectorAll(".comp-gameCell");
+    // differentiates between ships and empty spaces
+    compGameCells.forEach((cell)=>{
+        if (!cell.classList.contains("compShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
             [
-                "color",
-                "gainsboro"
+                "class",
+                "compShipNotPresent comp-gameCell"
             ]
-        ]))(prevCompMissOnPlayerCell);
-        //store the current miss co-ordinates and hit type to assist comp firing solution
-        (0, _storeCompHitMissCoords.storeCompHitMissCoords)(compAttackGuess_, "miss");
-    }
+        ]), (0, _elementCreators.addTextToElem)("\u2734"))(cell);
+    });
+    // puts the coordinates in storage for future hit detection checks
+    localStorage.setItem("compShipsCoords", JSON.stringify(compShipsCoords));
 };
 
-},{"../utilities/elementCreators":"H4ivl","../utilities/returnSunkShipObj":"FtKRn","../utilities/storeCompHitMissCoords":"h8NPY","../utilities/updatePlayerTacticalOverviewCells":"f2Nuf","./renderBattleMessage":"hDATR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h8NPY":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kBXaE":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "storeCompHitMissCoords", ()=>storeCompHitMissCoords);
-function storeCompHitMissCoords(compAttackGuess_, hitOrMiss) {
-    localStorage.setItem("prevCompHitOrMiss", hitOrMiss);
-    switch(hitOrMiss){
-        case "hit":
-            {
-                localStorage.setItem("prevCompHitOnPlayerCoord", JSON.stringify(compAttackGuess_));
-                const compHitOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compHitOnPlayerCoordsArr") ?? JSON.stringify([]));
-                // adds current hit to array
-                compHitOnPlayerCoordsArr.push(compAttackGuess_);
-                // updates store
-                localStorage.setItem("compHitOnPlayerCoordsArr", JSON.stringify(compHitOnPlayerCoordsArr));
-                break;
-            }
-        case "miss":
-            {
-                localStorage.setItem("prevCompMissOnPlayerCoord", JSON.stringify(compAttackGuess_));
-                const compMissOnPlayerCoordsArr = JSON.parse(localStorage.getItem("compMissOnPlayerCoordsArr") ?? JSON.stringify([]));
-                // adds current miss to array
-                compMissOnPlayerCoordsArr.push(compAttackGuess_);
-                // updates store
-                localStorage.setItem("compMissOnPlayerCoordsArr", JSON.stringify(compMissOnPlayerCoordsArr));
-                break;
-            }
-        default:
-            break;
-    }
-}
+parcelHelpers.export(exports, "randomizeAndStoreShipNames", ()=>randomizeAndStoreShipNames);
+const randomizeAndStoreShipNames = function(shipNames_) {
+    // used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered
+    if (!localStorage.getItem("playerShipNames")) localStorage.setItem("playerShipNames", JSON.stringify([]));
+    // creates a randomized ship name per game session and stores it to be used for the battle messages
+    Object.entries(shipNames_).forEach(([polity, shipTypes])=>{
+        if (polity === "haven") {
+            const havenShipNames = new Map();
+            Object.entries(shipTypes).forEach(([shipType, shipNamesArr])=>{
+                // need two names for destroyers and frigates
+                if (shipType === "destroyers" || shipType === "frigates") {
+                    const tempShipNamesArr = [
+                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
+                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
+                    ];
+                    havenShipNames.set(shipType, tempShipNamesArr);
+                } else // only one name for superdreadnought, carrier and battleship
+                havenShipNames.set(//changes from plural to singular
+                shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
+            });
+            localStorage.setItem("havenShipNames", JSON.stringify(Object.fromEntries(havenShipNames)));
+        } else if (polity === "manticore") {
+            const manticoreShipNames = new Map();
+            Object.entries(shipTypes).forEach(([shipType, shipNamesArr])=>{
+                // need two names for destroyers and frigates
+                if (shipType === "destroyers" || shipType === "frigates") {
+                    const tempShipNamesArr = [
+                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)],
+                        shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)], 
+                    ];
+                    manticoreShipNames.set(shipType, tempShipNamesArr);
+                } else // only one name for superdreadnought, carrier and battleship
+                manticoreShipNames.set(shipType.slice(0, -1), shipNamesArr[Math.floor(Math.random() * shipNamesArr.length)]);
+            });
+            localStorage.setItem("manticoreShipNames", JSON.stringify(Object.fromEntries(manticoreShipNames)));
+        }
+    });
+};
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"f2Nuf":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"chzyQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "updatePlayerTacticalOverviewCells", ()=>updatePlayerTacticalOverviewCells);
-function updatePlayerTacticalOverviewCells(currentCellCoord) {
-    const cellToUpdate = document.querySelector(`[data-playership="${currentCellCoord}"]`);
-    if (cellToUpdate) {
-        cellToUpdate.textContent = "";
-        cellToUpdate.textContent = "\uD83D\uDCA5";
-        cellToUpdate.style.color = "#f0a400";
-    }
-}
+parcelHelpers.export(exports, "renderCompBoard", ()=>renderCompBoard);
+var _elementCreators = require("../functions/elementCreators");
+const renderCompBoard = function() {
+    const gameBoardContainer = document.querySelector(".gameBoard-container");
+    const compBoardWrapper = (0, _elementCreators.elemCreator)("div")([
+        "compBoard-wrapper"
+    ]);
+    (0, _elementCreators.appendElemToParent)(gameBoardContainer)(compBoardWrapper);
+    const compBoardContainer = (0, _elementCreators.elemCreator)("div")([
+        "compBoard-container"
+    ]);
+    (0, _elementCreators.appendElemToParent)(compBoardWrapper)(compBoardContainer);
+    for(let i = 0; i < 10; i += 1)for(let j = 0; j < 10; j += 1)(0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
+        [
+            "data-cellcomp",
+            `${j},${i}`
+        ]
+    ]), (0, _elementCreators.appendElemToParent)(compBoardContainer))((0, _elementCreators.elemCreator)("div")([
+        "comp-gameCell"
+    ]));
+};
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iGKQQ":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aQTs9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "doesShipPlacementOverlap", ()=>doesShipPlacementOverlap);
@@ -3878,7 +5446,7 @@ const doesShipPlacementOverlap = function(shipLength_, currentAxis_, currentX_, 
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"21vDW":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cdvYs":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "isCorrectNumberOfShips", ()=>isCorrectNumberOfShips);
@@ -3902,1574 +5470,6 @@ const isCorrectNumberOfShips = function(ship_, amount_) {
         }
     }
 };
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"20QiK":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleBattleshipMouseEnter", ()=>handleBattleshipMouseEnter);
-var _elementCreators = require("../utilities/elementCreators");
-const handleBattleshipMouseEnter = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 3; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("B"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 3; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("B"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"byPhE":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleBattleshipMouseLeave", ()=>handleBattleshipMouseLeave);
-var _elementCreators = require("../utilities/elementCreators");
-const handleBattleshipMouseLeave = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 3; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 3; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"38NmJ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleCarrierBttnClick", ()=>handleCarrierBttnClick);
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierCellClick = require("./handleCarrierCellClick");
-var _handleCarrierMouseEnter = require("./handleCarrierMouseEnter");
-var _handleCarrierMouseLeave = require("./handleCarrierMouseLeave");
-var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
-var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
-var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
-const handleCarrierBttnClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // disables button after clicking once
-    this.disabled = true;
-    // visually indicates that 'this' button is selected
-    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid #f0a400"
-        ],
-        [
-            "color",
-            "#f0a400"
-        ], 
-    ]))(this);
-    // disables clicking on other shipButtons while selected
-    // prevents double selection
-    const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
-    if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
-    const battleshipBttn = document.querySelector(".bttn-battleship");
-    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-    const destroyerBttn = document.querySelector(".bttn-destroyer");
-    if (destroyerBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
-    const frigateBttn = document.querySelector(".bttn-frigate");
-    if (frigateBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-    // assigns event listener to each player game cell after clicking superdreadnought button
-    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleCarrierCellClick.handleCarrierCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleCarrierMouseEnter.handleCarrierMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleCarrierMouseLeave.handleCarrierMouseLeave)))(player));
-};
-
-},{"../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierCellClick":"2p5Tx","./handleCarrierMouseEnter":"g59nL","./handleCarrierMouseLeave":"ehhzX","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2p5Tx":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleCarrierCellClick", ()=>handleCarrierCellClick);
-var _accumulatePlayerShipCoords = require("../components/accumulatePlayerShipCoords");
-var _checkAllShipsInPlace = require("../components/checkAllShipsInPlace");
-var _doesShipPlacementOverlap = require("../components/doesShipPlacementOverlap");
-var _isCorrectNumberOfShips = require("../components/isCorrectNumberOfShips");
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierMouseEnter = require("./handleCarrierMouseEnter");
-var _handleCarrierMouseLeave = require("./handleCarrierMouseLeave");
-var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
-var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
-var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
-const handleCarrierCellClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // initializes the carrier object upon first call
-    if (!localStorage.getItem("carrier")) localStorage.setItem("carrier", JSON.stringify([]));
-    let carrier = JSON.parse(localStorage.getItem("carrier") ?? "");
-    const carrierCoords = [];
-    const ship = "carrier";
-    const amount = "single";
-    // for horizontal placement
-    if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        // grid boundary detection
-        if (Number(currentX) > 6) {
-            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
-            return null;
-        }
-        // overlap detection
-        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(4, currentAxis, currentX, currentY)) return null;
-        // places carrier on grid
-        for(let i = 0; i < 4; i += 1){
-            const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-            // prevents duplicate letters being placed
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "class",
-                    "playerShipPresent player-gameCell"
-                ]
-            ]), (0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "#f0a400"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]), (0, _elementCreators.addTextToElem)("C"))(nextCell);
-            carrierCoords.push(`${Number(currentX) + i},${currentY}`);
-        }
-        // prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) //update carrier object attributes
-        carrier = {
-            head: carrierCoords[0],
-            body1: carrierCoords[1],
-            body2: carrierCoords[2],
-            tail: carrierCoords[3]
-        };
-        localStorage.setItem("isSingleCarrier", JSON.stringify(false));
-    } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //grid boundary detection
-        if (Number(currentY) > 6) {
-            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
-            return null;
-        }
-        // overlap detection
-        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(4, currentAxis, currentX, currentY)) return null;
-        // places carrier on grid
-        for(let i = 0; i < 4; i += 1){
-            const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
-            //prevents duplicate letters being placed
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "class",
-                    "playerShipPresent player-gameCell"
-                ]
-            ]), (0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "#f0a400"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]), (0, _elementCreators.addTextToElem)("C"))(nextCell);
-            carrierCoords.push(`${currentX},${Number(currentY) + i}`);
-        }
-        // prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates carrier object attributes
-        carrier = {
-            head: carrierCoords[0],
-            body1: carrierCoords[1],
-            body2: carrierCoords[2],
-            tail: carrierCoords[3]
-        };
-        localStorage.setItem("isSingleCarrier", JSON.stringify(false));
-    }
-    // stores carrier
-    localStorage.setItem("carrier", JSON.stringify(carrier));
-    // stores current ship coords to pool of all ship coords
-    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(carrierCoords);
-    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === true) {
-        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
-        const carrierBttn = document.querySelector(".bttn-carrier");
-        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid gainsboro"
-            ],
-            [
-                "color",
-                "gainsboro"
-            ],
-            [
-                "cursor",
-                "not-allowed"
-            ], 
-        ]))(carrierBttn);
-        // enables events on other shipButtons after carrier has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
-        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
-        if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
-        const battleshipBttn = document.querySelector(".bttn-battleship");
-        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-        const destroyerBttn = document.querySelector(".bttn-destroyer");
-        if (destroyerBttn && destroyerBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
-        const frigateBttn = document.querySelector(".bttn-frigate");
-        if (frigateBttn && frigateBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-        // removes event listeners after single carrier has been placed
-        playerGameCells.forEach((player)=>{
-            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleCarrierCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleCarrierMouseEnter.handleCarrierMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleCarrierMouseLeave.handleCarrierMouseLeave)))(player);
-        });
-    }
-    //if all ships placed, renders start button
-    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
-};
-
-},{"../components/accumulatePlayerShipCoords":"9lJOj","../components/checkAllShipsInPlace":"6FcJc","../components/doesShipPlacementOverlap":"iGKQQ","../components/isCorrectNumberOfShips":"21vDW","../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierMouseEnter":"g59nL","./handleCarrierMouseLeave":"ehhzX","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g59nL":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleCarrierMouseEnter", ()=>handleCarrierMouseEnter);
-var _elementCreators = require("../utilities/elementCreators");
-const handleCarrierMouseEnter = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 4; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("C"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 4; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("C"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ehhzX":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleCarrierMouseLeave", ()=>handleCarrierMouseLeave);
-var _elementCreators = require("../utilities/elementCreators");
-const handleCarrierMouseLeave = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 4; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 4; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1zjy0":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleDestroyerBttnClick", ()=>handleDestroyerBttnClick);
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
-var _handleDestroyerCellClick = require("./handleDestroyerCellClick");
-var _handleDestroyerMouseEnter = require("./handleDestroyerMouseEnter");
-var _handleDestroyerMouseLeave = require("./handleDestroyerMouseLeave");
-var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
-var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
-const handleDestroyerBttnClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // assigns event listeners to each player game cell after clicking destroyer button
-    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerCellClick.handleDestroyerCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleDestroyerMouseEnter.handleDestroyerMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleDestroyerMouseLeave.handleDestroyerMouseLeave)))(player));
-    // disables this button after clicking
-    this.disabled = true;
-    // visually indicates that 'this' button is selected
-    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid #f0a400"
-        ],
-        [
-            "color",
-            "#f0a400"
-        ], 
-    ]))(this);
-    // disables clicking on other shipButtons while selected
-    // prevents double selection
-    const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
-    if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
-    const carrierBttn = document.querySelector(".bttn-carrier");
-    if (carrierBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
-    const battleshipBttn = document.querySelector(".bttn-battleship");
-    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-    const frigateBttn = document.querySelector(".bttn-frigate");
-    if (frigateBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-};
-
-},{"../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerCellClick":"3xwCD","./handleDestroyerMouseEnter":"9ER26","./handleDestroyerMouseLeave":"7Pn09","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3xwCD":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleDestroyerCellClick", ()=>handleDestroyerCellClick);
-var _accumulatePlayerShipCoords = require("../components/accumulatePlayerShipCoords");
-var _checkAllShipsInPlace = require("../components/checkAllShipsInPlace");
-var _doesShipPlacementOverlap = require("../components/doesShipPlacementOverlap");
-var _isCorrectNumberOfShips = require("../components/isCorrectNumberOfShips");
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
-var _handleDestroyerMouseEnter = require("./handleDestroyerMouseEnter");
-var _handleDestroyerMouseLeave = require("./handleDestroyerMouseLeave");
-var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
-var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
-const handleDestroyerCellClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // initializes the ship object upon first call
-    if (!localStorage.getItem("destroyer")) localStorage.setItem("destroyer", JSON.stringify([]));
-    const destroyer = JSON.parse(localStorage.getItem("destroyer") ?? "");
-    const destroyerCoords = [];
-    const ship = "destroyer";
-    const amount = "double";
-    // for horizontal placement
-    if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        //grid boundary detection
-        if (Number(currentX) > 8) {
-            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
-            return null;
-        }
-        // overlap detection
-        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(2, currentAxis, currentX, currentY)) return null;
-        // places destroyer on the grid
-        for(let i = 0; i < 2; i += 1){
-            const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-            // prevents duplicate letters being placed
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "class",
-                    "playerShipPresent player-gameCell"
-                ]
-            ]), (0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "#f0a400"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]), (0, _elementCreators.addTextToElem)("D"))(nextCell);
-            destroyerCoords.push(`${Number(currentX) + i},${currentY}`);
-        }
-        // only updates if there are 2 or less ships
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) destroyer.push({
-            head: destroyerCoords[0],
-            tail: destroyerCoords[1]
-        });
-    } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        // grid boundary detection
-        if (Number(currentY) > 8) {
-            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
-            return null;
-        }
-        // overlap detection
-        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(2, currentAxis, currentX, currentY)) return null;
-        for(let i = 0; i < 2; i += 1){
-            // places destroyer on the grid
-            const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
-            // prevents duplicate letters being placed
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "class",
-                    "playerShipPresent player-gameCell"
-                ]
-            ]), (0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "#f0a400"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]), (0, _elementCreators.addTextToElem)("D"))(nextCell);
-            destroyerCoords.push(`${currentX},${Number(currentY) + i}`);
-        }
-        // only updates if there are 2 or less ships
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) destroyer.push({
-            head: destroyerCoords[0],
-            tail: destroyerCoords[1]
-        });
-    } else if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) return null;
-    // stores destroyer
-    localStorage.setItem("destroyer", JSON.stringify(destroyer));
-    // stores current ship coords to pool of all ship coords
-    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(destroyerCoords);
-    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) {
-        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
-        const destroyerBttn = document.querySelector(".bttn-destroyer");
-        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid gainsboro"
-            ],
-            [
-                "color",
-                "gainsboro"
-            ],
-            [
-                "cursor",
-                "not-allowed"
-            ], 
-        ]))(destroyerBttn);
-        // enables events on other shipButtons after both destroyers have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
-        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
-        if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
-        const carrierBttn = document.querySelector(".bttn-carrier");
-        if (carrierBttn && carrierBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
-        const battleshipBttn = document.querySelector(".bttn-battleship");
-        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-        const frigateBttn = document.querySelector(".bttn-frigate");
-        if (frigateBttn && frigateBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-        //removes event listeners after both destroyers have been placed
-        playerGameCells.forEach((player)=>{
-            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleDestroyerCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleDestroyerMouseEnter.handleDestroyerMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleDestroyerMouseLeave.handleDestroyerMouseLeave)))(player);
-        });
-    }
-    //if all ships placed, renders start button
-    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
-};
-
-},{"../components/accumulatePlayerShipCoords":"9lJOj","../components/checkAllShipsInPlace":"6FcJc","../components/doesShipPlacementOverlap":"iGKQQ","../components/isCorrectNumberOfShips":"21vDW","../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerMouseEnter":"9ER26","./handleDestroyerMouseLeave":"7Pn09","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9ER26":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleDestroyerMouseEnter", ()=>handleDestroyerMouseEnter);
-var _elementCreators = require("../utilities/elementCreators");
-const handleDestroyerMouseEnter = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 2; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("D"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 2; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("D"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Pn09":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleDestroyerMouseLeave", ()=>handleDestroyerMouseLeave);
-var _elementCreators = require("../utilities/elementCreators");
-const handleDestroyerMouseLeave = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 2; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 2; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4QZ7c":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleFrigateBttnClick", ()=>handleFrigateBttnClick);
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
-var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
-var _handleFrigateCellClick = require("./handleFrigateCellClick");
-var _handleFrigateMouseEnter = require("./handleFrigateMouseEnter");
-var _handleFrigateMouseLeave = require("./handleFrigateMouseLeave");
-var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
-const handleFrigateBttnClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // disables this button after clicking
-    this.disabled = true;
-    // visually indicates that 'this' button is selected
-    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid #f0a400"
-        ],
-        [
-            "color",
-            "#f0a400"
-        ], 
-    ]))(this);
-    // disables events on other shipButtons while selected
-    // prevents double selection
-    const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
-    if (superdreadnoughtBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
-    const carrierBttn = document.querySelector(".bttn-carrier");
-    if (carrierBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
-    const battleshipBttn = document.querySelector(".bttn-battleship");
-    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-    const destroyerBttn = document.querySelector(".bttn-destroyer");
-    if (destroyerBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
-    // assigns event listeners to each player game cell after clicking destroyer button
-    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleFrigateCellClick.handleFrigateCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleFrigateMouseEnter.handleFrigateMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleFrigateMouseLeave.handleFrigateMouseLeave)))(player));
-};
-
-},{"../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateCellClick":"cP3IQ","./handleFrigateMouseEnter":"3BZaH","./handleFrigateMouseLeave":"eaXxI","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cP3IQ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleFrigateCellClick", ()=>handleFrigateCellClick);
-var _accumulatePlayerShipCoords = require("../components/accumulatePlayerShipCoords");
-var _checkAllShipsInPlace = require("../components/checkAllShipsInPlace");
-var _doesShipPlacementOverlap = require("../components/doesShipPlacementOverlap");
-var _isCorrectNumberOfShips = require("../components/isCorrectNumberOfShips");
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
-var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
-var _handleFrigateMouseEnter = require("./handleFrigateMouseEnter");
-var _handleFrigateMouseLeave = require("./handleFrigateMouseLeave");
-var _handleSuperdreadnoughtBttnClick = require("./handleSuperdreadnoughtBttnClick");
-const handleFrigateCellClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent ?? "";
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // initializes the ship object upon first call
-    if (!localStorage.getItem("frigate")) localStorage.setItem("frigate", JSON.stringify([]));
-    const frigate = JSON.parse(localStorage.getItem("frigate") ?? "");
-    const frigateCoords = [];
-    const ship = "frigate";
-    const amount = "double";
-    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        // overlap detection
-        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(1, currentAxis, currentX, currentY)) return null;
-        // places frigate on the grid
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
-        // prevents duplicate letters being placed
-        if (nextCell) nextCell.textContent = "";
-        (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-            [
-                "class",
-                "playerShipPresent player-gameCell"
-            ]
-        ]), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "default"
-            ], 
-        ]), (0, _elementCreators.addTextToElem)("F"))(nextCell);
-        frigateCoords.push(`${currentX},${currentY}`);
-        // only updates if there are 2 or less ships
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) frigate.push({
-            body: frigateCoords[0]
-        });
-    } else if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) return null;
-    // stores frigate
-    localStorage.setItem("frigate", JSON.stringify(frigate));
-    // stores current ship coords to pool of all ship coords
-    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(frigateCoords);
-    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === false) {
-        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
-        const frigateBttn = document.querySelector(".bttn-frigate");
-        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid gainsboro"
-            ],
-            [
-                "color",
-                "gainsboro"
-            ], 
-        ]))(frigateBttn);
-        // enables events on other shipButtons after both frigates have been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
-        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
-        if (superdreadnoughtBttn && superdreadnoughtBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtBttnClick.handleSuperdreadnoughtBttnClick)))(superdreadnoughtBttn);
-        const carrierBttn = document.querySelector(".bttn-carrier");
-        if (carrierBttn && carrierBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
-        const battleshipBttn = document.querySelector(".bttn-battleship");
-        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-        const destroyerBttn = document.querySelector(".bttn-destroyer");
-        if (destroyerBttn && destroyerBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
-        //removes event listeners after both frigates have been placed
-        playerGameCells.forEach((player)=>{
-            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleFrigateCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleFrigateMouseEnter.handleFrigateMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleFrigateMouseLeave.handleFrigateMouseLeave)))(player);
-        });
-    }
-    //if all ships placed, renders start button
-    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
-};
-
-},{"../components/accumulatePlayerShipCoords":"9lJOj","../components/checkAllShipsInPlace":"6FcJc","../components/doesShipPlacementOverlap":"iGKQQ","../components/isCorrectNumberOfShips":"21vDW","../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateMouseEnter":"3BZaH","./handleFrigateMouseLeave":"eaXxI","./handleSuperdreadnoughtBttnClick":"iL6A7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3BZaH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleFrigateMouseEnter", ()=>handleFrigateMouseEnter);
-var _elementCreators = require("../utilities/elementCreators");
-const handleFrigateMouseEnter = function(ev) {
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes cell on hover
-    const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
-    if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("F"), (0, _elementCreators.addStyleToElem)([
-        [
-            "color",
-            "#f0a400"
-        ],
-        [
-            "cursor",
-            "crosshair"
-        ], 
-    ]))(nextCell);
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eaXxI":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleFrigateMouseLeave", ()=>handleFrigateMouseLeave);
-var _elementCreators = require("../utilities/elementCreators");
-const handleFrigateMouseLeave = function(ev) {
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes cell on hover
-    const nextCell = document.querySelector(`[data-cellplayer="${currentX},${currentY}"]`);
-    // avoids changing cells of ships already present
-    if (!nextCell?.classList.contains("playerShipPresent")) {
-        if (nextCell) nextCell.textContent = "";
-        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "gainsboro"
-            ],
-            [
-                "cursor",
-                "default"
-            ], 
-        ]))(nextCell);
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iL6A7":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleSuperdreadnoughtBttnClick", ()=>handleSuperdreadnoughtBttnClick);
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
-var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
-var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
-var _handleSuperdreadnoughtCellClick = require("./handleSuperdreadnoughtCellClick");
-var _handleSuperdreadnoughtMouseEnter = require("./handleSuperdreadnoughtMouseEnter");
-var _handleSuperdreadnoughtMouseLeave = require("./handleSuperdreadnoughtMouseLeave");
-const handleSuperdreadnoughtBttnClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // disables this button after clicking
-    this.disabled = true;
-    // visually indicates that 'this' button is selected
-    (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid #f0a400"
-        ],
-        [
-            "color",
-            "#f0a400"
-        ], 
-    ]))(this);
-    // disables clicking on other shipButtons while selected
-    // prevents double selection
-    const carrierBttn = document.querySelector(".bttn-carrier");
-    if (carrierBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
-    const battleshipBttn = document.querySelector(".bttn-battleship");
-    if (battleshipBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-    const destroyerBttn = document.querySelector(".bttn-destroyer");
-    if (destroyerBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
-    const frigateBttn = document.querySelector(".bttn-frigate");
-    if (frigateBttn) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-        [
-            "border",
-            "1px solid gainsboro"
-        ],
-        [
-            "color",
-            "gainsboro"
-        ],
-        [
-            "cursor",
-            "not-allowed"
-        ], 
-    ]), (0, _elementCreators.removeEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-    // assigns event listeners to each player game cell after clicking superdreadnought button
-    playerGameCells.forEach((player)=>(0, _elementCreators.pipe)((0, _elementCreators.addEvtListener)("click")((0, _handleSuperdreadnoughtCellClick.handleSuperdreadnoughtCellClick)), (0, _elementCreators.addEvtListener)("mouseenter")((0, _handleSuperdreadnoughtMouseEnter.handleSuperdreadnoughtMouseEnter)), (0, _elementCreators.addEvtListener)("mouseleave")((0, _handleSuperdreadnoughtMouseLeave.handleSuperdreadnoughtMouseLeave)))(player));
-};
-
-},{"../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtCellClick":"6MyCS","./handleSuperdreadnoughtMouseEnter":"qHolt","./handleSuperdreadnoughtMouseLeave":"4nkbf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6MyCS":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleSuperdreadnoughtCellClick", ()=>handleSuperdreadnoughtCellClick);
-var _accumulatePlayerShipCoords = require("../components/accumulatePlayerShipCoords");
-var _checkAllShipsInPlace = require("../components/checkAllShipsInPlace");
-var _doesShipPlacementOverlap = require("../components/doesShipPlacementOverlap");
-var _isCorrectNumberOfShips = require("../components/isCorrectNumberOfShips");
-var _elementCreators = require("../utilities/elementCreators");
-var _handleBattleshipBttnClick = require("./handleBattleshipBttnClick");
-var _handleCarrierBttnClick = require("./handleCarrierBttnClick");
-var _handleDestroyerBttnClick = require("./handleDestroyerBttnClick");
-var _handleFrigateBttnClick = require("./handleFrigateBttnClick");
-var _handleSuperdreadnoughtMouseEnter = require("./handleSuperdreadnoughtMouseEnter");
-var _handleSuperdreadnoughtMouseLeave = require("./handleSuperdreadnoughtMouseLeave");
-const handleSuperdreadnoughtCellClick = function(ev) {
-    const playerGameCells = document.querySelectorAll(".player-gameCell");
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // initializes the carrier object upon first call
-    if (!localStorage.getItem("superdreadnought")) localStorage.setItem("superdreadnought", JSON.stringify(""));
-    let superdreadnought = JSON.parse(localStorage.getItem("superdreadnought") ?? "");
-    const superdreadnoughtCoords = [];
-    const ship = "superdreadnought";
-    const amount = "single";
-    // for horizontal placement
-    if (currentAxis === "Axis-X" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) {
-        // grid boundary detection
-        if (Number(currentX) > 5) {
-            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
-            return null;
-        }
-        // overlap detection
-        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(5, currentAxis, currentX, currentY)) return null;
-        // places superdreadnought on the grid
-        for(let i = 0; i < 5; i += 1){
-            const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-            // prevents duplicate letters being placed
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "class",
-                    "playerShipPresent player-gameCell"
-                ]
-            ]), (0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "#f0a400"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]), (0, _elementCreators.addTextToElem)("S"))(nextCell);
-            superdreadnoughtCoords.push(`${Number(currentX) + i},${currentY}`);
-        }
-        // prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates superdreadnought object attributes
-        superdreadnought = {
-            head: superdreadnoughtCoords[0],
-            body1: superdreadnoughtCoords[1],
-            body2: superdreadnoughtCoords[2],
-            body3: superdreadnoughtCoords[3],
-            tail: superdreadnoughtCoords[4]
-        };
-        localStorage.setItem("isSingleSuperdreadnought", JSON.stringify(false));
-    } else if (currentAxis === "Axis-Y" && (0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, "single")) {
-        // grid boundary detection
-        if (Number(currentY) > 5) {
-            alert("Please stay within boundaries of the sector (\uFF61\u2022\u0301\uFE3F\u2022\u0300\uFF61)");
-            return null;
-        }
-        // overlap detection
-        if ((0, _doesShipPlacementOverlap.doesShipPlacementOverlap)(5, currentAxis, currentX, currentY)) return null;
-        // places superdreadnought on the grid
-        for(let i = 0; i < 5; i += 1){
-            const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i}"]`);
-            // prevents duplicate letters being placed
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addAttributeToElem)([
-                [
-                    "class",
-                    "playerShipPresent player-gameCell"
-                ]
-            ]), (0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "#f0a400"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]), (0, _elementCreators.addTextToElem)("S"))(nextCell);
-            superdreadnoughtCoords.push(`${currentX},${Number(currentY) + i}`);
-        }
-        // prevents updating after first click
-        if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount)) // updates superdreadnought object attributes
-        superdreadnought = {
-            head: superdreadnoughtCoords[0],
-            body1: superdreadnoughtCoords[1],
-            body2: superdreadnoughtCoords[2],
-            body3: superdreadnoughtCoords[3],
-            tail: superdreadnoughtCoords[4]
-        };
-        localStorage.setItem("isSingleSuperdreadnought", JSON.stringify(false));
-    }
-    // stores superdreadnought
-    localStorage.setItem("superdreadnought", JSON.stringify(superdreadnought));
-    // stores current ship coords to pool of all ship coords
-    (0, _accumulatePlayerShipCoords.accumulatePlayerShipCoords)(superdreadnoughtCoords);
-    if ((0, _isCorrectNumberOfShips.isCorrectNumberOfShips)(ship, amount) === true) {
-        // after 'this' button has been clicked, sets the color to grey to visually indicate finished
-        const superdreadnoughtBttn = document.querySelector(".bttn-superdreadnought");
-        (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid gainsboro"
-            ],
-            [
-                "color",
-                "gainsboro"
-            ],
-            [
-                "cursor",
-                "not-allowed"
-            ], 
-        ]))(superdreadnoughtBttn);
-        // enables events on other shipButtons after superdreadnought has been placed and sets color to green to visually indicate that they can be clicked if they have not been previously disabled after a click
-        const carrierBttn = document.querySelector(".bttn-carrier");
-        if (carrierBttn && carrierBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleCarrierBttnClick.handleCarrierBttnClick)))(carrierBttn);
-        const battleshipBttn = document.querySelector(".bttn-battleship");
-        if (battleshipBttn && battleshipBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleBattleshipBttnClick.handleBattleshipBttnClick)))(battleshipBttn);
-        const destroyerBttn = document.querySelector(".bttn-destroyer");
-        if (destroyerBttn && destroyerBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleDestroyerBttnClick.handleDestroyerBttnClick)))(destroyerBttn);
-        const frigateBttn = document.querySelector(".bttn-frigate");
-        if (frigateBttn && frigateBttn.disabled !== true) (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-            [
-                "border",
-                "1px solid #00f000"
-            ],
-            [
-                "color",
-                "#00f000"
-            ],
-            [
-                "cursor",
-                "pointer"
-            ], 
-        ]), (0, _elementCreators.addEvtListener)("click")((0, _handleFrigateBttnClick.handleFrigateBttnClick)))(frigateBttn);
-        // removes event listeners after single superdreadnought has been placed
-        playerGameCells.forEach((player)=>{
-            (0, _elementCreators.pipe)((0, _elementCreators.removeEvtListener)("click")(handleSuperdreadnoughtCellClick), (0, _elementCreators.removeEvtListener)("mouseenter")((0, _handleSuperdreadnoughtMouseEnter.handleSuperdreadnoughtMouseEnter)), (0, _elementCreators.removeEvtListener)("mouseleave")((0, _handleSuperdreadnoughtMouseLeave.handleSuperdreadnoughtMouseLeave)))(player);
-        });
-    }
-    // if all ships placed, renders start button
-    (0, _checkAllShipsInPlace.checkAllShipsInPlace)();
-};
-
-},{"../components/accumulatePlayerShipCoords":"9lJOj","../components/checkAllShipsInPlace":"6FcJc","../components/doesShipPlacementOverlap":"iGKQQ","../components/isCorrectNumberOfShips":"21vDW","../utilities/elementCreators":"H4ivl","./handleBattleshipBttnClick":"4YxkI","./handleCarrierBttnClick":"38NmJ","./handleDestroyerBttnClick":"1zjy0","./handleFrigateBttnClick":"4QZ7c","./handleSuperdreadnoughtMouseEnter":"qHolt","./handleSuperdreadnoughtMouseLeave":"4nkbf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"qHolt":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleSuperdreadnoughtMouseEnter", ()=>handleSuperdreadnoughtMouseEnter);
-var _elementCreators = require("../utilities/elementCreators");
-const handleSuperdreadnoughtMouseEnter = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 5; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("S"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 5; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        if (!nextCell?.classList.contains("playerShipPresent")) (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("S"), (0, _elementCreators.addStyleToElem)([
-            [
-                "color",
-                "#f0a400"
-            ],
-            [
-                "cursor",
-                "crosshair"
-            ], 
-        ]))(nextCell);
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4nkbf":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "handleSuperdreadnoughtMouseLeave", ()=>handleSuperdreadnoughtMouseLeave);
-var _elementCreators = require("../utilities/elementCreators");
-const handleSuperdreadnoughtMouseLeave = function(ev) {
-    // grabs the current state of the axis button
-    const axisSelector = document.querySelector(".bttn-axisSelector");
-    const currentAxis = axisSelector?.textContent;
-    // grabs the current cell co-ordinate
-    const currentCell = this.dataset.cellplayer?.split(",");
-    const currentX = currentCell?.[0] ?? "";
-    const currentY = currentCell?.[1] ?? "";
-    // changes consecutive cells in corresponding axes on hover
-    if (currentAxis === "Axis-X") for(let i = 0; i < 5; i += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${Number(currentX) + i},${currentY}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-    else if (currentAxis === "Axis-Y") for(let i1 = 0; i1 < 5; i1 += 1){
-        const nextCell = document.querySelector(`[data-cellplayer="${currentX},${Number(currentY) + i1}"]`);
-        // avoids changing cells of ships already present
-        if (!nextCell?.classList.contains("playerShipPresent")) {
-            if (nextCell) nextCell.textContent = "";
-            (0, _elementCreators.pipe)((0, _elementCreators.addStyleToElem)([
-                [
-                    "color",
-                    "gainsboro"
-                ],
-                [
-                    "cursor",
-                    "default"
-                ], 
-            ]))(nextCell);
-        }
-    }
-};
-
-},{"../utilities/elementCreators":"H4ivl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5lrmx":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "greetingsText", ()=>greetingsText);
-const greetingsText = [
-    `In a time of crisis, the Star Kingdom of Manticore faces a grave threat from
-  the treacherous People's Republic of Haven. Their aggression and lust for
-  power has forced us into a war we did not seek. However, as loyal subjects of
-  Her Majesty Queen Elizabeth III, it is our duty to defend our homeland and
-  protect our people from harm!`,
-    //
-    `The enemy seeks to destroy our way of life, but we will not falter! Our brave
-  sailors and soldiers stand ready to defend the Kingdom with honor and courage.
-  We will not rest until the threat of Haven is neutralized, and our people can
-  live in peace and prosperity once again.`,
-    //
-    `People's Republic of Haven has assembled a formidable fleet near the Talbott
-  Cluster, commanded by the traitor Admiral Esther McQueen, and are poised to
-  launch an invasion of the Rembrandt Trade Union.`,
-    //
-    `The brave people of Rembrandt
-  have reached out to us for assistance in the face of this imminent threat,
-  pledging their loyalty to the Kingdom upon the successful repulsion of the
-  Haven forces.`,
-    //
-    `As staunch defenders of peace and justice, we cannot turn a
-  blind eye to their plight and will stand by our allies in their hour of need.
-  Our fleet has been mobilized and will soon join the battle to ensure the
-  safety and sovereignty of the Rembrandt Trade Union.`,
-    //
-    `You have been called upon to engage and defeat the Haven Fleet and secure
-  peace and prosperity for the Star Kingdom and its allies!`, 
-];
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["17ZdQ","h7u1C"], "h7u1C", "parcelRequired10b")
 

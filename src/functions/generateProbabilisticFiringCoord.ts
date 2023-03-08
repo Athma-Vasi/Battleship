@@ -1,5 +1,5 @@
-import { genRandCompAttackGuess } from '../components/genRandCompAttackGuess';
 import { generateFiringSolution } from './generateFiringSolution';
+import { genRandCompAttackGuess } from './genRandCompAttackGuess';
 
 function generateProbabilisticFiringCoord(): string {
 	const prevCompHitOrMiss: 'hit' | 'miss' = localStorage.getItem('prevCompHitOrMiss') as

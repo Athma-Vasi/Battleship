@@ -1,7 +1,7 @@
-import { addEvtListenerToForm } from './components/addEvtListenerToForm';
 import { greetingsText } from './data/greetingsText';
-import { createTypewriterEffect } from './utilities/createTypewriterEffect';
-import { Div } from './utilities/types';
+import { addEvtListenerToForm } from './functions/addEvtListenerToForm';
+import { createTypewriterEffect } from './functions/createTypewriterEffect';
+import { Div } from './functions/types';
 
 const mainApp = async function () {
 	addEvtListenerToForm();
@@ -11,7 +11,7 @@ const mainApp = async function () {
 	createTypewriterEffect({
 		containerElem: greetingsContainer,
 		strings: greetingsText,
-		speed: 10,
+		speed: 25,
 	});
 
 	//clears storage upon refresh

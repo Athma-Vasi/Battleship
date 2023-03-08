@@ -1,12 +1,12 @@
-import { appendElemToParent, elemCreator } from '../utilities/elementCreators';
-import { renderBattleMessageHelper } from '../utilities/renderBattleMessageHelper';
+import { appendElemToParent, elemCreator } from '../functions/elementCreators';
+import { renderBattleMessageHelper } from '../functions/renderBattleMessageHelper';
 import {
 	Destroyer,
 	Div,
 	Frigate,
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
-} from '../utilities/types';
+} from '../functions/types';
 
 type renderBattleMessageElemProps = {
 	currentCellCoord: string;

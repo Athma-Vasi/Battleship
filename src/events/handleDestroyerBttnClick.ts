@@ -3,8 +3,8 @@ import {
 	addStyleToElem,
 	pipe,
 	removeEvtListener,
-} from '../utilities/elementCreators';
-import { Button, NodesDiv } from '../utilities/types';
+} from '../functions/elementCreators';
+import { Button, NodesDiv } from '../functions/types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierBttnClick } from './handleCarrierBttnClick';
 import { handleDestroyerCellClick } from './handleDestroyerCellClick';

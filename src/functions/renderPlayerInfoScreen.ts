@@ -1,6 +1,6 @@
 import { preBattleTexts } from '../data/preBattleTexts';
-import { createTypewriterEffect } from '../utilities/createTypewriterEffect';
-import { appendElemToParent, elemCreator } from '../utilities/elementCreators';
+import { createTypewriterEffect } from '../functions/createTypewriterEffect';
+import { appendElemToParent, elemCreator } from '../functions/elementCreators';
 
 const renderPlayerInfoScreen = function (playerName_: string): void {
 	// scroll to top of page

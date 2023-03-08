@@ -11,7 +11,7 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators';
+} from '../functions/elementCreators';
 
 const renderShipSelectionBttns = function (): void {
 	const main: HTMLElement | null = document.querySelector('.main');

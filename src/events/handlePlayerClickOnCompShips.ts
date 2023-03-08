@@ -1,13 +1,12 @@
-import { announceGameWinner } from '../components/announceGameWinner';
-import { computersTurn } from '../components/computersTurn';
-import { renderBattleMessageElem } from '../components/renderBattleMessage';
-import { pipe, removeEvtListener } from '../utilities/elementCreators';
-import { returnPlayerCompShipsCoords } from '../utilities/returnPlayerCompShipsCoords';
-import { returnShipSymbolFromCoord } from '../utilities/returnShipSymbolFromCoord';
-import { returnSunkShipObj } from '../utilities/returnSunkShipObj';
-import { NodesDiv } from '../utilities/types';
-import { updateCompTacticalOverviewShips } from '../utilities/updateCompTacticalOverviewShips';
-import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTacticalOverviewCells';
+import { announceGameWinner } from '../functions/announceGameWinner';
+import { computersTurn } from '../functions/computersTurn';
+import { pipe, removeEvtListener } from '../functions/elementCreators';
+import { renderBattleMessageElem } from '../functions/renderBattleMessage';
+import { returnPlayerCompShipsCoords } from '../functions/returnPlayerCompShipsCoords';
+import { returnShipSymbolFromCoord } from '../functions/returnShipSymbolFromCoord';
+import { returnSunkShipObj } from '../functions/returnSunkShipObj';
+import { NodesDiv } from '../functions/types';
+import { updateCompTacticalOverviewShips } from '../functions/updateCompTacticalOverviewShips';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
 const handlePlayerClickOnCompShips = function (

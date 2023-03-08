@@ -3,8 +3,8 @@ import {
 	appendElemToParent,
 	elemCreator,
 	pipe,
-} from '../utilities/elementCreators';
-import { Div } from '../utilities/types';
+} from '../functions/elementCreators';
+import { Div } from '../functions/types';
 
 const renderCompBoard = function (): void {
 	const gameBoardContainer: Div = document.querySelector('.gameBoard-container');

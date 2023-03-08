@@ -211,12 +211,10 @@ body {
 
 .battleMessage-wrapper {
   width: clamp(21rem, 50vw, 27rem);
-  outline: 1px solid gray;
   flex-flow: column wrap-reverse;
   justify-content: flex-start;
   align-self: flex-start;
   align-items: center;
-  padding-top: 1.75rem;
   display: flex;
 }
 
@@ -263,7 +261,6 @@ body {
 }
 
 .gameBoard-container {
-  outline: 1px solid violet;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -290,22 +287,12 @@ body {
   }
 }
 
-.playerBoard-wrapper, .gamePlayerBoard-wrapper {
+.playerBoard-wrapper, .gamePlayerBoard-wrapper, .compBoard-wrapper {
   max-width: 1100px;
   flex-wrap: wrap-reverse;
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  display: flex;
-}
-
-.compBoard-wrapper {
-  max-width: 1100px;
-  flex-wrap: wrap-reverse;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-  margin-top: 2rem;
   display: flex;
 }
 

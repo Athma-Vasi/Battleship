@@ -1,7 +1,6 @@
-import { accumulatePlayerShipCoords } from '../components/accumulatePlayerShipCoords';
-import { checkAllShipsInPlace } from '../components/checkAllShipsInPlace';
-import { doesShipPlacementOverlap } from '../components/doesShipPlacementOverlap';
-import { isCorrectNumberOfShips } from '../components/isCorrectNumberOfShips';
+import { accumulatePlayerShipCoords } from '../functions/accumulatePlayerShipCoords';
+import { checkAllShipsInPlace } from '../functions/checkAllShipsInPlace';
+import { doesShipPlacementOverlap } from '../functions/doesShipPlacementOverlap';
 import {
 	addAttributeToElem,
 	addEvtListener,
@@ -9,8 +8,9 @@ import {
 	addTextToElem,
 	pipe,
 	removeEvtListener,
-} from '../utilities/elementCreators';
-import { Button, Carrier, Div, NodesDiv } from '../utilities/types';
+} from '../functions/elementCreators';
+import { isCorrectNumberOfShips } from '../functions/isCorrectNumberOfShips';
+import { Button, Carrier, Div, NodesDiv } from '../functions/types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierMouseEnter } from './handleCarrierMouseEnter';
 import { handleCarrierMouseLeave } from './handleCarrierMouseLeave';

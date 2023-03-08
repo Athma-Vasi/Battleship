@@ -1,8 +1,8 @@
-import { addStyleToElem, pipe } from '../utilities/elementCreators';
-import { returnSunkShipObj } from '../utilities/returnSunkShipObj';
-import { storeCompHitMissCoords } from '../utilities/storeCompHitMissCoords';
-import { Div } from '../utilities/types';
-import { updatePlayerTacticalOverviewCells } from '../utilities/updatePlayerTacticalOverviewCells';
+import { addStyleToElem, pipe } from '../functions/elementCreators';
+import { returnSunkShipObj } from '../functions/returnSunkShipObj';
+import { storeCompHitMissCoords } from '../functions/storeCompHitMissCoords';
+import { Div } from '../functions/types';
+import { updatePlayerTacticalOverviewCells } from '../functions/updatePlayerTacticalOverviewCells';
 import { renderBattleMessageElem } from './renderBattleMessage';
 
 const computerAttacks = function (compAttackGuess_: string): void {
