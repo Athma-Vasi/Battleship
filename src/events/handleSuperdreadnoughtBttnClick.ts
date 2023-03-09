@@ -13,6 +13,14 @@ import { handleSuperdreadnoughtCellClick } from './handleSuperdreadnoughtCellCli
 import { handleSuperdreadnoughtMouseEnter } from './handleSuperdreadnoughtMouseEnter';
 import { handleSuperdreadnoughtMouseLeave } from './handleSuperdreadnoughtMouseLeave';
 
+/**
+ *  Handles click event on superdreadnought ship selection button by disabling the button and other ship selection buttons by removing their event listeners until after the ship is placed on the game board. Also adds event listeners to the game board cells to handle (superdreadnought) mouseenter, mouseleave, and click events.
+ *
+ * @function
+ * @param {HTMLButtonElement} this - The button that was clicked.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {void}
+ */
 const handleSuperdreadnoughtBttnClick = function (
 	this: HTMLButtonElement,
 	ev: MouseEvent

@@ -1,6 +1,14 @@
 import { addStyleToElem, pipe } from '../functions/elementCreators';
 import { Div } from '../types';
 
+/**
+ * Handles mouseleave event on game board cells by changing the text content of five cells to '' to indicate that it is no longer a valid placement for the superdreadnought ship.
+ *
+ * @function
+ * @param {HTMLDivElement} this - The cell that the mouse is hovering over.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {void}
+ */
 const handleSuperdreadnoughtMouseLeave = function (
 	this: HTMLDivElement,
 	ev: MouseEvent

@@ -18,6 +18,14 @@ import { handleFrigateMouseEnter } from './handleFrigateMouseEnter';
 import { handleFrigateMouseLeave } from './handleFrigateMouseLeave';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
+/**
+ * Handles click event on board when frigate is placed by grabbing current state of axis button, current cell co-ordinates, and current state of frigate object in localStorage. Then, checks if the ship placement overlaps with any other ship placements, whether the ship placement is within the grid boundaries, and whether the correct number of ships are in place. If all conditions are met, the ship is placed on the board and the frigate object is updated in localStorage and enables the other ship selection buttons and adds back their click event listeners.
+ *
+ * @function
+ * @param {HTMLDivElement} this - The cell that was clicked.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {null | undefined}
+ */
 const handleFrigateCellClick = function (
 	this: HTMLDivElement,
 	ev: MouseEvent

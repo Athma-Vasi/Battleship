@@ -1,4 +1,44 @@
 /**
+ * Pipe function that takes variable number of functions and returns a function that takes a value. The returned function passes the value to the first function in the array of functions and passes the result of that function to the next function in the array and so on until the last function in the array is called. The result of the last function in the array is returned, or <void> if its a side effect function (append to DOM, add event listener, etc.) * 
+ * 
+ * @function
+ * @param {...Array<(_: V) => any>} funcs - array of functions
+ * @returns {(value: V) => any}
+ * @example
+ * pipe(
+		addTextToElem('Restart'),
+		addEvtListener('click')(restartGame),
+		appendElemToParent(winnerWrapper)
+	)(elemCreator('button')(['bttn-restart']));
+ */
+
+const pipe =
+	<V>(...funcs: Array<(_: V) => any>) =>
+	(value: V) =>
+		funcs.reduce((res, func) => func(res), value);
+
+// not ready for prime time
+// const asyncPipe =
+// 	<V, R>(...funcs: Array<(_: V) => Promise<R>>) =>
+// 	async (value: V): Promise<R> =>
+// 		funcs.reduce(
+// 			async (res: Promise<R>, func) => func(await res),
+// 			Promise.resolve(value)
+// 		);
+
+/**
+ * Map is used to create an array of promises, and then Promise.all is used to resolve in parallel, all the promises in the array. The returned promise is wrapped in an async function that allows the caller to await the results of the parallel execution.
+ *
+ * @function
+ * @param {...Array<(_: V) => Promise<R>>} funcs - array of functions
+ * @returns {(value: V) => Promise<R>}
+ */
+const parallelPipe =
+	<V, R>(...funcs: Array<(_: V) => Promise<R>>) =>
+	async (value: V) =>
+		Promise.all(funcs.map((func) => func(value)));
+
+/**
  * Takes a string and returns a function that takes an array of strings. The returned function creates an HTML element with the string passed to the first function as the element type, and the array of strings passed to the returned function as the classes to add to the element.
  * Structured as a curried function to be used with the pipe function.
  *
@@ -32,7 +72,7 @@ const elemCreator = (elem: string) => (classes: string[]) => {
  * @example using pipe
  * pipe(
  * addAttributeToElem([['id', 'id1'], ['data-test', 'test']])
- * )(elemCreator('div')(['class1', 'class2'])
+ * )(elemCreator('div')(['class1', 'class2']))
  */
 const addAttributeToElem = (attrVals: Array<string[]>) => (elem: HTMLElement | null) => {
 	return attrVals.reduce(
@@ -47,7 +87,7 @@ const addAttributeToElem = (attrVals: Array<string[]>) => (elem: HTMLElement | n
 };
 
 /**
- *  Takes an array of arrays of style property and value, and returns a function that takes an HTML element. The returned function adds the style properties to the element passed to it.
+ * Takes an array of arrays of style property and value, and returns a function that takes an HTML element. The returned function adds the style properties to the element passed to it.
  * Structured as a curried function to be used with the pipe function.
  *
  * @function
@@ -59,7 +99,7 @@ const addAttributeToElem = (attrVals: Array<string[]>) => (elem: HTMLElement | n
  * @example using pipe
  * pipe(
  * addStyleToElem([['background-color', 'red'], ['color', 'white']])
- * )(elemCreator('div')(['class1', 'class2'])
+ * )(elemCreator('div')(['class1', 'class2']))
  *
  */
 const addStyleToElem = (stylePropVals: Array<string[]>) => (elem: HTMLElement | null) => {
@@ -100,6 +140,11 @@ const removeStyleFromElem = (styleProp: string) => (elem: HTMLElement | null) =>
  * @example
  * const divWithClasses = elemCreator('div')(['class1', 'class2']);
  * const addTextToElem = addTextToElem('Hello World')(divWithClasses);
+ * @example using pipe
+ * pipe(
+ * addTextToElem('Hello World')
+ * )(elemCreator('div')(['class1', 'class2']))
+ *
  */
 const addTextToElem = (text: string) => (elem: HTMLElement | null) => {
 	const textNode = document.createTextNode(text);
@@ -122,7 +167,7 @@ const addTextToElem = (text: string) => (elem: HTMLElement | null) => {
  * pipe(
  * addTextToElem('Hello World'),
  * appendElemToParent(document.body)
- * )(elemCreator('div')(['class1', 'class2'])
+ * )(elemCreator('div')(['class1', 'class2']))
  */
 const appendElemToParent =
 	(parent: HTMLElement | null) => (child: HTMLElement | null) => {
@@ -169,7 +214,7 @@ const createImage =
  * addTextToElem('Hello World'),
  * addEvtListener('click')((e) => console.log(e)),
  * appendElemToParent(document.body),
- * )(elemCreator('div')(['class1', 'class2'])
+ * )(elemCreator('div')(['class1', 'class2']))
  */
 const addEvtListener =
 	(evt: string) =>
@@ -209,7 +254,7 @@ const addEvtListener =
  * addEvtListener('click')((e) => console.log(e)),
  * removeEvtListener('click')((e) => console.log(e)),
  * appendElemToParent(document.body),
- * )(elemCreator('div')(['class1', 'class2'])
+ * )(elemCreator('div')(['class1', 'class2']))
  */
 const removeEvtListener =
 	(evt: string) =>
@@ -230,25 +275,6 @@ const removeEvtListener =
 		return elem;
 	};
 
-/**
- * Pipe function that takes variable number of functions and returns a function that takes a value. The returned function passes the value to the first function in the array of functions and passes the result of that function to the next function in the array and so on until the last function in the array is called. The result of the last function in the array is returned, or <void> if its a side effect function (append to DOM, add event listener, etc.) * 
- * 
- * @function
- * @param {...Array<(_: V) => any>} funcs - array of functions
- * @returns {(value: V) => any}
- * @example
- * pipe(
-		addTextToElem('Restart'),
-		addEvtListener('click')(restartGame),
-		appendElemToParent(winnerWrapper)
-	)(elemCreator('button')(['bttn-restart']));
- */
-
-const pipe =
-	<V>(...funcs: Array<(_: V) => any>) =>
-	(value: V) =>
-		funcs.reduce((res, func) => func(res), value);
-
 export {
 	elemCreator,
 	appendElemToParent,
@@ -260,4 +286,5 @@ export {
 	addStyleToElem,
 	removeStyleFromElem,
 	pipe,
+	parallelPipe,
 };

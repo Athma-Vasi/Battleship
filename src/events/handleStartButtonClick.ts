@@ -15,6 +15,14 @@ import { Div, NodesDiv } from '../types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 
+/**
+ * Handles click event on the start button by removing the info screen, the start button, and the ship buttons wrapper. It then renders the player and computer boards, places the ships on the computer board, randomizes and stores the ship names for each battle, adds event listeners to the computer board cells, and renders a new info screen for the battle texts.
+ *
+ * @function
+ * @param {HTMLButtonElement} this - The button that was clicked.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {void}
+ */
 const handleStartButtonClick = function (this: HTMLButtonElement, ev: MouseEvent): void {
 	// scroll to top of window
 	window.scrollTo(0, 0);

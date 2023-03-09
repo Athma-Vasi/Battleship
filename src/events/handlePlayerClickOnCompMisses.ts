@@ -5,6 +5,15 @@ import { updateCompTacticalOverviewShips } from '../functions/updateCompTactical
 import { Div, NodesDiv } from '../types';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 
+/**
+ *  Handles click event on game board cells by changing the text content of the cell to '✖' to indicate that the player missed the computer's ship, calls functions to render battle message and update the tactical overview.
+ * Removes click event listeners from all cells on the computer's board. They are added back on when the computer attacks to continue the round.
+ *
+ * @function
+ * @param {HTMLDivElement} this - The cell that the player clicked on.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {void}
+ */
 const handlePlayerClickOnCompMisses = function (
 	this: HTMLDivElement,
 	ev: MouseEvent
@@ -55,7 +64,7 @@ const handlePlayerClickOnCompMisses = function (
 
 	// all JS synchronous functions run-to-completion and since click callbacks are also synchronous, the setTimeout function is passed to a browser API and immediately starts the timer while the rest of the synchronous functions are run and popped off the call stack.
 	// the remove click event listeners callback functions are the last synchronous instructions to be executed preventing the player from clicking any comp board cells for two seconds
-	// After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue is empty because there are no promises), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
+	// After two seconds, the event loop pushes the setTimeout callback function to the macrotask queue (the higher priority microtask queue may contain the createTypewriterEffect async function(s)), and once the event loop confirms call stack is empty, pushes the computersTurn function to the stack and is run and then event listeners are added back on
 	// simulates a rudimentary game loop and gives the illusion of time taken for the computer to "think"
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent');
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent');
@@ -68,6 +77,6 @@ const handlePlayerClickOnCompMisses = function (
 	});
 
 	//computers turn
-	setTimeout(computersTurn, 2000);
+	setTimeout(computersTurn, 1500);
 };
 export { handlePlayerClickOnCompMisses };

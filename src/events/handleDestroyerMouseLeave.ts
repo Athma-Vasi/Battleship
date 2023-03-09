@@ -1,6 +1,14 @@
 import { addStyleToElem, pipe } from '../functions/elementCreators';
 import { Div } from '../types';
 
+/**
+ *  Handles mouseleave event on game board cells by changing the text content of two cells in the corresponding axis to the mouse to '' to indicate that it is no longer a valid placement for the destroyer ship.
+ *
+ * @function
+ * @param {HTMLDivElement} this - The cell that the mouse is hovering over.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {void}
+ */
 const handleDestroyerMouseLeave = function (this: HTMLDivElement, ev: MouseEvent): void {
 	// grabs the current state of the axis button
 	const axisSelector = document.querySelector('.bttn-axisSelector');

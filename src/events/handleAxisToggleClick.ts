@@ -1,3 +1,11 @@
+/**
+ * Modifies the textContent of the button to toggle between 'Axis-X' and 'Axis-Y' when clicked.
+ *
+ * @function
+ * @param {HTMLButtonElement} this - The button that was clicked.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {void}
+ */
 const handleAxisToggleClick = function (this: HTMLButtonElement, ev: MouseEvent): void {
 	const currentText = this.textContent;
 

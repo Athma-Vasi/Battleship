@@ -13,6 +13,14 @@ import { handleDestroyerMouseLeave } from './handleDestroyerMouseLeave';
 import { handleFrigateBttnClick } from './handleFrigateBttnClick';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
+/**
+ *  Handles click event on destroyer ship selection button by disabling the button and other ship selection buttons by removing their event listeners until after the ship is placed on the game board. Also adds event listeners to the game board cells to handle (destroyer) mouseenter, mouseleave, and click events.
+ *
+ * @function
+ * @param {HTMLButtonElement} this - The button that was clicked.
+ * @param {MouseEvent} ev - The event object.
+ * @returns {void}
+ */
 const handleDestroyerBttnClick = function (
 	this: HTMLButtonElement,
 	ev: MouseEvent

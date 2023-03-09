@@ -1,5 +1,13 @@
 import { renderShipSelectionPage } from '../functions/renderShipSelectionPage';
 
+/**
+ * Handles submit event on form by storing the player's name to local storage and rendering the ship selection page.
+ *
+ * @function
+ * @param {HTMLFormElement} this - The form that was submitted.
+ * @param {SubmitEvent} ev - The event object.
+ * @returns {void}
+ */
 const receiveFormName = function (this: HTMLFormElement, ev: SubmitEvent): void {
 	ev.preventDefault();
 
