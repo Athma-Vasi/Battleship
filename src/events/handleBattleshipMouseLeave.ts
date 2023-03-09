@@ -2,7 +2,8 @@ import { addStyleToElem, pipe } from '../functions/elementCreators';
 import { Div } from '../types';
 
 /**
- *  Handles mouseleave event on game board cells by changing the text content of three cells in the corresponding axis to the mouse to '' to indicate that it is no longer a valid placement for the battleship ship.
+ *  Handles mouseleave event on game board cells by changing the text content of three cells in the corresponding axis
+ * to the mouse to '' to indicate that it is no longer a valid placement for the battleship ship.
  *
  * @function
  * @param {HTMLDivElement} this - The cell that the mouse is hovering over.

@@ -19,7 +19,12 @@ import { handleFrigateBttnClick } from './handleFrigateBttnClick';
 import { handleSuperdreadnoughtBttnClick } from './handleSuperdreadnoughtBttnClick';
 
 /**
- * Handles click event on board when carrier is placed by grabbing current state of axis button, current cell co-ordinates, and current state of carrier object in localStorage. Then, checks if the ship placement overlaps with any other ship placements, whether the ship placement is within the grid boundaries, and whether the correct number of ships are in place. If all conditions are met, the ship is placed on the board and the carrier object is updated in localStorage and enables the other ship selection buttons and adds back their click event listeners.
+ * Handles click event on board when carrier is placed by grabbing current state of axis button,
+ * current cell co-ordinates, and current state of carrier object in localStorage.
+ * Then, checks if the ship placement overlaps with any other ship placements,
+ * whether the ship placement is within the grid boundaries, and whether the correct number of ships are in place.
+ * If all conditions are met, the ship is placed on the board and the carrier object is updated in localStorage
+ * and enables the other ship selection buttons and adds back their click event listeners.
  *
  * @function
  * @param {HTMLDivElement} this - The cell that was clicked.

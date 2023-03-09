@@ -2,7 +2,8 @@ import { addStyleToElem, addTextToElem, pipe } from '../functions/elementCreator
 import { Div } from '../types';
 
 /**
- * Handles mouseenter event on game board cells by changing the text content of three cells in the corresponding axis to the mouse to 'B' to indicate that it is a valid placement for the battleship ship.
+ * Handles mouseenter event on game board cells by changing the text content of three cells in the corresponding axis
+ * to the mouse to 'B' to indicate that it is a valid placement for the battleship ship.
  *
  * @function
  * @param {HTMLDivElement} this - The cell that the mouse is hovering over.
