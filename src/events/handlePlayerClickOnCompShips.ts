@@ -5,7 +5,7 @@ import { renderBattleMessageElem } from '../functions/renderBattleMessage';
 import { returnPlayerCompShipsCoords } from '../functions/returnPlayerCompShipsCoords';
 import { returnShipSymbolFromCoord } from '../functions/returnShipSymbolFromCoord';
 import { returnSunkShipObj } from '../functions/returnSunkShipObj';
-import { NodesDiv } from '../functions/types';
+import { NodesDiv } from '../types';
 import { updateCompTacticalOverviewShips } from '../functions/updateCompTacticalOverviewShips';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
@@ -40,11 +40,6 @@ const handlePlayerClickOnCompShips = function (
 
 	// used to identify the ship that was hit
 	const playerCompShipsCoords = returnPlayerCompShipsCoords();
-
-	console.log(
-		'playerCompShipsCoords from handlePlayerClickOnCompShips(): ',
-		playerCompShipsCoords
-	);
 
 	// required so that the renderBattleMessageElem function can display the appropriate message
 	const towardsCombatant = 'comp';

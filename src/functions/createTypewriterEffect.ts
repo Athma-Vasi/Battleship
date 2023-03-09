@@ -7,6 +7,9 @@ type TypewriterEffectProps = {
 	speed?: number;
 };
 
+// returns a promise that resolves when the typewriter effect created by iterating
+// through each char in the string and adds it to child element
+// after each char is added, the parent element is scrolled to the bottom
 async function typewriterEffect({
 	string,
 	childElem,
@@ -30,6 +33,9 @@ async function typewriterEffect({
 	});
 }
 
+// iterates through an array and executes a callback function for each element
+// the callback function is awaited before the next element is iterated
+// ensures that the callback function is executed in order and not concurrently
 async function asyncForEach<T>(
 	arr: T[],
 	callback: (val: T, index: number, array: T[]) => Promise<void>
@@ -45,6 +51,8 @@ type CreateTypewriterEffectProps = {
 	speed?: number;
 };
 
+// creates a typewriter effect for each string in the strings array
+// for each string, a new paragraph element is created and appended to the container element
 async function createTypewriterEffect({
 	containerElem,
 	strings,

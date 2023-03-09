@@ -5,7 +5,7 @@ import {
 	Frigate,
 	PlayerCompShipsCoords,
 	Superdreadnought,
-} from './types';
+} from '../types';
 
 function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
 	// grab the player and comp ships coords from local storage so we can assign ship cells in the tac overview to the correct ship cells from game board

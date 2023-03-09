@@ -1,4 +1,4 @@
-import { Div } from './types';
+import { Div } from '../types';
 
 function updatePlayerTacticalOverviewCells(currentCellCoord: string): void {
 	const cellToUpdate: Div = document.querySelector(

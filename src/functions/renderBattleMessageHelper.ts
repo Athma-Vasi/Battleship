@@ -2,7 +2,7 @@ import { battleTexts } from '../data/battleTexts';
 import { createTypewriterEffect } from './createTypewriterEffect';
 import { appendElemToParent, elemCreator } from './elementCreators';
 import { tossCoin } from './tossCoin';
-import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from './types';
+import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from '../types';
 
 type RenderBattleMessageHelperProps = {
 	towardsCombatant: 'player' | 'comp';
@@ -63,32 +63,72 @@ async function renderBattleMessageHelper({
 	});
 	const formattedTime = formatter.format(today);
 
-	const shipName =
-		towardsCombatant === 'comp'
-			? shipTypeHit &&
-			  (shipTypeHit === 'superdreadnought'
-					? havenShipNames.superdreadnought
-					: shipTypeHit === 'carrier'
-					? havenShipNames.carrier
-					: shipTypeHit === 'battleship'
-					? havenShipNames.battleship
-					: shipTypeHit === 'destroyer' && shipNumber
-					? havenShipNames.destroyers[shipNumber]
-					: shipTypeHit === 'frigate' && shipNumber
-					? havenShipNames.frigates[shipNumber]
-					: '')
-			: shipTypeHit &&
-			  (shipTypeHit === 'superdreadnought'
-					? manticoreShipNames.superdreadnought
-					: shipTypeHit === 'carrier'
-					? manticoreShipNames.carrier
-					: shipTypeHit === 'battleship'
-					? manticoreShipNames.battleship
-					: shipTypeHit === 'destroyer' && shipNumber
-					? manticoreShipNames.destroyers[shipNumber]
-					: shipTypeHit === 'frigate' && shipNumber
-					? manticoreShipNames.frigates[shipNumber]
-					: '');
+	let shipName = '';
+	if (towardsCombatant === 'comp') {
+		if (shipTypeHit) {
+			switch (shipTypeHit) {
+				case 'superdreadnought': {
+					shipName = havenShipNames.superdreadnought;
+					break;
+				}
+				case 'carrier': {
+					shipName = havenShipNames.carrier;
+					break;
+				}
+				case 'battleship': {
+					shipName = havenShipNames.battleship;
+					break;
+				}
+				case 'destroyer': {
+					if (shipNumber !== undefined) {
+						shipName = havenShipNames.destroyers[shipNumber];
+					}
+					break;
+				}
+				case 'frigate': {
+					if (shipNumber !== undefined) {
+						shipName = havenShipNames.frigates[shipNumber];
+					}
+					break;
+				}
+				default: {
+					break;
+				}
+			}
+		}
+	} else if (towardsCombatant === 'player') {
+		if (shipTypeHit) {
+			switch (shipTypeHit) {
+				case 'superdreadnought': {
+					shipName = manticoreShipNames.superdreadnought;
+					break;
+				}
+				case 'carrier': {
+					shipName = manticoreShipNames.carrier;
+					break;
+				}
+				case 'battleship': {
+					shipName = manticoreShipNames.battleship;
+					break;
+				}
+				case 'destroyer': {
+					if (shipNumber !== undefined) {
+						shipName = manticoreShipNames.destroyers[shipNumber];
+					}
+					break;
+				}
+				case 'frigate': {
+					if (shipNumber !== undefined) {
+						shipName = manticoreShipNames.frigates[shipNumber];
+					}
+					break;
+				}
+				default: {
+					break;
+				}
+			}
+		}
+	}
 
 	if (towardsCombatant === 'comp') {
 		const statusText =
@@ -117,7 +157,7 @@ async function renderBattleMessageHelper({
 			createTypewriterEffect({
 				containerElem: battleMessageContainer,
 				strings: battleMessageStrings,
-				speed: 15,
+				speed: 25,
 			});
 		}
 		// if ship was missed
@@ -127,7 +167,7 @@ async function renderBattleMessageHelper({
 			createTypewriterEffect({
 				containerElem: battleMessageContainer,
 				strings: battleMessageStrings,
-				speed: 15,
+				speed: 25,
 			});
 		}
 	} else if (towardsCombatant === 'player') {
@@ -156,7 +196,7 @@ async function renderBattleMessageHelper({
 			createTypewriterEffect({
 				containerElem: battleMessageContainer,
 				strings: battleMessageStrings,
-				speed: 15,
+				speed: 25,
 			});
 		} else if (firedStatus === 'sunk') {
 			const battleMessageStrings = [
@@ -168,7 +208,7 @@ async function renderBattleMessageHelper({
 			createTypewriterEffect({
 				containerElem: battleMessageContainer,
 				strings: battleMessageStrings,
-				speed: 15,
+				speed: 25,
 			});
 		}
 	}

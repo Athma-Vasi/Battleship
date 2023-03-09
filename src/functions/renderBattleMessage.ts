@@ -1,12 +1,6 @@
 import { appendElemToParent, elemCreator } from '../functions/elementCreators';
 import { renderBattleMessageHelper } from '../functions/renderBattleMessageHelper';
-import {
-	Destroyer,
-	Div,
-	Frigate,
-	RandomizedHavenShipNames,
-	RandomizedManticoreShipNames,
-} from '../functions/types';
+import { Destroyer, Div, Frigate, RandomizedManticoreShipNames } from '../types';
 
 type renderBattleMessageElemProps = {
 	currentCellCoord: string;
@@ -23,9 +17,6 @@ const renderBattleMessageElem = async function ({
 	hitOrMiss,
 	sunkShipName,
 }: renderBattleMessageElemProps): Promise<void> {
-	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
-		localStorage.getItem('havenShipNames') ?? ''
-	);
 	const manticoreShipNames: RandomizedManticoreShipNames = JSON.parse(
 		localStorage.getItem('manticoreShipNames') ?? ''
 	);
@@ -81,7 +72,7 @@ const renderBattleMessageElem = async function ({
 				});
 			} else if (compDestroyers.includes(currentCellCoord)) {
 				// there are two destroyers to connect names
-				const [destroyer1Coords, _]: string[] = JSON.parse(
+				const [destroyer1Coords, _]: [string, string][] = JSON.parse(
 					localStorage.getItem('compDestroyers') ?? JSON.stringify([])
 				).map((destroyer: Destroyer) => Object.values(destroyer));
 
@@ -94,7 +85,7 @@ const renderBattleMessageElem = async function ({
 				});
 			} else if (compFrigates.includes(currentCellCoord)) {
 				// there are two frigates to connect names
-				const [frigate1Coords, _]: string[] = JSON.parse(
+				const [frigate1Coords, _]: [string][] = JSON.parse(
 					localStorage.getItem('compFrigates') ?? JSON.stringify([])
 				).map((frigate: Frigate) => Object.values(frigate));
 
@@ -170,10 +161,9 @@ const renderBattleMessageElem = async function ({
 				}
 			} else if (currentShipSymbol === 'D') {
 				// there are two destroyers to connect names
-				const [destroyer1, _]: Destroyer[] = JSON.parse(
-					localStorage.getItem('destroyer') ?? ''
-				);
-				const destroyer1Coords: string[] = Object.values(destroyer1);
+				const [destroyer1Coords, _]: [string, string][] = JSON.parse(
+					localStorage.getItem('destroyer') ?? JSON.stringify([])
+				).map((destroyer: Destroyer) => Object.values(destroyer));
 
 				// computer hits player's destroyer
 				renderBattleMessageHelper({
@@ -193,15 +183,14 @@ const renderBattleMessageElem = async function ({
 						towardsCombatant: 'player',
 						firedStatus: 'sunk',
 						shipTypeHit: 'destroyer',
-						shipNumber: destroyer1Coords.includes(currentCellCoord) ? 0 : 1,
+						shipNumber: destroyer1Coords[0].includes(currentCellCoord) ? 0 : 1,
 					});
 				}
 			} else if (currentShipSymbol === 'F') {
 				// there are two frigates to connect names
-				const [frigate1, _]: Frigate[] = JSON.parse(
-					localStorage.getItem('frigate') ?? ''
-				);
-				const frigate1Coords: string[] = Object.values(frigate1);
+				const [frigate1Coords, _]: [string][] = JSON.parse(
+					localStorage.getItem('frigate') ?? JSON.stringify([])
+				).map((frigate: Frigate) => Object.values(frigate));
 
 				// computer hits player's frigate
 				renderBattleMessageHelper({
@@ -221,7 +210,7 @@ const renderBattleMessageElem = async function ({
 						towardsCombatant: 'player',
 						firedStatus: 'sunk',
 						shipTypeHit: 'frigate',
-						shipNumber: frigate1Coords.includes(currentCellCoord) ? 0 : 1,
+						shipNumber: frigate1Coords[0].includes(currentCellCoord) ? 0 : 1,
 					});
 				}
 			}

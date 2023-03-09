@@ -11,7 +11,7 @@ import {
 	Frigate,
 	NodesDiv,
 	Superdreadnought,
-} from './types';
+} from '../types';
 
 function renderStarsAndShipsInPlayerBoard(): void {
 	const superdreadnoughtCoords: Superdreadnought = JSON.parse(

@@ -1,7 +1,7 @@
 import { greetingsText } from './data/greetingsText';
 import { addEvtListenerToForm } from './functions/addEvtListenerToForm';
 import { createTypewriterEffect } from './functions/createTypewriterEffect';
-import { Div } from './functions/types';
+import { Div } from './types';
 
 const mainApp = async function () {
 	addEvtListenerToForm();

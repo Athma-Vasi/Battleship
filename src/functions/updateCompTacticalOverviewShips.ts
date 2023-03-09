@@ -15,7 +15,7 @@ import {
 	Para,
 	SmallShips,
 	Superdreadnought,
-} from './types';
+} from '../types';
 
 function updateCompTacticalOverviewShips(): void {
 	// grab all coords of comp ships

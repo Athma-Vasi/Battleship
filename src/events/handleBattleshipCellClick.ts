@@ -10,7 +10,7 @@ import {
 	removeEvtListener,
 } from '../functions/elementCreators';
 import { isCorrectNumberOfShips } from '../functions/isCorrectNumberOfShips';
-import { Battleship, Button, Div, NodesDiv } from '../functions/types';
+import { Battleship, Button, Div, NodesDiv } from '../types';
 import { handleBattleshipMouseEnter } from './handleBattleshipMouseEnter';
 import { handleBattleshipMouseLeave } from './handleBattleshipMouseLeave';
 import { handleCarrierBttnClick } from './handleCarrierBttnClick';

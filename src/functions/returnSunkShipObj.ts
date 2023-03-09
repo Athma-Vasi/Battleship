@@ -3,7 +3,7 @@ import {
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
 	ShipHits,
-} from './types';
+} from '../types';
 
 // returns an object with the sunk ship name if a ship has been sunk
 function returnSunkShipObj(

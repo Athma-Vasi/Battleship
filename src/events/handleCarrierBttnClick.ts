@@ -4,7 +4,7 @@ import {
 	pipe,
 	removeEvtListener,
 } from '../functions/elementCreators';
-import { Button, NodesDiv } from '../functions/types';
+import { Button, NodesDiv } from '../types';
 import { handleBattleshipBttnClick } from './handleBattleshipBttnClick';
 import { handleCarrierCellClick } from './handleCarrierCellClick';
 import { handleCarrierMouseEnter } from './handleCarrierMouseEnter';

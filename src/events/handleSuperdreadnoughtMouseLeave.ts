@@ -1,5 +1,5 @@
 import { addStyleToElem, pipe } from '../functions/elementCreators';
-import { Div } from '../functions/types';
+import { Div } from '../types';
 
 const handleSuperdreadnoughtMouseLeave = function (
 	this: HTMLDivElement,

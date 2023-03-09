@@ -1,4 +1,4 @@
-import { PlayerCompShipsCoords } from './types';
+import { PlayerCompShipsCoords } from '../types';
 
 type ReturnShipSymbolFromCoordProps = {
 	playerCompShipsCoords: PlayerCompShipsCoords;

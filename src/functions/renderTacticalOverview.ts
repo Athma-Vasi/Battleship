@@ -8,7 +8,7 @@ import {
 } from './elementCreators';
 import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
 import { shuffleArray } from './shuffleArray';
-import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from './types';
+import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from '../types';
 
 function renderTacticalOverview(): void {
 	const gamePlayerBoardWrapper: Div = document.querySelector('.gamePlayerBoard-wrapper');

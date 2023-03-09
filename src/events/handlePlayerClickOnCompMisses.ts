@@ -1,7 +1,7 @@
 import { computersTurn } from '../functions/computersTurn';
 import { addStyleToElem, pipe, removeEvtListener } from '../functions/elementCreators';
 import { renderBattleMessageElem } from '../functions/renderBattleMessage';
-import { Div, NodesDiv } from '../functions/types';
+import { Div, NodesDiv } from '../types';
 import { updateCompTacticalOverviewShips } from '../functions/updateCompTacticalOverviewShips';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 

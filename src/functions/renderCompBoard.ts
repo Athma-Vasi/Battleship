@@ -4,7 +4,7 @@ import {
 	elemCreator,
 	pipe,
 } from '../functions/elementCreators';
-import { Div } from '../functions/types';
+import { Div } from '../types';
 
 const renderCompBoard = function (): void {
 	const gameBoardContainer: Div = document.querySelector('.gameBoard-container');

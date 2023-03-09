@@ -11,7 +11,7 @@ import { randomizeAndStoreShipNames } from '../functions/randomizeAndStoreShipNa
 import { renderCompBoard } from '../functions/renderCompBoard';
 import { renderPlayerBoard } from '../functions/renderPlayerBoard';
 import { renderTacticalOverview } from '../functions/renderTacticalOverview';
-import { Div, NodesDiv } from '../functions/types';
+import { Div, NodesDiv } from '../types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 import { handlePlayerClickOnCompShips } from './handlePlayerClickOnCompShips';
 

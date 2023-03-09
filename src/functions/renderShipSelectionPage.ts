@@ -1,4 +1,4 @@
-import { Div } from '../functions/types';
+import { Div } from '../types';
 import { renderPlayerInfoScreen } from './renderPlayerInfoScreen';
 import { renderPlayerShipPlacementBoard } from './renderPlayerShipPlacementBoard';
 import { renderShipSelectionBttns } from './renderShipSelectionBttns';

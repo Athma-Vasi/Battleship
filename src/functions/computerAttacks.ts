@@ -1,7 +1,7 @@
 import { addStyleToElem, pipe } from '../functions/elementCreators';
 import { returnSunkShipObj } from '../functions/returnSunkShipObj';
 import { storeCompHitMissCoords } from '../functions/storeCompHitMissCoords';
-import { Div } from '../functions/types';
+import { Div } from '../types';
 import { updatePlayerTacticalOverviewCells } from '../functions/updatePlayerTacticalOverviewCells';
 import { renderBattleMessageElem } from './renderBattleMessage';
 

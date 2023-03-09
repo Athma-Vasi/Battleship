@@ -142,7 +142,8 @@ body {
 	background-color: transparent;
 	color: var(--colour-appleAmberDark);
 	padding-left: var(--padding-x);
-	font-size: clamp(1rem, 3vw, 1.5rem);
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
+	font-family: monospace;
 }
 
 #input-name:focus {
@@ -226,9 +227,8 @@ body {
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	/* padding-top: 1.75rem; */
 	flex-wrap: wrap-reverse;
-	width: clamp(21rem, 50vw, 27rem);
+	width: clamp(23rem, 50vw, 29rem);
 }
 
 .battleMessageTitleElem {
@@ -237,7 +237,7 @@ body {
 }
 
 .battleMessage-container {
-	height: clamp(10rem, 75vh, 50rem);
+	height: clamp(10rem, 85vh, 55rem);
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 	scrollbar-width: none;
@@ -274,7 +274,7 @@ body {
 .gameBoard-container {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: start;
 	flex-wrap: wrap;
 }
 
@@ -322,8 +322,8 @@ body {
 
 .playerBoard-container,
 .compBoard-container {
-	width: clamp(21rem, 50vw, 27rem);
-	height: clamp(21rem, 50vw, 27rem);
+	width: clamp(23rem, 50vw, 29rem);
+	height: clamp(23rem, 50vw, 29rem);
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
 	grid-template-rows: repeat(10, 1fr);
@@ -347,7 +347,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	flex-wrap: wrap;
-	width: clamp(21rem, 50vw, 27rem);
+	width: clamp(23rem, 50vw, 29rem);
 }
 
 .tacticalOverview-title {
@@ -399,7 +399,7 @@ body {
 .bttn-restart {
 	width: var(--bttn-width);
 	height: var(--input-height);
-	font-size: 1.25rem;
+	font-size: clamp(0.75rem, 3vw, 1.25rem);
 }
 
 .winner-announcement {

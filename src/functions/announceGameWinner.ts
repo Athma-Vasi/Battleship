@@ -6,7 +6,7 @@ import {
 	elemCreator,
 	pipe,
 } from '../functions/elementCreators';
-import { Div } from '../functions/types';
+import { Div } from '../types';
 import { preventClicksAfterWin } from './preventClicksAfterWin';
 import { restartGame } from './restartGame';
 

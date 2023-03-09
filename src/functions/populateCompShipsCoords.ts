@@ -1,5 +1,5 @@
 import { returnRandomOrientation } from './returnRandomOrientation';
-import { CompShipsPlacementChoice } from './types';
+import { CompShipsPlacementChoice } from '../types';
 
 // returns an object with the computer's ships' randomly generated coordinates
 function populateCompShipsCoords(): CompShipsPlacementChoice {
@@ -93,10 +93,6 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 				// adds the ship's coords to the shipsPresentCoords
 				shipCoordsArr.forEach((coord: [number, number]) =>
 					shipsPresentCoordsSet.add(coord.join(','))
-				);
-				console.log(
-					'shipsPresentCoords from populateCompShipsCoords()',
-					shipsPresentCoordsSet
 				);
 
 				let shipTypeCoordsObj: Map<string, string>;
