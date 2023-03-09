@@ -230,7 +230,6 @@ body {
 	align-items: center;
 	flex-wrap: wrap-reverse;
 	width: clamp(23rem, 50vw, 29rem);
-	padding-bottom: var(--padding-y);
 }
 
 .battleMessageTitleElem {
@@ -245,6 +244,7 @@ body {
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 	font-size: clamp(1rem, 3vw, 1.25rem);
+	padding-bottom: var(--padding-y);
 }
 .battleMessage-container::-webkit-scrollbar {
 	display: none;
