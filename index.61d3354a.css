@@ -362,22 +362,52 @@ body {
   display: grid;
 }
 
-.winner-container {
-  flex-wrap: wrap;
+.winner-wrapper {
+  width: clamp(23rem, 50vw, 29rem);
+  margin-top: var(--padding-y);
+  padding-top: var(--padding-y);
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   display: flex;
 }
 
+@media screen and (min-width: 1137px) {
+  .winner-wrapper {
+    width: 62vw;
+  }
+}
+
+.winner-container {
+  width: 100%;
+  height: clamp(10rem, 50vh, 20rem);
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-y: scroll;
+}
+
+.winner-container::-webkit-scrollbar {
+  display: none;
+}
+
 .bttn-restart {
   width: var(--bttn-width);
   height: var(--input-height);
-  font-size: clamp(.75rem, 3vw, 1.25rem);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: var(--padding-y);
+  font-size: clamp(1rem, 3vw, 1.25rem);
+}
+
+.winner-announcement:nth-child(1) {
+  text-align: center;
+  font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
 .winner-announcement {
-  color: var(--colour-appleAmberDark);
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: var(--colour-appleGreen);
+  font-size: clamp(1rem, 3vw, 1.25rem);
 }
 
 /*# sourceMappingURL=index.61d3354a.css.map */

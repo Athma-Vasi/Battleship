@@ -589,7 +589,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "createTypewriterEffect", ()=>createTypewriterEffect);
 var _elementCreators = require("./elementCreators");
 // returns a promise that resolves when the typewriter effect created by iterating
-// through each char in the string and adds it to child element
+// through each char in the string, and adds it to child element
 // after each char is added, the parent element is scrolled to the bottom
 async function typewriterEffect({ string , childElem , parentElem , speed =50  }) {
     return new Promise((resolve)=>{
@@ -613,16 +613,16 @@ async function typewriterEffect({ string , childElem , parentElem , speed =50  }
 }
 // iterates through an array and executes a callback function for each element
 // the callback function is awaited before the next element is iterated
-// ensures that the callback function is executed in order and not concurrently
+// ensures that the callback function is executed in order
 async function asyncForEach(arr, callback) {
     for (const [index, val] of arr.entries())await callback(val, index, arr);
 }
 // creates a typewriter effect for each string in the strings array
 // for each string, a new paragraph element is created and appended to the container element
-async function createTypewriterEffect({ containerElem , strings , speed =50  }) {
+async function createTypewriterEffect({ containerElem , childElemClass ="typewriter-text" , strings , speed =50  }) {
     asyncForEach(strings, async (string, index)=>{
         const typewriterElem = (0, _elementCreators.elemCreator)("p")([
-            "typewriter-text"
+            childElemClass
         ]);
         (0, _elementCreators.appendElemToParent)(containerElem)(typewriterElem);
         await typewriterEffect({
@@ -3727,8 +3727,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "returnPlayerCompShipsCoords", ()=>returnPlayerCompShipsCoords);
 function returnPlayerCompShipsCoords() {
-    // grab the player and comp ships coords from local storage so we can assign ship cells in the tac overview to the correct ship cells from game board
-    // coulda sorted the coords but this is more explicit and easier to read, albeit verbose and also guarantees order sequence
+    // grab the player and comp ships coords from local storage in order to assign ship cells in the tac overview to the correct ship cells from game board
+    // this is more explicit and easier to read, albeit verbose and also guarantees order sequence
     const playerSuperdreadnought = JSON.parse(localStorage.getItem("superdreadnought") ?? JSON.stringify([
         {}
     ]));
@@ -3941,6 +3941,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateCompTacticalOverviewShips", ()=>updateCompTacticalOverviewShips);
 var _beforeAfterShipCellsFiredUponStatus = require("./beforeAfterShipCellsFiredUponStatus");
 var _elementCreators = require("./elementCreators");
+var _renderBattleMessageHelper = require("./renderBattleMessageHelper");
 function updateCompTacticalOverviewShips() {
     // grab all coords of comp ships
     const superdreadnoughtCoords = JSON.parse(localStorage.getItem("compSuperdreadnought") ?? JSON.stringify([]));
@@ -3991,7 +3992,15 @@ function updateCompTacticalOverviewShips() {
             if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
                 // grab the tac overview comp '?' cell and remove it
                 const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}"]`);
-                if (questionMarkCell) questionMarkCell.remove();
+                if (questionMarkCell) {
+                    questionMarkCell.remove();
+                    // render a battle message only once to indicate that the computer's ship has been sunk
+                    (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
+                        towardsCombatant: "comp",
+                        firedStatus: "sunk",
+                        shipTypeHit: shipType.toLowerCase()
+                    });
+                }
                 const lengthOfCells = shipType === "Superdreadnought" ? 5 : shipType === "Carrier" ? 4 : 3;
                 // display sunk ship with '💥' emoji
                 for(let i = 0; i < lengthOfCells; i += 1){
@@ -4039,7 +4048,16 @@ function updateCompTacticalOverviewShips() {
                 if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
                     // grab the tac overview comp '?' cell and remove it
                     const questionMarkCell = document.querySelector(`[data-compshipquestion="${shipType}_${idx}"]`);
-                    if (questionMarkCell) questionMarkCell.remove();
+                    if (questionMarkCell) {
+                        questionMarkCell.remove();
+                        // render a battle message only once to indicate that the computer's ship has been sunk
+                        (0, _renderBattleMessageHelper.renderBattleMessageHelper)({
+                            towardsCombatant: "comp",
+                            firedStatus: "sunk",
+                            shipTypeHit: shipType.toLowerCase().slice(0, -1),
+                            shipNumber: idx
+                        });
+                    }
                     // display sunk ship with '💥' emoji
                     for(let i = 0; i < coordsArr.length; i += 1){
                         const hiddenCell = document.querySelector(`[data-compshipcell="${shipType}_${idx}_${i}"]`);
@@ -4060,7 +4078,7 @@ function updateCompTacticalOverviewShips() {
     });
 }
 
-},{"./beforeAfterShipCellsFiredUponStatus":"2ylZY","./elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"2ylZY":[function(require,module,exports) {
+},{"./beforeAfterShipCellsFiredUponStatus":"2ylZY","./elementCreators":"aeBTs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./renderBattleMessageHelper":"jDEhZ"}],"2ylZY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "beforeAfterShipCellsFiredUponStatus", ()=>beforeAfterShipCellsFiredUponStatus);
@@ -4098,7 +4116,7 @@ function beforeAfterShipCellsFiredUponStatus({ shipType , coordsArr , compShipsH
     }
     // following is for all other ship types except frigates
     // need  to sort the coords because they were grabbed from an object and
-    // js does not guarantee the order of the keys in an object
+    // JS does not guarantee the order of the keys in an object
     const coordsArrClone = structuredClone(coordsArr);
     const sortedCoordsArr = coordsArrClone.sort((a, b)=>{
         const aX = parseInt(a.split(",")[0].replace('"', ""));
@@ -4139,6 +4157,395 @@ function beforeAfterShipCellsFiredUponStatus({ shipType , coordsArr , compShipsH
         isBeforeShipCellFiredUpon,
         isAfterShipCellFiredUpon
     };
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jDEhZ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderBattleMessageHelper", ()=>renderBattleMessageHelper);
+var _battleTexts = require("../data/battleTexts");
+var _createTypewriterEffect = require("./createTypewriterEffect");
+var _elementCreators = require("./elementCreators");
+var _tossCoin = require("./tossCoin");
+async function renderBattleMessageHelper({ towardsCombatant , firedStatus , shipTypeHit , shipNumber  }) {
+    const randHitsStrings = [
+        "A hit on",
+        "Direct hit on",
+        "Shields weak on",
+        "Hull integrity is weakening on",
+        "Impellers damaged on",
+        "Engines are out on",
+        "Weapons systems offline on",
+        "Life support failing on",
+        "Structural damage on",
+        "Reactor breach on",
+        "Target immobilized on",
+        "Power systems fluctuating on",
+        "Navigational systems down on",
+        "Communication systems disabled on",
+        "Gravity generators failing on",
+        "Primary sensor array damaged on",
+        "Secondary defenses compromised on",
+        "Point defense systems offline on",
+        "Missile tubes destroyed on", 
+    ];
+    const hitsPrecursorString = ()=>randHitsStrings[Math.floor(Math.random() * randHitsStrings.length)];
+    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
+    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
+    const playerName = JSON.parse(localStorage.getItem("playerName") ?? "");
+    const battleMessageContainer = document.querySelector(".battleMessage-container");
+    const battleMessageElem = (0, _elementCreators.elemCreator)("p")([
+        "battleMessageElem"
+    ]);
+    (0, _elementCreators.appendElemToParent)(battleMessageContainer)(battleMessageElem);
+    const today = new Date();
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+    });
+    const formattedTime = formatter.format(today);
+    let shipName = "";
+    if (towardsCombatant === "comp") {
+        if (shipTypeHit) switch(shipTypeHit){
+            case "superdreadnought":
+                shipName = havenShipNames.superdreadnought;
+                break;
+            case "carrier":
+                shipName = havenShipNames.carrier;
+                break;
+            case "battleship":
+                shipName = havenShipNames.battleship;
+                break;
+            case "destroyer":
+                if (shipNumber !== undefined) shipName = havenShipNames.destroyers[shipNumber];
+                break;
+            case "frigate":
+                if (shipNumber !== undefined) shipName = havenShipNames.frigates[shipNumber];
+                break;
+            default:
+                break;
+        }
+    } else if (towardsCombatant === "player") {
+        if (shipTypeHit) switch(shipTypeHit){
+            case "superdreadnought":
+                shipName = manticoreShipNames.superdreadnought;
+                break;
+            case "carrier":
+                shipName = manticoreShipNames.carrier;
+                break;
+            case "battleship":
+                shipName = manticoreShipNames.battleship;
+                break;
+            case "destroyer":
+                if (shipNumber !== undefined) shipName = manticoreShipNames.destroyers[shipNumber];
+                break;
+            case "frigate":
+                if (shipNumber !== undefined) shipName = manticoreShipNames.frigates[shipNumber];
+                break;
+            default:
+                break;
+        }
+    }
+    if (towardsCombatant === "comp") {
+        const statusText = firedStatus === "hit" ? (0, _battleTexts.battleTexts).hitsOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).hitsOnShip.length)] : firedStatus === "miss" ? (0, _battleTexts.battleTexts).missesOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).missesOnShip.length)] : firedStatus === "sunk" ? (0, _battleTexts.battleTexts).compShipDestroyed[Math.floor(Math.random() * (0, _battleTexts.battleTexts).compShipDestroyed.length)] : "";
+        const randomNumStrings = [
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven"
+        ];
+        const sunkOnlyText = firedStatus === "sunk" ? `Sir, ${randomNumStrings[Math.floor(Math.random() * randomNumStrings.length)]} cross confirmations!` : "";
+        // if ship was hit or sunk
+        if (shipTypeHit) {
+            const battleMessageStrings = [
+                `${formattedTime}:: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the PNS ${shipName}! ${sunkOnlyText} ${statusText}`, 
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 25
+            });
+        } else {
+            const battleMessageStrings = [
+                `${formattedTime}::	${statusText}`
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 25
+            });
+        }
+    } else if (towardsCombatant === "player") {
+        // if a miss towards player dont display a message
+        if (!shipTypeHit) return;
+        // only add text if ship was hit or sunk
+        const statusText = firedStatus === "hit" ? (0, _battleTexts.battleTexts).damageOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).damageOnShip.length)] : firedStatus === "sunk" ? (0, _battleTexts.battleTexts).playerShipDestroyed[Math.floor(Math.random() * (0, _battleTexts.battleTexts).playerShipDestroyed.length)] : "";
+        if (firedStatus === "hit") {
+            const battleMessageStrings = [
+                `${formattedTime}::	${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! ${statusText}`, 
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 25
+            });
+        } else if (firedStatus === "sunk") {
+            const battleMessageStrings = [
+                `${formattedTime}::	${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! Admiral ${playerName}! Core breach detected!
+				...
+				Sir, she's gone... Dear God, all those people... `, 
+            ];
+            (0, _createTypewriterEffect.createTypewriterEffect)({
+                containerElem: battleMessageContainer,
+                strings: battleMessageStrings,
+                speed: 25
+            });
+        }
+    }
+}
+
+},{"../data/battleTexts":"6YoE9","./createTypewriterEffect":"9yJB4","./elementCreators":"aeBTs","./tossCoin":"amf2O","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6YoE9":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "battleTexts", ()=>battleTexts) /**
+ 
+	"Yes! She's streaming air, Sir!",
+		'Enemy vessel destroyed! Good shooting, people!',
+		'That should give them something to think about!',
+		'Target eliminated! Move on to the next one!',
+		"We've neutralized their threat! On to the next target!",
+		"Enemy ship down! Let's keep up the pressure!",
+		"That'll teach them to mess with us!",
+		'Nice work, everyone! Keep it up!',
+		"Enemy vessel neutralized! Let's keep the momentum going!",
+		"Target destroyed! Now let's take out their friends!",
+		"That's one less enemy to worry about!",
+		"Enemy vessel eliminated! Let's keep pushing forward!",
+		'Direct hit! Enemy ship destroyed!',
+		"Good shooting, gunners! That one's not coming back!",
+		'Enemy vessel neutralized! Keep up the good work!',
+		"Target eliminated! Let's move on to the next one!",
+		'Enemy vessel down! Keep the pressure on!',
+		'Another one bites the dust! Great job, everyone!',
+		"Enemy ship destroyed! Let's keep up the pace!",
+		'Target destroyed! Now onto the next one!',
+		"We've taken out an enemy vessel! Let's go for more!",
+		'Enemy vessel neutralized! Keep up the good work, crew!',
+		'Direct hit! Enemy ship destroyed! Excellent shooting!',
+		"We've eliminated an enemy vessel! Let's keep the momentum going!",
+		'Enemy ship down! Great work, everyone!',
+		"Target destroyed! We're one step closer to victory!",
+		"Enemy vessel eliminated! Let's keep pushing forward!",
+			'Well done, crew! Another enemy vessel vanquished!',
+		"That's how it's done, people! Keep up the good work!",
+		"Their ship is but a memory! Let's make sure they never forget our might!",
+		"Enemy vessel destroyed! Let's take a moment to celebrate, then move on to the next one!",
+		"We've sent them to the bottom of the ocean! Let's keep up the pressure!",
+		'Enemy ship neutralized! Our firepower is unmatched!',
+		'Their ship is now just a pile of scrap metal! Keep the momentum going, crew!',
+		"Target eliminated! Our enemies won't know what hit them!",
+		"That's one less enemy to worry about! Let's keep up the fight!",
+		"Enemy vessel eliminated! Let's show them what we're made of!",
+		"Direct hit! Enemy ship destroyed! That's what I like to see!",
+		"We've taken out another enemy vessel! Keep up the good work, crew!",
+		"Enemy ship down! Let's keep up the pace and finish the job!",
+		"Target destroyed! Let's move on to the next one and show them what we're capable of!",
+		'Their ship is gone, but our resolve remains strong! Onward to victory!',
+		"We've made short work of their vessel! Let's continue the assault!",
+		'Enemy vessel neutralized! The battle is ours to win!',
+		"Direct hit! Enemy ship destroyed! Let's keep up the pursuit!",
+		"Their ship is no match for our might! Let's take them all down!",
+
+ */ ;
+const battleTexts = {
+    hitsOnShip: [
+        "A hit, Sir!",
+        "Direct hit, Sir!",
+        "We must have taken out her forward impellers!",
+        "Direct hit on their com section!",
+        "We just took out most of her missile tracking capability!",
+        "One hit, port side aft!",
+        "A hit, Sir! At least one, and\u2014",
+        "Her forward impellers are down!",
+        "Roll port! All batteries, engage!",
+        "Engage with forward batteries!",
+        "They're taking the bait, Sir!",
+        "Formation Reno, Com\u2014get those carriers in tighter!",
+        "Recompute firing pattern!",
+        "We just took out their forward impellers!",
+        "We've got a hit on their port engines, Sir! They're losing speed!",
+        "Direct hit on their main power junction, Sir! Their weapons are offline!",
+        "We've hit their fuel tanks, Sir! They're venting plasma!",
+        "Their sidewalls are failing, Sir! One more hit and they're done for!",
+        "We just took out their bridge, Sir! They're blind and adrift!",
+        "Direct hit on their missile tubes, Sir! They're defenseless!",
+        "We've knocked out their point defense, Sir! Our missiles are getting through!",
+        "They're trying to break off, Sir! Keep up the pressure!",
+        "We've taken out their propulsion, Sir! They're dead in the water!",
+        "Their forward batteries are destroyed, Sir! They can't return fire!",
+        "We've hit their command and control, Sir! They're in chaos!",
+        "They're splitting their fire, Sir! Focus on the weaker target!",
+        "Their port sidewall's down, Sir! We can take them out!",
+        "We've disrupted their sensor array, Sir! They can't get a clear reading on us!",
+        "Their maneuvering thrusters are offline, Sir! They can't evade us!", 
+    ],
+    damageOnShip: [
+        "Forward hold open to space! Mooring Tractor One's gone! Heavy casualties in Fusion One!",
+        "They've lost Damage Control Three, Sir!",
+        "Missile One is down, Sir! They're down to one tube.",
+        "Spinal Four gone, Sir!",
+        "They've lost the secondary fire control sensors!. Primaries unaffected.",
+        "Damage control to the bridge! Corpsman to the bridge!",
+        "Fusion One, Sir! The mag bottle's fluctuating and can't be shut down from here\u2014something's cut the circuits!",
+        "Sir, They're down to twelve birds for Missile Two, and out of laser heads.",
+        "Heavy damage aft! No contact at all with Two-Four or Two-Six!",
+        "Sir, They've lost a beta node; their acceleration is dropping.",
+        "Theye've lost another beta node, Sir",
+        "Point defense is hurt bad, Sir! They've lost four laser clusters and half their phased radar array.",
+        "They've lost an energy torpedo and Number Two Laser out of the starboard broadside, but at least the starboard sidewall is still up.",
+        "Tractor Seven is gone!",
+        "Compartments Eight-Niner-Two and Niner-Three open to space. No casualties!",
+        "Two hits forward! Laser Three and Five destroyed. Radar Five is gone, Sir! Heavy casualties in Laser Three!",
+        "Missile Two-One and Graser One gone! Heavy damage in the boat bay and Berthing Compartment Seven-five!",
+        "They've taken a hit, but we won't let that break our resolve! Medical teams to the casualties, and everyone else stay focused!",
+        "Port torp tubes are down, Sir! They've lost half of their firepower!",
+        "Sir, They've lost the entire port quarter! The starboard sidewall is holding, but not for long!",
+        "Their starboard broadside is crippled, Sir! They've lost four laser clusters and our neutron cannon!",
+        "They've lost Graser Three and Four, Sir! They're down to just two guns!",
+        "The port wedge generator's gone, Sir! They're losing acceleration!",
+        "Sir, They've lost two-thirds of our point defense capability! The enemy missiles are getting through!",
+        "They've lost the aft fusion bottle, Sir! They're down to just one engine!",
+        "Sir, They've lost our forward array! They can't get a clear reading on the enemy!",
+        "They've lost their main battery, Sir! The enemy ship is still coming!",
+        "They've lost three out of four grav plates, Sir! They're adrift!",
+        "Sir, They've lost all communication with the forward compartments! They don't know what's happening up there!",
+        "The port missile tube's destroyed, Sir! They're down to just one tube and no spares!",
+        "The enemy's hit them with a grav lance, Sir! The hull's buckling!",
+        "They've lost the port-side maneuvering thrusters, Sir! They can't dodge their fire!",
+        "Sir, They've lost the entire bridge! They're blind and drifting!",
+        "They've lost our aft impellers! They're drifting into enemy fire!",
+        "Port engines destroyed! They can't maintain acceleration!",
+        "Enemy has taken out their point defense! They're defenseless!",
+        "Fusion reactor's gone critical!",
+        "They've lost our port sidewall! They're tearing them apart!",
+        "They maneuvering thrusters are destroyed! They can't dodge their fire!",
+        "They've lost their forward impellers! They're drifting into enemy fire!",
+        "Direct hit on their main battery! They're powerless!",
+        "They've hit the bridge! They're going down!",
+        "Missiles incoming! Brace for impact!",
+        "Enemy has taken out their sensors! We can't get a lock on them!",
+        "They've lost their main engines! They're dead in the water!",
+        "Enemy has breached their hull! They're venting atmosphere!",
+        "Their missile tubes are destroyed! They're helpless!",
+        "They've lost their port battery! They can't return fire!", 
+    ],
+    missesOnShip: [
+        "Dammit! We missed our target! Recalibrate those weapons and try again!",
+        "Target that ship again! We can't let them get away!",
+        "They're dodging our fire! Keep your eyes on them and don't let them get away!",
+        "We're not giving up that easily! Reload the missiles and try again!",
+        "They're faster than we thought! Keep the pressure on them and don't let up!",
+        "Don't let them get away! Target their engines and take them out!",
+        "We missed the mark that time, but we'll get them next time! Keep those weapons hot!",
+        "Target that ship and don't let them out of our sights! We can't let them escape!",
+        "We missed them, but they won't get away that easily! Keep the fire coming!",
+        "They're too nimble for us! We need to anticipate their movements and adjust our aim!",
+        "Don't lose focus, people! Keep those weapons trained on the target and wait for the right moment to strike!",
+        "Our sensors are picking up their trajectory! Get those weapons locked in and fire at will!",
+        "They're trying to evade us! Stay alert and keep that ship in your crosshairs!",
+        "We may have missed them this time, but we'll get another chance! Keep the pressure on!",
+        "Don't let their maneuvers distract you! Stay on target and keep up the barrage!",
+        "The enemy has returned fire!",
+        "Tracking reports sixteen incoming, Sir!",
+        "Enemy jamming primary tracking systems!",
+        "Enemy countermeasures active!",
+        "Crossing minefield attack perimeter\u2014now!",
+        //
+        "They missed! Counter missiles now!",
+        "Ha! Go to rapid fire on all tubes!",
+        "We won't get another chance! Get those impellers back for me, Lieutenant!",
+        "A miss! Increase acceleration to max!",
+        "This is our chance! Close the range. We'll finish her with energy fire!",
+        "Missiles at three-five-two! Lucky this time.!",
+        "Hard a starboard!",
+        "Pursuit vector, maximum acceleration!",
+        "General signal to all heavy carriers. Return to formation at once. Repeat, return to formation at once!",
+        "Damn! We missed them!",
+        "Target evaded, adjust trajectory!",
+        "All forward batteries, recalibrate and fire again!",
+        "They slipped away, but we'll get them next time!",
+        "Missed, but keep those guns trained on them!",
+        "They're too quick for us, but we'll catch up eventually!",
+        "Continue evasive maneuvers, we'll have another chance!",
+        "Fire again, don't let them escape!",
+        "They're agile, but we'll find a way to hit them!",
+        "We can't let them get away, keep firing!",
+        "Target outmaneuvered us, but we're not giving up!",
+        "Missed by a hair, but we'll make the next one count!",
+        "Don't worry, we'll get them on the next pass!",
+        "They're too fast, adjust for their trajectory and try again!",
+        "That was too close, but we'll come back around!",
+        "We missed, but keep your focus and stay on target!",
+        "Their maneuvering is impressive, but we'll take them down eventually!",
+        "We need to anticipate their movements and adjust accordingly!",
+        "Missed, but keep firing and keep them on the defensive!", 
+    ],
+    playerShipDestroyed: [
+        "They've taken out one of our own! But we won't let their sacrifice be in vain. Keep fighting!",
+        "The loss of that ship is a tragedy, but we must stay focused and fight on!",
+        "We've lost a valuable ally, but we won't give up this fight! Keep pushing forward!",
+        "The enemy has shown us no mercy, but we won't give them any either! Keep the pressure on!",
+        "We mourn the loss of our comrades, but we won't let their sacrifice be forgotten. We'll fight on in their memory!",
+        "We've lost one of our own, but we won't let their death be in vain. Keep up the fight!",
+        "They may have taken out one of our ships, but they won't take us all down! Keep fighting, people!",
+        "The loss of that ship is a heavy blow, but we won't let it break our spirit. Keep up the attack!",
+        "The enemy thinks they've gained an advantage, but we won't let them win that easily. Stay strong, and stay focused!",
+        "Our hearts go out to our fallen comrades, but we won't let their sacrifice be for nothing. Keep fighting, people!",
+        "They've taken out one of our own, but we won't let that stop us. We'll avenge them and push on!",
+        "The loss of that ship is a painful reminder of the stakes of this battle, but we won't give up. Keep the pressure on!",
+        "Our enemy has struck a blow, but we will not be defeated! We will fight on and show them what we're made of!",
+        "We've lost one of our own, but we won't let that deter us. We'll avenge them and continue the fight!",
+        "The enemy has claimed one of our ships, but they won't claim us all. Keep the battle raging!", 
+    ],
+    compShipDestroyed: [
+        "Enemy warship destroyed, Captain. Hull breach amidships!",
+        "Direct hit, sir. Enemy ship is disintegrating!",
+        "Enemy ship is down, sir. She's not getting back up.",
+        "Sir, enemy ship has been destroyed. That's one less warship to worry about.",
+        "Enemy ship destroyed, sir. All hands lost!",
+        "Target destroyed, Captain. That should give the enemy pause!",
+        "Enemy vessel neutralized, sir. The battle is ours!",
+        "Enemy ship destroyed, sir. She's not coming back from that one.",
+        "Direct hit, sir. Enemy vessel is breaking up!",
+        "Sir, we've taken out an enemy ship. Their fleet will think twice before attacking us again.",
+        "Enemy warship destroyed, Captain. The crew had no chance!",
+        "Direct hit! Enemy vessel is breaking apart!",
+        "Enemy vessel has been neutralized, sir. They won't be a threat to us anymore.",
+        "Enemy ship destroyed, sir. They never knew what hit them!",
+        "Direct hit, sir. Enemy vessel has been vaporized!",
+        "Enemy vessel destroyed, sir. Their arrogance was their downfall!",
+        "We've taken out an enemy ship, sir. That should teach them to stay out of our way.",
+        "Enemy ship destroyed, sir. Their helmsman never saw us coming!",
+        "Direct hit, sir. Enemy vessel is gone!",
+        "Enemy vessel destroyed, sir. They didn't stand a chance against us.",
+        "Enemy ship destroyed, sir. They were no match for us!",
+        "Enemy vessel neutralized, sir. They won't be bothering us anymore.",
+        "Enemy ship destroyed, sir. They'll think twice before tangling with us again.",
+        "Direct hit, sir. Enemy vessel is down!",
+        "We've taken out an enemy vessel, sir. They underestimated our capabilities.",
+        "Enemy ship destroyed, sir. They were no match for our superior firepower!", 
+    ]
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"amf2O":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "tossCoin", ()=>tossCoin);
+function tossCoin() {
+    return Math.random() > 0.5;
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"uEG8W":[function(require,module,exports) {
@@ -4334,57 +4741,77 @@ function returnSunkShipObj(currentCellCoord, currentShipSymbol, towardsCombatant
 },{"./returnPlayerCompShipsCoords":"gvSOo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kPsJ9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "announceGameWinner", ()=>announceGameWinner);
+parcelHelpers.export(exports, "announceGameWinner", ()=>announceGameWinner) /*
+
+		pipe(
+			addTextToElem(
+				'With heavy heart and profound regret, we must report a defeat in battle. Our valiant crew fought with all their strength and skill, but alas, the enemy proved too strong for us. We honor the memory of those who gave their lives in defense of the Kingdom, and we pledge to continue the fight with renewed determination. We shall not rest until victory is ours!'
+			),
+			appendElemToParent(winnerContainer)
+		)(elemCreator('p')(['winner-announcement']));
+
+
+		pipe(
+			addTextToElem(
+				`The cheers of the crew fill the bridge as the last enemy ship explodes in a ball of fire. You have emerged victorious from the heat of battle, your ships battered but still flying. Your skill and courage in the face of overwhelming odds have saved the lives of your crew and secured another victory for the Star Kingdom of Manticore. As you survey the wreckage of the enemy fleet, you know that your actions will go down in history as a shining example of the indomitable spirit of the Manticoran Navy. 
+				
+				Congrats ${winner_}! You have destroyed the Haven Fleet!
+				`
+			),
+			appendElemToParent(winnerContainer)
+		)(elemCreator('p')(['winner-announcement']));
+
+*/ ;
 var _elementCreators = require("../functions/elementCreators");
+var _createTypewriterEffect = require("./createTypewriterEffect");
 var _preventClicksAfterWin = require("./preventClicksAfterWin");
 var _restartGame = require("./restartGame");
 const announceGameWinner = function(winner_) {
     const main = document.querySelector(".main");
     const infoScreenWrapper = document.querySelector(".infoScreen-wrapper");
     infoScreenWrapper?.remove();
+    const winnerWrapper = (0, _elementCreators.elemCreator)("div")([
+        "winner-wrapper"
+    ]);
+    (0, _elementCreators.appendElemToParent)(main)(winnerWrapper);
     const winnerContainer = (0, _elementCreators.elemCreator)("div")([
         "winner-container"
     ]);
-    (0, _elementCreators.appendElemToParent)(main)(winnerContainer);
+    (0, _elementCreators.appendElemToParent)(winnerWrapper)(winnerContainer);
+    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Restart"), (0, _elementCreators.addEvtListener)("click")((0, _restartGame.restartGame)), (0, _elementCreators.appendElemToParent)(winnerWrapper))((0, _elementCreators.elemCreator)("button")([
+        "bttn-restart"
+    ]));
     if (winner_ === "comp") {
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("DEFEAT!"), (0, _elementCreators.addStyleToElem)([
-            [
-                "font-size",
-                "2rem"
+        (0, _createTypewriterEffect.createTypewriterEffect)({
+            containerElem: winnerContainer,
+            childElemClass: "winner-announcement",
+            strings: [
+                "DEFEAT!",
+                "With heavy heart and profound regret, we must report a defeat in battle. Our valiant crew fought with all their strength and skill, but alas, the enemy proved too strong for us.",
+                "We honor the memory of those who gave their lives in defense of the Kingdom, and we pledge to continue the fight with renewed determination. We shall not rest until victory is ours!", 
             ]
-        ]), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
-            "winner-announcement"
-        ]));
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("With heavy heart and profound regret, we must report a defeat in battle. Our valiant crew fought with all their strength and skill, but alas, the enemy proved too strong for us. We honor the memory of those who gave their lives in defense of the Kingdom, and we pledge to continue the fight with renewed determination. We shall not rest until victory is ours!"), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
-            "winner-announcement"
-        ]));
+        });
         // removes event listeners after win
         (0, _preventClicksAfterWin.preventClicksAfterWin)();
     } else {
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`VICTORY!`), (0, _elementCreators.addStyleToElem)([
-            [
-                "font-size",
-                "2rem"
+        (0, _createTypewriterEffect.createTypewriterEffect)({
+            containerElem: winnerContainer,
+            childElemClass: "winner-announcement",
+            strings: [
+                "VICTORY!",
+                "The cheers of the crew fill the bridge as the last enemy ship explodes in a ball of fire. You have emerged victorious from the heat of battle, your ships battered but still flying.",
+                "Your skill and courage in the face of overwhelming odds have saved the lives of your crew and secured another victory for the Star Kingdom of Manticore.",
+                "As you survey the wreckage of the enemy fleet, you know that your actions will go down in history as a shining example of the indomitable spirit of the Manticoran Navy.",
+                `Congrats ${winner_}! You have destroyed the Haven Fleet!`, 
             ]
-        ]), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
-            "winner-announcement"
-        ]));
-        (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)(`The cheers of the crew fill the bridge as the last enemy ship explodes in a ball of fire. You have emerged victorious from the heat of battle, your ships battered but still flying. Your skill and courage in the face of overwhelming odds have saved the lives of your crew and secured another victory for the Star Kingdom of Manticore. As you survey the wreckage of the enemy fleet, you know that your actions will go down in history as a shining example of the indomitable spirit of the Manticoran Navy. 
-				
-				Congrats ${winner_}! You have destroyed the Haven Fleet!
-				`), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("p")([
-            "winner-announcement"
-        ]));
+        });
         (0, _preventClicksAfterWin.preventClicksAfterWin)();
     }
-    (0, _elementCreators.pipe)((0, _elementCreators.addTextToElem)("Restart"), (0, _elementCreators.addEvtListener)("click")((0, _restartGame.restartGame)), (0, _elementCreators.appendElemToParent)(winnerContainer))((0, _elementCreators.elemCreator)("button")([
-        "bttn-restart"
-    ]));
     // prevents computers turn from adding evt listeners back on
     localStorage.setItem("isGameWon", JSON.stringify(true));
 };
 
-},{"../functions/elementCreators":"aeBTs","./preventClicksAfterWin":"ciegP","./restartGame":"a1pIK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ciegP":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","./preventClicksAfterWin":"ciegP","./restartGame":"a1pIK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./createTypewriterEffect":"9yJB4"}],"ciegP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "preventClicksAfterWin", ()=>preventClicksAfterWin);
@@ -4525,13 +4952,13 @@ function generateFiringSolution({ compHitOnPlayerCoordsSet , compMissOnPlayerCoo
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "generateAdjacentCoordsArr", ()=>generateAdjacentCoordsArr);
-function generateAdjacentCoordsArr(coord, length = 1) {
+function generateAdjacentCoordsArr(coord, radius = 1) {
     const xyCoords = coord.split(",");
     const xCoord = parseInt(xyCoords[0].replace('"', ""));
     const yCoord = parseInt(xyCoords[1].replace('"', ""));
-    // generate adjacent coords of specified length based on coord location
+    // generate adjacent coords of specified radius based on coord location
     const adjacentCoords = [];
-    for(let i = 1; i <= length; i += 1){
+    for(let i = 1; i <= radius; i += 1){
         // top
         const topCoord = `${xCoord},${yCoord - i}`;
         if (yCoord - i >= 0) adjacentCoords.push(topCoord);
@@ -4844,339 +5271,7 @@ const renderBattleMessageElem = async function({ currentCellCoord , currentShipS
     });
 };
 
-},{"../functions/elementCreators":"aeBTs","../functions/renderBattleMessageHelper":"jDEhZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jDEhZ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "renderBattleMessageHelper", ()=>renderBattleMessageHelper);
-var _battleTexts = require("../data/battleTexts");
-var _createTypewriterEffect = require("./createTypewriterEffect");
-var _elementCreators = require("./elementCreators");
-var _tossCoin = require("./tossCoin");
-async function renderBattleMessageHelper({ towardsCombatant , firedStatus , shipTypeHit , shipNumber  }) {
-    const randHitsStrings = [
-        "A hit on",
-        "Direct hit on",
-        "Shields weak on",
-        "Hull integrity is weakening on",
-        "Impellers damaged on",
-        "Engines are out on",
-        "Weapons systems offline on",
-        "Life support failing on",
-        "Structural damage on",
-        "Reactor breach on",
-        "Target immobilized on",
-        "Power systems fluctuating on",
-        "Navigational systems down on",
-        "Communication systems disabled on",
-        "Gravity generators failing on",
-        "Primary sensor array damaged on",
-        "Secondary defenses compromised on",
-        "Point defense systems offline on",
-        "Missile tubes destroyed on", 
-    ];
-    const hitsPrecursorString = ()=>randHitsStrings[Math.floor(Math.random() * randHitsStrings.length)];
-    const havenShipNames = JSON.parse(localStorage.getItem("havenShipNames") ?? "");
-    const manticoreShipNames = JSON.parse(localStorage.getItem("manticoreShipNames") ?? "");
-    const playerName = JSON.parse(localStorage.getItem("playerName") ?? "");
-    const battleMessageContainer = document.querySelector(".battleMessage-container");
-    const battleMessageElem = (0, _elementCreators.elemCreator)("p")([
-        "battleMessageElem"
-    ]);
-    (0, _elementCreators.appendElemToParent)(battleMessageContainer)(battleMessageElem);
-    const today = new Date();
-    const formatter = new Intl.DateTimeFormat("en-US", {
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric"
-    });
-    const formattedTime = formatter.format(today);
-    let shipName = "";
-    if (towardsCombatant === "comp") {
-        if (shipTypeHit) switch(shipTypeHit){
-            case "superdreadnought":
-                shipName = havenShipNames.superdreadnought;
-                break;
-            case "carrier":
-                shipName = havenShipNames.carrier;
-                break;
-            case "battleship":
-                shipName = havenShipNames.battleship;
-                break;
-            case "destroyer":
-                if (shipNumber !== undefined) shipName = havenShipNames.destroyers[shipNumber];
-                break;
-            case "frigate":
-                if (shipNumber !== undefined) shipName = havenShipNames.frigates[shipNumber];
-                break;
-            default:
-                break;
-        }
-    } else if (towardsCombatant === "player") {
-        if (shipTypeHit) switch(shipTypeHit){
-            case "superdreadnought":
-                shipName = manticoreShipNames.superdreadnought;
-                break;
-            case "carrier":
-                shipName = manticoreShipNames.carrier;
-                break;
-            case "battleship":
-                shipName = manticoreShipNames.battleship;
-                break;
-            case "destroyer":
-                if (shipNumber !== undefined) shipName = manticoreShipNames.destroyers[shipNumber];
-                break;
-            case "frigate":
-                if (shipNumber !== undefined) shipName = manticoreShipNames.frigates[shipNumber];
-                break;
-            default:
-                break;
-        }
-    }
-    if (towardsCombatant === "comp") {
-        const statusText = firedStatus === "hit" ? (0, _battleTexts.battleTexts).hitsOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).hitsOnShip.length)] : firedStatus === "miss" ? (0, _battleTexts.battleTexts).missesOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).missesOnShip.length)] : firedStatus === "sunk" ? (0, _battleTexts.battleTexts).compShipDestroyed[Math.floor(Math.random() * (0, _battleTexts.battleTexts).compShipDestroyed.length)] : "";
-        // if ship was hit or sunk
-        if (shipTypeHit) {
-            const battleMessageStrings = [
-                `${formattedTime}:: ${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the PNS ${shipName}! ${statusText}`, 
-            ];
-            (0, _createTypewriterEffect.createTypewriterEffect)({
-                containerElem: battleMessageContainer,
-                strings: battleMessageStrings,
-                speed: 25
-            });
-        } else {
-            const battleMessageStrings = [
-                `${formattedTime}::	${statusText}`
-            ];
-            (0, _createTypewriterEffect.createTypewriterEffect)({
-                containerElem: battleMessageContainer,
-                strings: battleMessageStrings,
-                speed: 25
-            });
-        }
-    } else if (towardsCombatant === "player") {
-        // if a miss towards player dont display a message
-        if (!shipTypeHit) return;
-        // only add text if ship was hit or sunk
-        const statusText = firedStatus === "hit" ? (0, _battleTexts.battleTexts).damageOnShip[Math.floor(Math.random() * (0, _battleTexts.battleTexts).damageOnShip.length)] : firedStatus === "sunk" ? (0, _battleTexts.battleTexts).playerShipDestroyed[Math.floor(Math.random() * (0, _battleTexts.battleTexts).playerShipDestroyed.length)] : "";
-        if (firedStatus === "hit") {
-            const battleMessageStrings = [
-                `${formattedTime}::	${(0, _tossCoin.tossCoin)() ? `Admiral ${playerName}!` : ""} ${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! ${statusText}`, 
-            ];
-            (0, _createTypewriterEffect.createTypewriterEffect)({
-                containerElem: battleMessageContainer,
-                strings: battleMessageStrings,
-                speed: 25
-            });
-        } else if (firedStatus === "sunk") {
-            const battleMessageStrings = [
-                `${formattedTime}::	${hitsPrecursorString()} the ${shipTypeHit} RMNS ${shipName}! Admiral ${playerName}! Core breach detected!
-				...
-				Sir, she's gone... Dear God, all those people... `, 
-            ];
-            (0, _createTypewriterEffect.createTypewriterEffect)({
-                containerElem: battleMessageContainer,
-                strings: battleMessageStrings,
-                speed: 25
-            });
-        }
-    }
-}
-
-},{"../data/battleTexts":"6YoE9","./createTypewriterEffect":"9yJB4","./elementCreators":"aeBTs","./tossCoin":"amf2O","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6YoE9":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "battleTexts", ()=>battleTexts);
-const battleTexts = {
-    hitsOnShip: [
-        "A hit, Sir!",
-        "Direct hit, Sir!",
-        "We must have taken out her forward impellers!",
-        "Direct hit on their com section!",
-        "We just took out most of her missile tracking capability!",
-        "One hit, port side aft!",
-        "A hit, Sir! At least one, and\u2014",
-        "Her forward impellers are down!",
-        "Roll port! All batteries, engage!",
-        "Engage with forward batteries!",
-        "They're taking the bait, Sir!",
-        "Formation Reno, Com\u2014get those carriers in tighter!",
-        "Recompute firing pattern.",
-        "We just took out their forward impellers!",
-        "We've got a hit on their port engines, Sir! They're losing speed!",
-        "Direct hit on their main power junction, Sir! Their weapons are offline!",
-        "We've hit their fuel tanks, Sir! They're venting plasma!",
-        "Their sidewalls are failing, Sir! One more hit and they're done for!",
-        "We just took out their bridge, Sir! They're blind and adrift!",
-        "Direct hit on their missile tubes, Sir! They're defenseless!",
-        "We've knocked out their point defense, Sir! Our missiles are getting through!",
-        "They're trying to break off, Sir! Keep up the pressure!",
-        "We've taken out their propulsion, Sir! They're dead in the water!",
-        "Their forward batteries are destroyed, Sir! They can't return fire!",
-        "We've hit their command and control, Sir! They're in chaos!",
-        "They're splitting their fire, Sir! Focus on the weaker target!",
-        "Their port sidewall's down, Sir! We can take them out!",
-        "We've disrupted their sensor array, Sir! They can't get a clear reading on us!",
-        "Their maneuvering thrusters are offline, Sir! They can't evade us!", 
-    ],
-    damageOnShip: [
-        "Forward hold open to space! Mooring Tractor One's gone! Heavy casualties in Fusion One!",
-        "They've lost Damage Control Three, Sir!",
-        "Missile One is down, Sir! They're down to one tube.",
-        "Spinal Four gone, Sir!",
-        "They've lost the secondary fire control sensors!. Primaries unaffected.",
-        "Damage control to the bridge! Corpsman to the bridge!",
-        "Fusion One, Sir! The mag bottle's fluctuating and can't be shut down from here\u2014something's cut the circuits!",
-        "Sir, They're down to twelve birds for Missile Two, and out of laser heads.",
-        "Heavy damage aft! No contact at all with Two-Four or Two-Six.",
-        "Sir, They've lost a beta node; their acceleration is dropping.",
-        "Theye've lost another beta node, Sir",
-        "Point defense is hurt bad, Sir! They've lost four laser clusters and half their phased radar array.",
-        "They've lost an energy torpedo and Number Two Laser out of the starboard broadside, but at least the starboard sidewall is still up.",
-        "Tractor Seven is gone!",
-        "Compartments Eight-Niner-Two and Niner-Three open to space. No casualties!",
-        "Two hits forward! Laser Three and Five destroyed. Radar Five is gone, Sir! Heavy casualties in Laser Three!",
-        "Missile Two-One and Graser One gone! Heavy damage in the boat bay and Berthing Compartment Seven-five!",
-        "They've taken a hit, but we won't let that break our resolve! Medical teams to the casualties, and everyone else stay focused!",
-        "Port torp tubes are down, Sir! They've lost half of their firepower!",
-        "Sir, They've lost the entire port quarter! The starboard sidewall is holding, but not for long!",
-        "Their starboard broadside is crippled, Sir! They've lost four laser clusters and our neutron cannon!",
-        "They've lost Graser Three and Four, Sir! They're down to just two guns!",
-        "The port wedge generator's gone, Sir! They're losing acceleration!",
-        "Sir, They've lost two-thirds of our point defense capability! The enemy missiles are getting through!",
-        "They've lost the aft fusion bottle, Sir! They're down to just one engine!",
-        "Sir, They've lost our forward array! They can't get a clear reading on the enemy!",
-        "They've lost their main battery, Sir! The enemy ship is still coming!",
-        "They've lost three out of four grav plates, Sir! They're adrift!",
-        "Sir, They've lost all communication with the forward compartments! They don't know what's happening up there!",
-        "The port missile tube's destroyed, Sir! They're down to just one tube and no spares!",
-        "The enemy's hit them with a grav lance, Sir! The hull's buckling!",
-        "They've lost the port-side maneuvering thrusters, Sir! They can't dodge their fire!",
-        "Sir, They've lost the entire bridge! They're blind and drifting!",
-        "They've lost our aft impellers! They're drifting into enemy fire!",
-        "Port engines destroyed! They can't maintain acceleration!",
-        "Enemy has taken out their point defense! They're defenseless!",
-        "Fusion reactor's gone critical!",
-        "They've lost our port sidewall! They're tearing them apart!",
-        "They maneuvering thrusters are destroyed! They can't dodge their fire!",
-        "They've lost their forward impellers! They're drifting into enemy fire!",
-        "Direct hit on their main battery! They're powerless!",
-        "They've hit the bridge! They're going down!",
-        "Missiles incoming! Brace for impact!",
-        "Enemy has taken out their sensors! We can't get a lock on them!",
-        "They've lost their main engines! They're dead in the water!",
-        "Enemy has breached their hull! They're venting atmosphere!",
-        "Their missile tubes are destroyed! They're helpless!",
-        "They've lost their port battery! They can't return fire!", 
-    ],
-    missesOnShip: [
-        "Dammit! We missed our target! Recalibrate those weapons and try again!",
-        "Target that ship again! We can't let them get away!",
-        "They're dodging our fire! Keep your eyes on them and don't let them get away!",
-        "We're not giving up that easily! Reload the missiles and try again!",
-        "They're faster than we thought! Keep the pressure on them and don't let up!",
-        "Don't let them get away! Target their engines and take them out!",
-        "We missed the mark that time, but we'll get them next time! Keep those weapons hot!",
-        "Target that ship and don't let them out of our sights! We can't let them escape!",
-        "We missed them, but they won't get away that easily! Keep the fire coming!",
-        "They're too nimble for us! We need to anticipate their movements and adjust our aim!",
-        "Don't lose focus, people! Keep those weapons trained on the target and wait for the right moment to strike!",
-        "Our sensors are picking up their trajectory! Get those weapons locked in and fire at will!",
-        "They're trying to evade us! Stay alert and keep that ship in your crosshairs!",
-        "We may have missed them this time, but we'll get another chance! Keep the pressure on!",
-        "Don't let their maneuvers distract you! Stay on target and keep up the barrage!",
-        "The enemy has returned fire!",
-        "Tracking reports sixteen incoming, Sir!",
-        "Enemy jamming primary tracking systems!",
-        "Enemy countermeasures active!",
-        "Crossing minefield attack perimeter\u2014now!",
-        //
-        "They missed! Counter missiles now!",
-        "Ha! Go to rapid fire on all tubes!",
-        "We won't get another chance! Get those impellers back for me, Lieutenant!",
-        "A miss! Increase acceleration to max!",
-        "This is our chance! Close the range. We'll finish her with energy fire!",
-        "Missiles at three-five-two! Lucky this time..",
-        "Hard a starboard!",
-        "Pursuit vector, maximum acceleration!",
-        "General signal to all heavy carriers. Return to formation at once. Repeat, return to formation at once!",
-        "Damn! We missed them!",
-        "Target evaded, adjust trajectory!",
-        "All forward batteries, recalibrate and fire again!",
-        "They slipped away, but we'll get them next time!",
-        "Missed, but keep those guns trained on them!",
-        "They're too quick for us, but we'll catch up eventually!",
-        "Continue evasive maneuvers, we'll have another chance!",
-        "Fire again, don't let them escape!",
-        "They're agile, but we'll find a way to hit them!",
-        "We can't let them get away, keep firing!",
-        "Target outmaneuvered us, but we're not giving up!",
-        "Missed by a hair, but we'll make the next one count!",
-        "Don't worry, we'll get them on the next pass!",
-        "They're too fast, adjust for their trajectory and try again!",
-        "That was too close, but we'll come back around!",
-        "We missed, but keep your focus and stay on target!",
-        "Their maneuvering is impressive, but we'll take them down eventually!",
-        "We need to anticipate their movements and adjust accordingly!",
-        "Missed, but keep firing and keep them on the defensive!", 
-    ],
-    playerShipDestroyed: [
-        "They've taken out one of our own! But we won't let their sacrifice be in vain. Keep fighting!",
-        "The loss of that ship is a tragedy, but we must stay focused and fight on!",
-        "We've lost a valuable ally, but we won't give up this fight! Keep pushing forward!",
-        "The enemy has shown us no mercy, but we won't give them any either! Keep the pressure on!",
-        "We mourn the loss of our comrades, but we won't let their sacrifice be forgotten. We'll fight on in their memory!",
-        "We've lost one of our own, but we won't let their death be in vain. Keep up the fight!",
-        "They may have taken out one of our ships, but they won't take us all down! Keep fighting, people!",
-        "The loss of that ship is a heavy blow, but we won't let it break our spirit. Keep up the attack!",
-        "The enemy thinks they've gained an advantage, but we won't let them win that easily. Stay strong, and stay focused!",
-        "Our hearts go out to our fallen comrades, but we won't let their sacrifice be for nothing. Keep fighting, people!",
-        "They've taken out one of our own, but we won't let that stop us. We'll avenge them and push on!",
-        "The loss of that ship is a painful reminder of the stakes of this battle, but we won't give up. Keep the pressure on!",
-        "Our enemy has struck a blow, but we will not be defeated! We will fight on and show them what we're made of!",
-        "We've lost one of our own, but we won't let that deter us. We'll avenge them and continue the fight!",
-        "The enemy has claimed one of our ships, but they won't claim us all. Keep the battle raging!", 
-    ],
-    compShipDestroyed: [
-        "Yes! She's streaming air, Sir!",
-        "Enemy vessel destroyed! Good shooting, people!",
-        "That should give them something to think about!",
-        "Target eliminated! Move on to the next one!",
-        "We've neutralized their threat! On to the next target!",
-        "Enemy ship down! Let's keep up the pressure!",
-        "That'll teach them to mess with us!",
-        "Nice work, everyone! Keep it up!",
-        "Enemy vessel neutralized! Let's keep the momentum going!",
-        "Target destroyed! Now let's take out their friends!",
-        "That's one less enemy to worry about!",
-        "Enemy vessel eliminated! Let's keep pushing forward!",
-        "Direct hit! Enemy ship destroyed!",
-        "Good shooting, gunners! That one's not coming back!",
-        "Enemy vessel neutralized! Keep up the good work!",
-        "Target eliminated! Let's move on to the next one!",
-        "Enemy vessel down! Keep the pressure on!",
-        "Another one bites the dust! Great job, everyone!",
-        "Enemy ship destroyed! Let's keep up the pace!",
-        "Target destroyed! Now onto the next one!",
-        "We've taken out an enemy vessel! Let's go for more!",
-        "Enemy vessel neutralized! Keep up the good work, crew!",
-        "Direct hit! Enemy ship destroyed! Excellent shooting!",
-        "We've eliminated an enemy vessel! Let's keep the momentum going!",
-        "Enemy ship down! Great work, everyone!",
-        "Target destroyed! We're one step closer to victory!",
-        "Enemy vessel eliminated! Let's keep pushing forward!", 
-    ]
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"amf2O":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "tossCoin", ()=>tossCoin);
-function tossCoin() {
-    return Math.random() > 0.5;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4ghRE":[function(require,module,exports) {
+},{"../functions/elementCreators":"aeBTs","../functions/renderBattleMessageHelper":"jDEhZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4ghRE":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "placeCompShipsOnBoard", ()=>placeCompShipsOnBoard);
