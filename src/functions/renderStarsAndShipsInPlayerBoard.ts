@@ -1,10 +1,4 @@
 import {
-	addAttributeToElem,
-	addStyleToElem,
-	addTextToElem,
-	pipe,
-} from './elementCreators';
-import {
 	Battleship,
 	Carrier,
 	Destroyer,
@@ -12,7 +6,19 @@ import {
 	NodesDiv,
 	Superdreadnought,
 } from '../types';
+import {
+	addAttributeToElem,
+	addStyleToElem,
+	addTextToElem,
+	pipe,
+} from './elementCreators';
 
+/**
+ * Renders the stars and ships in the player board
+ *
+ * @function
+ * @returns {void}
+ */
 function renderStarsAndShipsInPlayerBoard(): void {
 	const superdreadnoughtCoords: Superdreadnought = JSON.parse(
 		localStorage.getItem('superdreadnought') ?? JSON.stringify([])
@@ -41,10 +47,11 @@ function renderStarsAndShipsInPlayerBoard(): void {
 	);
 	const frigateCoordsArray = frigateCoords.flatMap((frigate) => Object.values(frigate));
 
-	// grab the cells for the player's ships and add the corresponding letter
+	// grabs the cells for the player's ships and add the corresponding letter
 	const playerGameCell: NodesDiv = document.querySelectorAll('.player-gameCell');
 
-	// if the cell's data-cellplayer attribute is included in the array of coords for the ship, add the corresponding letter to the cell and add the class playerShipPresent
+	// if the cell's data-cellplayer attribute is included in the array of
+	// coords for that ship, add the corresponding letter to the cell and add the class playerShipPresent
 	// else add a star and class playerShipNotPresent
 	playerGameCell.forEach((cell) => {
 		if (superdreadnoughtCoordsArray.includes(cell.dataset.cellplayer ?? '')) {

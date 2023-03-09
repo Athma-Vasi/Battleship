@@ -1,3 +1,11 @@
+/**
+ *  Checks if there are two destroyers and two frigates placed on the board
+ *
+ * @function
+ * @param {string} ship_ - ship name
+ * @param {string} amount_ - amount of ships
+ * @returns {boolean | undefined}
+ */
 const isCorrectNumberOfShips = function (
 	ship_: string,
 	amount_: string

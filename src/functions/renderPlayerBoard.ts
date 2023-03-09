@@ -6,6 +6,12 @@ import {
 } from './elementCreators';
 import { renderStarsAndShipsInPlayerBoard } from './renderStarsAndShipsInPlayerBoard';
 
+/**
+ * Renders the player's game board to the DOM and adds data attributes to each cell
+ *
+ * @function
+ * @returns {void}
+ */
 function renderPlayerBoard(): void {
 	const main: HTMLElement | null = document.querySelector('.main');
 

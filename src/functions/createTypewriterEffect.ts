@@ -7,9 +7,17 @@ type TypewriterEffectProps = {
 	speed?: number;
 };
 
-// returns a promise that resolves when the typewriter effect created by iterating
-// through each char in the string, and adds it to child element
-// after each char is added, the parent element is scrolled to the bottom
+/**
+ * Returns a promise that resolves when the typewriter effect created by iterating through each char in the string, and adds it to child element after each char is added, the parent element is scrolled to the bottom
+ *
+ * @function
+ * @param {object} props - props object
+ * @param {string} props.string - string to create typewriter effect for
+ * @param {HTMLElement} props.childElem - child element to add text to
+ * @param {HTMLElement} props.parentElem - parent element to scroll to bottom
+ * @param {number} props.speed - speed of typewriter effect
+ * @returns {Promise<void>}
+ */
 async function typewriterEffect({
 	string,
 	childElem,
@@ -33,9 +41,14 @@ async function typewriterEffect({
 	});
 }
 
-// iterates through an array and executes a callback function for each element
-// the callback function is awaited before the next element is iterated
-// ensures that the callback function is executed in order
+/**
+ * Iterates through an array and executes a callback function for each element. The callback function is awaited before the next element is iterated. This ensures that the callback function is executed in order.
+ *
+ * @function
+ * @param {T[]} arr - array to iterate through
+ * @param {(val: T, index: number, array: T[]) => Promise<void>} callback - callback function to execute for each element
+ * @returns {Promise<void>}
+ */
 async function asyncForEach<T>(
 	arr: T[],
 	callback: (val: T, index: number, array: T[]) => Promise<void>
@@ -52,14 +65,23 @@ type CreateTypewriterEffectProps = {
 	speed?: number;
 };
 
-// creates a typewriter effect for each string in the strings array
-// for each string, a new paragraph element is created and appended to the container element
+/**
+ * Creates a typewriter effect for each string in the strings array. For each string, a new paragraph element is created and appended to the container element. The typewriter effect is created by iterating through each char in the string, and adds it to child element after each char is added, the parent element is scrolled to the bottom
+ *
+ * @function
+ * @props {object} props - props object
+ * @props {HTMLElement} props.containerElem - container element to append typewriter elements to
+ * @props {string} props.childElemClass - class of child element to add text to
+ * @props {string[]} props.strings - strings to create typewriter effect for
+ * @props {number} props.speed - speed of typewriter effect
+ * @returns {Promise<void>}
+ */
 async function createTypewriterEffect({
 	containerElem,
 	childElemClass = 'typewriter-text',
 	strings,
 	speed = 50,
-}: CreateTypewriterEffectProps) {
+}: CreateTypewriterEffectProps): Promise<void> {
 	asyncForEach(strings, async (string: string, index) => {
 		const typewriterElem = elemCreator('p')([childElemClass]);
 		appendElemToParent(containerElem)(typewriterElem);

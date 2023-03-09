@@ -11,12 +11,24 @@ type RenderBattleMessageHelperProps = {
 	shipNumber?: number;
 };
 
+/**
+ * Renders the battle message to the DOM by figuring out which ship was hit and which ship was fired upon and then determining the appropriate message to craft from the battleTexts pool of pre-made messages, and calling createTypewriterEffect to render the message
+ *
+ * @function
+ * @param {string} towardsCombatant - 'player' or 'comp'
+ * @param {string} firedStatus - 'hit', 'miss', or 'sunk'
+ * @param {string} shipTypeHit - 'superdreadnought', 'carrier', 'battleship', 'destroyer', or 'frigate'
+ * @param {number} shipNumber - 0 or 1 - used to determine the name of the destroyers or frigates (0 = first, 1 = second)
+ * @param {string} playerName - player's name
+ * @returns {Promise<void>}
+ */
 async function renderBattleMessageHelper({
 	towardsCombatant,
 	firedStatus,
 	shipTypeHit,
 	shipNumber,
 }: RenderBattleMessageHelperProps): Promise<void> {
+	// used in the front of the message
 	const randHitsStrings = [
 		'A hit on',
 		'Direct hit on',
@@ -42,10 +54,10 @@ async function renderBattleMessageHelper({
 		randHitsStrings[Math.floor(Math.random() * randHitsStrings.length)];
 
 	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
-		localStorage.getItem('havenShipNames') ?? ''
+		localStorage.getItem('havenShipNames') ?? JSON.stringify({})
 	);
 	const manticoreShipNames: RandomizedManticoreShipNames = JSON.parse(
-		localStorage.getItem('manticoreShipNames') ?? ''
+		localStorage.getItem('manticoreShipNames') ?? JSON.stringify({})
 	);
 
 	const playerName = JSON.parse(localStorage.getItem('playerName') ?? '');
@@ -65,6 +77,7 @@ async function renderBattleMessageHelper({
 
 	let shipName = '';
 	if (towardsCombatant === 'comp') {
+		// the shipTypeHit is not passed in when the firedStatus is 'miss'
 		if (shipTypeHit) {
 			switch (shipTypeHit) {
 				case 'superdreadnought': {
@@ -80,6 +93,7 @@ async function renderBattleMessageHelper({
 					break;
 				}
 				case 'destroyer': {
+					// shipNumber can be either 0 or 1 or undefined
 					if (shipNumber !== undefined) {
 						shipName = havenShipNames.destroyers[shipNumber];
 					}
@@ -179,10 +193,10 @@ async function renderBattleMessageHelper({
 			});
 		}
 	} else if (towardsCombatant === 'player') {
-		// if a miss towards player dont display a message
+		// if a miss towards player, message is not displayed
 		if (!shipTypeHit) return;
 
-		// only add text if ship was hit or sunk
+		// only adds text if ship was hit or sunk
 		const statusText =
 			firedStatus === 'hit'
 				? battleTexts.damageOnShip[

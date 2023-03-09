@@ -1,3 +1,4 @@
+import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from '../types';
 import {
 	addAttributeToElem,
 	addStyleToElem,
@@ -8,8 +9,14 @@ import {
 } from './elementCreators';
 import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
 import { shuffleArray } from './shuffleArray';
-import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from '../types';
 
+/**
+ * Renders the tactical overview - player shipnames and coordinates, computer shipnames and '?' cells.
+ * The player's cells are updated visually when a hit is registered and the computer's cells are updated visually when length of the ship is confirmed
+ *
+ * @function
+ * @returns {void}
+ */
 function renderTacticalOverview(): void {
 	const gamePlayerBoardWrapper: Div = document.querySelector('.gamePlayerBoard-wrapper');
 
@@ -47,13 +54,13 @@ function renderTacticalOverview(): void {
 		localStorage.getItem('manticoreShipNames') ?? JSON.stringify([{}])
 	);
 
-	// grab the ship coords from the board to use them in the tac overview cells to update hits
+	// grabs the ship coords to use them in the tac overview cells to update hits
 	const { playerShipCoords } = returnPlayerCompShipsCoords();
 
-	// loop through the player ship names and render the ship names along with the cells corresponding to the shiptype and coords from the board
+	// loops through the player ship names and renders the ship names along with the cells corresponding to the shiptype and coords from the board
 	Object.entries(manticoreShipNamesCoords).forEach(
 		([shipType, shipName]: [string, string | string[]]) => {
-			//handle superdreadnought, carrier, battleship first
+			//handles superdreadnought, carrier, battleship first
 			if (!Array.isArray(shipName)) {
 				const shipNameContainer = elemCreator('div')(['shipName-container']);
 				appendElemToParent(tacticalOverviewWrapperPlayer)(shipNameContainer);
@@ -86,7 +93,7 @@ function renderTacticalOverview(): void {
 					)(elemCreator('div')(['player-tacticalCell']));
 				}
 			}
-			// handle destroyers and frigates that are a string[]
+			// handles destroyers and frigates that are a string[]
 			else {
 				const lengthOfCells = shipType === 'destroyers' ? 2 : 1;
 

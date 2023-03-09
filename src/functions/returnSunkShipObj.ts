@@ -1,11 +1,20 @@
-import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
 import {
 	RandomizedHavenShipNames,
 	RandomizedManticoreShipNames,
 	ShipHits,
 } from '../types';
+import { returnPlayerCompShipsCoords } from './returnPlayerCompShipsCoords';
 
-// returns an object with the sunk ship name if a ship has been sunk
+/**
+ * Tracks the hits on player and comp ships and when hit counter equals length of appropriate ship, returns an object containing the current hit's sunk ship's name.
+ * Used to render the ship's name in the battle message
+ *
+ * @function
+ * @param {string} currentCellCoord - Current cell coordinate
+ * @param {string} currentShipSymbol - Current ship symbol
+ * @param {string} towardsCombatant  - 'player' or 'comp'
+ * @returns {object} - Object containing the current hit's sunk ship's name
+ */
 function returnSunkShipObj(
 	currentCellCoord: string,
 	currentShipSymbol: string,
@@ -13,7 +22,7 @@ function returnSunkShipObj(
 ): { player: null | string; comp: null | string } {
 	const playerCompShipsCoords = returnPlayerCompShipsCoords();
 
-	// store hits on ships to determine if a ship has been sunk
+	// stores hits on ships to determine if a ship has been sunk
 	const shipHits: ShipHits = JSON.parse(
 		localStorage.getItem('shipHits') ??
 			JSON.stringify({
@@ -35,10 +44,10 @@ function returnSunkShipObj(
 	);
 
 	const havenShipNames: RandomizedHavenShipNames = JSON.parse(
-		localStorage.getItem('havenShipNames') ?? ''
+		localStorage.getItem('havenShipNames') ?? JSON.stringify({})
 	);
 	const manticoreShipNames: RandomizedManticoreShipNames = JSON.parse(
-		localStorage.getItem('manticoreShipNames') ?? ''
+		localStorage.getItem('manticoreShipNames') ?? JSON.stringify({})
 	);
 
 	const sunkShipObj: { player: null | string; comp: null | string } = {

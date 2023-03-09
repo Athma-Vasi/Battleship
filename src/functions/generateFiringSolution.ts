@@ -5,11 +5,17 @@ type GenerateFiringSolutionProps = {
 	compMissOnPlayerCoordsSet: Set<string>;
 };
 
+/**
+ * Generates a firing solution for the computer by generating a cloud of unique adjacent coordinates of radius 1 (i.e., top, right, bottom and left cell) and generating another cloud of adjacent coordinates (radius 2) for each of the unique adjacent coordinates. The latter cloud is checked to see which of the cells intersect with previous hits and then ranking the unique adjacent coordinates based on how many times they appear in the cloud.
+ * @param {Set<string>} compHitOnPlayerCoordsSet - Set of coordinates that the computer has hit on the player's board
+ * @param {Set<string>} compMissOnPlayerCoordsSet - Set of coordinates that the computer has missed on the player's board
+ * @returns {string} - Coordinate that the computer should fire upon
+ */
 function generateFiringSolution({
 	compHitOnPlayerCoordsSet,
 	compMissOnPlayerCoordsSet,
 }: GenerateFiringSolutionProps): string {
-	// generate a cloud of all adjacent coords of all previous hits
+	// generates a cloud of all adjacent coords of all previous hits
 	// each of these adjacent coords that have not been previously fired upon will be used to generate ranked tuples
 	const uniqueAdjacentCoords: string[] = Array.from(compHitOnPlayerCoordsSet)
 		.flatMap((coord) => generateAdjacentCoordsArr(coord))
@@ -19,16 +25,16 @@ function generateFiringSolution({
 		);
 
 	// if there are no unique adjacent coords, meaning all surrounding coords
-	// have been hit, return an empty string so that the caller can call the
+	// have been hit, returns an empty string so that the caller can call the
 	// random coord guess function
 	if (uniqueAdjacentCoords.length === 0) return '';
 
-	// create ranked tuples of the adjacent coords
+	// creates ranked tuples of the adjacent coords
 	const adjCoordsRankedTuples: [string, number][] = uniqueAdjacentCoords.reduce(
 		(rankedTuples: [string, number][], uniqueAdjCoord: string) => {
-			// for each of the unique adjacent coords, we generate another cloud of
-			// adjacent coords but this time with a radius of 2 and we count the
-			// number of times these new coords intersect with previous hits
+			// for each of the unique adjacent coords, another cloud of adjacent
+			// coords are generated with a radius of 2, and the number of times
+			// these new coords intersect with previous hits is counted
 
 			// this approach favours coords that are on the same axes as prev hits
 			// and can more reliably hit the adjacent coord in the same axis rather

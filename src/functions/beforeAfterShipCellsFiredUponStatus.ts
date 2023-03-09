@@ -5,6 +5,17 @@ type BeforeAfterShipCellsFiredUponStatusProps = {
 	compShipsMissesCoordsSet: Set<string>;
 };
 
+/**
+ * Determines whether the cell before and after the ship cell has been fired upon, to update the comp tactical overview.
+ * If the cell before and after has been fired upon, then the player knows that the all the ship's cells have been fired upon.
+ *
+ * @function
+ * @param {string} shipType - Type of ship
+ * @param {string[]} coordsArr - Array of coordinates of the ship
+ * @param {Set<string>} compShipsHitCoordsSet - Set of coordinates of computer ships that have been hit
+ * @param {Set<string>} compShipsMissesCoordsSet - Set of coordinates of computer ships that have been missed
+ * @returns {object} - Object containing boolean values of whether the cell before and after the ship cell has been fired upon
+ */
 function beforeAfterShipCellsFiredUponStatus({
 	shipType,
 	coordsArr,

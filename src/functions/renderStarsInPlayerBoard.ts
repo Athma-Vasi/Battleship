@@ -1,6 +1,12 @@
 import { addAttributeToElem, addTextToElem, pipe } from '../functions/elementCreators';
 import { NodesDiv } from '../types';
 
+/**
+ *  Renders stars in the player's game board for cells which do not contain a ship
+ *
+ * @function
+ * @returns {void}
+ */
 const renderStarsInPlayerBoard = function (): void {
 	const playerGameCell: NodesDiv = document.querySelectorAll('.player-gameCell');
 

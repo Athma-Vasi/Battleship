@@ -6,6 +6,11 @@ import {
 } from '../functions/elementCreators';
 import { Div } from '../types';
 
+/**
+ * Renders the computer's game board to the DOM and adds data attributes to each cell
+ * @function
+ * @returns {void}
+ */
 const renderCompBoard = function (): void {
 	const gameBoardContainer: Div = document.querySelector('.gameBoard-container');
 

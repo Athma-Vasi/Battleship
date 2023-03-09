@@ -9,6 +9,12 @@ import {
 } from '../functions/elementCreators';
 import { Button, Div } from '../types';
 
+/**
+ * Renders the start game button to the DOM and adds an event listener to the button
+ *
+ * @function
+ * @returns {void}
+ */
 const renderStartButton = function (): void {
 	// removes the ship selection buttons
 	const shipsBttnContainer: Div = document.querySelector('.shipsBttn-container');

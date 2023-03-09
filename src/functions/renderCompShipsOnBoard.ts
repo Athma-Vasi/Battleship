@@ -6,6 +6,13 @@ import {
 } from '../functions/elementCreators';
 import { CompShipsPlacementChoice, Div, NodesDiv } from '../types';
 
+/**
+ * Renders the randomly generated computer's ships locations to the game board and renders '✴' to all the cells to hide the ships
+ *
+ * @function
+ * @param {Object} compShipsPlacementChoice_ - object containing all the computer's ships' placement coordinates
+ * @returns {void}
+ */
 const renderCompShipsOnBoard = function (
 	compShipsPlacementChoice_: CompShipsPlacementChoice
 ): void {
@@ -15,7 +22,7 @@ const renderCompShipsOnBoard = function (
 	);
 
 	Object.entries(compShipsPlacementChoice_).forEach(([ship, shipObj]) => {
-		// if the compShips obj does not exist, create it, then store it in camelcase i.e., compCarrier
+		// if the compShips obj does not exist, creates it, then stores it in camelcase i.e., compCarrier
 		if (!localStorage.getItem(`comp${ship[0].toUpperCase() + ship.slice(1)}`)) {
 			localStorage.setItem(
 				`comp${ship[0].toUpperCase() + ship.slice(1)}`,

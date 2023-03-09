@@ -1,3 +1,11 @@
+/**
+ * Stores computer's hit and miss coordinates in local storage
+ *
+ * @function
+ * @param {string} compAttackGuess_ - Computer's attack guess
+ * @param {string} hitOrMiss - 'hit' or 'miss'
+ * @returns {void}
+ */
 function storeCompHitMissCoords(
 	compAttackGuess_: string,
 	hitOrMiss: 'hit' | 'miss'

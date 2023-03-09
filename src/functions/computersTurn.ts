@@ -6,6 +6,12 @@ import { NodesDiv } from '../types';
 import { announceGameWinner } from './announceGameWinner';
 import { computerAttacks } from './computerAttacks';
 
+/**
+ * Computer takes a turn by generating a random coordinate and attacking the player's ships. If the win state has not been reached, event listeners are added back on to continue round.
+ *
+ * @function
+ * @returns {void}
+ */
 const computersTurn = function (): void {
 	// checks if game has been won
 	if (!localStorage.getItem('isGameWon')) {

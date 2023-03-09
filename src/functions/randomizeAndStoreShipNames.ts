@@ -1,7 +1,8 @@
 import { ShipNamesPool } from '../types';
 
 const randomizeAndStoreShipNames = function (shipNames_: ShipNamesPool): void {
-	// used to display a persistent (throughout the game round) name, that corresponds to the type of ship, that is displayed when a hit is registered
+	// used to display a persistent (throughout the game round) name,
+	// that corresponds to the type of ship and is displayed when a hit is registered
 	if (!localStorage.getItem('playerShipNames')) {
 		localStorage.setItem('playerShipNames', JSON.stringify([]));
 	}

@@ -5,6 +5,12 @@ import {
 	pipe,
 } from '../functions/elementCreators';
 
+/**
+ * Renders the player's game board to the DOM and adds data attributes to each cell
+ *
+ * @function
+ * @returns {void}
+ */
 const renderPlayerShipPlacementBoard = function (): void {
 	const main: HTMLElement | null = document.querySelector('.main');
 

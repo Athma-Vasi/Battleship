@@ -3,6 +3,12 @@ import { handlePlayerClickOnCompShips } from '../events/handlePlayerClickOnCompS
 import { pipe, removeEvtListener } from '../functions/elementCreators';
 import { NodesDiv } from '../types';
 
+/**
+ * Prevents further clicks after winner is announced
+ *
+ * @function
+ * @returns {void}
+ */
 const preventClicksAfterWin = function (): void {
 	const compShipPresent: NodesDiv = document.querySelectorAll('.compShipPresent');
 	const compShipNotPresent: NodesDiv = document.querySelectorAll('.compShipNotPresent');

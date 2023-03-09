@@ -18,8 +18,14 @@ import {
 } from './elementCreators';
 import { renderBattleMessageHelper } from './renderBattleMessageHelper';
 
+/**
+ * Updates the tactical overview of the computer's ships when the cells before and after an unknown ship's cells are fired upon. This is to prevent the player from prematurely knowing the length of the ship.
+ * The '?' cells are updated with the appropriate ship symbol
+ * @function
+ * @returns {void}
+ */
 function updateCompTacticalOverviewShips(): void {
-	// grab all coords of comp ships
+	// grabs all coords of comp ships
 	const superdreadnoughtCoords: Superdreadnought = JSON.parse(
 		localStorage.getItem('compSuperdreadnought') ?? JSON.stringify([])
 	);
@@ -74,7 +80,9 @@ function updateCompTacticalOverviewShips(): void {
 			return acc;
 		}, true);
 
-		// if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
+		// if every ship coord is hit, check if the cell before and after the ship
+		// is also hit, then the ship is sunk and the ship is displayed as sunk in
+		// the tactical overview without prematurely displaying to the player
 		if (isEveryShipCoordHit) {
 			// sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
 			const { isBeforeShipCellFiredUpon, isAfterShipCellFiredUpon } =
@@ -85,9 +93,11 @@ function updateCompTacticalOverviewShips(): void {
 					compShipsMissesCoordsSet,
 				});
 
-			// if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
+			// if the cells just before and just after the ship have been fired upon
+			// (either hit or miss), then the ship is confirmed sunk and safe to
+			// update the tactical overview
 			if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
-				// grab the tac overview comp '?' cell and remove it
+				// grabs the tac overview comp '?' cell and remove it
 				const questionMarkCell: Para = document.querySelector(
 					`[data-compshipquestion="${shipType}"]`
 				);
@@ -95,7 +105,7 @@ function updateCompTacticalOverviewShips(): void {
 				if (questionMarkCell) {
 					questionMarkCell.remove();
 
-					// render a battle message only once to indicate that the computer's ship has been sunk
+					// renders a battle message only once to indicate that the computer's ship has been sunk
 					renderBattleMessageHelper({
 						towardsCombatant: 'comp',
 						firedStatus: 'sunk',
@@ -106,7 +116,7 @@ function updateCompTacticalOverviewShips(): void {
 				const lengthOfCells =
 					shipType === 'Superdreadnought' ? 5 : shipType === 'Carrier' ? 4 : 3;
 
-				// display sunk ship with '💥' emoji
+				// displays sunk ship with '💥' emoji
 				for (let i = 0; i < lengthOfCells; i += 1) {
 					const hiddenCell: Div = document.querySelector(
 						`[data-compshipcell="${shipType}_${i}"]`
@@ -140,9 +150,12 @@ function updateCompTacticalOverviewShips(): void {
 					return acc;
 				}, true);
 
-				// if every ship coord is hit, check if the cell before and after the ship is also hit, then the ship is sunk and the ship is displayed as sunk in the tactical overview without prematurely displaying to the player
+				// if every ship coord is hit, checks if the cell before and after the
+				// ship is also hit, then the ship is sunk and the ship is displayed
+				// as sunk in the tactical overview without prematurely displaying to the player
 				if (isEveryShipCoordHit) {
-					// sorts the coords, determines direction, and determines the cells just before and after the ship and whether they have been fired upon
+					// sorts the coords, determines direction, and determines the cells
+					// just before and after the ship and whether they have been fired upon
 					const { isBeforeShipCellFiredUpon, isAfterShipCellFiredUpon } =
 						beforeAfterShipCellsFiredUponStatus({
 							shipType,
@@ -151,9 +164,11 @@ function updateCompTacticalOverviewShips(): void {
 							compShipsMissesCoordsSet,
 						});
 
-					// if the cells just before and just after the ship have been fired upon (either hit or miss), then the ship is confirmed sunk and safe to update the tactical overview
+					// if the cells just before and just after the ship have been fired
+					// upon (either hit or miss), then the ship is confirmed sunk and
+					// safe to update the tactical overview
 					if (isBeforeShipCellFiredUpon && isAfterShipCellFiredUpon) {
-						// grab the tac overview comp '?' cell and remove it
+						// grabs the tac overview comp '?' cell and remove it
 						const questionMarkCell: Para = document.querySelector(
 							`[data-compshipquestion="${shipType}_${idx}"]`
 						);
@@ -161,7 +176,7 @@ function updateCompTacticalOverviewShips(): void {
 						if (questionMarkCell) {
 							questionMarkCell.remove();
 
-							// render a battle message only once to indicate that the computer's ship has been sunk
+							// renders a battle message only once to indicate that the computer's ship has been sunk
 							renderBattleMessageHelper({
 								towardsCombatant: 'comp',
 								firedStatus: 'sunk',
@@ -170,7 +185,7 @@ function updateCompTacticalOverviewShips(): void {
 							});
 						}
 
-						// display sunk ship with '💥' emoji
+						// displays sunk ship with '💥' emoji
 						for (let i = 0; i < coordsArr.length; i += 1) {
 							const hiddenCell: Div = document.querySelector(
 								`[data-compshipcell="${shipType}_${idx}_${i}"]`

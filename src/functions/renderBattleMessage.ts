@@ -9,7 +9,18 @@ type renderBattleMessageElemProps = {
 	hitOrMiss: 'hit' | 'miss';
 	sunkShipName?: string;
 };
-
+/**
+ * Renders battle message element to the DOM upon every turn by     	differentiating between the combatant, whether it was a hit or miss, and if a ship was sunk and calls renderBattleMessageHelper to render the appropriate message
+ *
+ * @function
+ * @param {string} currentCellCoord - the current cell coordinate
+ * @param {string} currentShipSymbol - the current ship symbol
+ * @param {string} towardsCombatant - the current combatant
+ * @param {string} hitOrMiss - the current hit or miss
+ * @param {string} sunkShipName - the current sunk ship name
+ * @returns {Promise<void>}
+ *
+ */
 const renderBattleMessageElem = async function ({
 	currentCellCoord,
 	currentShipSymbol,
@@ -27,7 +38,10 @@ const renderBattleMessageElem = async function ({
 	appendElemToParent(battleMessageContainer)(battleMessageElem);
 
 	if (towardsCombatant === 'comp') {
-		// checks what compShip currentCellCoord is part of, as the compGridCells do not pass in a string textContent to differentiate between the ship types unlike the playerGridCells
+		// computer ships coordinates are grabbed from localStorage to determine
+		// the ship currentCellCoord is part of, as the compGridCells
+		// do not pass in a string textContent to differentiate between the ship
+		// types, unlike the playerGridCells
 		const compSuperdreadnought: string[] = Object.values(
 			JSON.parse(localStorage.getItem('compSuperdreadnought') ?? JSON.stringify([]))
 		);
@@ -219,7 +233,6 @@ const renderBattleMessageElem = async function ({
 
 	//auto-scrolls to the bottom to have the most recent message visible
 	const scrollHeight = battleMessageContainer?.scrollHeight ?? 0;
-
 	battleMessageContainer?.scroll({ top: scrollHeight, left: 0, behavior: 'smooth' });
 };
 export { renderBattleMessageElem };

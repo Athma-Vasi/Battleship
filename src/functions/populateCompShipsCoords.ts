@@ -1,7 +1,10 @@
-import { returnRandomOrientation } from './returnRandomOrientation';
 import { CompShipsPlacementChoice } from '../types';
+import { returnRandomOrientation } from './returnRandomOrientation';
 
-// returns an object with the computer's ships' randomly generated coordinates
+/**
+ * Generates random coordinates and orientation for computer ships
+ * @returns CompShipsPlacementChoice : an object of all computer ships' coordinates
+ */
 function populateCompShipsCoords(): CompShipsPlacementChoice {
 	// creates tuples[] of all possible coordinates
 	const allCoords: [number, number][] = [];
@@ -90,7 +93,7 @@ function populateCompShipsCoords(): CompShipsPlacementChoice {
 					}
 				}
 
-				// adds the ship's coords to the shipsPresentCoords
+				// adds the (now) unique ship coords to the shipsPresentCoords for future checks
 				shipCoordsArr.forEach((coord: [number, number]) =>
 					shipsPresentCoordsSet.add(coord.join(','))
 				);

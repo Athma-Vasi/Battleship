@@ -1,3 +1,13 @@
+/**
+ * Checks if the ship placement overlaps with another ship during player ship placement
+ *
+ * @function
+ * @param {number} shipLength_ - Length of the ship
+ * @param {string} currentAxis_ - Axis of the ship
+ * @param {string} currentX_ - X coordinate of the ship
+ * @param {string} currentY_ - Y coordinate of the ship
+ * @returns {boolean} - Returns true if the ship placement overlaps with another ship
+ */
 const doesShipPlacementOverlap = function (
 	shipLength_: number,
 	currentAxis_: string,

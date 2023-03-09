@@ -1,10 +1,17 @@
 import { addStyleToElem, pipe } from '../functions/elementCreators';
 import { returnSunkShipObj } from '../functions/returnSunkShipObj';
 import { storeCompHitMissCoords } from '../functions/storeCompHitMissCoords';
-import { Div } from '../types';
 import { updatePlayerTacticalOverviewCells } from '../functions/updatePlayerTacticalOverviewCells';
+import { Div } from '../types';
 import { renderBattleMessageElem } from './renderBattleMessage';
 
+/**
+ *  Computer attacks player's ships, updates player's tactical overview and battle message, checks if a ship has been sunk and updates the game state
+ *
+ * @function
+ * @param {string} compAttackGuess_ - computer's attack guess coordinate
+ * @returns {void}
+ */
 const computerAttacks = function (compAttackGuess_: string): void {
 	const playerShipsCoords: string[] = JSON.parse(
 		localStorage.getItem('playerShipsCoords') ?? '[]'

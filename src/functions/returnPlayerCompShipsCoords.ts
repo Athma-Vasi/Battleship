@@ -7,8 +7,15 @@ import {
 	Superdreadnought,
 } from '../types';
 
+/**
+ * Returns an object containing the player and comp ships and their coords in an array, minus the ship sections (head, body, tail)
+ *
+ * @function
+ * @returns {PlayerCompShipsCoords}
+ */
 function returnPlayerCompShipsCoords(): PlayerCompShipsCoords {
-	// grab the player and comp ships coords from local storage in order to assign ship cells in the tac overview to the correct ship cells from game board
+	// grabs the player and comp ships coords from local storage in order to
+	// assign ship cells in the tac overview to the correct ship cells from game board
 	// this is more explicit and easier to read, albeit verbose and also guarantees order sequence
 
 	const playerSuperdreadnought: Superdreadnought = JSON.parse(

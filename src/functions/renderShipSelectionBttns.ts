@@ -13,6 +13,12 @@ import {
 	pipe,
 } from '../functions/elementCreators';
 
+/**
+ * Renders the ship selection buttons to the DOM and adds event listeners to each button in the ship selection section
+ *
+ * @function
+ * @returns {void}
+ */
 const renderShipSelectionBttns = function (): void {
 	const main: HTMLElement | null = document.querySelector('.main');
 

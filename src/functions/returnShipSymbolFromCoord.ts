@@ -6,6 +6,15 @@ type ReturnShipSymbolFromCoordProps = {
 	towardsCombatant: 'player' | 'comp';
 };
 
+/**
+ * Return ship symbol from coordinate object supplied
+ *
+ * @function
+ * @param {PlayerCompShipsCoords} playerCompShipsCoords - Object containing player and comp ship coordinates
+ * @param {string} currentCellCoord - Current cell coordinate
+ * @param {string} towardsCombatant - Current combatant
+ * @returns {string} - Ship symbol - first letter of ship type
+ */
 function returnShipSymbolFromCoord({
 	playerCompShipsCoords,
 	currentCellCoord,
