@@ -147,6 +147,7 @@ body {
 }
 
 #input-name:focus {
+	outline: none;
 	border: 1px solid var(--colour-appleAmberDark);
 }
 
