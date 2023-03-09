@@ -389,20 +389,49 @@ body {
 	font-weight: 700;
 }
 
-.winner-container {
+.winner-wrapper {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	flex-wrap: wrap;
+	width: clamp(23rem, 50vw, 29rem);
+	margin-top: var(--padding-y);
+	padding-top: var(--padding-y);
+}
+
+@media screen and (min-width: 1137px) {
+	.winner-wrapper {
+		width: 62vw;
+	}
+}
+
+.winner-container {
+	width: 100%;
+	height: clamp(10rem, 50vh, 20rem);
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.winner-container::-webkit-scrollbar {
+	display: none;
 }
 
 .bttn-restart {
 	width: var(--bttn-width);
 	height: var(--input-height);
-	font-size: clamp(0.75rem, 3vw, 1.25rem);
+	margin-right: auto;
+	margin-left: auto;
+	font-size: clamp(1rem, 3vw, 1.25rem);
+	margin-top: var(--padding-y);
+}
+
+.winner-announcement:nth-child(1) {
+	text-align: center;
+	font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
 .winner-announcement {
-	color: var(--colour-appleAmberDark);
-	font-size: clamp(1rem, 3vw, 1.5rem);
+	color: var(--colour-appleGreen);
+	font-size: clamp(1rem, 3vw, 1.25rem);
 }

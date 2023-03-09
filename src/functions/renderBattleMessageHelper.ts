@@ -1,8 +1,8 @@
 import { battleTexts } from '../data/battleTexts';
+import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from '../types';
 import { createTypewriterEffect } from './createTypewriterEffect';
 import { appendElemToParent, elemCreator } from './elementCreators';
 import { tossCoin } from './tossCoin';
-import { Div, RandomizedHavenShipNames, RandomizedManticoreShipNames } from '../types';
 
 type RenderBattleMessageHelperProps = {
 	towardsCombatant: 'player' | 'comp';
@@ -146,12 +146,20 @@ async function renderBattleMessageHelper({
 				  ]
 				: '';
 
+		const randomNumStrings = ['two', 'three', 'four', 'five', 'six', 'seven'];
+		const sunkOnlyText =
+			firedStatus === 'sunk'
+				? `Sir, ${
+						randomNumStrings[Math.floor(Math.random() * randomNumStrings.length)]
+				  } cross confirmations!`
+				: '';
+
 		// if ship was hit or sunk
 		if (shipTypeHit) {
 			const battleMessageStrings = [
 				`${formattedTime}:: ${
 					tossCoin() ? `Admiral ${playerName}!` : ''
-				} ${hitsPrecursorString()} the PNS ${shipName}! ${statusText}`,
+				} ${hitsPrecursorString()} the PNS ${shipName}! ${sunkOnlyText} ${statusText}`,
 			];
 
 			createTypewriterEffect({

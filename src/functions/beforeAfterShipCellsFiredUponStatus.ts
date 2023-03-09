@@ -60,7 +60,7 @@ function beforeAfterShipCellsFiredUponStatus({
 
 	// following is for all other ship types except frigates
 	// need  to sort the coords because they were grabbed from an object and
-	// js does not guarantee the order of the keys in an object
+	// JS does not guarantee the order of the keys in an object
 	const coordsArrClone = structuredClone(coordsArr);
 	const sortedCoordsArr = coordsArrClone.sort((a, b) => {
 		const aX = parseInt(a.split(',')[0].replace('"', ''));

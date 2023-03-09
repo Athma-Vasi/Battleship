@@ -5,8 +5,8 @@ import { renderBattleMessageElem } from '../functions/renderBattleMessage';
 import { returnPlayerCompShipsCoords } from '../functions/returnPlayerCompShipsCoords';
 import { returnShipSymbolFromCoord } from '../functions/returnShipSymbolFromCoord';
 import { returnSunkShipObj } from '../functions/returnSunkShipObj';
-import { NodesDiv } from '../types';
 import { updateCompTacticalOverviewShips } from '../functions/updateCompTacticalOverviewShips';
+import { NodesDiv } from '../types';
 import { handlePlayerClickOnCompMisses } from './handlePlayerClickOnCompMisses';
 
 const handlePlayerClickOnCompShips = function (

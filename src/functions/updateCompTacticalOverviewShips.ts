@@ -1,10 +1,3 @@
-import { beforeAfterShipCellsFiredUponStatus } from './beforeAfterShipCellsFiredUponStatus';
-import {
-	addStyleToElem,
-	addTextToElem,
-	pipe,
-	removeStyleFromElem,
-} from './elementCreators';
 import {
 	Battleship,
 	BigShips,
@@ -16,6 +9,14 @@ import {
 	SmallShips,
 	Superdreadnought,
 } from '../types';
+import { beforeAfterShipCellsFiredUponStatus } from './beforeAfterShipCellsFiredUponStatus';
+import {
+	addStyleToElem,
+	addTextToElem,
+	pipe,
+	removeStyleFromElem,
+} from './elementCreators';
+import { renderBattleMessageHelper } from './renderBattleMessageHelper';
 
 function updateCompTacticalOverviewShips(): void {
 	// grab all coords of comp ships
@@ -90,7 +91,17 @@ function updateCompTacticalOverviewShips(): void {
 				const questionMarkCell: Para = document.querySelector(
 					`[data-compshipquestion="${shipType}"]`
 				);
-				if (questionMarkCell) questionMarkCell.remove();
+
+				if (questionMarkCell) {
+					questionMarkCell.remove();
+
+					// render a battle message only once to indicate that the computer's ship has been sunk
+					renderBattleMessageHelper({
+						towardsCombatant: 'comp',
+						firedStatus: 'sunk',
+						shipTypeHit: shipType.toLowerCase(),
+					});
+				}
 
 				const lengthOfCells =
 					shipType === 'Superdreadnought' ? 5 : shipType === 'Carrier' ? 4 : 3;
@@ -147,7 +158,17 @@ function updateCompTacticalOverviewShips(): void {
 							`[data-compshipquestion="${shipType}_${idx}"]`
 						);
 
-						if (questionMarkCell) questionMarkCell.remove();
+						if (questionMarkCell) {
+							questionMarkCell.remove();
+
+							// render a battle message only once to indicate that the computer's ship has been sunk
+							renderBattleMessageHelper({
+								towardsCombatant: 'comp',
+								firedStatus: 'sunk',
+								shipTypeHit: shipType.toLowerCase().slice(0, -1),
+								shipNumber: idx,
+							});
+						}
 
 						// display sunk ship with '💥' emoji
 						for (let i = 0; i < coordsArr.length; i += 1) {
