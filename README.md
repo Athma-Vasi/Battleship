@@ -15,7 +15,7 @@ Battleship project as part of The Odin Project curriculum
 
 The main goal of this final JS project is to solidify and utilize all the skills and techniques learned. The new concept introduced here was TDD.
 
-Using TDD helped me write better, loosely coupled code and I found myself trying to use more pure functions. Although this was few and far between as much of the code I wrote dealt with DOM manipulation or writing to localStorage. Using ts-jest was surprisingly straight-forward and the main jest documentation was incredible!
+**Using TDD helped me write better, loosely coupled code and I found myself trying to use more pure functions. Although this was few and far between as much of the code I wrote dealt with DOM manipulation or writing to localStorage. Using ts-jest was surprisingly straight-forward and the main jest documentation was incredible!**
 
 ### Game Loop
 
