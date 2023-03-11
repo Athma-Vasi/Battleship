@@ -4,45 +4,43 @@ Battleship project as part of The Odin Project curriculum
 
 [Click here to view project live](https://athma-vasi.github.io/Battleship/)
 
-## Things I learned
+**Recent new update**
 
-### TL;DR
+- Tactical overview: The player and computer ships are displayed next to the board and are updated accordingly.
+- Improved firing solution: Previous implementation generated a random firing coordinate, the newer algorithm intelligently hunts and hones in on the ship axis when a ship is hit. There are improvements to be made as the algorithm currently still hunts around the ship after it is destroyed.
+- Typewriter effect: using `setInterval` and promises to asynchronously iterate through an array of strings to thematically bring the presentation closer to the 80's sci-fi movies - à la _War Games_.
+- ChatGPT AI: The original quotes and ship names were laboriously hand extracted from the novels and consequently their small pool resulted in some repeated quotes. ChatGPT was able to provide a much increased pool of quotes while being thematically aligned. It also improved upon the main page and ship selection page speeches.
 
-- Test Driven Development
-- Game Loop
+## What I Learned
 
-### TDD
+### Game loop
 
-The main goal of this final JS project is to solidify and utilize all the skills and techniques learned. The new concept introduced here was TDD.
-
-**Using TDD helped me write better, loosely coupled code and I found myself trying to use more pure functions. Although this was few and far between as much of the code I wrote dealt with DOM manipulation or writing to localStorage. Using ts-jest was surprisingly straight-forward and the main jest documentation was incredible!**
-
-### Game Loop
-
-The hardest part was figuring out how to write a game loop. In the end I settled on using the event loop itself and manipulating event listeners with setTimeout to simulate a game loop without using a while(boolean) statement.
-
-The game flow is as follows:
-
-- After the comp board cells are generated and the randomly selected(from a pool) ship formation is placed and hidden, 'click' event listeners are added on with their corresponding callbacks.
-
-- The player always goes first. When the player clicks on a comp cell, the event callback function is called depending on whether the cell contains a ship or is empty. This differentiation is mainly for the purpose of visually indicating an explosion (if a hit) and updating the hit counter, or an 'x' (if a miss).
-
-- As 'click' handler callbacks are synchronous functions, they are
-  executed first. The 'click' handlers contain a `setTimeout(computersTurn, 2000)` callback that is passed immediately to the browser API. The thread of execution continues running the remaining synchronous code, which after relevant work is done removes the event listeners placed on the comp board cells. This prevents the player's clicks from having any effect for two seconds, giving the illusion of computer taking time to ""think"".
-
-- When the timer ends, the browser API pushes the `computersTurn` callback onto the macrotask queue and is pushed by the event loop onto the callstack once all the synchronous functions have been popped off (save the global()). The computer attacks a random cell (previously hit player cells are prevented from being attacked again), and a hit is visually indicated along with a hit counter update, and a miss is also visually indicated. Finally, the 'click' event listeners are put back on the corresponding cells and the `computersTurn` function is popped off the callstack.
-
+- I used the event loop and manipulated event listeners using `setTimeout` with a `computersTurn` callback function to simulate a rudimentary game loop. As the synchronous functions run to completion, the last statement of the click handler of the player's click removes event listeners placed on the comp board, giving the illusion of 'AI thinking'.
+- When the timer ends, the browser API pushes the `computersTurn` callback onto the macrotask queue and is pushed by the event loop onto the callstack once all the synchronous functions have been popped off (save the global()). The computer attacks and associated functions are run and click event handlers are added back on.
 - The player's clicks now register and the cycle continues until the hit counter for either the player or the computer reaches 18 (the total length of the ships).
 
-State management was done entirely using `localStorage` API.
+### DOM manipulation
+
+- As the game logic required different elements to be updated based on disparate object states on each turn, it became necessary to use data attributes with multiple interpolated values to update game state.
+
+### Typewriter effect and promises
+
+- The typewriter effect uses `setInterval` and promises to iterate through an array of strings, executing a callback function for each string. The callback function is awaited before the next string is iterated. For each string, a promise is created as the chars are added to the DOM element, resolving once the end of string is reached.
+- I tried other online solutions, the CSS method using keyframes animations, but was not able to make it work. The synchronous solution only worked for a single string, not an array of strings.
+
+#### State
+
+State management was done entirely using the synchronous `localStorage` API.
 
 #### Setting
 
-The setting of the game was inspired by my love of science-fiction. The game is set in the 'Honorverse', a fictional universe from a series of books written by David Weber and published by Baen, featuring a strong female character where the good folks are liberal, democratic and serve the 'Queen and Kingdom', and the bad folks are war-mongering authoritarians. The conflict between the Star Kingdom and People's Republic of Haven does take place and is a central story arc in the books, but the battle in this game does not.
+The setting of the game was inspired by my love of sci-fi novels and 80's sci-fi movies. The font and colors are designed to mimic an _Apple III_ and the monitors used in classic 80's movies such as _War Games_.
 
-The names used for the ships are from the books, although I took some liberties in mixing up several ship type names as some were scarce. The battle messages were also from the books. Yes, it really is naval water based ships set in space, complete with broadside salvos and sails!
+The game is set in the 'Honorverse', a fictional universe from a series of books written by David Weber and published by Baen, featuring a strong female character where the good folks are liberal, democratic and serve the 'Queen and Kingdom', and the bad folks are war-mongering authoritarians. The conflict between the Star Kingdom and People's Republic of Haven does take place and is a central story arc in the books, but the battle in this game does not.
 
-The pre-battle quote in the ship selection page is actually paraphrased from two different real historical sources. The first 'Shall we...' speech was given by General Napoleon Bonaparte to his followers before the Battle of Marengo in Italy, June 14, 1800. The second 'You are ...' was spoken by General Dwight D. Eisenhower ordering the Normandy Invasion, June 6, 1944.
+The names used for the ships are from the books, although I took some liberties in mixing up several ship type names and the fleet names. The battle messages were also from the books. Yes, it really is naval water based ships set in space, complete with broadside salvos and sails!
+
+The pre-battle quote in the ship selection page is actually paraphrased from two different real historical sources. The first 'Shall we...' speech was given by General Napoleon Bonaparte to his followers before the Battle of Marengo in Italy, June 14, 1800. The second 'You are ...' was spoken by General Dwight D. Eisenhower ordering the Normandy Invasion, June 6, 1944. ChatGPT was used to expand upon the quotes.
 
 #### Disclaimers
 
