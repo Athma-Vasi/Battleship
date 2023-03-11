@@ -34,7 +34,7 @@ State management was done entirely using the synchronous `localStorage` API.
 
 #### Setting
 
-The setting of the game was inspired by my love of sci-fi novels and 80's sci-fi movies. The font and colors are designed to mimic an _Apple III_ and the monitors used in classic 80's movies such as _War Games_.
+The setting of the game was inspired by my love of sci-fi novels and 80's sci-fi movies. The theme and colours are designed to mimic an _Apple III_ monitor and the displays used in classic 80's movies such as _War Games_.
 
 The game is set in the 'Honorverse', a fictional universe from a series of books written by David Weber and published by Baen, featuring a strong female character where the good folks are liberal, democratic and serve the 'Queen and Kingdom', and the bad folks are war-mongering authoritarians. The conflict between the Star Kingdom and People's Republic of Haven does take place and is a central story arc in the books, but the battle in this game does not.
 
