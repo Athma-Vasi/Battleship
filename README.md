@@ -21,6 +21,10 @@ Battleship project as part of The Odin Project curriculum
   <img src="src/assets/battle-2.png" alt="battle" width="100px"></img>
 </div>
 
+#### Technologies used
+
+HTML, CSS, TypeScript and Parcel
+
 ### What I Learned
 
 #### Game loop
